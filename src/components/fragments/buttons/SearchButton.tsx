@@ -1,62 +1,92 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { CommandIcon, Search } from "lucide-react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import * as React from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Calculator,
+  Calendar,
+  CreditCard,
+  Settings,
+  Smile,
+  User,
+} from "lucide-react";
+
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command";
+
+import { Button } from "@/components/ui/button";
 
 export default function SearchButton() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
+  const [open, setOpen] = React.useState(false);
 
-  useHotkeys("cmd+k, ctrl+k, meta+k", () => {
-    setIsOpen(true);
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 640);
+  React.useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen((open) => !open);
+      }
     };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
   }, []);
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        {isMobile ? (
-          <Button variant="ghost" size="icon" className="sm:hidden">
-            <Search />
-          </Button>
-        ) : (
-          <Button
-            variant="secondary"
-            className="hidden justify-between gap-x-40 rounded-xl sm:flex"
-            size="lg"
-          >
-            <span className="text-gray-400">Search</span>
-            <div className="hidden items-center gap-x-1 rounded p-1 text-xs text-gray-400 dark:bg-zinc-800 sm:flex">
-              <CommandIcon size="12px" />
-              <span>K</span>
-            </div>
-          </Button>
-        )}
-      </DialogTrigger>
-      <DialogTitle className="hidden">Search</DialogTitle>
-      <DialogContent className="rounded-xl sm:max-w-[425px]">
-        <Input
-          id="search"
-          placeholder="Search..."
-          className="absolute left-0 top-0 mt-1 w-full rounded-xl border border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-        />
-      </DialogContent>
-    </Dialog>
+    <>
+      <Button
+        variant="secondary"
+        className="flex items-center justify-between gap-x-32 rounded-full text-sm text-muted-foreground"
+      >
+        Search...{" "}
+        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+          <span className="text-xs">⌘</span>K
+        </kbd>
+      </Button>
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <CommandInput placeholder="Type a command or search..." />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Suggestions">
+            <CommandItem>
+              <Calendar className="mr-2 h-4 w-4" />
+              <span>Calendar</span>
+            </CommandItem>
+            <CommandItem>
+              <Smile className="mr-2 h-4 w-4" />
+              <span>Search Emoji</span>
+            </CommandItem>
+            <CommandItem>
+              <Calculator className="mr-2 h-4 w-4" />
+              <span>Calculator</span>
+            </CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Settings">
+            <CommandItem>
+              <User className="mr-2 h-4 w-4" />
+              <span>Profile</span>
+              <CommandShortcut>⌘P</CommandShortcut>
+            </CommandItem>
+            <CommandItem>
+              <CreditCard className="mr-2 h-4 w-4" />
+              <span>Billing</span>
+              <CommandShortcut>⌘B</CommandShortcut>
+            </CommandItem>
+            <CommandItem>
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Settings</span>
+              <CommandShortcut>⌘S</CommandShortcut>
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
+    </>
   );
 }

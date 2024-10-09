@@ -6,8 +6,8 @@ import Logo from "./Logo";
 
 export default function Sidenav() {
   return (
-    <aside className="fixed left-0 flex h-screen flex-col justify-between px-16 py-16 font-medium text-gray-400">
-      <div className="flex flex-col space-y-48">
+    <aside className="fixed left-0 flex h-screen flex-col justify-between px-8 py-16 font-medium text-gray-400">
+      <div className="flex flex-col space-y-32">
         <Link href="/">
           <Logo />
         </Link>

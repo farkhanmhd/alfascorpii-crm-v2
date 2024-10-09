@@ -1,37 +1,19 @@
 import React from "react";
-import { LayoutDashboard, Users } from "lucide-react";
 import NavLink from "./NavLink";
+import { NavItems } from "./constants";
 
 function NavLinks() {
-  const links = [
-    {
-      id: 1,
-      linkHref: "/",
-      linkText: "Dashboard",
-      icon: <LayoutDashboard />,
-    },
-    // {
-    //   id: 2,
-    //   linkHref: "/",
-    //   linkText: "Master Data",
-    //   icon: <Database />,
-    // },
-    {
-      id: 3,
-      linkHref: "/customers",
-      linkText: "Customers",
-      icon: <Users />,
-    },
-  ];
   return (
     <nav>
       <ul className="flex flex-col gap-y-6">
-        {links.map((link) => (
-          <li key={link.id}>
+        {NavItems.map((link) => (
+          <li key={link.title}>
             <NavLink
-              linkHref={link.linkHref}
-              linkText={link.linkText}
+              href={link.href}
+              title={link.title}
               icon={link.icon}
+              isParent={link.isParent}
+              children={link.children}
             />
           </li>
         ))}

@@ -1,7 +1,7 @@
 import React from "react";
 
 const Page = () => {
-  return <section>Add Customer Page</section>;
+  return <div>Pendidikan Page</div>;
 };
 
 export default Page;

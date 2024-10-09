@@ -4,7 +4,7 @@ import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 
-import cn from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -53,36 +53,32 @@ const DialogContent = React.forwardRef<
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
-function DialogHeader({
+const DialogHeader = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn(
-        "flex flex-col space-y-1.5 text-center sm:text-left",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div
+    className={cn(
+      "flex flex-col space-y-1.5 text-center sm:text-left",
+      className,
+    )}
+    {...props}
+  />
+);
 DialogHeader.displayName = "DialogHeader";
 
-function DialogFooter({
+const DialogFooter = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn(
-        "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div
+    className={cn(
+      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+      className,
+    )}
+    {...props}
+  />
+);
 DialogFooter.displayName = "DialogFooter";
 
 const DialogTitle = React.forwardRef<
