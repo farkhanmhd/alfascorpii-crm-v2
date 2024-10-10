@@ -1,5 +1,6 @@
+import React from 'react';
+
 import {
-  BookOpenCheck,
   LayoutDashboard,
   Database,
   User,
@@ -17,100 +18,100 @@ import {
   Wallet,
   Camera,
   House,
-} from "lucide-react";
-import { type NavItem } from "@/types";
+} from 'lucide-react';
+import { type NavItem } from '@/types';
 
 export const NavItems: NavItem[] = [
   {
-    title: "Dashboard",
+    title: 'Dashboard',
     icon: <LayoutDashboard />,
-    href: "/",
+    href: '/',
   },
   {
-    title: "Master Data",
+    title: 'Master Data',
     icon: <Database />,
     isParent: true,
-    children: [
+    childrens: [
       {
-        title: "Staff",
+        title: 'Staff',
         icon: <User />,
-        href: "/staff",
+        href: '/staff',
       },
       {
-        title: "Kerabat",
+        title: 'Kerabat',
         icon: <Users />,
-        href: "/kerabat",
+        href: '/kerabat',
       },
       {
-        title: "Dealer",
+        title: 'Dealer',
         icon: <Building />,
-        href: "/dealer",
+        href: '/dealer',
       },
       {
-        title: "Leasing",
+        title: 'Leasing',
         icon: <DollarSign />,
-        href: "/leasing",
+        href: '/leasing',
       },
       {
-        title: "Model",
+        title: 'Model',
         icon: <FileChartLineIcon />,
-        href: "/model",
+        href: '/model',
       },
       {
-        title: "Hari Besar",
+        title: 'Hari Besar',
         icon: <Calendar />,
-        href: "/hari-besar",
+        href: '/hari-besar',
       },
       {
-        title: "Metode FU",
+        title: 'Metode FU',
         icon: <MessageSquare />,
-        href: "/metode-fu",
+        href: '/metode-fu',
       },
       {
-        title: "Keterangan FU",
+        title: 'Keterangan FU',
         icon: <Table />,
-        href: "/keterangan-fu",
+        href: '/keterangan-fu',
       },
       {
-        title: "Keterangan Hasil",
+        title: 'Keterangan Hasil',
         icon: <LucideTable2 />,
-        href: "/keterangan-hasil",
+        href: '/keterangan-hasil',
       },
       {
-        title: "Pekerjaan",
+        title: 'Pekerjaan',
         icon: <Briefcase />,
-        href: "/pekerjaan",
+        href: '/pekerjaan',
       },
       {
-        title: "Pendidikan",
+        title: 'Pendidikan',
         icon: <GraduationCap />,
-        href: "/pendidikan",
+        href: '/pendidikan',
       },
       {
-        title: "Pengeluaran",
+        title: 'Pengeluaran',
         icon: <CreditCard />,
-        href: "/pengeluaran",
+        href: '/pengeluaran',
       },
       {
-        title: "Penghasilan",
+        title: 'Penghasilan',
         icon: <Wallet />,
-        href: "/penghasilan",
+        href: '/penghasilan',
       },
       {
-        title: "Hobi",
+        title: 'Hobi',
         icon: <Camera />,
-        href: "/hobi",
+        href: '/hobi',
       },
       {
-        title: "Status Rumah",
+        title: 'Status Rumah',
         icon: <House />,
-        href: "/status-rumah",
+        href: '/status-rumah',
       },
     ],
   },
   {
-    title: "Customers",
+    title: 'Customers',
     icon: <Users />,
-    href: "/customers",
+    href: '/customers',
   },
 ];

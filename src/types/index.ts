@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export interface NavItem {
   title: string;
@@ -6,5 +6,5 @@ export interface NavItem {
   icon: React.ReactNode;
   color?: string;
   isParent?: boolean;
-  children?: NavItem[];
+  childrens?: NavItem[];
 }

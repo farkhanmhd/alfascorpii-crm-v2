@@ -1,8 +1,8 @@
-import React from "react";
-import NavLink from "./NavLink";
-import { NavItems } from "./constants";
+import React from 'react';
+import NavLink from './NavLink';
+import { NavItems } from './constants';
 
-function NavLinks() {
+const NavLinks = () => {
   return (
     <nav>
       <ul className="flex flex-col gap-y-6">
@@ -13,13 +13,13 @@ function NavLinks() {
               title={link.title}
               icon={link.icon}
               isParent={link.isParent}
-              children={link.children}
+              childrens={link.childrens}
             />
           </li>
         ))}
       </ul>
     </nav>
   );
-}
+};
 
 export default NavLinks;

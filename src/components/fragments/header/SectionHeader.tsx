@@ -1,8 +1,8 @@
 import React from "react";
 import { User } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
 import ThemeToggle from "../toggle/ThemeToggle";
-import { Button } from "@/components/ui/button";
 import SearchButton from "../buttons/SearchButton";
 
 const SectionHeader = () => {

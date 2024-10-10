@@ -13,7 +13,7 @@ const Breadcrumbs = () => {
       : pathname.split("/").filter((path) => path !== "");
 
   const createBreadcrumbPath = (index: number) => {
-    return "/" + paths.slice(0, index + 1).join("/");
+    return `/${  paths.slice(0, index + 1).join("/")}`;
   };
 
   return (

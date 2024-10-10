@@ -1,10 +1,10 @@
-import React from "react";
-import { LogOut } from "lucide-react";
-import Link from "next/link";
-import NavLinks from "./NavLinks";
-import Logo from "./Logo";
+import React from 'react';
+import { LogOut } from 'lucide-react';
+import Link from 'next/link';
+import NavLinks from './NavLinks';
+import Logo from './Logo';
 
-export default function Sidenav() {
+const Sidenav = () => {
   return (
     <aside className="fixed left-0 flex h-screen flex-col justify-between px-8 py-16 font-medium text-gray-400">
       <div className="flex flex-col space-y-32">
@@ -21,4 +21,6 @@ export default function Sidenav() {
       </button>
     </aside>
   );
-}
+};
+
+export default Sidenav;

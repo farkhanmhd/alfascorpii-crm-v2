@@ -1,8 +1,8 @@
 {
   "extends": [
+    "next/core-web-vitals",
     "airbnb",
     "airbnb-typescript",
-    "next/core-web-vitals",
     "prettier"
   ],
   "parserOptions": {
@@ -10,9 +10,35 @@
   },
   "rules": {
     "react/jsx-props-no-spreading": 0,
-    "react/require-default-props": 0
+    "react/require-default-props": 0,
+    "react/react-in-jsx-scope": 1,
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "arrow-body-style": 0,
+    "prefer-arrow-callback": 1,
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "no-warning-comments": [
+      "warn",
+      {
+        "terms": ["todo", "fixme", "xxx", "note"],
+        "location": "start"
+      }
+    ],
+    "import/prefer-default-export": "off"
   },
-  "prettier": {
-    "arrowParens": "always"
-  }
+  "overrides": [
+    {
+      "files": ["src/components/ui/**/*.tsx"],
+      "rules": {
+        "react/prop-types": "off",
+        "react/no-unknown-property": "off",
+        "@typescript-eslint/no-use-before-define": "off"
+      }
+    }
+  ]
 }

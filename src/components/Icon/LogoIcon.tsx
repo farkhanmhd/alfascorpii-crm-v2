@@ -1,4 +1,6 @@
-function LogoIcon() {
+import React from 'react';
+
+const LogoIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,6 +12,6 @@ function LogoIcon() {
       <path d="M26.2381 17.9167L20.7382 28H32L26.2381 17.9167Z" />
     </svg>
   );
-}
+};
 
 export default LogoIcon;

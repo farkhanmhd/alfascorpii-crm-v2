@@ -1,7 +1,8 @@
-import Sidenav from "@/components/fragments/sidenav";
-import SectionHeader from "@/components/fragments/header/SectionHeader";
+import React from 'react';
+import Sidenav from '@/components/fragments/sidenav';
+import SectionHeader from '@/components/fragments/header/SectionHeader';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Sidenav />
@@ -11,4 +12,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </main>
     </>
   );
-}
+};
+
+export default Layout;

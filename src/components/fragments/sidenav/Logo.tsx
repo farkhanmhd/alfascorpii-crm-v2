@@ -1,7 +1,7 @@
 import React from "react";
 import LogoIcon from "@/components/Icon/LogoIcon";
 
-function Logo() {
+const Logo = () => {
   return (
     <div className="flex items-center gap-4">
       <LogoIcon />

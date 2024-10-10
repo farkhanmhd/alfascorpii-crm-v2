@@ -1,23 +1,24 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import ThemeProvider from "@/components/providers/theme-provider";
-import { Inter } from "next/font/google";
+import React from 'react';
+import type { Metadata } from 'next';
+import './globals.css';
+import { Inter } from 'next/font/google';
+import ThemeProvider from '@/components/providers/theme-provider';
 
 const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "Alfa Scorpii CRM",
-  description: "Alfa Scorpii Customer Relationship Management System",
+  title: 'Alfa Scorpii CRM',
+  description: 'Alfa Scorpii Customer Relationship Management System',
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   return (
     <html lang="en">
       <body
@@ -34,4 +35,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
