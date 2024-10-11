@@ -71,7 +71,7 @@ const DataTable = <TData, TValue>({
   return (
     <div className="flex h-full flex-1 flex-col pr-6">
       <div className="flex flex-1 flex-col">
-        <div className="sticky top-0 z-50 flex items-center bg-background pb-6">
+        <div className="flex items-center bg-background pb-6">
           <Input
             placeholder="Filter emails..."
             value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
@@ -108,7 +108,7 @@ const DataTable = <TData, TValue>({
           </DropdownMenu>
         </div>
 
-        <ScrollArea className="h-[calc(100vh-124px-80px-64px)]">
+        <ScrollArea className="h-[calc(100vh-268px)]">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (

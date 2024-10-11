@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import React from "react";
-import { usePathname } from "next/navigation";
-import { ChevronRight } from "lucide-react";
-import Link from "next/link";
+import React from 'react';
+import { usePathname } from 'next/navigation';
+import { ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 const Breadcrumbs = () => {
   const pathname = usePathname();
   const paths =
-    pathname === "/"
-      ? ["dashboard"]
-      : pathname.split("/").filter((path) => path !== "");
+    pathname === '/'
+      ? ['dashboard']
+      : pathname.split('/').filter((path) => path !== '');
 
   const createBreadcrumbPath = (index: number) => {
-    return `/${  paths.slice(0, index + 1).join("/")}`;
+    return `/${paths.slice(0, index + 1).join('/')}`;
   };
 
   return (
@@ -31,7 +31,7 @@ const Breadcrumbs = () => {
             <span className="font-medium">{path}</span>
           )}
 
-          <ChevronRight className={i === paths.length - 1 ? "hidden" : ""} />
+          <ChevronRight className={i === paths.length - 1 ? 'hidden' : ''} />
         </div>
       ))}
     </div>

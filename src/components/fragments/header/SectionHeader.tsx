@@ -7,7 +7,7 @@ import SearchButton from '../buttons/SearchButton';
 
 const SectionHeader = () => {
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between bg-background pb-6 pr-16 pt-14">
+    <header className="flex items-center justify-between bg-background px-6 pb-6 pt-14">
       <Breadcrumbs />
       <div>
         <div className="flex space-x-4">

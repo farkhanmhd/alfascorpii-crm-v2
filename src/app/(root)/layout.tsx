@@ -8,7 +8,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <Sidenav />
       <section className="sticky min-h-screen w-[calc(100vw-324px)]">
         <SectionHeader />
-        <article className="h-[calc(100vh-124px)]">{children}</article>
+        <article className="h-[calc(100vh-100px)] px-6">{children}</article>
       </section>
     </main>
   );

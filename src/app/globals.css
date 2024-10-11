@@ -78,11 +78,11 @@ body {
   }
 }
 
-.hide-scroll-bar {
+.hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-.hide-scroll-bar::-webkit-scrollbar {
+.hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
