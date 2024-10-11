@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { ScrollArea } from '@/components/ui/scrollarea';
+import NavLinkSubMenu from './NavLinkSubMenu';
 
 const NavLink = ({ href, title, icon, isParent, childrens }: NavItem) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,17 +48,16 @@ const NavLink = ({ href, title, icon, isParent, childrens }: NavItem) => {
         <ScrollArea
           className={clsx('ide-scroll-bar duration-300', {
             'h-0': !isOpen,
-            'h-[30vh]': isOpen,
+            'mt-4 h-[30vh]': isOpen,
           })}
         >
-          <AccordionContent className="mt-2 flex flex-col gap-x-8 gap-y-1 border-none text-base duration-300">
+          <AccordionContent className="ml-[42px] flex flex-col gap-x-8 gap-y-1 border-l-2 text-base duration-300">
             {childrens?.map((child) => (
-              <NavLink
+              <NavLinkSubMenu
                 key={child.title}
-                href={child.href}
+                href={child.href ?? ''}
                 title={child.title}
                 icon={child.icon}
-                childrens={child.childrens}
               />
             ))}
           </AccordionContent>
@@ -70,7 +70,7 @@ const NavLink = ({ href, title, icon, isParent, childrens }: NavItem) => {
       className={clsx(
         'flex min-w-[260px] items-center gap-x-8 rounded-xl px-8 py-3 duration-300',
         {
-          'bg-primary-foreground text-primary hover:bg-primary-foreground/90 dark:hover:bg-primary-foreground/60':
+          'bg-primary text-white hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/60':
             activeLink,
           'text-black hover:text-primary dark:text-white dark:hover:text-primary':
             !activeLink,

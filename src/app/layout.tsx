@@ -2,7 +2,9 @@ import React from 'react';
 import type { Metadata } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
+import GlobalProvider from '@/components/providers/global';
 import ThemeProvider from '@/components/providers/theme-provider';
+import SearchDialog from '@/components/fragments/searchDialog';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -22,16 +24,19 @@ const RootLayout = ({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-slate-200 antialiased backdrop-blur-md dark:bg-background`}
+        className={`${inter.className} bg-background antialiased backdrop-blur-md dark:bg-background`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <GlobalProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <SearchDialog />
+            {children}
+          </ThemeProvider>
+        </GlobalProvider>
       </body>
     </html>
   );

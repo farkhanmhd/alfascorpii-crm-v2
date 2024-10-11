@@ -5,7 +5,7 @@ import { NavItems } from './constants';
 const NavLinks = () => {
   return (
     <nav>
-      <ul className="flex flex-col gap-y-6">
+      <ul className="flex flex-col gap-y-4">
         {NavItems.map((link) => (
           <li key={link.title}>
             <NavLink

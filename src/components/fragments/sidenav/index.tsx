@@ -6,7 +6,7 @@ import Logo from './Logo';
 
 const Sidenav = () => {
   return (
-    <aside className="fixed left-0 flex h-screen flex-col justify-between px-8 py-16 font-medium text-gray-400">
+    <aside className="sticky z-50 flex max-w-[324px] flex-col justify-between px-8 py-16 font-medium text-gray-400">
       <div className="flex flex-col space-y-32">
         <Link href="/">
           <Logo />

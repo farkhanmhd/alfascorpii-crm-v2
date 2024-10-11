@@ -4,13 +4,13 @@ import SectionHeader from '@/components/fragments/header/SectionHeader';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
+    <main className="flex max-h-screen overflow-hidden">
       <Sidenav />
-      <main className="h-screen w-screen pl-[400px] pt-14">
+      <section className="sticky min-h-screen w-[calc(100vw-324px)]">
         <SectionHeader />
-        {children}
-      </main>
-    </>
+        <article className="h-[calc(100vh-124px)]">{children}</article>
+      </section>
+    </main>
   );
 };
 
