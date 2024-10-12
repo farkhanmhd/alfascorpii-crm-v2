@@ -16,12 +16,19 @@ const Page = async ({
   const search = searchParams?.search || '';
   const page = Number(searchParams?.page) || 1;
   const limit = Number(searchParams?.limit) || 10;
-  const { staff, totalPages } = await fetchStaff(search, page, limit);
+  const { staffs = [], totalPages } = await fetchStaff(search, page, limit);
+
+  if (!staffs || staffs.length === 0) {
+    return (
+      <div className="flex h-full flex-1 flex-col">Failed to fetch staff</div>
+    );
+  }
+
   return (
     <div className="flex h-full flex-1 flex-col">
       <Tablesearch placeholder="Search staff..." />
       <Suspense fallback={<div>Loading...</div>}>
-        <StaffTable staffs={staff} />
+        <StaffTable staffs={staffs} />
       </Suspense>
       <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
     </div>

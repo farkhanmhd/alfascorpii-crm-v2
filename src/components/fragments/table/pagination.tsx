@@ -57,6 +57,16 @@ const DataTablePagination = ({
     replace(`${pathname}?${params.toString()}`);
   };
 
+  const handleFirstPage = () => {
+    params.delete('page');
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const handleLastPage = () => {
+    params.set('page', totalPages.toString());
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       params.set('page', (currentPage + 1).toString());
@@ -94,7 +104,11 @@ const DataTablePagination = ({
           Page {currentPage} of {totalPages}
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" className="hidden h-8 w-8 p-0 lg:flex">
+          <Button
+            variant="outline"
+            className="hidden h-8 w-8 p-0 lg:flex"
+            onClick={handleFirstPage}
+          >
             <span className="sr-only">Go to first page</span>
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -114,7 +128,11 @@ const DataTablePagination = ({
             <span className="sr-only">Go to next page</span>
             <ChevronRightIcon className="h-4 w-4" />
           </Button>
-          <Button variant="outline" className="hidden h-8 w-8 p-0 lg:flex">
+          <Button
+            variant="outline"
+            className="hidden h-8 w-8 p-0 lg:flex"
+            onClick={handleLastPage}
+          >
             <span className="sr-only">Go to last page</span>
             <ArrowRight className="h-4 w-4" />
           </Button>

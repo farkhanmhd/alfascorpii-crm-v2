@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
       : {}; // Always provide an empty object for non-search cases
 
     // Fetch the staff data and the total count in one request using transactions
-    const [staff, totalCount] = await prisma.$transaction([
+    const [staffs, totalCount] = await prisma.$transaction([
       prisma.staff.findMany({
         where: searchFilter, // Apply the search filter
         skip: offset, // Pagination offset
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
       status: 200,
       message: 'Success',
       data: {
-        staff,
+        staffs,
         totalPages: Math.ceil(totalCount / limit), // Calculate total pages for pagination
       },
     });
@@ -61,6 +61,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       status: 500,
       message: 'Failed to fetch staff data',
+      data: {
+        staffs: [],
+        totalPages: 0,
+      },
     });
   }
 }

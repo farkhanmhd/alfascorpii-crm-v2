@@ -16,7 +16,7 @@ export const fetchStaff = async (
   }
 
   const res = await fetch(
-    `${process.env.API_URL}/api/staff?${queryParams.toString()}`,
+    `${process.env.API_URL || 'http://localhost:3000'}/api/staff?${queryParams.toString()}`,
     {
       method: 'GET',
       headers: {
@@ -26,9 +26,13 @@ export const fetchStaff = async (
   );
 
   if (!res.ok) {
-    throw new Error('Failed to fetch staff data');
+    return {
+      status: res.status,
+      message: res.statusText,
+    };
   }
 
   const { data } = await res.json();
+
   return data;
 };
