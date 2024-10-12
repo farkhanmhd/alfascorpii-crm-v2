@@ -9,11 +9,8 @@ import {
   TableCell,
 } from '@/components/fragments/table/table';
 import { IStaff } from '@/types';
-import { fetchStaff } from '@/app/lib/data';
 
-const StaffTable = async ({ search = '' }: { search?: string }) => {
-  const staffs: IStaff[] = await fetchStaff(search);
-
+const StaffTable = async ({ staffs }: { staffs: IStaff[] }) => {
   const staffHeader = [
     'NIP',
     'Username',

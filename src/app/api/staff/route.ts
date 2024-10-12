@@ -1,31 +1,60 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
   try {
-    // Get the search parameter from the query string
-    const { search } = Object.fromEntries(new URL(request.url).searchParams);
+    const url = new URL(request.url);
+    const { searchParams } = url;
 
-    // Build the query based on whether search is provided
-    const staff = await prisma.staff.findMany({
-      where: search
-        ? {
-            OR: [
-              { username: { contains: search, mode: 'insensitive' } }, // Search by username
-              { name: { contains: search, mode: 'insensitive' } }, // Search by name
-              { email: { contains: search, mode: 'insensitive' } }, // Search by email
-              { nip: { contains: search } }, // Search by nip
-            ],
-          }
-        : {}, // If no search is provided, return all staff
-    });
+    // Retrieve search parameters
+    const search = searchParams.get('search') || ''; // Get the search term
+    const page = Number(searchParams.get('page') || 1); // Get the current page
+    const limit = Number(searchParams.get('limit') || 10); // Get the limit
+
+    const offset = (page - 1) * limit; // Calculate offset
+
+    // Create a filter based on the search parameter
+    const searchFilter: Prisma.StaffWhereInput = search
+      ? {
+          OR: [
+            { username: { contains: search, mode: 'insensitive' } }, // Filter by username
+            { name: { contains: search, mode: 'insensitive' } }, // Filter by name
+            { email: { contains: search, mode: 'insensitive' } }, // Filter by email
+            { nip: { contains: search } }, // Filter by nip
+          ],
+        }
+      : {}; // Always provide an empty object for non-search cases
+
+    // Fetch the staff data and the total count in one request using transactions
+    const [staff, totalCount] = await prisma.$transaction([
+      prisma.staff.findMany({
+        where: searchFilter, // Apply the search filter
+        skip: offset, // Pagination offset
+        take: limit, // Limit for pagination
+        select: {
+          id: true,
+          nip: true,
+          username: true,
+          name: true,
+          email: true,
+          role: true,
+          status: true,
+        },
+      }),
+      prisma.staff.count({
+        where: searchFilter, // Count the total matching records
+      }),
+    ]);
 
     return NextResponse.json({
       status: 200,
       message: 'Success',
-      data: staff,
+      data: {
+        staff,
+        totalPages: Math.ceil(totalCount / limit), // Calculate total pages for pagination
+      },
     });
   } catch (error) {
     console.error('Error fetching staff: ', error);

@@ -14,9 +14,11 @@ const Tablesearch = ({ placeholder }: { placeholder: string }) => {
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
+      params.set('page', '1');
       params.set('search', term);
     } else {
       params.delete('search');
+      params.delete('page');
     }
     replace(`${pathname}?${params.toString()}`);
   }, 300);
