@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import {
   Table,
   TableHeader,
@@ -7,23 +8,20 @@ import {
   TableRow,
   TableCell,
 } from '@/components/fragments/table/table';
+import { IStaff } from '@/types';
 import { fetchStaff } from '@/app/lib/data';
-import { IStaff } from '@/app/api/staff/route';
-import { ScrollArea } from '@/components/ui/scrollarea';
 
-const StaffTable = async () => {
-  const staff = await fetchStaff();
+const StaffTable = async ({ search = '' }: { search?: string }) => {
+  const staffs: IStaff[] = await fetchStaff(search);
 
   const staffHeader = [
-    'ID',
+    'NIP',
     'Username',
     'Name',
     'Email',
     'Status',
     'Role',
-    'Created At',
-    'Updated At',
-    'Actions',
+    'Action',
   ];
 
   return (
@@ -36,22 +34,23 @@ const StaffTable = async () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {staff ? (
-          staff.map((staff: IStaff) => (
+        {staffs.length > 0 ? (
+          staffs.map((staff: IStaff) => (
             <TableRow key={staff.id} className="hover:bg-muted/50">
-              <TableCell>{staff.id}</TableCell>
+              <TableCell>{staff.nip}</TableCell>
               <TableCell>{staff.username}</TableCell>
               <TableCell>{staff.name}</TableCell>
               <TableCell>{staff.email}</TableCell>
               <TableCell>{staff.status}</TableCell>
               <TableCell>{staff.role}</TableCell>
               <TableCell>
-                {new Date(staff.created_at).toLocaleDateString()}
+                <Link
+                  className="text-primary hover:underline"
+                  href={`/staff/${staff.id}`}
+                >
+                  Edit
+                </Link>
               </TableCell>
-              <TableCell>
-                {new Date(staff.updated_at).toLocaleDateString()}
-              </TableCell>
-              <TableCell>Delete or Edit</TableCell>
             </TableRow>
           ))
         ) : (

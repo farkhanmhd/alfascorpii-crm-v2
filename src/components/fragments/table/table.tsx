@@ -7,8 +7,8 @@ export const Table = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <div className="hide-scrollbar h-[calc(100vh-268px)] overflow-auto rounded-md border">
-    <table className={`w-full text-sm ${className}`}> {children}</table>
+  <div className="hide-scrollbar h-[calc(100vh-268px)] overflow-auto rounded-md">
+    <table className={`w-full text-sm ${className}`}>{children}</table>
   </div>
 );
 
@@ -45,7 +45,9 @@ export const TableRow = ({
 }: {
   children: React.ReactNode;
   className?: string;
-}) => <tr className={`border-b transition-colors ${className}`}>{children}</tr>;
+}) => (
+  <tr className={`border-b py-6 transition-colors ${className}`}>{children}</tr>
+);
 
 export const TableCell = ({
   children,

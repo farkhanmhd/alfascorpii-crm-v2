@@ -8,3 +8,16 @@ export interface NavItem {
   isParent?: boolean;
   childrens?: NavItem[];
 }
+
+export interface IStaff {
+  id: string;
+  username: string;
+  name: string;
+  email: string;
+  nip: string;
+  status: string;
+  role: string;
+  password: string;
+  created_at: string;
+  updated_at: string;
+}

@@ -39,6 +39,12 @@
         "react/no-unknown-property": "off",
         "@typescript-eslint/no-use-before-define": "off"
       }
+    },
+    {
+      "files": ["prisma/*.ts", "src/app/api/**/*.ts", "src/app/lib/data.ts"],
+      "rules": {
+        "no-console": "off"
+      }
     }
   ]
 }
