@@ -6,7 +6,11 @@ export const Table = ({
 }: {
   children: React.ReactNode;
   className?: string;
-}) => <table className={`w-full text-sm ${className}`}> {children}</table>;
+}) => (
+  <div className="hide-scrollbar h-[calc(100vh-268px)] overflow-auto rounded-md border">
+    <table className={`w-full text-sm ${className}`}> {children}</table>
+  </div>
+);
 
 export const TableHeader = ({
   children,
@@ -16,7 +20,8 @@ export const TableHeader = ({
   className?: string;
 }) => (
   <thead
-    className={`sticky top-0 z-50 border-b bg-background [&_tr]:border-b ${className}`}
+    className={`sticky top-0 z-10 border-b bg-background ${className}`}
+    style={{ boxShadow: '0px 0px 0px .5px hsl(var(--border))' }}
   >
     {children}
   </thead>
@@ -49,9 +54,7 @@ export const TableCell = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <td
-    className={`h-12 px-4 text-left align-middle font-medium text-muted-foreground ${className}`}
-  >
+  <td className={`h-12 px-4 text-left align-middle font-medium ${className}`}>
     {children}
   </td>
 );
@@ -63,9 +66,7 @@ export const TableHeaderCell = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <th
-    className={`h-12 px-4 text-left align-middle font-medium text-muted-foreground ${className}`}
-  >
+  <th className={`h-12 px-4 text-left align-middle font-medium ${className}`}>
     {children}
   </th>
 );
