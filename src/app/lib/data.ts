@@ -1,18 +1,31 @@
+import { staffQuerySchema } from '@/validation'; // Assuming the schema is in this path
+import { notFound } from 'next/navigation';
+
 export const fetchStaff = async (
   search: string = '',
-  page: number = 1,
-  limit: number = 10
+  page: string = '1',
+  limit: string = '10'
 ) => {
-  // Initialize the query string
+  const validationResult = staffQuerySchema.safeParse({
+    search,
+    page,
+    limit,
+  });
+
+  if (!validationResult.success) {
+    const errors = validationResult.error.flatten();
+    console.error('Validation Errors:', errors);
+    notFound();
+  }
+
+  const validatedParams = validationResult.data;
+
   const queryParams = new URLSearchParams();
+  queryParams.set('page', validatedParams.page.toString());
+  queryParams.set('limit', validatedParams.limit.toString());
 
-  // Always add limit and page to the query
-  queryParams.set('page', page.toString());
-  queryParams.set('limit', limit.toString());
-
-  // If there's a search term, add it to the query parameters
-  if (search) {
-    queryParams.set('search', search);
+  if (validatedParams.search) {
+    queryParams.set('search', validatedParams.search);
   }
 
   const res = await fetch(

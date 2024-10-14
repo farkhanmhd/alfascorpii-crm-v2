@@ -8,6 +8,7 @@ import {
   TableRow,
   TableCell,
 } from '@/components/fragments/table/table';
+import clsx from 'clsx';
 import { IStaff } from '@/types';
 
 const StaffTable = async ({ staffs }: { staffs: IStaff[] }) => {
@@ -38,7 +39,17 @@ const StaffTable = async ({ staffs }: { staffs: IStaff[] }) => {
               <TableCell>{staff.username}</TableCell>
               <TableCell>{staff.name}</TableCell>
               <TableCell>{staff.email}</TableCell>
-              <TableCell>{staff.status}</TableCell>
+              <TableCell>
+                <span
+                  className={clsx({
+                    'text-green-500': staff.status === 'VALID',
+                    'text-yellow-500': staff.status === 'SUSPEND',
+                    'text-red-500': staff.status === 'RESIGN',
+                  })}
+                >
+                  {staff.status}
+                </span>
+              </TableCell>
               <TableCell>{staff.role}</TableCell>
               <TableCell>
                 <Link

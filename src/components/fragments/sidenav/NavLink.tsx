@@ -15,7 +15,7 @@ import { ScrollArea } from '@/components/ui/scrollarea';
 import NavLinkSubMenu from './NavLinkSubMenu';
 
 const NavLink = ({ href, title, icon, isParent, childrens }: NavItem) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const pathname = usePathname();
   const mainPath = pathname.split('/').filter((path) => path !== '')[0];
   const activeLink =
@@ -25,12 +25,13 @@ const NavLink = ({ href, title, icon, isParent, childrens }: NavItem) => {
 
   return isParent ? (
     <Accordion type="single" collapsible className="w-full">
-      <AccordionItem value="master-data" className="border-none">
+      <AccordionItem value={title} className="border-none">
         <AccordionTrigger
           className={clsx(
-            'flex min-w-[260px] items-center gap-x-4 rounded-xl px-8 py-3 text-black duration-300 hover:no-underline dark:text-white',
+            'dark-text-white flex min-w-[260px] items-center gap-x-4 rounded-xl px-8 py-3 text-black duration-300 hover:no-underline',
             {
-              'bg-primary text-white': isOpen,
+              'text-primary': isOpen,
+              'text-black dark:text-white': !isOpen,
             }
           )}
           onClick={() => setIsOpen(!isOpen)}
@@ -39,9 +40,9 @@ const NavLink = ({ href, title, icon, isParent, childrens }: NavItem) => {
           <span>{title}</span>
         </AccordionTrigger>
         <ScrollArea
-          className={clsx('ide-scroll-bar duration-300', {
-            'h-0': !isOpen,
+          className={clsx('duration-300', {
             'mt-4 h-[30vh]': isOpen,
+            'h-0': !isOpen,
           })}
         >
           <AccordionContent className="ml-[42px] flex flex-col gap-x-8 gap-y-1 border-l-2 text-base duration-300">
@@ -63,8 +64,7 @@ const NavLink = ({ href, title, icon, isParent, childrens }: NavItem) => {
       className={clsx(
         'flex min-w-[260px] items-center gap-x-8 rounded-xl px-8 py-3 duration-300',
         {
-          'bg-primary text-white hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/60':
-            activeLink,
+          'bg-primary text-white': activeLink,
           'text-black hover:text-primary dark:text-white dark:hover:text-primary':
             !activeLink,
         }

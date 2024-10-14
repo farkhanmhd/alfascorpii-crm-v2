@@ -14,7 +14,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import DataTablePagination from '@/components/fragments/table/pagination';
+// import DataTablePagination from '@/components/fragments/table/pagination';
 
 import {
   DropdownMenu,
@@ -160,7 +160,7 @@ const DataTable = <TData, TValue>({
         </ScrollArea>
       </div>
 
-      <DataTablePagination table={table} />
+      {/* <DataTablePagination table={table} /> */}
     </div>
   );
 };
