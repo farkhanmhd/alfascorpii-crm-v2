@@ -3,8 +3,8 @@
 import React from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
+import Link from 'next/link';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 
 const Tablesearch = ({ placeholder }: { placeholder: string }) => {
   const pathname = usePathname();
@@ -31,7 +31,12 @@ const Tablesearch = ({ placeholder }: { placeholder: string }) => {
         onChange={(e) => handleSearch(e.target.value)}
         defaultValue={searchParams.get('search')?.toString()}
       />
-      <Button variant="outline">Columns</Button>
+      <Link
+        href="/staff/add"
+        className="rounded-sm bg-primary px-6 py-3 text-sm text-white"
+      >
+        Add Staff
+      </Link>
     </div>
   );
 };

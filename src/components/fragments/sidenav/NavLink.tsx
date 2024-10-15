@@ -1,77 +1,47 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { usePathname } from 'next/navigation';
+import useSidebarDesktop from '@/hooks/useSidebarDesktop';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { NavItem } from '@/types';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import { ScrollArea } from '@/components/ui/scrollarea';
-import NavLinkSubMenu from './NavLinkSubMenu';
 
-const NavLink = ({ href, title, icon, isParent, childrens }: NavItem) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+const NavLink = ({
+  href,
+  title,
+  icon,
+  onClick,
+}: {
+  href?: string;
+  title: string;
+  icon: React.ReactNode;
+  onClick?: () => void;
+}) => {
   const pathname = usePathname();
+  const { sidebarOpen } = useSidebarDesktop();
   const mainPath = pathname.split('/').filter((path) => path !== '')[0];
   const activeLink =
     pathname === '/'
       ? href === '/'
       : mainPath.split('-').join(' ') === title.toLowerCase();
 
-  return isParent ? (
-    <Accordion type="single" collapsible className="w-full">
-      <AccordionItem value={title} className="border-none">
-        <AccordionTrigger
-          className={clsx(
-            'dark-text-white flex min-w-[260px] items-center gap-x-4 rounded-xl px-8 py-3 text-black duration-300 hover:no-underline',
-            {
-              'text-primary': isOpen,
-              'text-black dark:text-white': !isOpen,
-            }
-          )}
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span>{icon}</span>
-          <span>{title}</span>
-        </AccordionTrigger>
-        <ScrollArea
-          className={clsx('duration-300', {
-            'mt-4 h-[30vh]': isOpen,
-            'h-0': !isOpen,
-          })}
-        >
-          <AccordionContent className="ml-[42px] flex flex-col gap-x-8 gap-y-1 border-l-2 text-base duration-300">
-            {childrens?.map((child) => (
-              <NavLinkSubMenu
-                key={child.title}
-                href={child.href ?? ''}
-                title={child.title}
-                icon={child.icon}
-              />
-            ))}
-          </AccordionContent>
-        </ScrollArea>
-      </AccordionItem>
-    </Accordion>
-  ) : (
+  return (
     <Link
+      onClick={onClick}
       href={href ?? '/'}
       className={clsx(
-        'flex min-w-[260px] items-center gap-x-8 rounded-xl px-8 py-3 duration-300',
+        'duration-300] flex items-center gap-x-6 rounded-xl py-3',
         {
           'bg-primary text-white': activeLink,
           'text-black hover:text-primary dark:text-white dark:hover:text-primary':
             !activeLink,
+          'px-6': sidebarOpen,
+          'justify-center': !sidebarOpen,
         }
       )}
     >
       <span>{icon}</span>
-      <span>{title}</span>
+      {sidebarOpen && <span className="w-min">{title}</span>}
     </Link>
   );
 };

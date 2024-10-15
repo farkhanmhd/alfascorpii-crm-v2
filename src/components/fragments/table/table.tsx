@@ -7,7 +7,7 @@ export const Table = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <div className="hide-scrollbar h-[calc(100vh-268px)] overflow-auto">
+  <div className="hide-scrollbar h-[calc(100vh-236px)] overflow-auto">
     <table className={`w-full text-sm ${className}`}>{children}</table>
   </div>
 );

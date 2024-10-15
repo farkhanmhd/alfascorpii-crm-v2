@@ -18,6 +18,9 @@ import {
   Wallet,
   Camera,
   House,
+  Phone,
+  Search,
+  Menu,
 } from 'lucide-react';
 import { type NavItem } from '@/types';
 
@@ -28,20 +31,58 @@ export const NavItems: NavItem[] = [
     href: '/',
   },
   {
+    title: 'Staff',
+    icon: <User />,
+    href: '/staff',
+  },
+  {
+    title: 'Customers',
+    icon: <Users />,
+    href: '/customers',
+    isParent: true,
+    childrens: [
+      {
+        title: 'Kerabat',
+        icon: <Users />,
+        href: '/customers/kerabat',
+      },
+      {
+        title: 'Pekerjaan',
+        icon: <Briefcase />,
+        href: '/customers/pekerjaan',
+      },
+      {
+        title: 'Pendidikan',
+        icon: <GraduationCap />,
+        href: '/customers/pendidikan',
+      },
+      {
+        title: 'Pengeluaran',
+        icon: <CreditCard />,
+        href: '/customers/pengeluaran',
+      },
+      {
+        title: 'Penghasilan',
+        icon: <Wallet />,
+        href: '/customers/penghasilan',
+      },
+      {
+        title: 'Hobi',
+        icon: <Camera />,
+        href: '/customers/hobi',
+      },
+      {
+        title: 'Status Rumah',
+        icon: <House />,
+        href: '/customers/status-rumah',
+      },
+    ],
+  },
+  {
     title: 'Master Data',
     icon: <Database />,
     isParent: true,
     childrens: [
-      {
-        title: 'Staff',
-        icon: <User />,
-        href: '/staff',
-      },
-      {
-        title: 'Kerabat',
-        icon: <Users />,
-        href: '/kerabat',
-      },
       {
         title: 'Dealer',
         icon: <Building />,
@@ -62,6 +103,13 @@ export const NavItems: NavItem[] = [
         icon: <Calendar />,
         href: '/hari-besar',
       },
+    ],
+  },
+  {
+    title: 'Follow Up',
+    icon: <Phone />,
+    isParent: true,
+    childrens: [
       {
         title: 'Metode FU',
         icon: <MessageSquare />,
@@ -77,41 +125,27 @@ export const NavItems: NavItem[] = [
         icon: <LucideTable2 />,
         href: '/keterangan-hasil',
       },
-      {
-        title: 'Pekerjaan',
-        icon: <Briefcase />,
-        href: '/pekerjaan',
-      },
-      {
-        title: 'Pendidikan',
-        icon: <GraduationCap />,
-        href: '/pendidikan',
-      },
-      {
-        title: 'Pengeluaran',
-        icon: <CreditCard />,
-        href: '/pengeluaran',
-      },
-      {
-        title: 'Penghasilan',
-        icon: <Wallet />,
-        href: '/penghasilan',
-      },
-      {
-        title: 'Hobi',
-        icon: <Camera />,
-        href: '/hobi',
-      },
-      {
-        title: 'Status Rumah',
-        icon: <House />,
-        href: '/status-rumah',
-      },
     ],
+  },
+];
+
+export const MobileNavItems: NavItem[] = [
+  {
+    title: 'Dashboard',
+    icon: <LayoutDashboard />,
+    href: '/',
   },
   {
     title: 'Customers',
     icon: <Users />,
     href: '/customers',
+  },
+  {
+    title: 'Search',
+    icon: <Search />,
+  },
+  {
+    title: 'Menu',
+    icon: <Menu />,
   },
 ];
