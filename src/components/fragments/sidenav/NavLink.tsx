@@ -30,12 +30,12 @@ const NavLink = ({
       onClick={onClick}
       href={href ?? '/'}
       className={clsx(
-        'duration-300] flex items-center gap-x-6 rounded-xl py-3',
+        'flex items-center gap-x-6 rounded-xl py-3 duration-300',
         {
           'bg-primary text-white': activeLink,
           'text-black hover:text-primary dark:text-white dark:hover:text-primary':
             !activeLink,
-          'px-6': sidebarOpen,
+          'px-8': sidebarOpen,
           'justify-center': !sidebarOpen,
         }
       )}

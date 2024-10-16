@@ -15,7 +15,7 @@ const MobileSidenav = () => {
   return (
     <aside
       className={clsx(
-        'fixed top-0 z-50 flex h-[calc(100vh-80px)] w-screen flex-col justify-between overflow-hidden border-r bg-background px-3 py-6 font-medium text-gray-400 duration-300',
+        'fixed top-0 z-50 flex h-[calc(100vh-80px)] w-screen flex-col justify-between overflow-hidden bg-background px-3 py-6 font-medium text-gray-400 duration-300',
         {
           'left-0': mobileSidenav,
           'left-[-100vw]': !mobileSidenav,

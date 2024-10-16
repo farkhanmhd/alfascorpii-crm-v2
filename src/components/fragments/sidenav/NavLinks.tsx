@@ -12,20 +12,13 @@ import NavLinkSubMenu from './NavLinkSubMenu';
 import { NavItem } from '@/types';
 
 const NavLinks = ({ items }: { items: NavItem[] }) => {
-  const { mobileSidenav, setMobileSidenav } = useMobileSidenav();
+  const { setMobileSidenav } = useMobileSidenav();
   const [openMenu, setOpenMenu] = useState<string | null>(
     localStorage.getItem('openMenu')
   );
   const pathname = usePathname();
   const router = useRouter();
   const { sidebarOpen, setSidebarOpen } = useSidebarDesktop();
-
-  useEffect(() => {
-    if (!sidebarOpen || !mobileSidenav) {
-      setOpenMenu(null);
-      localStorage.removeItem('openMenu');
-    }
-  }, [sidebarOpen, mobileSidenav]);
 
   const toggleMenu = (title: string) => {
     setOpenMenu((prevTitle) => (prevTitle === title ? null : title));
@@ -35,10 +28,18 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
   const handleSubmenu = (title: string) => {
     setSidebarOpen(true);
     toggleMenu(title);
+
     if (title === 'Customers' && pathname !== '/customers') {
       router.push('/customers');
     }
   };
+
+  useEffect(() => {
+    if (!sidebarOpen) {
+      setOpenMenu(null);
+      localStorage.setItem('openMenu', 'null');
+    }
+  }, [sidebarOpen]);
 
   return (
     <nav className="px-3">

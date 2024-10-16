@@ -1,8 +1,8 @@
 import { useAtom } from 'jotai';
-import { sidebarDesktopAtom } from '@/store';
+import { desktopSidenavAtom } from '@/store';
 
 const useSidebarDesktop = () => {
-  const [sidebarOpen, setSidebarOpen] = useAtom(sidebarDesktopAtom);
+  const [sidebarOpen, setSidebarOpen] = useAtom(desktopSidenavAtom);
 
   return { sidebarOpen, setSidebarOpen };
 };

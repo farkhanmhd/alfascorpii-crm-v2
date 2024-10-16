@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 
 export const searchDialogAtom = atom(false);
-export const sidebarDesktopAtom = atomWithStorage(
+export const desktopSidenavAtom = atomWithStorage(
   'desktopSidebar',
   Boolean(localStorage.getItem('desktopSidebar'))
 );

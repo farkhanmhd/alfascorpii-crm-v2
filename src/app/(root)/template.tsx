@@ -23,7 +23,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
       >
         {!isMobile && <SectionHeader />}
         {isMobile && (
-          <div className="flex h-20 items-center px-6 text-2xl font-black">
+          <div className="flex h-20 items-center px-6 text-xl font-black">
             <Breadcrumbs />
           </div>
         )}
