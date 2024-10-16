@@ -1,15 +1,16 @@
 'use client';
 
+import React from 'react';
 import clsx from 'clsx';
 import useMobile from '@/hooks/useMobile';
 import useSidebarDesktop from '@/hooks/useSidebarDesktop';
 import Sidenav from '@/components/fragments/sidenav';
 import MobileNav from '@/components/fragments/mobilenav';
 import SectionHeader from '@/components/fragments/header/SectionHeader';
-import MobileSidenav from '@/components/fragments/sidenav/MobileSidenav';
+import MobileSidenav from '@/components/fragments/mobilenav/MobileSidenav';
 import Breadcrumbs from '@/components/fragments/breadcrumbs/Breadcrumbs';
 
-export default function Template({ children }: { children: React.ReactNode }) {
+const Template = ({ children }: { children: React.ReactNode }) => {
   const { sidebarOpen } = useSidebarDesktop();
   const { isMobile } = useMobile();
   return (
@@ -46,4 +47,6 @@ export default function Template({ children }: { children: React.ReactNode }) {
       )}
     </>
   );
-}
+};
+
+export default Template;

@@ -17,7 +17,7 @@ const SearchButton = () => {
 
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
-  }, [searchDialog]);
+  }, [searchDialog, setSearchDialog]);
 
   return (
     <Button

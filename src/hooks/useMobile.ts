@@ -11,7 +11,7 @@ const useMobile = () => {
     };
 
     window.addEventListener('resize', handleResize);
-  }, [window]);
+  }, [setIsMobile]);
 
   return { isMobile, setIsMobile };
 };

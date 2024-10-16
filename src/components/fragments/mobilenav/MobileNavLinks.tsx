@@ -1,20 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import useSidebarDesktop from '@/hooks/useSidebarDesktop';
+import useMobileSidenav from '@/hooks/useMobileSidenav';
 import { ScrollArea } from '@/components/ui/scrollarea';
 import clsx from 'clsx';
 import { ChevronDown } from 'lucide-react';
 import { NavItem } from '@/types';
-import NavLink from './NavLink';
-import NavLinkSubMenu from './NavLinkSubMenu';
+import MobileNavLink from './MobileNavLink';
+import NavLinkSubMenu from '../sidenav/NavLinkSubMenu';
 
-const NavLinks = ({ items }: { items: NavItem[] }) => {
-  const { sidebarOpen, setSidebarOpen } = useSidebarDesktop();
-  const [activeButton, setActiveButton] = useState<string | null>(
-    localStorage.getItem('activeButton')
-  );
+const MobileNavLinks = ({ items }: { items: NavItem[] }) => {
+  const { mobileSidenav, setMobileSidenav } = useMobileSidenav();
   const [openMenu, setOpenMenu] = useState<string | null>(
     localStorage.getItem('openMenu')
   );
@@ -27,22 +24,13 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
   };
 
   const handleSubmenu = (title: string) => {
-    setSidebarOpen(true);
+    setMobileSidenav(true);
     toggleMenu(title);
 
     if (title === 'Customers' && pathname !== '/customers') {
       router.push('/customers');
-      setActiveButton('Customers');
-      localStorage.setItem('activeButton', 'Customers');
     }
   };
-
-  useEffect(() => {
-    if (!sidebarOpen) {
-      setOpenMenu(null);
-      localStorage.setItem('openMenu', 'null');
-    }
-  }, [sidebarOpen]);
 
   return (
     <nav className="px-3">
@@ -57,19 +45,19 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
                   'flex w-full items-center rounded-xl py-3 duration-300',
                   {
                     'bg-primary text-white hover:bg-primary/80':
-                      activeButton === item.title,
+                      openMenu === item.title,
                     'text-black hover:text-primary dark:text-white dark:hover:text-primary':
-                      activeButton !== item.title,
-                    'justify-between px-8': sidebarOpen,
-                    'justify-center': !sidebarOpen,
+                      openMenu !== item.title,
+                    'justify-between px-8': mobileSidenav,
+                    'justify-center': !mobileSidenav,
                   }
                 )}
               >
                 <div className="flex items-center gap-x-4">
                   <span>{item.icon}</span>
-                  {sidebarOpen && <span className="w-max">{item.title}</span>}
+                  {mobileSidenav && <span className="w-max">{item.title}</span>}
                 </div>
-                {sidebarOpen && (
+                {mobileSidenav && (
                   <ChevronDown
                     size={16}
                     className={clsx(
@@ -81,7 +69,7 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
                   />
                 )}
               </button>
-              {sidebarOpen && (
+              {mobileSidenav && (
                 <ScrollArea className="ml-9 mt-2 border-l-2 sm:mr-0">
                   <ul
                     className={clsx('duration-300 ease-in-out', {
@@ -92,13 +80,10 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
                     {item.childrens?.map((child) => (
                       <li key={child.title}>
                         <NavLinkSubMenu
+                          onClick={() => setMobileSidenav(false)}
                           href={child.href ?? ''}
                           icon={child.icon}
                           title={child.title}
-                          onClick={() => {
-                            setActiveButton(item.title);
-                            localStorage.setItem('activeButton', item.title);
-                          }}
                         />
                       </li>
                     ))}
@@ -108,12 +93,11 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
             </li>
           ) : (
             <li key={item.title}>
-              <NavLink
+              <MobileNavLink
                 onClick={() => {
+                  setMobileSidenav(false);
                   setOpenMenu(null);
-                  setActiveButton(null);
                   localStorage.setItem('openMenu', 'null');
-                  localStorage.setItem('activeButton', 'null');
                 }}
                 href={item.href ?? ''}
                 title={item.title}
@@ -127,4 +111,4 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
   );
 };
 
-export default NavLinks;
+export default MobileNavLinks;

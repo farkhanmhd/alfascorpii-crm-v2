@@ -5,9 +5,9 @@ import clsx from 'clsx';
 import useMobileSidenav from '@/hooks/useMobileSidenav';
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
-import NavLinks from './NavLinks';
-import Logo from './Logo';
-import { MobileSidenavItems } from './constants';
+import MobileNavLinks from './MobileNavLinks';
+import MobileLogo from './MobileLogo';
+import { MobileSidenavItems } from '../sidenav/constants';
 
 const MobileSidenav = () => {
   const { mobileSidenav } = useMobileSidenav();
@@ -30,10 +30,10 @@ const MobileSidenav = () => {
           })}
         >
           <Link href="/">
-            <Logo />
+            <MobileLogo />
           </Link>
         </div>
-        <NavLinks items={MobileSidenavItems} />
+        <MobileNavLinks items={MobileSidenavItems} />
       </div>
       <button
         type="button"

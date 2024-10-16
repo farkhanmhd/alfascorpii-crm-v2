@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import { mobileSidenavAtom } from './../store/index';
+import { mobileSidenavAtom } from '@/store';
 
 const useMobileSidenav = () => {
   const [mobileSidenav, setMobileSidenav] = useAtom(mobileSidenavAtom);

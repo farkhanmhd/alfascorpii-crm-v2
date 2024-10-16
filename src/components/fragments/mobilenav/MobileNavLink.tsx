@@ -2,42 +2,48 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
+import useMobileSidenav from '@/hooks/useMobileSidenav';
 import Link from 'next/link';
 import clsx from 'clsx';
 
-interface SubMenuProp {
-  href: string;
+const MobileNavLink = ({
+  href,
+  title,
+  icon,
+  onClick,
+}: {
+  href?: string;
   title: string;
   icon: React.ReactNode;
   onClick?: () => void;
-}
-
-const NavLinkSubMenu = ({ href, title, icon, onClick }: SubMenuProp) => {
+}) => {
   const pathname = usePathname();
+  const { mobileSidenav } = useMobileSidenav();
   const mainPath = pathname.split('/').filter((path) => path !== '')[0];
-  const lastPath = pathname.split('/').filter((path) => path !== '')[1];
   const activeLink =
     pathname === '/'
       ? href === '/'
-      : mainPath.split('-').join(' ') === title.toLowerCase() ||
-        lastPath === title.toLowerCase();
+      : mainPath.split('-').join(' ') === title.toLowerCase();
+
   return (
     <Link
       onClick={onClick}
-      href={href}
+      href={href ?? '/'}
       className={clsx(
-        'flex max-w-[200px] items-center gap-x-4 rounded-xl py-3 pl-[30px] text-sm duration-300',
+        'flex items-center gap-x-6 rounded-xl py-3 duration-300',
         {
-          'text-primary': activeLink,
+          'bg-primary text-white': activeLink,
           'text-black hover:text-primary dark:text-white dark:hover:text-primary':
             !activeLink,
+          'px-8': mobileSidenav,
+          'justify-center': !mobileSidenav,
         }
       )}
     >
       <span>{icon}</span>
-      <span>{title}</span>
+      {mobileSidenav && <span className="w-min">{title}</span>}
     </Link>
   );
 };
 
-export default NavLinkSubMenu;
+export default MobileNavLink;
