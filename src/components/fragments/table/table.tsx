@@ -21,7 +21,7 @@ export const TableHeader = ({
 }) => (
   <thead
     className={`sticky top-0 z-10 border-b bg-background ${className}`}
-    style={{ boxShadow: '0px 0px 0px .5px hsl(var(--border))' }}
+    style={{ boxShadow: '0px .5px 0px hsl(var(--border))' }}
   >
     {children}
   </thead>

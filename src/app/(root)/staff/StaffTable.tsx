@@ -23,7 +23,7 @@ const StaffTable = async ({ staffs }: { staffs: IStaff[] }) => {
   ];
 
   return (
-    <Table>
+    <Table className="md:none order-1">
       <TableHeader>
         <TableRow>
           {staffHeader.map((header) => (

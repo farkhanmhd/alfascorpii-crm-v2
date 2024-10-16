@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useAtom } from 'jotai';
-import { searchDialogAtom } from '@/store';
+import useSearchDialog from '@/hooks/useSearchDialog';
 import { Button } from '@/components/ui/button';
 
 const SearchButton = () => {
-  const [searchDialog, setSearchDialog] = useAtom(searchDialogAtom);
+  const { searchDialog, setSearchDialog } = useSearchDialog();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {

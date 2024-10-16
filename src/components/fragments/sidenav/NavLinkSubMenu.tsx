@@ -9,9 +9,10 @@ interface SubMenuProp {
   href: string;
   title: string;
   icon: React.ReactNode;
+  onClick: () => void;
 }
 
-const NavLinkSubMenu = ({ href, title, icon }: SubMenuProp) => {
+const NavLinkSubMenu = ({ href, title, icon, onClick }: SubMenuProp) => {
   const pathname = usePathname();
   const mainPath = pathname.split('/').filter((path) => path !== '')[0];
   const lastPath = pathname.split('/').filter((path) => path !== '')[1];
@@ -22,6 +23,7 @@ const NavLinkSubMenu = ({ href, title, icon }: SubMenuProp) => {
         lastPath === title.toLowerCase();
   return (
     <Link
+      onClick={onClick}
       href={href}
       className={clsx(
         'flex max-w-[200px] items-center gap-x-4 rounded-xl py-3 pl-[30px] text-sm duration-300',

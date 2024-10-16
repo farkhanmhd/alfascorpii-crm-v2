@@ -4,5 +4,7 @@ import { atomWithStorage } from 'jotai/utils';
 export const searchDialogAtom = atom(false);
 export const sidebarDesktopAtom = atomWithStorage(
   'desktopSidebar',
-  Boolean(localStorage && localStorage.getItem('desktopSidebar'))
+  Boolean(localStorage.getItem('desktopSidebar'))
 );
+export const isMobileAtom = atom(window.innerWidth < 768);
+export const mobileSidenavAtom = atom(false);

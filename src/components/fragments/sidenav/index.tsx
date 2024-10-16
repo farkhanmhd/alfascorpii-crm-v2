@@ -9,6 +9,7 @@ import Link from 'next/link';
 import NavLinks from './NavLinks';
 import Logo from './Logo';
 import SidebarMenuButton from '../buttons/SidebarMenuButton';
+import { NavItems } from './constants';
 
 const Sidenav = () => {
   const sidenavRef = useRef<HTMLBaseElement>(null);
@@ -23,7 +24,7 @@ const Sidenav = () => {
     <aside
       ref={sidenavRef}
       className={clsx(
-        'fixed z-[999] flex h-screen flex-col justify-between overflow-hidden border-r bg-background px-3 py-6 font-medium text-gray-400 duration-300',
+        'fixed left-0 top-0 z-50 flex h-screen flex-col justify-between overflow-hidden border-r bg-background px-3 py-6 font-medium text-gray-400 duration-300',
         {
           'w-[325px]': sidebarOpen,
           'w-[100px]': !sidebarOpen,
@@ -42,7 +43,7 @@ const Sidenav = () => {
           </Link>
           {sidebarOpen && <SidebarMenuButton />}
         </div>
-        <NavLinks />
+        <NavLinks items={NavItems} />
       </div>
       <button
         type="button"

@@ -3,14 +3,16 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import useSidebarDesktop from '@/hooks/useSidebarDesktop';
+import useMobileSidenav from '@/hooks/useMobileSidenav';
 import { ScrollArea } from '@/components/ui/scrollarea';
 import clsx from 'clsx';
 import { ChevronDown } from 'lucide-react';
 import NavLink from './NavLink';
-import { NavItems } from './constants';
 import NavLinkSubMenu from './NavLinkSubMenu';
+import { NavItem } from '@/types';
 
-const NavLinks = () => {
+const NavLinks = ({ items }: { items: NavItem[] }) => {
+  const { mobileSidenav, setMobileSidenav } = useMobileSidenav();
   const [openMenu, setOpenMenu] = useState<string | null>(
     localStorage.getItem('openMenu')
   );
@@ -19,11 +21,11 @@ const NavLinks = () => {
   const { sidebarOpen, setSidebarOpen } = useSidebarDesktop();
 
   useEffect(() => {
-    if (!sidebarOpen) {
+    if (!sidebarOpen || !mobileSidenav) {
       setOpenMenu(null);
       localStorage.removeItem('openMenu');
     }
-  }, [sidebarOpen]);
+  }, [sidebarOpen, mobileSidenav]);
 
   const toggleMenu = (title: string) => {
     setOpenMenu((prevTitle) => (prevTitle === title ? null : title));
@@ -41,7 +43,7 @@ const NavLinks = () => {
   return (
     <nav className="px-3">
       <ul className="flex flex-col gap-y-4">
-        {NavItems.map((item) =>
+        {items.map((item: NavItem) =>
           item.isParent ? (
             <li key={item.title}>
               <button
@@ -54,7 +56,7 @@ const NavLinks = () => {
                       openMenu === item.title,
                     'text-black hover:text-primary dark:text-white dark:hover:text-primary':
                       openMenu !== item.title,
-                    'justify-between px-6': sidebarOpen,
+                    'justify-between px-8': sidebarOpen,
                     'justify-center': !sidebarOpen,
                   }
                 )}
@@ -86,6 +88,7 @@ const NavLinks = () => {
                     {item.childrens?.map((child) => (
                       <li key={child.title}>
                         <NavLinkSubMenu
+                          onClick={() => setMobileSidenav(false)}
                           href={child.href ?? ''}
                           icon={child.icon}
                           title={child.title}
@@ -101,6 +104,7 @@ const NavLinks = () => {
               <NavLink
                 onClick={() => {
                   setOpenMenu(null);
+                  setMobileSidenav(false);
                   localStorage.setItem('openMenu', 'null');
                 }}
                 href={item.href ?? ''}

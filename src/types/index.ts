@@ -6,6 +6,7 @@ export interface NavItem {
   icon: React.ReactNode;
   color?: string;
   isParent?: boolean;
+  onClick?: () => void;
   childrens?: NavItem[];
 }
 
