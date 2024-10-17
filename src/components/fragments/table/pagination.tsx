@@ -24,7 +24,6 @@ type Option = {
 };
 
 const options: Option[] = [
-  { value: '10', label: '10' },
   { value: '20', label: '20' },
   { value: '30', label: '30' },
   { value: '40', label: '40' },
@@ -43,12 +42,12 @@ const DataTablePagination = ({
   const router = useRouter();
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
-  const initialLimit = params.get('limit') || '10'; // Default to '10' if not set
+  const initialLimit = params.get('limit') || '20';
   const [limit, setLimit] = useState(initialLimit);
 
   const handleLimitChange = (value: string) => {
     setLimit(value);
-    if (value === '10') {
+    if (value === '20') {
       params.delete('limit');
     } else {
       params.set('limit', value);

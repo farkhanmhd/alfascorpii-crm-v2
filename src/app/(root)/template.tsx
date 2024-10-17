@@ -22,16 +22,17 @@ const Template = ({ children }: { children: React.ReactNode }) => {
           'xl:pl-[335px]': sidebarOpen,
         })}
       >
-        {!isMobile && <SectionHeader />}
-        {isMobile && (
-          <div className="flex h-20 items-center px-6 text-xl font-black">
+        {isMobile ? (
+          <div className="flex h-20 items-center border-b-primary px-6 text-xl font-black">
             <Breadcrumbs />
           </div>
+        ) : (
+          <SectionHeader />
         )}
         <article
           className={clsx({
-            'h-[calc(100vh-160px)] pl-6': isMobile,
-            'h-[calc(100vh-88px)]': !isMobile,
+            'h-[calc(100dvh-160px)] pl-6': isMobile,
+            'h-[calc(100dvh-88px)]': !isMobile,
           })}
         >
           {children}

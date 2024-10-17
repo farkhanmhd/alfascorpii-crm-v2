@@ -25,3 +25,15 @@ model Staff {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
+model Dealer {
+  id          String  @id @default(uuid())
+  kode        String  @unique
+  nama        String
+  status      Status  @default(SHOW)
+}
+
+enum Status {
+  HIDE
+  SHOW
+}

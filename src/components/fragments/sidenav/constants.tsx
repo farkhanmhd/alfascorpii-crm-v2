@@ -36,9 +36,13 @@ export const NavItems: NavItem[] = [
   {
     title: 'Customers',
     icon: <Users />,
-    href: '/customers',
     isParent: true,
     childrens: [
+      {
+        title: 'Daftar Customer',
+        icon: <Users />,
+        href: '/customers',
+      },
       {
         title: 'Kerabat',
         icon: <Users />,

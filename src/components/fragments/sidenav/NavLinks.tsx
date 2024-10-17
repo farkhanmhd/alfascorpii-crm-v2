@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
 import useSidebarDesktop from '@/hooks/useSidebarDesktop';
 import { ScrollArea } from '@/components/ui/scrollarea';
 import clsx from 'clsx';
@@ -18,8 +17,6 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
   const [openMenu, setOpenMenu] = useState<string | null>(
     localStorage.getItem('openMenu')
   );
-  const pathname = usePathname();
-  const router = useRouter();
 
   const toggleMenu = (title: string) => {
     setOpenMenu((prevTitle) => (prevTitle === title ? null : title));
@@ -29,12 +26,6 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
   const handleSubmenu = (title: string) => {
     setSidebarOpen(true);
     toggleMenu(title);
-
-    if (title === 'Customers' && pathname !== '/customers') {
-      router.push('/customers');
-      setActiveButton('Customers');
-      localStorage.setItem('activeButton', 'Customers');
-    }
   };
 
   useEffect(() => {

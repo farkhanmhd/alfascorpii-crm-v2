@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Prisma, PrismaClient } from '@prisma/client';
-import { staffQuerySchema } from '@/validation';
+import { dealerQuerySchema } from '@/validation';
 
 const prisma = new PrismaClient();
 
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     const page = searchParams.get('page') || undefined;
     const limit = searchParams.get('limit') || undefined;
 
-    const validationResult = staffQuerySchema.safeParse({
+    const validationResult = dealerQuerySchema.safeParse({
       search,
       page,
       limit,
@@ -21,20 +21,15 @@ export async function GET(request: NextRequest) {
 
     if (!validationResult.success) {
       const errors = validationResult.error.flatten();
-
       console.error('Validation Errors:', errors);
-
-      return NextResponse.json(
-        {
-          status: 400,
-          message: 'Invalid query parameters',
-          errors: {
-            page: errors.fieldErrors.page || [],
-            limit: errors.fieldErrors.limit || [],
-          },
+      return NextResponse.json({
+        status: 400,
+        message: 'Invalid query parameters',
+        errors: {
+          page: errors.fieldErrors.page || [],
+          limit: errors.fieldErrors.limit || [],
         },
-        { status: 400 }
-      );
+      });
     }
 
     const {
@@ -45,51 +40,44 @@ export async function GET(request: NextRequest) {
 
     const offset = (validatedPage - 1) * validatedLimit;
 
-    const searchFilter: Prisma.StaffWhereInput = validatedSearch
+    const searchFilter: Prisma.DealerWhereInput = validatedSearch
       ? {
           OR: [
-            { username: { contains: validatedSearch, mode: 'insensitive' } },
-            { name: { contains: validatedSearch, mode: 'insensitive' } },
-            { email: { contains: validatedSearch, mode: 'insensitive' } },
-            { nip: { contains: validatedSearch } },
+            { kode: { contains: validatedSearch, mode: 'insensitive' } },
+            { nama: { contains: validatedSearch, mode: 'insensitive' } },
           ],
         }
       : {};
 
-    const [staffs, totalCount] = await prisma.$transaction([
-      prisma.staff.findMany({
+    const [dealers, totalCount] = await prisma.$transaction([
+      prisma.dealer.findMany({
         where: searchFilter,
         skip: offset,
         take: validatedLimit,
         select: {
           id: true,
-          nip: true,
-          username: true,
-          name: true,
-          email: true,
-          role: true,
+          kode: true,
+          nama: true,
           status: true,
         },
       }),
-      prisma.staff.count({
-        where: searchFilter,
-      }),
+      prisma.dealer.count({ where: searchFilter }),
     ]);
 
     return NextResponse.json({
       status: 200,
       message: 'Success',
       data: {
-        staffs,
+        dealers,
         totalPages: Math.ceil(totalCount / validatedLimit),
       },
     });
   } catch (error) {
-    console.error('Error fetching staff: ', error);
-    return NextResponse.json({
-      status: 500,
-      message: 'Failed to fetch staff data',
-    });
+    console.error('Error fetching dealer: ', error);
+    return NextResponse.json(
+      { error: 'Error fetching dealer' },
+      { status: 500 }
+    );
   } finally {
     await prisma.$disconnect();
   }

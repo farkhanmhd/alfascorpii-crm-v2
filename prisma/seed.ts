@@ -48,16 +48,34 @@ async function seedStaff() {
     });
   });
 
-  console.log('Seeding staff...');
   await Promise.all([admin, ...staffPromises]);
-  console.log('Finished seeding staff');
 }
 
-seedStaff()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
+const seedDealers = async () => {
+  const dealers = Array.from({ length: 20 }, async () => {
+    const dealer = prisma.dealer.create({
+      data: {
+        kode: `FA${faker.number.int({ min: 0, max: 99999 })}`,
+        nama: faker.company.name(),
+        status: faker.helpers.arrayElement(['SHOW', 'HIDE']),
+      },
+    });
+    return dealer;
   });
+
+  await Promise.all(dealers);
+};
+
+const seedEverything = async () => {
+  try {
+    console.log('Seeding...');
+    await Promise.all([seedStaff(), seedDealers()]);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    console.log('Seeding Complete!');
+    await prisma.$disconnect();
+  }
+};
+
+seedEverything();

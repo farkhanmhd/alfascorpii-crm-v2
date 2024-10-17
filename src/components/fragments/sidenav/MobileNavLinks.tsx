@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
 import useMobileSidenav from '@/hooks/useMobileSidenav';
 import { ScrollArea } from '@/components/ui/scrollarea';
 import clsx from 'clsx';
@@ -15,8 +14,6 @@ const MobileNavLinks = ({ items }: { items: NavItem[] }) => {
   const [openMenu, setOpenMenu] = useState<string | null>(
     localStorage.getItem('openMenu')
   );
-  const pathname = usePathname();
-  const router = useRouter();
 
   const toggleMenu = (title: string) => {
     setOpenMenu((prevTitle) => (prevTitle === title ? null : title));
@@ -26,10 +23,6 @@ const MobileNavLinks = ({ items }: { items: NavItem[] }) => {
   const handleSubmenu = (title: string) => {
     setMobileSidenav(true);
     toggleMenu(title);
-
-    if (title === 'Customers' && pathname !== '/customers') {
-      router.push('/customers');
-    }
   };
 
   return (

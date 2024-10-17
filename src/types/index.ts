@@ -1,5 +1,3 @@
-import React from 'react';
-
 export interface NavItem {
   title: string;
   href?: string;
@@ -21,4 +19,17 @@ export interface IStaff {
   password: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface IDealer {
+  id: string;
+  kode: string;
+  nama: string;
+  status: 'HIDE' | 'SHOW';
+}
+
+export interface ISearchQuery {
+  search?: string;
+  page?: number;
+  limit?: number;
 }
