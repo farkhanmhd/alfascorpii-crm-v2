@@ -1,7 +1,6 @@
-import { dealerQuerySchema, staffQuerySchema } from '@/validation';
+import { searchQuerySchema } from '@/validation';
 import { notFound } from 'next/navigation';
 
-// Helper function to handle validation
 const validateQuery = (
   schema: any,
   params: { search?: string; page?: string; limit?: string }
@@ -15,7 +14,6 @@ const validateQuery = (
   return validationResult.data;
 };
 
-// Helper function to build query parameters
 const searchQueryParams = (params: {
   search?: string;
   page: string;
@@ -30,7 +28,6 @@ const searchQueryParams = (params: {
   return queryParams;
 };
 
-// Helper function to fetch data
 const fetchData = async (endpoint: string, queryParams: URLSearchParams) => {
   const res = await fetch(
     `${process.env.API_URL || 'http://localhost:3000'}/api/${endpoint}?${queryParams.toString()}`,
@@ -50,13 +47,12 @@ const fetchData = async (endpoint: string, queryParams: URLSearchParams) => {
   return data;
 };
 
-// Fetch Staff data
 export const fetchStaff = async (
   search: string = '',
   page: string = '1',
   limit: string = '20'
 ) => {
-  const validatedParams = validateQuery(staffQuerySchema, {
+  const validatedParams = validateQuery(searchQuerySchema, {
     search,
     page,
     limit,
@@ -65,17 +61,211 @@ export const fetchStaff = async (
   return fetchData('staff', queryParams);
 };
 
-// Fetch Dealer data
 export const fetchDealer = async (
   search: string = '',
   page: string = '1',
   limit: string = '20'
 ) => {
-  const validatedParams = validateQuery(dealerQuerySchema, {
+  const validatedParams = validateQuery(searchQuerySchema, {
     search,
     page,
     limit,
   });
   const queryParams = searchQueryParams(validatedParams);
   return fetchData('dealer', queryParams);
+};
+
+export const fetchCustomer = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('customer', queryParams);
+};
+
+export const fetchKerabat = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('customer/kerabat', queryParams);
+};
+
+export const fetchPekerjaan = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('customer/pekerjaan', queryParams);
+};
+export const fetchPendidikan = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('customer/pendidikan', queryParams);
+};
+
+export const fetchPengeluaran = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('customer/pengeluaran', queryParams);
+};
+
+export const fetchPenghasilan = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('customer/penghasilan', queryParams);
+};
+
+export const fetchHobi = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('customer/hobi', queryParams);
+};
+
+export const fetchStatusRumah = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('customer/status-rumah', queryParams);
+};
+
+export const fetchLeasing = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('leasing', queryParams);
+};
+
+export const fetchModel = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('model', queryParams);
+};
+
+export const fetchHariBesar = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('hari-besar', queryParams);
+};
+
+export const fetchMetodeFU = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('metode-fu', queryParams);
+};
+
+export const fetchKeteranganFU = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('keterangan-fu', queryParams);
+};
+
+export const fetchKeteranganHasil = async (
+  search: string = '',
+  page: string = '1',
+  limit: string = '20'
+) => {
+  const validatedParams = validateQuery(searchQuerySchema, {
+    search,
+    page,
+    limit,
+  });
+  const queryParams = searchQueryParams(validatedParams);
+  return fetchData('keterangan-hasil', queryParams);
 };

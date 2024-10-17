@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const searchQuerySchema = z.object({
+export const searchQuerySchema = z.object({
   search: z.string().optional(),
   page: z
     .string()
@@ -17,6 +17,3 @@ const searchQuerySchema = z.object({
     })
     .default('20'), // Default to '10'
 });
-
-export const staffQuerySchema = searchQuerySchema.extend({});
-export const dealerQuerySchema = searchQuerySchema.extend({});

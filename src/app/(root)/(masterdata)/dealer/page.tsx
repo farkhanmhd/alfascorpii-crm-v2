@@ -2,7 +2,8 @@ import React, { Suspense } from 'react';
 import Tablesearch from '@/components/fragments/table/tablesearch';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import { fetchDealer } from '@/app/lib/data';
-import DealerTable from './DealerTable';
+import DataTable from '@/components/fragments/table/DataTable';
+import columns from './column';
 
 const Page = async ({
   searchParams,
@@ -30,7 +31,7 @@ const Page = async ({
     <div className="flex h-full flex-1 flex-col">
       <Tablesearch placeholder="Search dealer..." />
       <Suspense fallback={<div>Loading...</div>}>
-        <DealerTable dealers={dealers} />
+        <DataTable columns={columns} data={dealers} includeIndex />
       </Suspense>
       <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
     </div>

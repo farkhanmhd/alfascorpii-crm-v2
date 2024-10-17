@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Prisma, PrismaClient } from '@prisma/client';
-import { staffQuerySchema } from '@/validation';
+import { searchQuerySchema } from '@/validation';
 
 const prisma = new PrismaClient();
 
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     const page = searchParams.get('page') || undefined;
     const limit = searchParams.get('limit') || undefined;
 
-    const validationResult = staffQuerySchema.safeParse({
+    const validationResult = searchQuerySchema.safeParse({
       search,
       page,
       limit,

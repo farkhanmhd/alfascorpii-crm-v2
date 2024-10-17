@@ -52,11 +52,16 @@ export const TableRow = ({
 export const TableCell = ({
   children,
   className = 'text-left',
+  colSpan,
 }: {
   children: React.ReactNode;
   className?: string;
+  colSpan?: number;
 }) => (
-  <td className={`h-12 px-4 align-middle font-medium ${className}`}>
+  <td
+    className={`h-12 px-4 align-middle font-medium ${className}`}
+    colSpan={colSpan}
+  >
     {children}
   </td>
 );
