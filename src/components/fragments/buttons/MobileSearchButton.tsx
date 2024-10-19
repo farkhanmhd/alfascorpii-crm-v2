@@ -2,9 +2,9 @@
 
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
+import { Search } from 'lucide-react';
 import useMobileSidenav from '@/hooks/useMobileSidenav';
 import useSearchDialog from '@/hooks/useSearchDialog';
-import { Search } from 'lucide-react';
 
 const MobileSearchButton = () => {
   const { searchDialog, setSearchDialog } = useSearchDialog();
@@ -20,7 +20,7 @@ const MobileSearchButton = () => {
 
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
-  }, [searchDialog]);
+  }, [searchDialog, setSearchDialog]);
 
   const handleClick = () => {
     setMobileSidenav(false);
@@ -29,6 +29,7 @@ const MobileSearchButton = () => {
 
   return (
     <button
+      type="button"
       onClick={handleClick}
       className={clsx({
         'text-primary': searchDialog,

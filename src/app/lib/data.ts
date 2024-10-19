@@ -269,3 +269,29 @@ export const fetchKeteranganHasil = async (
   const queryParams = searchQueryParams(validatedParams);
   return fetchData('keterangan-hasil', queryParams);
 };
+
+export const postPekerjaan = async ({
+  pekerjaan,
+  kode,
+}: {
+  pekerjaan: string;
+  kode: string;
+}) => {
+  await fetch(
+    `${process.env.API_URL || 'http://localhost:3000'}/api/customer/pekerjaan`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pekerjaan,
+        kode,
+      }),
+    }
+  ).then((res) => {
+    if (!res.ok) {
+      throw new Error('Failed to post pekerjaan');
+    }
+  });
+};

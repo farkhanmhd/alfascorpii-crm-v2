@@ -17,3 +17,8 @@ export const searchQuerySchema = z.object({
     })
     .default('20'), // Default to '10'
 });
+
+export const pekerjaanSchema = z.object({
+  pekerjaan: z.string().min(1, { message: 'Pekerjaan is required' }),
+  kode: z.string().min(1, { message: 'Kode is required' }),
+});

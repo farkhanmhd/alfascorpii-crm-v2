@@ -11,12 +11,8 @@ import NavLinkSubMenu from './NavLinkSubMenu';
 
 const NavLinks = ({ items }: { items: NavItem[] }) => {
   const { sidebarOpen, setSidebarOpen } = useSidebarDesktop();
-  const [activeButton, setActiveButton] = useState<string | null>(
-    localStorage.getItem('activeButton')
-  );
-  const [openMenu, setOpenMenu] = useState<string | null>(
-    localStorage.getItem('openMenu')
-  );
+  const [activeButton, setActiveButton] = useState<string | null>(null);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   const toggleMenu = (title: string) => {
     setOpenMenu((prevTitle) => (prevTitle === title ? null : title));

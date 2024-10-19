@@ -6,6 +6,10 @@ const useMobile = () => {
   const [isMobile, setIsMobile] = useAtom(isMobileAtom);
 
   useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, [setIsMobile]);
+
+  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };

@@ -14,7 +14,6 @@ export interface Column<T> {
   header: string;
   key: keyof T;
   getCellContent?: (item: T) => React.ReactNode;
-  isOptional?: boolean;
 }
 
 interface DataTableProps<T> {

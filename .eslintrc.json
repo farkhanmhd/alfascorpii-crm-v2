@@ -12,6 +12,7 @@
     "react/jsx-props-no-spreading": 0,
     "react/require-default-props": 0,
     "react/react-in-jsx-scope": 1,
+    "no-underscore-dangle": "off",
     "react/no-array-index-key": 0,
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "arrow-body-style": 0,
@@ -38,13 +39,20 @@
       "rules": {
         "react/prop-types": "off",
         "react/no-unknown-property": "off",
-        "@typescript-eslint/no-use-before-define": "off"
+        "@typescript-eslint/no-use-before-define": "off",
+        "jsx-a11y/anchor-has-content": "off"
       }
     },
     {
       "files": ["prisma/*.ts", "src/app/api/**/*.ts", "src/app/lib/data.ts"],
       "rules": {
         "no-console": "off"
+      }
+    },
+    {
+      "files": ["src/app/lib/actions.ts"],
+      "rules": {
+        "consistent-return": "off"
       }
     }
   ]

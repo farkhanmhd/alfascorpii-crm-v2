@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google';
 import GlobalProvider from '@/components/providers/global';
 import ThemeProvider from '@/components/providers/theme-provider';
 import SearchDialog from '@/components/fragments/searchDialog';
+import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -24,7 +25,7 @@ const RootLayout = ({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-background antialiased backdrop-blur-md dark:bg-background`}
+        className={`${inter.className} overflow-hidden bg-background antialiased backdrop-blur-md dark:bg-background`}
       >
         <GlobalProvider>
           <ThemeProvider
@@ -35,6 +36,7 @@ const RootLayout = ({
           >
             <SearchDialog />
             {children}
+            <Toaster />
           </ThemeProvider>
         </GlobalProvider>
       </body>

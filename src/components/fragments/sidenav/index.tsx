@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import useSidebarDesktop from '@/hooks/useSidebarDesktop';
 import useClickOutside from '@/hooks/useClickOutside';
@@ -14,6 +14,7 @@ import { NavItems } from './constants';
 const Sidenav = () => {
   const sidenavRef = useRef<HTMLBaseElement>(null);
   const { sidebarOpen, setSidebarOpen } = useSidebarDesktop();
+
   useClickOutside(sidenavRef, () => {
     if (window.innerWidth < 1280) {
       setSidebarOpen(false);

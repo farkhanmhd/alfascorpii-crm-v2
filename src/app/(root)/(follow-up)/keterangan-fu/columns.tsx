@@ -8,7 +8,23 @@ import { Column } from '@/components/fragments/table/DataTable';
 
 const columns: Column<IKeteranganFU>[] = [
   { header: 'Keterangan', key: 'keterangan' as keyof IKeteranganFU },
-  { header: 'Kategori Hasil', key: 'kategori_hasil' as keyof IKeteranganFU },
+  {
+    header: 'Kategori Hasil',
+    key: 'kategori_hasil' as keyof IKeteranganFU,
+    getCellContent: (keterangan: IKeteranganFU) => (
+      <span
+        className={clsx({
+          'text-red-400': keterangan.kategori_hasil === 'NOT CONTACTED',
+          'text-red-500': keterangan.kategori_hasil === 'TIDAK BERMINAT',
+          'text-red-700': keterangan.kategori_hasil === 'TIDAK BERTEMU',
+          'text-primary': keterangan.kategori_hasil === 'PROSPECT',
+          'text-green-500': keterangan.kategori_hasil === 'MINAT',
+        })}
+      >
+        {keterangan.kategori_hasil}
+      </span>
+    ),
+  },
   {
     header: 'Status',
     key: 'status' as keyof IKeteranganFU,

@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import Tablesearch from '@/components/fragments/table/tablesearch';
+import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import { fetchPengeluaran } from '@/app/lib/data';
 import DataTable from '@/components/fragments/table/DataTable';
@@ -29,7 +29,10 @@ const Page = async ({
 
   return (
     <div className="flex h-full flex-1 flex-col">
-      <Tablesearch placeholder="Search staff..." />
+      <TableContainerHeader
+        placeholder="Search pengeluaran..."
+        buttonPlaceHolder="Add Pengeluaran"
+      />
       <Suspense fallback={<div>Loading...</div>}>
         <DataTable columns={columns} data={pengeluaran} includeIndex />
       </Suspense>

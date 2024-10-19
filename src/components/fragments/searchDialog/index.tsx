@@ -25,16 +25,20 @@ const SearchDialog = () => {
   };
   return (
     <CommandDialog open={searchDialog} onOpenChange={setSearchDialog}>
-      <CommandInput placeholder="Type a command or search..." />
+      <CommandInput
+        id="search-dialog"
+        name="search-dialog"
+        placeholder="Type a command or search..."
+      />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        {NavItems.map((item) =>
+        {NavItems.map((item, i) =>
           item.isParent ? (
-            <>
+            <React.Fragment key={`${item.title}-parent`}>
               <CommandGroup key={item.title} heading={item.title}>
-                {item.childrens?.map((child) => (
+                {item.childrens?.map((child, j) => (
                   <CommandItem
-                    key={child.title}
+                    key={`${i}-${j}`}
                     onSelect={() => handleSelected(child.href ?? '')}
                   >
                     <span className="mr-2 h-4 w-4">{child.icon}</span>
@@ -42,21 +46,18 @@ const SearchDialog = () => {
                   </CommandItem>
                 ))}
               </CommandGroup>
-              <CommandSeparator />
-            </>
+              <CommandSeparator key={`${item.title}-separator`} />
+            </React.Fragment>
           ) : (
-            <>
-              <CommandGroup key={item.title} heading={item.title}>
-                <CommandItem
-                  key={item.title}
-                  onSelect={() => handleSelected(item.href ?? '')}
-                >
+            <React.Fragment key={`${item.title}-non-parent`}>
+              <CommandGroup key={i} heading={item.title}>
+                <CommandItem onSelect={() => handleSelected(item.href ?? '')}>
                   <span className="mr-2 h-4 w-4">{item.icon}</span>
                   <span>{item.title}</span>
                 </CommandItem>
               </CommandGroup>
-              <CommandSeparator />
-            </>
+              <CommandSeparator key={`${i}-separator`} />
+            </React.Fragment>
           )
         )}
       </CommandList>

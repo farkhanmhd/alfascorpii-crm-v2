@@ -3,7 +3,6 @@
 import React from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
-import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 
 const Tablesearch = ({ placeholder }: { placeholder: string }) => {
@@ -24,20 +23,12 @@ const Tablesearch = ({ placeholder }: { placeholder: string }) => {
   }, 300);
 
   return (
-    <div className="order-2 flex items-center justify-between bg-background pb-6 pt-1 md:order-none md:pt-0">
-      <Input
-        placeholder={placeholder}
-        className="w-full md:max-w-sm"
-        onChange={(e) => handleSearch(e.target.value)}
-        defaultValue={searchParams.get('search')?.toString()}
-      />
-      <Link
-        href="/staff/add"
-        className="hidden rounded-sm bg-primary px-6 py-3 text-sm text-white md:block"
-      >
-        Add Staff
-      </Link>
-    </div>
+    <Input
+      placeholder={placeholder}
+      className="w-full md:max-w-sm"
+      onChange={(e) => handleSearch(e.target.value)}
+      defaultValue={searchParams.get('search')?.toString()}
+    />
   );
 };
 

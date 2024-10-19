@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Prisma, PrismaClient } from '@prisma/client';
-import { searchQuerySchema } from '@/validation';
+import { searchQuerySchema, pekerjaanSchema } from '@/validation';
 
 const prisma = new PrismaClient();
 
@@ -64,6 +64,9 @@ export async function GET(request: NextRequest) {
           kode: true,
           status: true,
         },
+        orderBy: {
+          created_at: 'desc',
+        },
       }),
       prisma.pekerjaan.count({
         where: searchFilter,
@@ -86,5 +89,40 @@ export async function GET(request: NextRequest) {
     });
   } finally {
     await prisma.$disconnect();
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+
+    const validationResult = pekerjaanSchema.safeParse(body);
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.flatten();
+
+      return NextResponse.json({
+        status: 400,
+        message: 'Invalid data',
+        errors,
+      });
+    }
+
+    const pekerjaan = await prisma.pekerjaan.create({
+      data: body,
+    });
+
+    return NextResponse.json({
+      status: 200,
+      message: 'Success',
+      data: pekerjaan,
+    });
+  } catch (error) {
+    return NextResponse.json({
+      status: 500,
+      message: 'Failed to create pekerjaan',
+    });
+  } finally {
+    prisma.$disconnect();
   }
 }

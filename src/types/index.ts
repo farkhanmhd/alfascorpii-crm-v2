@@ -108,7 +108,12 @@ export interface IHariBesar {
 export interface IKeteranganFU {
   id: string;
   keterangan: string;
-  kategori_hasil: string;
+  kategori_hasil:
+    | 'NOT CONTACTED'
+    | 'TIDAK BERTEMU'
+    | 'TIDAK BERMINAT'
+    | 'MINAT'
+    | 'PROSPECT';
   status: 'CONTACTED' | 'NOT CONTACTED';
 }
 
