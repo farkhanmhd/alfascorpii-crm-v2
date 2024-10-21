@@ -1,10 +1,9 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import actionClient from '@/lib/safe-action';
 import { pekerjaanSchema } from '@/validation';
-import { postPekerjaan } from '@/app/lib/data';
+import { postPekerjaan, putPekerjaan } from '@/app/lib/data';
 import { zfd } from 'zod-form-data';
 
 export type AddPekerjaanState = {
@@ -25,5 +24,16 @@ export const addNewPekerjaan = actionClient
       revalidatePath('/customers/pekerjaan');
     } catch (error) {
       return { message: 'Database Error: Failed to add Pekerjaan' };
+    }
+  });
+
+export const updatePekerjaan = actionClient
+  .schema(pekerjaanSchema)
+  .action(async ({ parsedInput: { id = '', pekerjaan, kode, status } }) => {
+    try {
+      await putPekerjaan(id, pekerjaan, kode, status);
+      revalidatePath('/customers/pekerjaan');
+    } catch (error) {
+      return { message: 'Database Error: Failed to update Pekerjaan' };
     }
   });

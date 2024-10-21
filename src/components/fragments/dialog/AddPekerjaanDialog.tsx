@@ -21,9 +21,28 @@ const AddPekerjaanDialog = () => {
   const { execute, hasSucceeded, result } = useAction(addNewPekerjaan);
   const { toast } = useToast();
 
+  const togglePekerjaanDialog = () => {
+    setCreateDialog((prevState) => ({
+      ...prevState,
+      pekerjaan: {
+        ...prevState.pekerjaan,
+        open: !prevState.pekerjaan.open,
+      },
+    }));
+  };
+
   useEffect(() => {
     if (hasSucceeded) {
-      setCreateDialog(false);
+      setCreateDialog((prevState) => ({
+        ...prevState,
+        pekerjaan: {
+          ...prevState.pekerjaan,
+          open: false,
+          id: '',
+          pekerjaan: '',
+          kode: '',
+        },
+      }));
       toast({
         title: 'Success',
         description: 'Pekerjaan added successfully',
@@ -34,7 +53,10 @@ const AddPekerjaanDialog = () => {
   }, [hasSucceeded, setCreateDialog, toast]);
 
   return (
-    <Dialog open={createDialog} onOpenChange={setCreateDialog}>
+    <Dialog
+      open={createDialog.pekerjaan.open}
+      onOpenChange={togglePekerjaanDialog}
+    >
       <DialogContent className="rounded-lg sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Tambah Pekerjaan</DialogTitle>

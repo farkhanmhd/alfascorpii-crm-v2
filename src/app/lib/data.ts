@@ -86,7 +86,7 @@ export const fetchCustomer = async (
     limit,
   });
   const queryParams = searchQueryParams(validatedParams);
-  return fetchData('customer', queryParams);
+  return fetchData('customers', queryParams);
 };
 
 export const fetchKerabat = async (
@@ -100,7 +100,7 @@ export const fetchKerabat = async (
     limit,
   });
   const queryParams = searchQueryParams(validatedParams);
-  return fetchData('customer/kerabat', queryParams);
+  return fetchData('customers/kerabat', queryParams);
 };
 
 export const fetchPekerjaan = async (
@@ -114,7 +114,7 @@ export const fetchPekerjaan = async (
     limit,
   });
   const queryParams = searchQueryParams(validatedParams);
-  return fetchData('customer/pekerjaan', queryParams);
+  return fetchData('customers/pekerjaan', queryParams);
 };
 export const fetchPendidikan = async (
   search: string = '',
@@ -127,7 +127,7 @@ export const fetchPendidikan = async (
     limit,
   });
   const queryParams = searchQueryParams(validatedParams);
-  return fetchData('customer/pendidikan', queryParams);
+  return fetchData('customers/pendidikan', queryParams);
 };
 
 export const fetchPengeluaran = async (
@@ -141,7 +141,7 @@ export const fetchPengeluaran = async (
     limit,
   });
   const queryParams = searchQueryParams(validatedParams);
-  return fetchData('customer/pengeluaran', queryParams);
+  return fetchData('customers/pengeluaran', queryParams);
 };
 
 export const fetchPenghasilan = async (
@@ -155,7 +155,7 @@ export const fetchPenghasilan = async (
     limit,
   });
   const queryParams = searchQueryParams(validatedParams);
-  return fetchData('customer/penghasilan', queryParams);
+  return fetchData('customers/penghasilan', queryParams);
 };
 
 export const fetchHobi = async (
@@ -169,7 +169,7 @@ export const fetchHobi = async (
     limit,
   });
   const queryParams = searchQueryParams(validatedParams);
-  return fetchData('customer/hobi', queryParams);
+  return fetchData('customers/hobi', queryParams);
 };
 
 export const fetchStatusRumah = async (
@@ -183,7 +183,7 @@ export const fetchStatusRumah = async (
     limit,
   });
   const queryParams = searchQueryParams(validatedParams);
-  return fetchData('customer/status-rumah', queryParams);
+  return fetchData('customers/status-rumah', queryParams);
 };
 
 export const fetchLeasing = async (
@@ -278,7 +278,7 @@ export const postPekerjaan = async ({
   kode: string;
 }) => {
   await fetch(
-    `${process.env.API_URL || 'http://localhost:3000'}/api/customer/pekerjaan`,
+    `${process.env.API_URL || 'http://localhost:3000'}/api/customers/pekerjaan`,
     {
       method: 'POST',
       headers: {
@@ -292,6 +292,33 @@ export const postPekerjaan = async ({
   ).then((res) => {
     if (!res.ok) {
       throw new Error('Failed to post pekerjaan');
+    }
+  });
+};
+
+export const putPekerjaan = async (
+  id: string,
+  pekerjaan: string,
+  kode: string,
+  status: string
+) => {
+  await fetch(
+    `${process.env.API_URL || 'http://localhost:3000'}/api/customers/pekerjaan`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id,
+        pekerjaan,
+        kode,
+        status,
+      }),
+    }
+  ).then((res) => {
+    if (!res.ok) {
+      throw new Error('Failed to put pekerjaan');
     }
   });
 };

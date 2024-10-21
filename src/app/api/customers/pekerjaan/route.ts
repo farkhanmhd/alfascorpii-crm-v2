@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
           status: true,
         },
         orderBy: {
-          created_at: 'desc',
+          updated_at: 'desc',
         },
       }),
       prisma.pekerjaan.count({
@@ -122,6 +122,57 @@ export async function POST(request: NextRequest) {
       status: 500,
       message: 'Failed to create pekerjaan',
     });
+  } finally {
+    prisma.$disconnect();
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+    console.log(body);
+
+    const validationResult = pekerjaanSchema.safeParse(body);
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.flatten();
+      return NextResponse.json(
+        {
+          message: 'Invalid data',
+          errors,
+        },
+        { status: 400 }
+      );
+    }
+
+    const updatedPekerjaan = await prisma.pekerjaan.update({
+      where: {
+        id: body.id,
+      },
+      data: {
+        id: body.id,
+        pekerjaan: body.pekerjaan,
+        kode: body.kode,
+        status: body.status,
+        updated_at: new Date(),
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: 'Success',
+        data: updatedPekerjaan,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Failed to update pekerjaan:', error);
+    return NextResponse.json(
+      {
+        message: 'Failed to update pekerjaan',
+      },
+      { status: 500 }
+    );
   } finally {
     prisma.$disconnect();
   }

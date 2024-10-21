@@ -2,37 +2,45 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
-import { IPekerjaan } from '@/types';
-import { Column } from '@/components/fragments/table/DataTable';
+import { IPekerjaan, Column } from '@/types';
+import EditPekerjaanButton from './EditPekerjaanButton';
 
 const columns: Column<IPekerjaan>[] = [
-  { header: 'Pekerjaan', key: 'pekerjaan' as keyof IPekerjaan },
-  { header: 'Kode', key: 'kode' as keyof IPekerjaan },
+  {
+    header: 'Pekerjaan',
+    key: 'pekerjaan',
+    getCellContent: (pekerjaan: IPekerjaan) => pekerjaan.pekerjaan,
+  },
+  {
+    header: 'Kode',
+    key: 'kode',
+    getCellContent: (pekerjaan: IPekerjaan) => pekerjaan.kode,
+  },
   {
     header: 'Status',
-    key: 'status' as keyof IPekerjaan,
-    getCellContent: (dealer: IPekerjaan) => (
+    key: 'status',
+    getCellContent: (pekerjaan: IPekerjaan) => (
       <span
         className={clsx({
-          'text-green-500': dealer.status === 'SHOW',
-          'text-red-500': dealer.status === 'HIDE',
+          'text-green-500': pekerjaan.status === 'SHOW',
+          'text-red-500': pekerjaan.status === 'HIDE',
         })}
       >
-        {dealer.status}
+        {pekerjaan.status}
       </span>
     ),
   },
   {
     header: 'Action',
-    key: 'action' as keyof IPekerjaan,
     getCellContent: (pekerjaan: IPekerjaan) => (
-      <Link
-        className="text-primary hover:underline"
-        href={`/pekerjaan/${pekerjaan.id}`}
-      >
-        Edit
-      </Link>
+      <div className="flex items-center gap-x-2">
+        <EditPekerjaanButton
+          id={pekerjaan.id}
+          pekerjaan={pekerjaan.pekerjaan}
+          kode={pekerjaan.kode}
+          status={pekerjaan.status}
+        />
+      </div>
     ),
   },
 ];

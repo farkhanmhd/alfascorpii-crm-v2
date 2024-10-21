@@ -140,3 +140,40 @@ export interface ISearchQuery {
   page?: number;
   limit?: number;
 }
+
+export interface Column<T, K = keyof T> {
+  header: string;
+  key?: K;
+  getCellContent: (item: T) => React.ReactNode;
+}
+
+export interface DataTableProps<T> {
+  columns: Column<T>[];
+  data: T[];
+  includeIndex?: boolean;
+}
+
+export interface IDialogTables {
+  staff: boolean;
+  customers: boolean;
+  kerabat: boolean;
+  pekerjaan: {
+    open: boolean;
+    id: string;
+    pekerjaan: string;
+    kode: string;
+    status: 'HIDE' | 'SHOW';
+  };
+  pendidikan: boolean;
+  pengeluaran: boolean;
+  penghasilan: boolean;
+  hobi: boolean;
+  status_rumah: boolean;
+  keterangan_fu: boolean;
+  keterangan_hasil: boolean;
+  dealer: boolean;
+  leasing: boolean;
+  model: boolean;
+  hari_besar: boolean;
+  metode_fu: boolean;
+}

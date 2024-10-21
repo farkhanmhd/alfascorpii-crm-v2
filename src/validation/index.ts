@@ -19,6 +19,8 @@ export const searchQuerySchema = z.object({
 });
 
 export const pekerjaanSchema = z.object({
+  id: z.string().uuid().optional(),
   pekerjaan: z.string().min(1, { message: 'Pekerjaan is required' }),
   kode: z.string().min(1, { message: 'Kode is required' }),
+  status: z.enum(['SHOW', 'HIDE']).optional().default('SHOW'),
 });

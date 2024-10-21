@@ -9,18 +9,8 @@ import {
   TableRow,
   TableCell,
 } from '@/components/fragments/table/table';
-
-export interface Column<T> {
-  header: string;
-  key: keyof T;
-  getCellContent?: (item: T) => React.ReactNode;
-}
-
-interface DataTableProps<T> {
-  columns: Column<T>[];
-  data: T[];
-  includeIndex?: boolean;
-}
+import MapItems from '@/utils/MapItems';
+import { Column, DataTableProps } from '@/types';
 
 const DataTable = <T,>({
   columns,
@@ -32,24 +22,28 @@ const DataTable = <T,>({
       <TableHeader>
         <TableRow>
           {includeIndex && <TableHeaderCell>No</TableHeaderCell>}
-          {columns.map((col) => (
-            <TableHeaderCell key={col.header}>{col.header}</TableHeaderCell>
-          ))}
+          <MapItems
+            of={columns}
+            render={(col) => <TableHeaderCell>{col.header}</TableHeaderCell>}
+          />
         </TableRow>
       </TableHeader>
       <TableBody>
         {data.length > 0 ? (
-          data.map((item, rowIndex) => (
-            <TableRow key={rowIndex} className="hover:bg-muted/50">
-              {includeIndex && <TableCell>{rowIndex + 1}</TableCell>}
-              {columns.map((col, colIndex) => (
-                <TableCell key={colIndex}>
-                  {(col.getCellContent && col.getCellContent(item)) ||
-                    (item[col.key] as React.ReactNode)}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))
+          <MapItems
+            of={data}
+            render={(item: T, rowIndex: number) => (
+              <TableRow key={rowIndex} className="hover:bg-muted/50">
+                {includeIndex && <TableCell>{rowIndex + 1}</TableCell>}
+                <MapItems
+                  of={columns}
+                  render={(col: Column<T>) => (
+                    <TableCell>{col.getCellContent(item)}</TableCell>
+                  )}
+                />
+              </TableRow>
+            )}
+          />
         ) : (
           <TableRow>
             <TableCell colSpan={columns.length}>No Data</TableCell>
