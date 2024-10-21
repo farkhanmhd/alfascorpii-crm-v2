@@ -1,9 +1,10 @@
 'use server';
 
+import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import { pekerjaanSchema } from '@/validation';
-import { postPekerjaan, putPekerjaan } from '@/app/lib/data';
+import { postPekerjaan, putPekerjaan, deletePekerjaan } from '@/app/lib/data';
 import { zfd } from 'zod-form-data';
 
 export type AddPekerjaanState = {
@@ -35,5 +36,21 @@ export const updatePekerjaan = actionClient
       revalidatePath('/customers/pekerjaan');
     } catch (error) {
       return { message: 'Database Error: Failed to update Pekerjaan' };
+    }
+  });
+
+const deletePekerjaanSchema = z.object({
+  id: z.string(),
+});
+
+export const removePekerjaan = actionClient
+  .schema(deletePekerjaanSchema)
+  .action(async ({ parsedInput: { id = '' } }) => {
+    console.log(id);
+    try {
+      await deletePekerjaan(id);
+      revalidatePath('/customers/pekerjaan');
+    } catch (error) {
+      return { message: 'Database Error: Failed to delete Pekerjaan' };
     }
   });

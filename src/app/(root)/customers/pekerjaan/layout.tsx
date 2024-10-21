@@ -4,9 +4,10 @@ import React from 'react';
 import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
 import Tablesearch from '@/components/fragments/table/tablesearch';
 import { Button } from '@/components/ui/button';
-import useCreateDialog from '@/hooks/useCreateDialog';
+import { useCreateDialog } from '@/hooks';
 import AddPekerjaanDialog from '@/components/fragments/dialog/AddPekerjaanDialog';
 import EditPekerjaanDialog from '@/components/fragments/dialog/EditPekerjaanDialog';
+import DeletePekerjaanDialog from '@/components/fragments/dialog/DeletePekerjaanDialog';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { setCreateDialog } = useCreateDialog();
@@ -35,6 +36,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       {children}
       <AddPekerjaanDialog />
       <EditPekerjaanDialog />
+      <DeletePekerjaanDialog />
     </div>
   );
 };

@@ -130,7 +130,6 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    console.log(body);
 
     const validationResult = pekerjaanSchema.safeParse(body);
 
@@ -170,6 +169,45 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(
       {
         message: 'Failed to update pekerjaan',
+      },
+      { status: 500 }
+    );
+  } finally {
+    prisma.$disconnect();
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        {
+          message: 'ID is required',
+        },
+        { status: 400 }
+      );
+    }
+
+    await prisma.pekerjaan.delete({
+      where: {
+        id,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: 'Success',
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Failed to delete pekerjaan:', error);
+    return NextResponse.json(
+      {
+        message: 'Failed to delete pekerjaan',
       },
       { status: 500 }
     );

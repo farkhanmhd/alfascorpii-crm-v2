@@ -148,7 +148,7 @@ const EditPekerjaanDialog = () => {
             </div>
           </div>
           <DialogFooter>
-            <SubmitButton />
+            <SubmitButton>Update</SubmitButton>
           </DialogFooter>
         </form>
         {result?.validationErrors?.pekerjaan &&

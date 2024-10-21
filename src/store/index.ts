@@ -21,7 +21,13 @@ const dialogTables: IDialogTables = {
   staff: false,
   customers: false,
   kerabat: false,
-  pekerjaan: false,
+  pekerjaan: {
+    open: false,
+    id: '',
+    pekerjaan: '',
+    kode: '',
+    status: 'SHOW',
+  },
   pendidikan: false,
   pengeluaran: false,
   penghasilan: false,
@@ -38,3 +44,4 @@ const dialogTables: IDialogTables = {
 
 export const createDialogAtom = atom<IDialogTables>(dialogTables);
 export const editDialogAtom = atom<IDialogTables>(dialogTables);
+export const deleteDialogAtom = atom<IDialogTables>(dialogTables);

@@ -11,6 +11,7 @@ import {
   openMenuAtom,
   searchDialogAtom,
   desktopSidenavAtom,
+  deleteDialogAtom,
 } from '@/store';
 
 export const useActiveButton = () => {
@@ -29,6 +30,12 @@ export const useEditDialog = () => {
   const [editDialog, setEditDialog] = useAtom(editDialogAtom);
 
   return { editDialog, setEditDialog };
+};
+
+export const useDeleteDialog = () => {
+  const [deleteDialog, setDeleteDialog] = useAtom(deleteDialogAtom);
+
+  return { deleteDialog, setDeleteDialog };
 };
 
 export const useMobile = () => {

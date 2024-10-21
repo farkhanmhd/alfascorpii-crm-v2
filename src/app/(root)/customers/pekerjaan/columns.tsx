@@ -4,6 +4,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { IPekerjaan, Column } from '@/types';
 import EditPekerjaanButton from './EditPekerjaanButton';
+import DeletePekerjaanButton from './DeletePekerjaanButton';
 
 const columns: Column<IPekerjaan>[] = [
   {
@@ -40,6 +41,7 @@ const columns: Column<IPekerjaan>[] = [
           kode={pekerjaan.kode}
           status={pekerjaan.status}
         />
+        <DeletePekerjaanButton id={pekerjaan.id} />
       </div>
     ),
   },
