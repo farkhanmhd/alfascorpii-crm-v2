@@ -3,8 +3,7 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { Search } from 'lucide-react';
-import useMobileSidenav from '@/hooks/useMobileSidenav';
-import useSearchDialog from '@/hooks/useSearchDialog';
+import { useSearchDialog, useMobileSidenav } from '@/hooks';
 
 const MobileSearchButton = () => {
   const { searchDialog, setSearchDialog } = useSearchDialog();

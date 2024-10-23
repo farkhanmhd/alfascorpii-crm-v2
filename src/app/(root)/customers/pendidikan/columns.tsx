@@ -3,29 +3,31 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { IPendidikan } from '@/types';
-import { Column } from '@/components/fragments/table/DataTable';
+import { IPendidikan, Column } from '@/types';
 
 const columns: Column<IPendidikan>[] = [
-  { header: 'Pendidikan', key: 'pendidikan' as keyof IPendidikan },
-  { header: 'Kode', key: 'kode' as keyof IPendidikan },
+  {
+    header: 'Pendidikan',
+    key: 'pendidikan',
+    getCellContent: (data) => data.pendidikan,
+  },
+  { header: 'Kode', key: 'kode', getCellContent: (data) => data.kode },
   {
     header: 'Status',
-    key: 'status' as keyof IPendidikan,
-    getCellContent: (dealer: IPendidikan) => (
+    key: 'status',
+    getCellContent: (data: IPendidikan) => (
       <span
         className={clsx({
-          'text-green-500': dealer.status === 'SHOW',
-          'text-red-500': dealer.status === 'HIDE',
+          'text-green-500': data.status === 'SHOW',
+          'text-red-500': data.status === 'HIDE',
         })}
       >
-        {dealer.status}
+        {data.status}
       </span>
     ),
   },
   {
     header: 'Action',
-    key: 'action' as keyof IPendidikan,
     getCellContent: (pendidikan: IPendidikan) => (
       <Link
         className="text-primary hover:underline"

@@ -29,7 +29,7 @@ const DataTable = <T,>({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.length > 0 ? (
+        {data && data.length > 0 ? (
           <MapItems
             of={data}
             render={(item: T, rowIndex: number) => (

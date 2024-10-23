@@ -1,8 +1,7 @@
 import React, { Suspense } from 'react';
-import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
 import DataTablePagination from '@/components/fragments/table/pagination';
-import { fetchHariBesar } from '@/app/lib/data';
 import DataTable from '@/components/fragments/table/DataTable';
+import { fetchHariBesar } from '@/app/lib/data/hari-besar';
 import columns from './column';
 
 const Page = async ({
@@ -28,16 +27,12 @@ const Page = async ({
   const { hariBesar, totalPages } = data;
 
   return (
-    <div className="flex h-full flex-1 flex-col">
-      <TableContainerHeader
-        placeholder="Search hari besar..."
-        buttonPlaceHolder="Add Hari Besar"
-      />
+    <>
       <Suspense fallback={<div>Loading...</div>}>
         <DataTable columns={columns} data={hariBesar} includeIndex />
       </Suspense>
       <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </div>
+    </>
   );
 };
 export default Page;

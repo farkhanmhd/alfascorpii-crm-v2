@@ -2,12 +2,12 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import useMobileSidenav from '@/hooks/useMobileSidenav';
+import { useMobileSidenav } from '@/hooks';
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 import MobileNavLinks from './MobileNavLinks';
-import MobileLogo from './MobileLogo';
-import { MobileSidenavItems } from '../sidenav/constants';
+import { MobileLogo } from '../navigation/Logo';
+import { MobileSidenavItems } from '../navigation/constants';
 import ThemeToggle from '../toggle/ThemeToggle';
 
 const MobileSidenav = () => {

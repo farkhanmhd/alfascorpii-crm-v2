@@ -3,14 +3,17 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { IStatusRumah } from '@/types';
-import { Column } from '@/components/fragments/table/DataTable';
+import { IStatusRumah, Column } from '@/types';
 
 const columns: Column<IStatusRumah>[] = [
-  { header: 'Status Rumah', key: 'status_rumah' as keyof IStatusRumah },
+  {
+    header: 'Status Rumah',
+    key: 'status_rumah',
+    getCellContent: (data: IStatusRumah) => data.status_rumah,
+  },
   {
     header: 'Status',
-    key: 'status' as keyof IStatusRumah,
+    key: 'status',
     getCellContent: (statusRumah: IStatusRumah) => (
       <span
         className={clsx({
@@ -24,7 +27,6 @@ const columns: Column<IStatusRumah>[] = [
   },
   {
     header: 'Action',
-    key: 'action' as keyof IStatusRumah,
     getCellContent: (statusRumah: IStatusRumah) => (
       <Link
         className="text-primary hover:underline"

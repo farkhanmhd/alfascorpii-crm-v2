@@ -3,17 +3,28 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { IStaff } from '@/types';
-import { Column } from '@/components/fragments/table/DataTable';
+import { IStaff, Column } from '@/types';
 
 const columns: Column<IStaff>[] = [
-  { header: 'NIP', key: 'nip' as keyof IStaff },
-  { header: 'Username', key: 'username' as keyof IStaff },
-  { header: 'Name', key: 'name' as keyof IStaff },
-  { header: 'Email', key: 'email' as keyof IStaff },
+  { header: 'NIP', key: 'nip', getCellContent: (staff: IStaff) => staff.nip },
+  {
+    header: 'Username',
+    key: 'username',
+    getCellContent: (staff: IStaff) => staff.username,
+  },
+  {
+    header: 'Name',
+    key: 'name',
+    getCellContent: (staff: IStaff) => staff.name,
+  },
+  {
+    header: 'Email',
+    key: 'email',
+    getCellContent: (staff: IStaff) => staff.email,
+  },
   {
     header: 'Status',
-    key: 'status' as keyof IStaff,
+    key: 'status',
     getCellContent: (staff: IStaff) => (
       <span
         className={clsx({
@@ -26,10 +37,13 @@ const columns: Column<IStaff>[] = [
       </span>
     ),
   },
-  { header: 'Role', key: 'role' as keyof IStaff },
+  {
+    header: 'Role',
+    key: 'role',
+    getCellContent: (staff: IStaff) => staff.role,
+  },
   {
     header: 'Action',
-    key: 'action' as keyof IStaff,
     getCellContent: (staff: IStaff) => (
       <Link
         className="text-primary hover:underline"

@@ -1,3 +1,17 @@
+type Status = 'HIDE' | 'SHOW';
+type ActiveStatus = 'AKTIF' | 'HOLD';
+type ContactStatus = 'CONTACTED' | 'NOT CONTACTED';
+type InterestStatus =
+  | 'NOT CONTACTED'
+  | 'TIDAK BERTEMU'
+  | 'TIDAK BERMINAT'
+  | 'MINAT'
+  | 'PROSPECT';
+
+interface IIdentifiable {
+  id: string;
+}
+
 export interface NavItem {
   title: string;
   href?: string;
@@ -8,8 +22,7 @@ export interface NavItem {
   childrens?: NavItem[];
 }
 
-export interface IStaff {
-  id: string;
+export interface IStaff extends IIdentifiable {
   username: string;
   name: string;
   email: string;
@@ -21,15 +34,13 @@ export interface IStaff {
   updated_at: string;
 }
 
-export interface IDealer {
-  id: string;
+export interface IDealer extends IIdentifiable {
   kode: string;
   nama: string;
-  status: 'HIDE' | 'SHOW';
+  status: Status;
 }
 
-export interface ICustomer {
-  id: string;
+export interface ICustomer extends IIdentifiable {
   dealer: string;
   name: string;
   phone: string;
@@ -38,101 +49,78 @@ export interface ICustomer {
   lokasi: string;
 }
 
-export interface IKerabat {
-  id: string;
+export interface IKerabat extends IIdentifiable {
   kerabat: string;
-  status: 'HIDE' | 'SHOW';
+  status: Status;
 }
 
-export interface IPekerjaan {
-  id: string;
+export interface IPekerjaan extends IIdentifiable {
   pekerjaan: string;
   kode: string;
-  status: 'HIDE' | 'SHOW';
+  status: Status;
 }
 
-export interface IPendidikan {
-  id: string;
+export interface IPendidikan extends IIdentifiable {
   pendidikan: string;
   kode: string;
-  status: 'HIDE' | 'SHOW';
+  status: Status;
 }
 
-interface IKeuangan {
-  id: string;
+interface IKeuangan extends IIdentifiable {
   batas_bawah: number;
   batas_atas: number;
   detail: string;
   kode: string;
-  status: 'HIDE' | 'SHOW';
+  status: Status;
 }
 
 export interface IPengeluaran extends IKeuangan {}
-
 export interface IPenghasilan extends IKeuangan {}
 
-export interface IHobi {
-  id: string;
+export interface IHobi extends IIdentifiable {
   hobi: string;
-  status: 'HIDE' | 'SHOW';
+  status: Status;
 }
 
-export interface IStatusRumah {
-  id: string;
+export interface IStatusRumah extends IIdentifiable {
   status_rumah: string;
-  status: 'HIDE' | 'SHOW';
+  status: Status;
 }
 
-export interface ILeasing {
-  id: string;
+export interface ILeasing extends IIdentifiable {
   nama: string;
 }
 
-export interface IDpackModel {
-  id: string;
+export interface IDpackModel extends IIdentifiable {
   model: string;
   catalog: string;
   category: string;
   color: string;
 }
 
-export interface IHariBesar {
-  id: string;
+export interface IHariBesar extends IIdentifiable {
   hari_besar: string;
   tanggal: string;
   agama: string;
   ucapan: string;
-  status: 'AKTIF' | 'HOLD';
+  status: ActiveStatus;
 }
 
-export interface IKeteranganFU {
-  id: string;
+export interface IKeteranganFU extends IIdentifiable {
   keterangan: string;
-  kategori_hasil:
-    | 'NOT CONTACTED'
-    | 'TIDAK BERTEMU'
-    | 'TIDAK BERMINAT'
-    | 'MINAT'
-    | 'PROSPECT';
-  status: 'CONTACTED' | 'NOT CONTACTED';
+  kategori_hasil: InterestStatus;
+  status: ContactStatus;
 }
 
-export interface IMetodeFU {
-  id: string;
+export interface IMetodeFU extends IIdentifiable {
   metode: string;
-  status: 'SHOW' | 'HIDE';
+  status: Status;
 }
 
-export interface IKeteranganHasil {
-  id: string;
-  keterangan_hasil:
-    | 'NOT CONTACTED'
-    | 'TIDAK BERTEMU'
-    | 'TIDAK BERMINAT'
-    | 'MINAT'
-    | 'PROSPECT';
-  status_fu: 'CONTACTED' | 'NOT CONTACTED';
-  status: 'SHOW' | 'HIDE';
+export interface IKeteranganHasil extends IIdentifiable {
+  keterangan_hasil: InterestStatus;
+  status_fu: ContactStatus;
+  status: Status;
 }
 
 export interface ISearchQuery {
@@ -162,7 +150,7 @@ export interface IDialogTables {
     id: string;
     pekerjaan: string;
     kode: string;
-    status: 'HIDE' | 'SHOW';
+    status: Status;
   };
   pendidikan: boolean;
   pengeluaran: boolean;
@@ -177,3 +165,54 @@ export interface IDialogTables {
   hari_besar: boolean;
   metode_fu: boolean;
 }
+
+export type NavLinkProps = {
+  href?: string;
+  title: string;
+  icon: React.ReactNode;
+  onClick?: () => void;
+  isOpen?: boolean;
+  showText: boolean;
+};
+
+export type NavLinksProps = {
+  items: NavItem[];
+  isOpen: boolean;
+  isMobile?: boolean;
+};
+
+export interface NavLinkBaseProps {
+  href: string;
+  title: string;
+  icon: React.ReactNode;
+  onClick?: () => void;
+  isOpen?: boolean;
+  isSubMenu?: boolean;
+  show: boolean;
+}
+
+export interface SubMenuProp {
+  href: string;
+  title: string;
+  icon: React.ReactNode;
+  onClick?: () => void;
+}
+
+export type SearchQueryParams = {
+  search?: string;
+  page?: string;
+  limit?: string;
+};
+
+export type ValidationError = {
+  status: number;
+  message: string;
+  errors: Record<string, string[]>;
+};
+
+export type ApiResponse<T = any> = {
+  status: number;
+  message: string;
+  data?: T;
+  errors?: Record<string, string[]>;
+};

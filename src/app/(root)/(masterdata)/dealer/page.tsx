@@ -1,8 +1,7 @@
 import React, { Suspense } from 'react';
-import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
 import DataTablePagination from '@/components/fragments/table/pagination';
-import { fetchDealer } from '@/app/lib/data';
 import DataTable from '@/components/fragments/table/DataTable';
+import { fetchDealer } from '@/app/lib/data/dealer';
 import columns from './column';
 
 const Page = async ({
@@ -28,16 +27,12 @@ const Page = async ({
   const { dealers, totalPages } = data;
 
   return (
-    <div className="flex h-full flex-1 flex-col">
-      <TableContainerHeader
-        placeholder="Search dealer..."
-        buttonPlaceHolder="Add Dealer"
-      />
+    <>
       <Suspense fallback={<div>Loading...</div>}>
         <DataTable columns={columns} data={dealers} includeIndex />
       </Suspense>
       <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </div>
+    </>
   );
 };
 export default Page;

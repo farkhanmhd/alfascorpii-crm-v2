@@ -3,22 +3,25 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { IKerabat } from '@/types';
-import { Column } from '@/components/fragments/table/DataTable';
+import { IKerabat, Column } from '@/types';
 
 const columns: Column<IKerabat>[] = [
-  { header: 'Kerabat', key: 'kerabat' as keyof IKerabat },
+  {
+    header: 'Kerabat',
+    key: 'kerabat',
+    getCellContent: (kerabat: IKerabat) => kerabat.kerabat,
+  },
   {
     header: 'Status',
     key: 'status' as keyof IKerabat,
-    getCellContent: (dealer: IKerabat) => (
+    getCellContent: (kerabat: IKerabat) => (
       <span
         className={clsx({
-          'text-green-500': dealer.status === 'SHOW',
-          'text-red-500': dealer.status === 'HIDE',
+          'text-green-500': kerabat.status === 'SHOW',
+          'text-red-500': kerabat.status === 'HIDE',
         })}
       >
-        {dealer.status}
+        {kerabat.status}
       </span>
     ),
   },

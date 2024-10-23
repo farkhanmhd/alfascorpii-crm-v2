@@ -1,84 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Prisma, PrismaClient } from '@prisma/client';
-import { searchQuerySchema, pekerjaanSchema } from '@/validation';
-
-const prisma = new PrismaClient();
+import { searchQuerySchema, pekerjaanSchema } from '@/validation/schemas';
+import schemaValidator from '@/validation/validator';
+import PekerjaanService from '@/services/customers/pekerjaan';
 
 export async function GET(request: NextRequest) {
   try {
-    const url = new URL(request.url);
-    const { searchParams } = url;
+    const { searchParams } = new URL(request.url);
+    const params = {
+      search: searchParams.get('search') || undefined,
+      page: searchParams.get('page') || undefined,
+      limit: searchParams.get('limit') || undefined,
+    };
 
-    const search = searchParams.get('search') || undefined;
-    const page = searchParams.get('page') || undefined;
-    const limit = searchParams.get('limit') || undefined;
-
-    const validationResult = searchQuerySchema.safeParse({
-      search,
-      page,
-      limit,
-    });
-
-    if (!validationResult.success) {
-      const errors = validationResult.error.flatten();
-
-      console.error('Validation Errors:', errors);
-
-      return NextResponse.json(
-        {
-          status: 400,
-          message: 'Invalid query parameters',
-          errors: {
-            page: errors.fieldErrors.page || [],
-            limit: errors.fieldErrors.limit || [],
-          },
-        },
-        { status: 400 }
-      );
-    }
+    const validatedSearchQuery = schemaValidator(searchQuerySchema, params);
 
     const {
       search: validatedSearch,
       page: validatedPage,
       limit: validatedLimit,
-    } = validationResult.data;
+    } = validatedSearchQuery.data;
 
-    const offset = (validatedPage - 1) * validatedLimit;
-
-    const searchFilter: Prisma.PekerjaanWhereInput = validatedSearch
-      ? {
-          OR: [
-            { pekerjaan: { contains: validatedSearch, mode: 'insensitive' } },
-          ],
-        }
-      : {};
-
-    const [pekerjaan, totalCount] = await prisma.$transaction([
-      prisma.pekerjaan.findMany({
-        where: searchFilter,
-        skip: offset,
-        take: validatedLimit,
-        select: {
-          id: true,
-          pekerjaan: true,
-          kode: true,
-          status: true,
-        },
-        orderBy: {
-          updated_at: 'desc',
-        },
-      }),
-      prisma.pekerjaan.count({
-        where: searchFilter,
-      }),
-    ]);
+    const { pekerjaan, totalPages } = await PekerjaanService.getListPekerjaan(
+      validatedPage,
+      validatedLimit,
+      validatedSearch
+    );
 
     return NextResponse.json({
       status: 200,
       message: 'Success',
       data: {
         pekerjaan,
-        totalPages: Math.ceil(totalCount / validatedLimit),
+        totalPages,
       },
     });
   } catch (error) {
@@ -87,8 +40,6 @@ export async function GET(request: NextRequest) {
       status: 500,
       message: 'Failed to fetch pekerjaan data',
     });
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -96,34 +47,25 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const validationResult = pekerjaanSchema.safeParse(body);
+    const validatedBody = schemaValidator(pekerjaanSchema, body);
 
-    if (!validationResult.success) {
-      const errors = validationResult.error.flatten();
+    const { pekerjaan, kode } = validatedBody.data;
 
-      return NextResponse.json({
-        status: 400,
-        message: 'Invalid data',
-        errors,
-      });
-    }
-
-    const pekerjaan = await prisma.pekerjaan.create({
-      data: body,
-    });
+    const newPekerjaan = await PekerjaanService.createNewPekerjaan(
+      pekerjaan,
+      kode
+    );
 
     return NextResponse.json({
       status: 200,
       message: 'Success',
-      data: pekerjaan,
+      data: newPekerjaan,
     });
   } catch (error) {
     return NextResponse.json({
       status: 500,
       message: 'Failed to create pekerjaan',
     });
-  } finally {
-    prisma.$disconnect();
   }
 }
 
@@ -131,31 +73,16 @@ export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const validationResult = pekerjaanSchema.safeParse(body);
+    const validatedBody = schemaValidator(pekerjaanSchema, body);
 
-    if (!validationResult.success) {
-      const errors = validationResult.error.flatten();
-      return NextResponse.json(
-        {
-          message: 'Invalid data',
-          errors,
-        },
-        { status: 400 }
-      );
-    }
+    const { id, pekerjaan, kode, status } = validatedBody.data;
 
-    const updatedPekerjaan = await prisma.pekerjaan.update({
-      where: {
-        id: body.id,
-      },
-      data: {
-        id: body.id,
-        pekerjaan: body.pekerjaan,
-        kode: body.kode,
-        status: body.status,
-        updated_at: new Date(),
-      },
-    });
+    const updatedPekerjaan = await PekerjaanService.updatePekerjaan(
+      id,
+      pekerjaan,
+      kode,
+      status
+    );
 
     return NextResponse.json(
       {
@@ -165,15 +92,12 @@ export async function PUT(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Failed to update pekerjaan:', error);
     return NextResponse.json(
       {
-        message: 'Failed to update pekerjaan',
+        message: 'Server Error',
       },
       { status: 500 }
     );
-  } finally {
-    prisma.$disconnect();
   }
 }
 
@@ -191,11 +115,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    await prisma.pekerjaan.delete({
-      where: {
-        id,
-      },
-    });
+    await PekerjaanService.deletePekerjaan(id);
 
     return NextResponse.json(
       {
@@ -204,14 +124,11 @@ export async function DELETE(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Failed to delete pekerjaan:', error);
     return NextResponse.json(
       {
-        message: 'Failed to delete pekerjaan',
+        message: 'Server Error',
       },
       { status: 500 }
     );
-  } finally {
-    prisma.$disconnect();
   }
 }

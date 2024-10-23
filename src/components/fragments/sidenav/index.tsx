@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import clsx from 'clsx';
-import useSidebarDesktop from '@/hooks/useSidebarDesktop';
+import { useSidebarDesktop } from '@/hooks';
 import useClickOutside from '@/hooks/useClickOutside';
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
-import NavLinks from './NavLinks';
-import Logo from './Logo';
+import SideNavLinks from './SideNavLinks';
+import { Logo } from '../navigation/Logo';
 import SidebarMenuButton from '../buttons/SidebarMenuButton';
-import { NavItems } from './constants';
+import { NavItems } from '../navigation/constants';
 
 const Sidenav = () => {
   const sidenavRef = useRef<HTMLBaseElement>(null);
@@ -44,7 +44,7 @@ const Sidenav = () => {
           </Link>
           {sidebarOpen && <SidebarMenuButton />}
         </div>
-        <NavLinks items={NavItems} />
+        <SideNavLinks items={NavItems} />
       </div>
       <button
         type="button"

@@ -1,8 +1,7 @@
 import React, { Suspense } from 'react';
-import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
 import DataTablePagination from '@/components/fragments/table/pagination';
-import { fetchStaff } from '@/app/lib/data';
 import DataTable from '@/components/fragments/table/DataTable';
+import { fetchStaff } from '@/app/lib/data/staff';
 import columns from './columns';
 
 const Page = async ({
@@ -28,16 +27,12 @@ const Page = async ({
   const { staffs, totalPages } = data;
 
   return (
-    <div className="flex h-full flex-1 flex-col">
-      <TableContainerHeader
-        placeholder="Search staff..."
-        buttonPlaceHolder="Add Staff"
-      />
+    <>
       <Suspense fallback={<div>Loading...</div>}>
         <DataTable columns={columns} data={staffs} includeIndex />
       </Suspense>
       <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </div>
+    </>
   );
 };
 export default Page;

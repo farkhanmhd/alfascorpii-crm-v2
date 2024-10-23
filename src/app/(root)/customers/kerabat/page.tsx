@@ -1,8 +1,7 @@
 import React, { Suspense } from 'react';
-import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
 import DataTablePagination from '@/components/fragments/table/pagination';
-import { fetchKerabat } from '@/app/lib/data';
 import DataTable from '@/components/fragments/table/DataTable';
+import { fetchKerabat } from '@/app/lib/data/customers/kerabat';
 import columns from './columns';
 
 const Page = async ({
@@ -28,16 +27,12 @@ const Page = async ({
   const { kerabat, totalPages } = data;
 
   return (
-    <div className="flex h-full flex-1 flex-col">
-      <TableContainerHeader
-        placeholder="Search kerabat..."
-        buttonPlaceHolder="Add Kerabat"
-      />
+    <>
       <Suspense fallback={<div>Loading...</div>}>
         <DataTable columns={columns} data={kerabat} includeIndex />
       </Suspense>
       <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </div>
+    </>
   );
 };
 export default Page;

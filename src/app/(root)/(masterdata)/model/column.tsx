@@ -2,17 +2,23 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { IDpackModel } from '@/types';
-import { Column } from '@/components/fragments/table/DataTable';
+import { IDpackModel, Column } from '@/types';
 
 const columns: Column<IDpackModel>[] = [
-  { header: 'Model', key: 'model' as keyof IDpackModel },
-  { header: 'Catalog', key: 'catalog' as keyof IDpackModel },
-  { header: 'Category', key: 'category' as keyof IDpackModel },
-  { header: 'Color', key: 'color' as keyof IDpackModel },
+  { header: 'Model', key: 'model', getCellContent: (model) => model.model },
+  {
+    header: 'Catalog',
+    key: 'catalog',
+    getCellContent: (model) => model.catalog,
+  },
+  {
+    header: 'Category',
+    key: 'category',
+    getCellContent: (model) => model.category,
+  },
+  { header: 'Color', key: 'color', getCellContent: (model) => model.color },
   {
     header: 'Action',
-    key: 'action' as keyof IDpackModel,
     getCellContent: (model: IDpackModel) => (
       <Link
         className="text-primary hover:underline"

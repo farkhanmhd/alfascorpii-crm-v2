@@ -3,11 +3,10 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { IHobi } from '@/types';
-import { Column } from '@/components/fragments/table/DataTable';
+import { IHobi, Column } from '@/types';
 
 const columns: Column<IHobi>[] = [
-  { header: 'Hobi', key: 'hobi' as keyof IHobi },
+  { header: 'Hobi', key: 'hobi', getCellContent: (hobi: IHobi) => hobi.hobi },
   {
     header: 'Status',
     key: 'status' as keyof IHobi,

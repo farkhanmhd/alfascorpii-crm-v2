@@ -5,9 +5,9 @@ import TableContainerHeader from '@/components/fragments/table/TableContainerHea
 import Tablesearch from '@/components/fragments/table/tablesearch';
 import { Button } from '@/components/ui/button';
 import { useCreateDialog } from '@/hooks';
-import AddPekerjaanDialog from '@/components/fragments/dialog/AddPekerjaanDialog';
-import EditPekerjaanDialog from '@/components/fragments/dialog/EditPekerjaanDialog';
-import DeletePekerjaanDialog from '@/components/fragments/dialog/DeletePekerjaanDialog';
+import AddPekerjaanDialog from './AddPekerjaanDialog';
+import EditPekerjaanDialog from './EditPekerjaanDialog';
+import DeletePekerjaanDialog from './DeletePekerjaanDialog';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { setCreateDialog } = useCreateDialog();
@@ -18,9 +18,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       pekerjaan: {
         ...prevState.pekerjaan,
         open: true,
-        id: '',
-        pekerjaan: '',
-        kode: '',
       },
     }));
   };

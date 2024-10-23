@@ -1,8 +1,7 @@
 import React, { Suspense } from 'react';
-import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
 import DataTablePagination from '@/components/fragments/table/pagination';
-import { fetchKeteranganFU } from '@/app/lib/data';
 import DataTable from '@/components/fragments/table/DataTable';
+import { fetchKeteranganFU } from '@/app/lib/data/keterangan-fu';
 import columns from './columns';
 
 const Page = async ({
@@ -28,16 +27,12 @@ const Page = async ({
   const { keteranganFU, totalPages } = data;
 
   return (
-    <div className="flex h-full flex-1 flex-col">
-      <TableContainerHeader
-        placeholder="Search Keterangan FU..."
-        buttonPlaceHolder="Add Keterangan FU"
-      />
+    <>
       <Suspense fallback={<div>Loading...</div>}>
         <DataTable columns={columns} data={keteranganFU} includeIndex />
       </Suspense>
       <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </div>
+    </>
   );
 };
 export default Page;

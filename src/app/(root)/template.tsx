@@ -2,8 +2,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import useMobile from '@/hooks/useMobile';
-import useSidebarDesktop from '@/hooks/useSidebarDesktop';
+import { useSidebarDesktop, useMobile } from '@/hooks';
 import Sidenav from '@/components/fragments/sidenav';
 import MobileNav from '@/components/fragments/mobilenav';
 import SectionHeader from '@/components/fragments/header/SectionHeader';

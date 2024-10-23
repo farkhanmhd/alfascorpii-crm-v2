@@ -3,14 +3,17 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { IMetodeFU } from '@/types';
-import { Column } from '@/components/fragments/table/DataTable';
+import { IMetodeFU, Column } from '@/types';
 
 const columns: Column<IMetodeFU>[] = [
-  { header: 'Metode', key: 'metode' as keyof IMetodeFU },
+  {
+    header: 'Metode',
+    key: 'metode',
+    getCellContent: (metode: IMetodeFU) => metode.metode,
+  },
   {
     header: 'Status',
-    key: 'status' as keyof IMetodeFU,
+    key: 'status',
     getCellContent: (metode: IMetodeFU) => (
       <span
         className={clsx({
@@ -24,7 +27,6 @@ const columns: Column<IMetodeFU>[] = [
   },
   {
     header: 'Action',
-    key: 'action' as keyof IMetodeFU,
     getCellContent: (metode: IMetodeFU) => (
       <Link
         className="text-primary hover:underline"

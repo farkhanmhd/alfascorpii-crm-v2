@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import useSidebarDesktop from '@/hooks/useSidebarDesktop';
+import { useSidebarDesktop } from '@/hooks';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 

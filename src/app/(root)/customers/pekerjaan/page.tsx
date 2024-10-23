@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import DataTablePagination from '@/components/fragments/table/pagination';
-import { fetchPekerjaan } from '@/app/lib/data';
 import DataTable from '@/components/fragments/table/DataTable';
+import { fetchPekerjaan } from '@/app/lib/data/customers/pekerjaan';
 import columns from './columns';
 
 const Page = async ({

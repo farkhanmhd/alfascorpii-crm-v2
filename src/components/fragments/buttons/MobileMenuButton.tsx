@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import useMobileSidenav from '@/hooks/useMobileSidenav';
+import { useMobileSidenav } from '@/hooks';
 import { Menu, X } from 'lucide-react';
 
 const MobileMenuButton = () => {

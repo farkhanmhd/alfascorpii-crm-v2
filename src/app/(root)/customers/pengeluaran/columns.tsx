@@ -3,17 +3,32 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { IPengeluaran } from '@/types';
-import { Column } from '@/components/fragments/table/DataTable';
+import { IPengeluaran, Column } from '@/types';
 
 const columns: Column<IPengeluaran>[] = [
-  { header: 'Batas Bawah', key: 'batas_bawah' as keyof IPengeluaran },
-  { header: 'Batas Atas', key: 'batas_atas' as keyof IPengeluaran },
-  { header: 'Detail', key: 'detail' as keyof IPengeluaran },
-  { header: 'Kode', key: 'kode' as keyof IPengeluaran },
+  {
+    header: 'Batas Bawah',
+    key: 'batas_bawah',
+    getCellContent: (data: IPengeluaran) => data.batas_bawah,
+  },
+  {
+    header: 'Batas Atas',
+    key: 'batas_atas',
+    getCellContent: (data: IPengeluaran) => data.batas_atas,
+  },
+  {
+    header: 'Detail',
+    key: 'detail',
+    getCellContent: (data: IPengeluaran) => data.detail,
+  },
+  {
+    header: 'Kode',
+    key: 'kode',
+    getCellContent: (data: IPengeluaran) => data.kode,
+  },
   {
     header: 'Status',
-    key: 'status' as keyof IPengeluaran,
+    key: 'status',
     getCellContent: (pengeluaran: IPengeluaran) => (
       <span
         className={clsx({
@@ -27,7 +42,6 @@ const columns: Column<IPengeluaran>[] = [
   },
   {
     header: 'Action',
-    key: 'action' as keyof IPengeluaran,
     getCellContent: (pengeluaran: IPengeluaran) => (
       <Link
         className="text-primary hover:underline"

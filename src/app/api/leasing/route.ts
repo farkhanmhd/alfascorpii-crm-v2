@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Prisma, PrismaClient } from '@prisma/client';
-import { searchQuerySchema } from '@/validation';
+import { searchQuerySchema } from '@/validation/schemas';
 
 const prisma = new PrismaClient();
 

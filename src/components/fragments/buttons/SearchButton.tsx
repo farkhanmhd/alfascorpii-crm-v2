@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import useSearchDialog from '@/hooks/useSearchDialog';
+import { useSearchDialog } from '@/hooks';
 import { Button } from '@/components/ui/button';
 
 const SearchButton = () => {

@@ -3,14 +3,17 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { IKeteranganFU } from '@/types';
-import { Column } from '@/components/fragments/table/DataTable';
+import { IKeteranganFU, Column } from '@/types';
 
 const columns: Column<IKeteranganFU>[] = [
-  { header: 'Keterangan', key: 'keterangan' as keyof IKeteranganFU },
+  {
+    header: 'Keterangan',
+    key: 'keterangan',
+    getCellContent: (k: IKeteranganFU) => k.keterangan,
+  },
   {
     header: 'Kategori Hasil',
-    key: 'kategori_hasil' as keyof IKeteranganFU,
+    key: 'kategori_hasil',
     getCellContent: (keterangan: IKeteranganFU) => (
       <span
         className={clsx({
@@ -27,7 +30,7 @@ const columns: Column<IKeteranganFU>[] = [
   },
   {
     header: 'Status',
-    key: 'status' as keyof IKeteranganFU,
+    key: 'status',
     getCellContent: (keterangan: IKeteranganFU) => (
       <span
         className={clsx({
@@ -41,7 +44,6 @@ const columns: Column<IKeteranganFU>[] = [
   },
   {
     header: 'Action',
-    key: 'action' as keyof IKeteranganFU,
     getCellContent: (keterangan: IKeteranganFU) => (
       <Link
         className="text-primary hover:underline"

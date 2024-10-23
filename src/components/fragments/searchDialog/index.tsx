@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import useSearchDialog from '@/hooks/useSearchDialog';
+import { useSearchDialog } from '@/hooks';
 
 import {
   CommandDialog,
@@ -14,7 +14,7 @@ import {
   CommandSeparator,
 } from '@/components/ui/command';
 
-import { NavItems } from '../sidenav/constants';
+import { NavItems } from '../navigation/constants';
 
 const SearchDialog = () => {
   const router = useRouter();
