@@ -24,7 +24,9 @@ const DataTable = <T,>({
           {includeIndex && <TableHeaderCell>No</TableHeaderCell>}
           <MapItems
             of={columns}
-            render={(col) => <TableHeaderCell>{col.header}</TableHeaderCell>}
+            render={(col, index) => (
+              <TableHeaderCell key={index}>{col.header}</TableHeaderCell>
+            )}
           />
         </TableRow>
       </TableHeader>
@@ -37,8 +39,10 @@ const DataTable = <T,>({
                 {includeIndex && <TableCell>{rowIndex + 1}</TableCell>}
                 <MapItems
                   of={columns}
-                  render={(col: Column<T>) => (
-                    <TableCell>{col.getCellContent(item)}</TableCell>
+                  render={(col: Column<T>, index) => (
+                    <TableCell key={index}>
+                      {col.getCellContent(item)}
+                    </TableCell>
                   )}
                 />
               </TableRow>

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { searchQuerySchema } from '@/validation/schemas';
 import CustomersServive from '@/services/customers';
 import schemaValidator from '@/validation/validator';
-import { validationError } from '@/app/api/errors';
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,8 +9,7 @@ export async function GET(request: NextRequest) {
 
     const validatedSearchQuery = schemaValidator(
       searchQuerySchema,
-      searchParams,
-      validationError
+      searchParams
     );
 
     const {

@@ -33,6 +33,7 @@ const fetchData = async (endpoint: string, params: SearchQueryParams) => {
   const fetchUrl = `${process.env.API_URL || 'http://localhost:3000'}/api/${endpoint}/?${queryParams.toString()}`;
 
   const res = await fetch(fetchUrl, {
+    cache: 'no-store',
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

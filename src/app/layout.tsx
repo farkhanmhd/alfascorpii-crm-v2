@@ -30,17 +30,19 @@ const RootLayout = ({
         className={`${inter.className} overflow-hidden bg-background antialiased backdrop-blur-md dark:bg-background`}
       >
         <GlobalProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <NextTopLoader showSpinner={false} />
-            <SearchDialog />
-            <ClientOnly>{children}</ClientOnly>
-            <Toaster />
-          </ThemeProvider>
+          <ClientOnly>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <NextTopLoader showSpinner={false} />
+              <SearchDialog />
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </ClientOnly>
         </GlobalProvider>
       </body>
     </html>
