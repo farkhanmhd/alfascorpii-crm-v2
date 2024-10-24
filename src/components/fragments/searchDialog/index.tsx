@@ -13,7 +13,6 @@ import {
   CommandItem,
   CommandSeparator,
 } from '@/components/ui/command';
-
 import { NavItems } from '../navigation/constants';
 
 const SearchDialog = () => {

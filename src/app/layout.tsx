@@ -6,6 +6,8 @@ import GlobalProvider from '@/components/providers/global';
 import ThemeProvider from '@/components/providers/theme-provider';
 import SearchDialog from '@/components/fragments/searchDialog';
 import { Toaster } from '@/components/ui/toaster';
+import NextTopLoader from 'nextjs-toploader';
+import ClientOnly from '@/components/ClientOnly';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -34,8 +36,9 @@ const RootLayout = ({
             enableSystem
             disableTransitionOnChange
           >
+            <NextTopLoader showSpinner={false} />
             <SearchDialog />
-            {children}
+            <ClientOnly>{children}</ClientOnly>
             <Toaster />
           </ThemeProvider>
         </GlobalProvider>
