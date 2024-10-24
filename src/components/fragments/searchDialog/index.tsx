@@ -13,6 +13,7 @@ import {
   CommandItem,
   CommandSeparator,
 } from '@/components/ui/command';
+import { DialogTitle } from '@/components/ui/dialog';
 import { NavItems } from '../navigation/constants';
 
 const SearchDialog = () => {
@@ -24,6 +25,7 @@ const SearchDialog = () => {
   };
   return (
     <CommandDialog open={searchDialog} onOpenChange={setSearchDialog}>
+      <DialogTitle className="hidden">Search</DialogTitle>
       <CommandInput
         id="search-dialog"
         name="search-dialog"
