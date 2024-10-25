@@ -11,7 +11,6 @@ const SubmitButton = ({
 }: {
   className?: string;
   children: React.ReactNode;
-  onClick?: () => void;
   variant?:
     | 'default'
     | 'destructive'

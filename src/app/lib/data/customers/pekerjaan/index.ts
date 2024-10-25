@@ -14,7 +14,7 @@ export const postPekerjaan = async ({
   kode: string;
 }) => {
   await fetch(
-    `${process.env.API_URL || 'http://localhost:3000'}/api/customers/pekerjaan`,
+    `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/customers/pekerjaan`,
     {
       method: 'POST',
       headers: {
@@ -39,7 +39,7 @@ export const putPekerjaan = async (
   status: string
 ) => {
   await fetch(
-    `${process.env.API_URL || 'http://localhost:3000'}/api/customers/pekerjaan`,
+    `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/customers/pekerjaan`,
     {
       method: 'PUT',
       headers: {
@@ -61,7 +61,7 @@ export const putPekerjaan = async (
 
 export const deletePekerjaan = async (id: string) => {
   const response = await fetch(
-    `${process.env.API_URL || 'http://localhost:3000'}/api/customers/pekerjaan?id=${id}`,
+    `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/customers/pekerjaan?id=${id}`,
     {
       method: 'DELETE',
     }

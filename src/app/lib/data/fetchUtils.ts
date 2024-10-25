@@ -30,7 +30,7 @@ const createQueryParams = (params: {
 const fetchData = async (endpoint: string, params: SearchQueryParams) => {
   const validatedParams = validateSearchQuery(searchQuerySchema, params);
   const queryParams = createQueryParams(validatedParams);
-  const fetchUrl = `${process.env.API_URL || 'http://localhost:3000'}/api/${endpoint}/?${queryParams.toString()}`;
+  const fetchUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/${endpoint}/?${queryParams.toString()}`;
 
   const res = await fetch(fetchUrl, {
     cache: 'no-store',

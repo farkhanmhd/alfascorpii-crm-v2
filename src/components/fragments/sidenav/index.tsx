@@ -10,6 +10,7 @@ import SideNavLinks from './SideNavLinks';
 import { Logo } from '../navigation/Logo';
 import SidebarMenuButton from '../buttons/SidebarMenuButton';
 import { NavItems } from '../navigation/constants';
+import { signOut } from 'next-auth/react';
 
 const Sidenav = () => {
   const sidenavRef = useRef<HTMLBaseElement>(null);
@@ -52,6 +53,7 @@ const Sidenav = () => {
           'px-9': sidebarOpen,
           'justify-center': !sidebarOpen,
         })}
+        onClick={() => signOut()}
       >
         <div className="flex gap-x-6 rounded-xl py-3 text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary">
           <LogOut />

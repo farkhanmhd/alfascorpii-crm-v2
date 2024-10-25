@@ -8,6 +8,7 @@ import SearchDialog from '@/components/fragments/searchDialog';
 import { Toaster } from '@/components/ui/toaster';
 import NextTopLoader from 'nextjs-toploader';
 import ClientOnly from '@/components/ClientOnly';
+import NextAuthProvider from '@/components/providers/next-auth';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -29,21 +30,23 @@ const RootLayout = ({
       <body
         className={`${inter.className} overflow-hidden bg-background antialiased backdrop-blur-md dark:bg-background`}
       >
-        <GlobalProvider>
-          <ClientOnly>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <NextTopLoader showSpinner={false} />
-              <SearchDialog />
-              {children}
-              <Toaster />
-            </ThemeProvider>
-          </ClientOnly>
-        </GlobalProvider>
+        <NextAuthProvider>
+          <GlobalProvider>
+            <ClientOnly>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <NextTopLoader showSpinner={false} />
+                <SearchDialog />
+                {children}
+                <Toaster />
+              </ThemeProvider>
+            </ClientOnly>
+          </GlobalProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );

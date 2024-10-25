@@ -1,37 +1,17 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { getToken } from 'next-auth/jwt';
+import { auth } from '@/auth';
 
-// Define the routes that do not require authentication
-const publicRoutes = ['/login', '/register'];
-
-export async function middleware(req: NextRequest) {
-  const token = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-  });
-
-  if (token || publicRoutes.includes(req.nextUrl.pathname)) {
-    return NextResponse.next();
+export default auth((req) => {
+  if (!req.auth && req.nextUrl.pathname !== '/login') {
+    const newUrl = new URL('/login', req.nextUrl.origin);
+    return Response.redirect(newUrl);
   }
 
-  const url = new URL('/login', req.url);
-  url.searchParams.set('callbackUrl', encodeURI(req.url));
-  return NextResponse.redirect(url);
-}
+  if (req.auth && req.nextUrl.pathname === '/login') {
+    const newUrl = new URL('/', req.nextUrl.origin);
+    return Response.redirect(newUrl);
+  }
+});
 
 export const config = {
-  matcher: [
-    '/',
-    '/customers',
-    '/customers/:path*',
-    '/staff',
-    '/dealer',
-    '/leasing',
-    '/model',
-    '/hari-besar',
-    '/metode-fu',
-    '/keterangan-fu',
-    '/keterangan-hasil',
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

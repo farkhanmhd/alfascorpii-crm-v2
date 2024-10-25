@@ -24,3 +24,8 @@ export const pekerjaanSchema = z.object({
   kode: z.string().min(1, { message: 'Kode is required' }),
   status: z.enum(['SHOW', 'HIDE']).optional().default('SHOW'),
 });
+
+export const authSchema = z.object({
+  username: z.string().min(1, { message: 'Username is required' }),
+  password: z.string().min(8, { message: 'Password is required' }),
+});
