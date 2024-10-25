@@ -15,13 +15,15 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const url = new URL('login', req.url);
+  const url = new URL('/login', req.url);
   url.searchParams.set('callbackUrl', encodeURI(req.url));
   return NextResponse.redirect(url);
 }
 
 export const config = {
   matcher: [
+    '/',
+    '/customers',
     '/customers/:path*',
     '/staff',
     '/dealer',
