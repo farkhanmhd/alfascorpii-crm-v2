@@ -12,6 +12,7 @@ import Breadcrumbs from '@/components/fragments/breadcrumbs/Breadcrumbs';
 const Template = ({ children }: { children: React.ReactNode }) => {
   const { sidebarOpen } = useSidebarDesktop();
   const { isMobile } = useMobile();
+
   return (
     <>
       <section

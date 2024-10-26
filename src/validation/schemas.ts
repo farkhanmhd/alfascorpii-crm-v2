@@ -27,5 +27,7 @@ export const pekerjaanSchema = z.object({
 
 export const authSchema = z.object({
   username: z.string().min(1, { message: 'Username is required' }),
-  password: z.string().min(8, { message: 'Password is required' }),
+  password: z
+    .string()
+    .min(8, { message: 'Password should contain at least 8 characters' }),
 });

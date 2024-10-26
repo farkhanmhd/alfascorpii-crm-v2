@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
-import GlobalProvider from '@/components/providers/global';
+import JotaiProvider from '@/components/providers/jotai';
 import ThemeProvider from '@/components/providers/theme-provider';
 import SearchDialog from '@/components/fragments/searchDialog';
 import { Toaster } from '@/components/ui/toaster';
@@ -31,7 +31,7 @@ const RootLayout = ({
         className={`${inter.className} overflow-hidden bg-background antialiased backdrop-blur-md dark:bg-background`}
       >
         <NextAuthProvider>
-          <GlobalProvider>
+          <JotaiProvider>
             <ClientOnly>
               <ThemeProvider
                 attribute="class"
@@ -45,7 +45,7 @@ const RootLayout = ({
                 <Toaster />
               </ThemeProvider>
             </ClientOnly>
-          </GlobalProvider>
+          </JotaiProvider>
         </NextAuthProvider>
       </body>
     </html>

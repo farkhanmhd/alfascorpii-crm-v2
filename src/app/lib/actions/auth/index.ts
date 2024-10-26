@@ -10,12 +10,8 @@ const schema = zfd.formData(authSchema);
 export const loginAction = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { username, password } }) => {
-    try {
-      await signIn('credentials', {
-        username,
-        password,
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    await signIn('credentials', {
+      username,
+      password,
+    });
   });

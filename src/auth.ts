@@ -10,16 +10,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
-        const user = await getUser(
+        const response = await getUser(
           credentials?.username as string,
           credentials?.password as string
         );
 
-        if (!user) {
+        if (!response) {
           throw new Error('User not found');
         }
 
-        return user;
+        const { data } = response;
+        return data;
       },
     }),
   ],
@@ -33,5 +34,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   pages: {
     signIn: '/login',
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: 60 * 60 * 24,
   },
 });
