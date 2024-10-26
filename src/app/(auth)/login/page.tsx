@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
+import { useSession } from 'next-auth/react';
 import { useToast } from '@/hooks/use-toast';
 import { loginAction } from '@/app/lib/actions/auth';
 import { Label } from '@/components/ui/label';
@@ -11,16 +12,9 @@ import SubmitButton from '@/components/fragments/buttons/SubmitButton';
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { execute, result, status, reset } = useAction(loginAction, {
-    onSuccess: () => {
-      toast({
-        title: 'Success',
-        description: 'Login Successful',
-        duration: 3000,
-      });
-    },
-  });
+  const { execute, result, reset, hasSucceeded } = useAction(loginAction);
   const { toast } = useToast();
+  const { status } = useSession();
 
   useEffect(() => {
     if (result.serverError) {
@@ -35,14 +29,14 @@ const LoginPage = () => {
   }, [result]);
 
   useEffect(() => {
-    if (status === 'hasSucceeded') {
+    if (hasSucceeded && status === 'unauthenticated') {
       toast({
         title: 'Success',
         description: 'Login Successful',
         duration: 3000,
       });
     }
-  }, [status]);
+  }, [hasSucceeded, status]);
 
   return (
     <form className="flex flex-col gap-4" action={execute}>
@@ -57,7 +51,7 @@ const LoginPage = () => {
           autoFocus
         />
         {result?.validationErrors?.username &&
-          result.validationErrors.username?._errors?.map((error) => (
+          result.validationErrors.username._errors?.map((error) => (
             <span key={error} className="text-sm text-red-500">
               {error}
             </span>
@@ -74,12 +68,13 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         {result?.validationErrors?.password &&
-          result.validationErrors.password?._errors?.map((error) => (
+          result.validationErrors.password._errors?.map((error) => (
             <span key={error} className="text-sm text-red-500">
               {error}
             </span>
           ))}
       </div>
+
       <SubmitButton>Login</SubmitButton>
     </form>
   );
