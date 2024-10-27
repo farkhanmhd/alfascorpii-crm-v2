@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { loginAction } from '@/app/lib/actions/auth';
 import { Label } from '@/components/ui/label';
@@ -12,31 +12,35 @@ import SubmitButton from '@/components/fragments/buttons/SubmitButton';
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { execute, result, reset, hasSucceeded } = useAction(loginAction);
   const { toast } = useToast();
-  const { status } = useSession();
+  const { push } = useRouter();
+  const callbackUrl =
+    new URLSearchParams(window.location.search).get('callbackUrl') || '/';
+
+  const { execute, result } = useAction(loginAction);
 
   useEffect(() => {
     if (result.serverError) {
       toast({
-        title: 'Failed',
+        title: 'Error',
         description: 'Wrong Username or Password',
-        duration: 3000,
         variant: 'destructive',
+        duration: 3000,
       });
-      reset();
     }
-  }, [result]);
+  }, [result.serverError, toast]);
 
   useEffect(() => {
-    if (hasSucceeded && status === 'unauthenticated') {
+    if (result?.data?.user) {
       toast({
         title: 'Success',
-        description: 'Login Successful',
+        description: 'Logged in successfully',
         duration: 3000,
       });
+
+      push(callbackUrl);
     }
-  }, [hasSucceeded, status]);
+  }, [result?.data?.user, toast, push, callbackUrl]);
 
   return (
     <form className="flex flex-col gap-4" action={execute}>
