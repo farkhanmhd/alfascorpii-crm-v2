@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 
-export default auth((req) => {
+export default auth(async (req) => {
   if (!req.auth && req.nextUrl.pathname !== '/login') {
     const newUrl = new URL('/login', req.url);
     newUrl.searchParams.set('callbackUrl', encodeURI(req.url));
@@ -13,7 +13,11 @@ export default auth((req) => {
     return Response.redirect(newUrl);
   }
 
-  return NextResponse.next();
+  return NextResponse.next({
+    request: {
+      headers: req.headers,
+    },
+  });
 });
 
 export const config = {

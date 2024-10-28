@@ -20,11 +20,11 @@ export default class DatabaseService {
   protected static async getAll<T>(
     model: keyof PrismaClient,
     page: number,
-    limit: number,
+    per_page: number,
     search?: string,
     filterConfig?: { [key: string]: string }
   ): Promise<{ data: T; totalPages: number }> {
-    const offset = (page - 1) * limit;
+    const offset = (page - 1) * per_page;
 
     const searchFilter = DatabaseService.createSearchFilter(
       search,
@@ -35,13 +35,13 @@ export default class DatabaseService {
       (prisma[model] as any).findMany({
         where: searchFilter,
         skip: offset,
-        take: limit,
+        take: per_page,
         orderBy: { created_at: 'desc' },
       }),
       (prisma[model] as any).count({ where: searchFilter }),
     ]);
 
-    const totalPages = Math.ceil(totalCount / limit);
+    const totalPages = Math.ceil(totalCount / per_page);
 
     return { data, totalPages };
   }

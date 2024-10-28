@@ -11,12 +11,12 @@ export async function GET(request: NextRequest) {
 
     const search = searchParams.get('search') || undefined;
     const page = searchParams.get('page') || undefined;
-    const limit = searchParams.get('limit') || undefined;
+    const per_page = searchParams.get('per_page') || undefined;
 
     const validationResult = searchQuerySchema.safeParse({
       search,
       page,
-      limit,
+      per_page,
     });
 
     if (!validationResult.success) {
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
           message: 'Invalid query parameters',
           errors: {
             page: errors.fieldErrors.page || [],
-            limit: errors.fieldErrors.limit || [],
+            per_page: errors.fieldErrors.per_page || [],
           },
         },
         { status: 400 }
@@ -40,10 +40,10 @@ export async function GET(request: NextRequest) {
     const {
       search: validatedSearch,
       page: validatedPage,
-      limit: validatedLimit,
+      per_page: validatedper_page,
     } = validationResult.data;
 
-    const offset = (validatedPage - 1) * validatedLimit;
+    const offset = (validatedPage - 1) * validatedper_page;
 
     const searchFilter: Prisma.Keterangan_FUWhereInput = validatedSearch
       ? {
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
       prisma.keterangan_FU.findMany({
         where: searchFilter,
         skip: offset,
-        take: validatedLimit,
+        take: validatedper_page,
         select: {
           id: true,
           keterangan: true,
@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
       message: 'Success',
       data: {
         keteranganFU,
-        totalPages: Math.ceil(totalCount / validatedLimit),
+        totalPages: Math.ceil(totalCount / validatedper_page),
       },
     });
   } catch (error) {

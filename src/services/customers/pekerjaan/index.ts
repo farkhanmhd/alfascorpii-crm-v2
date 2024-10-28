@@ -2,7 +2,11 @@ import DatabaseService from '@/services';
 import { prisma } from '@/app/lib/prisma';
 
 export default class PekerjaanService extends DatabaseService {
-  static async getListPekerjaan(page: number, limit: number, search?: string) {
+  static async getListPekerjaan(
+    page: number,
+    per_page: number,
+    search?: string
+  ) {
     const filterConfig = {
       pekerjaan: 'pekerjaan',
     };
@@ -10,7 +14,7 @@ export default class PekerjaanService extends DatabaseService {
     const { data: pekerjaan, totalPages } = await PekerjaanService.getAll(
       'pekerjaan',
       page,
-      limit,
+      per_page,
       search,
       filterConfig
     );

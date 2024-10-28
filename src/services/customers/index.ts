@@ -5,7 +5,11 @@ interface CustomerSearchFilter {
 }
 
 export default class CustomersServive extends DatabaseService {
-  static async getAllCustomers(page: number, limit: number, search?: string) {
+  static async getAllCustomers(
+    page: number,
+    per_page: number,
+    search?: string
+  ) {
     const filterConfig: CustomerSearchFilter = {
       dealer: 'dealer',
       name: 'name',
@@ -17,7 +21,7 @@ export default class CustomersServive extends DatabaseService {
     const { data: customers, totalPages } = await CustomersServive.getAll(
       'customer',
       page,
-      limit,
+      per_page,
       search,
       filterConfig
     );

@@ -1,11 +1,11 @@
 'use server';
 
 import { zfd } from 'zod-form-data';
-import { authSchema } from '@/validation/schemas';
+import { loginSchema } from '@/validation/schemas';
 import actionClient from '@/lib/safe-action';
 import { signIn } from '@/auth';
 
-const schema = zfd.formData(authSchema);
+const schema = zfd.formData(loginSchema);
 
 export const loginAction = actionClient
   .schema(schema)

@@ -15,12 +15,12 @@ export async function GET(request: NextRequest) {
     const {
       search: validatedSearch,
       page: validatedPage,
-      limit: validatedLimit,
+      per_page: validatedper_page,
     } = validatedSearchQuery.data;
 
     const { customers, totalPages } = await CustomersServive.getAllCustomers(
       validatedPage,
-      validatedLimit,
+      validatedper_page,
       validatedSearch
     );
 

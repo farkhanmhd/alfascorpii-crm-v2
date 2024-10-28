@@ -9,6 +9,7 @@ import MobileNavLinks from './MobileNavLinks';
 import { MobileLogo } from '../navigation/Logo';
 import { MobileSidenavItems } from '../navigation/constants';
 import ThemeToggle from '../toggle/ThemeToggle';
+import { signOut } from 'next-auth/react';
 
 const MobileSidenav = () => {
   const { mobileSidenav } = useMobileSidenav();
@@ -43,6 +44,7 @@ const MobileSidenav = () => {
             'px-9': mobileSidenav,
             'justify-center': !mobileSidenav,
           })}
+          onClick={() => signOut()}
         >
           <div className="flex gap-x-6 rounded-xl py-3 text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary">
             <LogOut />

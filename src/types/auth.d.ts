@@ -1,19 +1,18 @@
-import NextAuth, { type DefaultSession } from 'next-auth';
-import { JWT } from 'next-auth/jwt';
+import { type DefaultSession } from 'next-auth';
 
 declare module 'next-auth' {
   interface User {
-    uuid: string;
-    username: string;
-    name?: string | null | undefined;
-    status: string;
+    accessToken: string;
+    user: {
+      uuid: string;
+      username: string;
+      name?: string | null | undefined;
+      status: string;
+    };
   }
 
   interface Session {
-    data: {
-      accessToken: string;
-      user: User & DefaultSession['user'];
-    };
+    user: User & DefaultSession['user'];
   }
 
   interface Account {
@@ -26,5 +25,6 @@ declare module 'next-auth' {
 declare module 'next-auth/jwt' {
   interface JWT {
     accessToken?: string;
+    user: User;
   }
 }

@@ -3,8 +3,8 @@ import { fetchWithParams } from '../../fetchUtils';
 export const fetchPekerjaan = (
   search?: string,
   page?: string,
-  limit?: string
-) => fetchWithParams('customers/pekerjaan', search, page, limit);
+  per_page?: string
+) => fetchWithParams('customerjobs', search, page, per_page);
 
 export const postPekerjaan = async ({
   pekerjaan,

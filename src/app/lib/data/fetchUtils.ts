@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { searchQuerySchema } from '@/validation/schemas';
 import { SearchQueryParams } from '@/types';
+import { cookies } from 'next/headers';
 
 const validateSearchQuery = (
   schema: typeof searchQuerySchema,
@@ -16,11 +17,11 @@ const validateSearchQuery = (
 const createQueryParams = (params: {
   search?: string;
   page: number;
-  limit: number;
+  per_page: number;
 }) => {
   const queryParams = new URLSearchParams();
   queryParams.set('page', String(params.page));
-  queryParams.set('limit', String(params.limit));
+  queryParams.set('per_page', String(params.per_page));
   if (params.search) {
     queryParams.set('search', params.search);
   }
@@ -30,13 +31,15 @@ const createQueryParams = (params: {
 const fetchData = async (endpoint: string, params: SearchQueryParams) => {
   const validatedParams = validateSearchQuery(searchQuerySchema, params);
   const queryParams = createQueryParams(validatedParams);
-  const fetchUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/${endpoint}/?${queryParams.toString()}`;
-
+  const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}?${queryParams.toString()}`;
+  const cookieStore = await cookies();
+  const token = cookieStore.get('at');
   const res = await fetch(fetchUrl, {
-    cache: 'no-store',
+    cache: 'force-cache',
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token?.value}`,
     },
   });
 
@@ -52,7 +55,7 @@ export const fetchWithParams = async (
   endpoint: string,
   search: string = '',
   page: string = '1',
-  limit: string = '20'
+  per_page: string = '20'
 ) => {
-  return fetchData(endpoint, { search, page, limit });
+  return fetchData(endpoint, { search, page, per_page });
 };

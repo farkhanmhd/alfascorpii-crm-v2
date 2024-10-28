@@ -54,6 +54,12 @@
       "rules": {
         "consistent-return": "off"
       }
+    },
+    {
+      "files": ["src/auth.ts"],
+      "rules": {
+        "no-param-reassign": "off"
+      }
     }
   ]
 }

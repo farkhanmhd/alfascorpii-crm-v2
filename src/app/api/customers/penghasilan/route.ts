@@ -11,12 +11,12 @@ export async function GET(request: NextRequest) {
 
     const search = searchParams.get('search') || undefined;
     const page = searchParams.get('page') || undefined;
-    const limit = searchParams.get('limit') || undefined;
+    const per_page = searchParams.get('per_page') || undefined;
 
     const validationResult = searchQuerySchema.safeParse({
       search,
       page,
-      limit,
+      per_page,
     });
 
     if (!validationResult.success) {
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
           message: 'Invalid query parameters',
           errors: {
             page: errors.fieldErrors.page || [],
-            limit: errors.fieldErrors.limit || [],
+            per_page: errors.fieldErrors.per_page || [],
           },
         },
         { status: 400 }
@@ -40,12 +40,12 @@ export async function GET(request: NextRequest) {
     const {
       search: validatedSearch,
       page: validatedPage,
-      limit: validatedLimit,
+      per_page: validatedper_page,
     } = validationResult.data;
 
-    const offset = (validatedPage - 1) * validatedLimit;
+    const offset = (validatedPage - 1) * validatedper_page;
 
-    const searchFilter: Prisma.PenghasilanWhereInput = validatedSearch
+    const searchFilter: Prisma.incomeWhereInput = validatedSearch
       ? {
           OR: [
             { kode: { contains: validatedSearch, mode: 'insensitive' } },
@@ -54,11 +54,11 @@ export async function GET(request: NextRequest) {
         }
       : {};
 
-    const [penghasilan, totalCount] = await prisma.$transaction([
-      prisma.penghasilan.findMany({
+    const [income, totalCount] = await prisma.$transaction([
+      prisma.income.findMany({
         where: searchFilter,
         skip: offset,
-        take: validatedLimit,
+        take: validatedper_page,
         select: {
           id: true,
           batas_atas: true,
@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
           status: true,
         },
       }),
-      prisma.penghasilan.count({
+      prisma.income.count({
         where: searchFilter,
       }),
     ]);
@@ -77,15 +77,15 @@ export async function GET(request: NextRequest) {
       status: 200,
       message: 'Success',
       data: {
-        penghasilan,
-        totalPages: Math.ceil(totalCount / validatedLimit),
+        income,
+        totalPages: Math.ceil(totalCount / validatedper_page),
       },
     });
   } catch (error) {
-    console.error('Error fetching penghasilan: ', error);
+    console.error('Error fetching income: ', error);
     return NextResponse.json({
       status: 500,
-      message: 'Failed to fetch penghasilan data',
+      message: 'Failed to fetch income data',
     });
   } finally {
     await prisma.$disconnect();

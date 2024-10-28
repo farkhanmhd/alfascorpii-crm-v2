@@ -7,8 +7,8 @@ import { ILeasing, Column } from '@/types';
 const columns: Column<ILeasing>[] = [
   {
     header: 'Leasing',
-    key: 'nama',
-    getCellContent: (leasing: ILeasing) => leasing.nama,
+    key: 'leasing_name',
+    getCellContent: (leasing: ILeasing) => leasing.leasing_name,
   },
   {
     header: 'Action',

@@ -20,7 +20,7 @@ const requireAuth = [
   '/customers/pekerjaan',
   '/customers/pendidikan',
   '/customers/pengeluaran',
-  '/customers/penghasilan',
+  '/customers/income',
   '/customers/status-rumah',
   '/keterangan-fu',
   '/keterangan-hasil',

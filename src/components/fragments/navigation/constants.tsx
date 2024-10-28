@@ -19,6 +19,8 @@ import {
   Camera,
   House,
   Phone,
+  Logs,
+  Bike,
 } from 'lucide-react';
 import { type NavItem } from '@/types';
 
@@ -29,83 +31,88 @@ export const NavItems: NavItem[] = [
     href: '/',
   },
   {
-    title: 'Staff',
-    icon: <User />,
-    href: '/staff',
-  },
-  {
-    title: 'Customers',
-    icon: <Users />,
-    isParent: true,
-    childrens: [
-      {
-        title: 'Daftar Customer',
-        icon: <Users />,
-        href: '/customers',
-      },
-      {
-        title: 'Kerabat',
-        icon: <Users />,
-        href: '/customers/kerabat',
-      },
-      {
-        title: 'Pekerjaan',
-        icon: <Briefcase />,
-        href: '/customers/pekerjaan',
-      },
-      {
-        title: 'Pendidikan',
-        icon: <GraduationCap />,
-        href: '/customers/pendidikan',
-      },
-      {
-        title: 'Pengeluaran',
-        icon: <CreditCard />,
-        href: '/customers/pengeluaran',
-      },
-      {
-        title: 'Penghasilan',
-        icon: <Wallet />,
-        href: '/customers/penghasilan',
-      },
-      {
-        title: 'Hobi',
-        icon: <Camera />,
-        href: '/customers/hobi',
-      },
-      {
-        title: 'Status Rumah',
-        icon: <House />,
-        href: '/customers/status-rumah',
-      },
-    ],
-  },
-  {
     title: 'Master Data',
     icon: <Database />,
     isParent: true,
     childrens: [
       {
-        title: 'Dealer',
+        title: 'Dealers',
         icon: <Building />,
-        href: '/dealer',
+        href: '/dealers',
       },
       {
         title: 'Leasing',
         icon: <DollarSign />,
         href: '/leasing',
       },
-      {
-        title: 'Model',
-        icon: <FileChartLineIcon />,
-        href: '/model',
-      },
+      // {
+      //   title: 'Model',
+      //   icon: <FileChartLineIcon />,
+      //   href: '/model',
+      // },
       {
         title: 'Hari Besar',
         icon: <Calendar />,
-        href: '/hari-besar',
+        href: '/holidays',
       },
     ],
+  },
+  // {
+  //   title: 'Staff',
+  //   icon: <User />,
+  //   href: '/staff',
+  // },
+  {
+    title: 'Customers',
+    icon: <Users />,
+    isParent: true,
+    childrens: [
+      // {
+      //   title: 'Daftar Customer',
+      //   icon: <Users />,
+      //   href: '/customers',
+      // },
+      {
+        title: 'Kerabat',
+        icon: <Users />,
+        href: '/customers/relations',
+      },
+      {
+        title: 'Pekerjaan',
+        icon: <Briefcase />,
+        href: '/customers/customerjobs',
+      },
+      {
+        title: 'Pendidikan',
+        icon: <GraduationCap />,
+        href: '/customers/degrees',
+      },
+      {
+        title: 'Pengeluaran',
+        icon: <CreditCard />,
+        href: '/customers/expenses',
+      },
+      {
+        title: 'Penghasilan',
+        icon: <Wallet />,
+        href: '/customers/incomes',
+      },
+      {
+        title: 'Hobi',
+        icon: <Camera />,
+        href: '/customers/hobbies',
+      },
+      {
+        title: 'Status Rumah',
+        icon: <House />,
+        href: '/customers/houseownerships',
+      },
+    ],
+  },
+  {
+    title: 'Products',
+    icon: <Bike />,
+    href: '/productpreferences',
   },
   {
     title: 'Follow Up',
@@ -115,17 +122,22 @@ export const NavItems: NavItem[] = [
       {
         title: 'Metode FU',
         icon: <MessageSquare />,
-        href: '/metode-fu',
+        href: '/fumethod',
       },
       {
-        title: 'Keterangan FU',
+        title: 'Status FU',
         icon: <Table />,
-        href: '/keterangan-fu',
+        href: '/statusfus',
       },
       {
-        title: 'Keterangan Hasil',
+        title: 'Hasil FU',
         icon: <LucideTable2 />,
-        href: '/keterangan-hasil',
+        href: '/furesult',
+      },
+      {
+        title: 'Detail FU',
+        icon: <Logs />,
+        href: '/detailfu',
       },
     ],
   },
@@ -145,85 +157,86 @@ export const MobileNavItems: NavItem[] = [
 ];
 
 export const MobileSidenavItems: NavItem[] = [
-  {
-    title: 'Staff',
-    icon: <User />,
-    href: '/staff',
-  },
-  {
-    title: 'Customers',
-    icon: <Users />,
-    isParent: true,
-    childrens: [
-      {
-        title: 'Daftar Customer',
-        icon: <Users />,
-        href: '/customers',
-      },
-      {
-        title: 'Kerabat',
-        icon: <Users />,
-        href: '/customers/kerabat',
-      },
-      {
-        title: 'Pekerjaan',
-        icon: <Briefcase />,
-        href: '/customers/pekerjaan',
-      },
-      {
-        title: 'Pendidikan',
-        icon: <GraduationCap />,
-        href: '/customers/pendidikan',
-      },
-      {
-        title: 'Pengeluaran',
-        icon: <CreditCard />,
-        href: '/customers/pengeluaran',
-      },
-      {
-        title: 'Penghasilan',
-        icon: <Wallet />,
-        href: '/customers/penghasilan',
-      },
-      {
-        title: 'Hobi',
-        icon: <Camera />,
-        href: '/customers/hobi',
-      },
-      {
-        title: 'Status Rumah',
-        icon: <House />,
-        href: '/customers/status-rumah',
-      },
-    ],
-  },
+  // {
+  //   title: 'Staff',
+  //   icon: <User />,
+  //   href: '/staff',
+  // },
   {
     title: 'Master Data',
     icon: <Database />,
     isParent: true,
     childrens: [
       {
-        title: 'Dealer',
+        title: 'Dealers',
         icon: <Building />,
-        href: '/dealer',
+        href: '/dealers',
       },
       {
         title: 'Leasing',
         icon: <DollarSign />,
         href: '/leasing',
       },
-      {
-        title: 'Model',
-        icon: <FileChartLineIcon />,
-        href: '/model',
-      },
+      // {
+      //   title: 'Model',
+      //   icon: <FileChartLineIcon />,
+      //   href: '/model',
+      // },
       {
         title: 'Hari Besar',
         icon: <Calendar />,
-        href: '/hari-besar',
+        href: '/holidays',
       },
     ],
   },
+  {
+    title: 'Customers',
+    icon: <Users />,
+    isParent: true,
+    childrens: [
+      // {
+      //   title: 'Daftar Customer',
+      //   icon: <Users />,
+      //   href: '/customers',
+      // },
+      {
+        title: 'Kerabat',
+        icon: <Users />,
+        href: '/customers/relations',
+      },
+      {
+        title: 'Pekerjaan',
+        icon: <Briefcase />,
+        href: '/customers/customerjobs',
+      },
+      {
+        title: 'Pendidikan',
+        icon: <GraduationCap />,
+        href: '/customers/degrees',
+      },
+      {
+        title: 'Pengeluaran',
+        icon: <CreditCard />,
+        href: '/customers/expenses',
+      },
+      {
+        title: 'Penghasilan',
+        icon: <Wallet />,
+        href: '/customers/incomes',
+      },
+      {
+        title: 'Hobi',
+        icon: <Camera />,
+        href: '/customers/hobbies',
+      },
+      {
+        title: 'Status Rumah',
+        icon: <House />,
+        href: '/customers/houseownerships',
+      },
+    ],
+  },
+
   {
     title: 'Follow Up',
     icon: <Phone />,
@@ -232,18 +245,28 @@ export const MobileSidenavItems: NavItem[] = [
       {
         title: 'Metode FU',
         icon: <MessageSquare />,
-        href: '/metode-fu',
+        href: '/fumethod',
       },
       {
-        title: 'Keterangan FU',
+        title: 'Status FU',
         icon: <Table />,
-        href: '/keterangan-fu',
+        href: '/statusfus',
       },
       {
-        title: 'Keterangan Hasil',
+        title: 'Hasil FU',
         icon: <LucideTable2 />,
-        href: '/keterangan-hasil',
+        href: '/furesult',
+      },
+      {
+        title: 'Detail FU',
+        icon: <Logs />,
+        href: '/detailfu',
       },
     ],
+  },
+  {
+    title: 'Products',
+    icon: <Bike />,
+    href: '/productpreferences',
   },
 ];

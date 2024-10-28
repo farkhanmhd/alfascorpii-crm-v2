@@ -7,15 +7,15 @@ import columns from './column';
 const Page = async (props: {
   searchParams?: Promise<{
     page?: string;
-    limit?: string;
+    per_page?: string;
     search?: string;
   }>;
 }) => {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const limit = searchParams?.limit;
-  const data = await fetchModel(search, page, limit);
+  const per_page = searchParams?.per_page;
+  const data = await fetchModel(search, page, per_page);
 
   if (!data) {
     return (

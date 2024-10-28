@@ -7,15 +7,15 @@ import columns from './column';
 const Page = async (props: {
   searchParams?: Promise<{
     page?: string;
-    limit?: string;
+    per_page?: string;
     search?: string;
   }>;
 }) => {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const limit = searchParams?.limit;
-  const data = await fetchLeasing(search, page, limit);
+  const per_page = searchParams?.per_page;
+  const data = await fetchLeasing(search, page, per_page);
 
   if (!data) {
     return (
@@ -23,12 +23,12 @@ const Page = async (props: {
     );
   }
 
-  const { leasing, totalPages } = data;
+  const { leasings, last_page: totalPages } = data;
 
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
-        <DataTable columns={columns} data={leasing} includeIndex />
+        <DataTable columns={columns} data={leasings} includeIndex />
       </Suspense>
       <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
     </>

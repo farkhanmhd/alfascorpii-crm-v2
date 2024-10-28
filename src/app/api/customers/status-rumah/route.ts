@@ -11,12 +11,12 @@ export async function GET(request: NextRequest) {
 
     const search = searchParams.get('search') || undefined;
     const page = searchParams.get('page') || undefined;
-    const limit = searchParams.get('limit') || undefined;
+    const per_page = searchParams.get('per_page') || undefined;
 
     const validationResult = searchQuerySchema.safeParse({
       search,
       page,
-      limit,
+      per_page,
     });
 
     if (!validationResult.success) {
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
           message: 'Invalid query parameters',
           errors: {
             page: errors.fieldErrors.page || [],
-            limit: errors.fieldErrors.limit || [],
+            per_page: errors.fieldErrors.per_page || [],
           },
         },
         { status: 400 }
@@ -40,33 +40,37 @@ export async function GET(request: NextRequest) {
     const {
       search: validatedSearch,
       page: validatedPage,
-      limit: validatedLimit,
+      per_page: validatedper_page,
     } = validationResult.data;
 
-    const offset = (validatedPage - 1) * validatedLimit;
+    const offset = (validatedPage - 1) * validatedper_page;
 
-    const searchFilter: Prisma.Status_RumahWhereInput = validatedSearch
-      ? {
-          OR: [
-            {
-              status_rumah: { contains: validatedSearch, mode: 'insensitive' },
-            },
-          ],
-        }
-      : {};
+    const searchFilter: Prisma.house_ownership_statusWhereInput =
+      validatedSearch
+        ? {
+            OR: [
+              {
+                house_ownership_status: {
+                  contains: validatedSearch,
+                  mode: 'insensitive',
+                },
+              },
+            ],
+          }
+        : {};
 
     const [statusRumah, totalCount] = await prisma.$transaction([
-      prisma.status_Rumah.findMany({
+      prisma.house_ownership_status.findMany({
         where: searchFilter,
         skip: offset,
-        take: validatedLimit,
+        take: validatedper_page,
         select: {
           id: true,
-          status_rumah: true,
+          house_ownership_status: true,
           status: true,
         },
       }),
-      prisma.status_Rumah.count({
+      prisma.house_ownership_status.count({
         where: searchFilter,
       }),
     ]);
@@ -76,14 +80,14 @@ export async function GET(request: NextRequest) {
       message: 'Success',
       data: {
         statusRumah,
-        totalPages: Math.ceil(totalCount / validatedLimit),
+        totalPages: Math.ceil(totalCount / validatedper_page),
       },
     });
   } catch (error) {
-    console.error('Error fetching status_rumah: ', error);
+    console.error('Error fetching house_ownership_status: ', error);
     return NextResponse.json({
       status: 500,
-      message: 'Failed to fetch status_rumah data',
+      message: 'Failed to fetch house_ownership_status data',
     });
   } finally {
     await prisma.$disconnect();

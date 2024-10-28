@@ -11,12 +11,12 @@ export async function GET(request: NextRequest) {
 
     const search = searchParams.get('search') || undefined;
     const page = searchParams.get('page') || undefined;
-    const limit = searchParams.get('limit') || undefined;
+    const per_page = searchParams.get('per_page') || undefined;
 
     const validationResult = searchQuerySchema.safeParse({
       search,
       page,
-      limit,
+      per_page,
     });
 
     if (!validationResult.success) {
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
           message: 'Invalid query parameters',
           errors: {
             page: errors.fieldErrors.page || [],
-            limit: errors.fieldErrors.limit || [],
+            per_page: errors.fieldErrors.per_page || [],
           },
         },
         { status: 400 }
@@ -40,15 +40,17 @@ export async function GET(request: NextRequest) {
     const {
       search: validatedSearch,
       page: validatedPage,
-      limit: validatedLimit,
+      per_page: validatedper_page,
     } = validationResult.data;
 
-    const offset = (validatedPage - 1) * validatedLimit;
+    const offset = (validatedPage - 1) * validatedper_page;
 
-    const searchFilter: Prisma.Hari_BesarWhereInput = validatedSearch
+    const searchFilter: Prisma.holiday_nameWhereInput = validatedSearch
       ? {
           OR: [
-            { hari_besar: { contains: validatedSearch, mode: 'insensitive' } },
+            {
+              holiday_name: { contains: validatedSearch, mode: 'insensitive' },
+            },
             { agama: { contains: validatedSearch, mode: 'insensitive' } },
             { ucapan: { contains: validatedSearch, mode: 'insensitive' } },
             { status: { contains: validatedSearch, mode: 'insensitive' } },
@@ -57,20 +59,20 @@ export async function GET(request: NextRequest) {
       : {};
 
     const [hariBesar, totalCount] = await prisma.$transaction([
-      prisma.hari_Besar.findMany({
+      prisma.holiday_name.findMany({
         where: searchFilter,
         skip: offset,
-        take: validatedLimit,
+        take: validatedper_page,
         select: {
           id: true,
-          hari_besar: true,
+          holiday_name: true,
           tanggal: true,
           agama: true,
           ucapan: true,
           status: true,
         },
       }),
-      prisma.hari_Besar.count({
+      prisma.holiday_name.count({
         where: searchFilter,
       }),
     ]);
@@ -80,7 +82,7 @@ export async function GET(request: NextRequest) {
       message: 'Success',
       data: {
         hariBesar,
-        totalPages: Math.ceil(totalCount / validatedLimit),
+        totalPages: Math.ceil(totalCount / validatedper_page),
       },
     });
   } catch (error) {

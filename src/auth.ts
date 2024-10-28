@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { getUser } from './app/lib/auth';
+import { cookies } from 'next/headers';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -20,16 +21,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         const { data } = response;
+        const cookieStore = await cookies();
+
+        cookieStore.set('at', data.accessToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          maxAge: 60 * 60,
+        });
         return data;
       },
     }),
   ],
   callbacks: {
     jwt({ token, user }) {
-      return { ...token, ...user };
+      if (user) {
+        token.user = user.user;
+        token.accessToken = user.accessToken;
+      }
+      return token;
     },
     session({ session, token }) {
-      return { ...session, ...token };
+      session.user = token.user;
+      return session;
     },
   },
   pages: {
@@ -37,6 +51,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   session: {
     strategy: 'jwt',
-    maxAge: 60 * 60 * 24,
+    maxAge: 60 * 60,
   },
 });

@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     const params = {
       search: searchParams.get('search') || undefined,
       page: searchParams.get('page') || undefined,
-      limit: searchParams.get('limit') || undefined,
+      per_page: searchParams.get('per_page') || undefined,
     };
 
     const validatedSearchQuery = schemaValidator(searchQuerySchema, params);
@@ -17,12 +17,12 @@ export async function GET(request: NextRequest) {
     const {
       search: validatedSearch,
       page: validatedPage,
-      limit: validatedLimit,
+      per_page: validatedper_page,
     } = validatedSearchQuery.data;
 
     const { pekerjaan, totalPages } = await PekerjaanService.getListPekerjaan(
       validatedPage,
-      validatedLimit,
+      validatedper_page,
       validatedSearch
     );
 

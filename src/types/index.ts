@@ -9,7 +9,7 @@ type InterestStatus =
   | 'PROSPECT';
 
 interface IIdentifiable {
-  id: string;
+  id: number;
 }
 
 export interface NavItem {
@@ -35,9 +35,10 @@ export interface IStaff extends IIdentifiable {
 }
 
 export interface IDealer extends IIdentifiable {
-  kode: string;
-  nama: string;
-  status: Status;
+  dealer_code: string;
+  dealer_name: string;
+  dealer_area: string;
+  dealer_type: string;
 }
 
 export interface ICustomer extends IIdentifiable {
@@ -49,46 +50,51 @@ export interface ICustomer extends IIdentifiable {
   lokasi: string;
 }
 
-export interface IKerabat extends IIdentifiable {
-  kerabat: string;
+export interface IRelation extends IIdentifiable {
+  relation_name: string;
   status: Status;
 }
 
-export interface IPekerjaan extends IIdentifiable {
-  pekerjaan: string;
-  kode: string;
+export interface ICustomerJob extends IIdentifiable {
+  job_code: string;
+  job_name: string;
   status: Status;
 }
 
-export interface IPendidikan extends IIdentifiable {
-  pendidikan: string;
-  kode: string;
+export interface IDegree extends IIdentifiable {
+  degree_code: string;
+  degree_name: string;
   status: Status;
 }
 
-interface IKeuangan extends IIdentifiable {
-  batas_bawah: number;
-  batas_atas: number;
-  detail: string;
-  kode: string;
+export interface IExpense extends IIdentifiable {
+  expense_upper_limit: string;
+  expense_lower_limit: string;
+  expense_detail: string;
+  expense_code: string;
   status: Status;
 }
 
-export interface IPengeluaran extends IKeuangan {}
-export interface IPenghasilan extends IKeuangan {}
-
-export interface IHobi extends IIdentifiable {
-  hobi: string;
+export interface IIncome extends IIdentifiable {
+  income_upper_limit: string;
+  income_lower_limit: string;
+  income_detail: string;
+  income_code: string;
   status: Status;
 }
 
-export interface IStatusRumah extends IIdentifiable {
-  status_rumah: string;
+export interface IHobby extends IIdentifiable {
+  hobby_name: string;
+  status: Status;
+}
+
+export interface IHouseOwnership extends IIdentifiable {
+  house_ownership_status: string;
   status: Status;
 }
 
 export interface ILeasing extends IIdentifiable {
-  nama: string;
+  leasing_name: string;
 }
 
 export interface IDpackModel extends IIdentifiable {
@@ -98,35 +104,43 @@ export interface IDpackModel extends IIdentifiable {
   color: string;
 }
 
-export interface IHariBesar extends IIdentifiable {
-  hari_besar: string;
-  tanggal: string;
-  agama: string;
-  ucapan: string;
-  status: ActiveStatus;
-}
-
-export interface IKeteranganFU extends IIdentifiable {
-  keterangan: string;
-  kategori_hasil: InterestStatus;
-  status: ContactStatus;
-}
-
-export interface IMetodeFU extends IIdentifiable {
-  metode: string;
+export interface IHolidays extends IIdentifiable {
+  holiday_name: string;
+  holiday_date: string;
+  message: string;
   status: Status;
 }
 
-export interface IKeteranganHasil extends IIdentifiable {
-  keterangan_hasil: InterestStatus;
-  status_fu: ContactStatus;
+export interface IStatusFU extends IIdentifiable {
+  fu_method_id: number;
+  detail_fu_name: string | null;
   status: Status;
+}
+
+export interface IFUMethod extends IIdentifiable {
+  fu_method_name: string;
+  status: Status;
+}
+
+export interface IResultFU extends IIdentifiable {
+  fu_result_name: string;
+  status: Status;
+}
+
+export interface IDetailFU extends IIdentifiable {
+  status_fu_id: number;
+  detail_fu_name: string | null;
+  status: Status;
+}
+
+export interface IProductPreferences extends IIdentifiable {
+  product_name: string;
 }
 
 export interface ISearchQuery {
   search?: string;
   page?: number;
-  limit?: number;
+  per_page?: number;
 }
 
 export interface Column<T, K = keyof T> {
@@ -147,22 +161,22 @@ export interface IDialogTables {
   kerabat: boolean;
   pekerjaan: {
     open: boolean;
-    id: string;
+    id: number;
     pekerjaan: string;
     kode: string;
     status: Status;
   };
   pendidikan: boolean;
   pengeluaran: boolean;
-  penghasilan: boolean;
+  income: boolean;
   hobi: boolean;
-  status_rumah: boolean;
+  house_ownership_status: boolean;
   keterangan_fu: boolean;
   keterangan_hasil: boolean;
-  dealer: boolean;
+  dealers: boolean;
   leasing: boolean;
   model: boolean;
-  hari_besar: boolean;
+  holiday_name: boolean;
   metode_fu: boolean;
 }
 
@@ -201,7 +215,7 @@ export interface SubMenuProp {
 export type SearchQueryParams = {
   search?: string;
   page?: string;
-  limit?: string;
+  per_page?: string;
 };
 
 export type ValidationError = {

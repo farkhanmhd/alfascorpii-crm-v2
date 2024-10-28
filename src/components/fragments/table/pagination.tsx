@@ -42,15 +42,15 @@ const DataTablePagination = ({
   const router = useRouter();
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
-  const initialLimit = params.get('limit') || '20';
-  const [limit, setLimit] = useState(initialLimit);
+  const initialper_page = params.get('per_page') || '20';
+  const [per_page, setper_page] = useState(initialper_page);
 
-  const handleLimitChange = (value: string) => {
-    setLimit(value);
+  const handleper_pageChange = (value: string) => {
+    setper_page(value);
     if (value === '20') {
-      params.delete('limit');
+      params.delete('per_page');
     } else {
-      params.set('limit', value);
+      params.set('per_page', value);
     }
     params.delete('page');
     replace(`${pathname}?${params.toString()}`);
@@ -61,7 +61,7 @@ const DataTablePagination = ({
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  const handleLastPage = () => {
+  const handletotalPages = () => {
     params.set('page', totalPages.toString());
     router.push(`${pathname}?${params.toString()}`);
   };
@@ -85,9 +85,9 @@ const DataTablePagination = ({
     <div className="sticky bottom-0 flex items-center justify-between bg-background py-6">
       <div className="flex items-center space-x-2">
         <p className="text-sm font-medium">Rows</p>
-        <Select value={limit} onValueChange={handleLimitChange}>
+        <Select value={per_page} onValueChange={handleper_pageChange}>
           <SelectTrigger className="h-8 w-[70px]">
-            <SelectValue placeholder={limit} />
+            <SelectValue placeholder={per_page} />
           </SelectTrigger>
           <SelectContent side="top">
             {options.map((option) => (
@@ -130,7 +130,7 @@ const DataTablePagination = ({
           <Button
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={handleLastPage}
+            onClick={handletotalPages}
           >
             <span className="sr-only">Go to last page</span>
             <ArrowRight className="h-4 w-4" />
