@@ -1,58 +1,72 @@
-// 'use server';
+'use server';
 
-// import { z } from 'zod';
-// import { zfd } from 'zod-form-data';
-// import { revalidatePath } from 'next/cache';
-// import actionClient from '@/lib/safe-action';
-// import {
-//   putPekerjaan,
-//   postPekerjaan,
-//   deletePekerjaan,
-// } from '@/app/lib/data/customers/pekerjaan';
+import { z } from 'zod';
+import { revalidatePath } from 'next/cache';
+import actionClient from '@/lib/safe-action';
+import {
+  putPekerjaan,
+  postPekerjaan,
+  deletePekerjaan,
+} from '@/app/lib/data/customers/customerjobs';
 
-// export type AddPekerjaanState = {
-//   errors?: {
-//     pekerjaan?: string[];
-//     kode?: string[];
-//   };
-//   message?: string | null;
-// };
+const jobSchema = z.object({
+  id: z.number(),
+  job: z.string().min(1, { message: 'Job name is required' }),
+  code: z.string().min(1, { message: 'Job code is required' }),
+  status: z.enum(['SHOW', 'HIDE']),
+});
 
-// export const addNewPekerjaan = actionClient
-//   .action(async ({ parsedInput: { pekerjaan, kode } }) => {
-//     try {
-//       await postPekerjaan({ pekerjaan, kode });
-//       revalidatePath('/customers/pekerjaan');
-//       return { message: 'Pekerjaan added successfully' };
-//     } catch (error) {
-//       return { message: 'Database Error: Failed to add Pekerjaan' };
-//     }
-//   });
+const createJobSchema = jobSchema.omit({ id: true });
 
-// export const updatePekerjaan = actionClient
-//   .schema(pekerjaanSchema)
-//   .action(async ({ parsedInput: { id = '', pekerjaan, kode, status } }) => {
-//     try {
-//       await putPekerjaan(id, pekerjaan, kode, status);
-//       revalidatePath('/customers/pekerjaan');
-//       return { message: 'Pekerjaan updated successfully' };
-//     } catch (error) {
-//       return { message: 'Database Error: Failed to update Pekerjaan' };
-//     }
-//   });
+export const addNewPekerjaan = actionClient
+  .schema(createJobSchema)
+  .action(async ({ parsedInput: { job, code, status } }) => {
+    try {
+      await postPekerjaan(job, code, status);
+      revalidatePath('/customers/customerjobs');
+      return { status: 'success', message: 'Pekerjaan added successfully' };
+    } catch (error) {
+      return {
+        status: 'error',
+        message: 'Server Error: Failed to add Pekerjaan',
+      };
+    }
+  });
 
-// const deletePekerjaanSchema = z.object({
-//   id: z.string(),
-// });
+export const updateJob = actionClient
+  .schema(jobSchema)
+  .action(async ({ parsedInput: { id, job, code, status } }) => {
+    try {
+      await putPekerjaan(id, job, code, status);
+      revalidatePath('/customers/customerjobs');
+      revalidatePath(`/customers/customerjobs/${id}`);
+      return {
+        status: 'success',
+        message: 'Pekerjaan updated successfully',
+      };
+    } catch (error) {
+      return {
+        status: 'error',
+        message: 'Server Error: Failed to update Pekerjaan',
+      };
+    }
+  });
 
-// export const removePekerjaan = actionClient
-//   .schema(deletePekerjaanSchema)
-//   .action(async ({ parsedInput: { id } }) => {
-//     try {
-//       await deletePekerjaan(id);
-//       revalidatePath('/customers/pekerjaan');
-//       return { message: 'Pekerjaan deleted successfully' };
-//     } catch (error) {
-//       return { message: 'Database Error: Failed to delete Pekerjaan' };
-//     }
-//   });
+const deleteJobSchema = z.object({
+  id: z.number(),
+});
+
+export const removeJob = actionClient
+  .schema(deleteJobSchema)
+  .action(async ({ parsedInput: { id } }) => {
+    try {
+      await deletePekerjaan(id);
+      revalidatePath('/customers/customerjobs');
+      return { status: 'success', message: 'Pekerjaan deleted successfully' };
+    } catch (error) {
+      return {
+        status: 'error',
+        message: 'Server Error: Failed to delete Pekerjaan',
+      };
+    }
+  });

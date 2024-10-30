@@ -78,7 +78,7 @@ const NavLinks = ({ items, isOpen, isMobile = false }: NavLinksProps) => {
                 )}
               </button>
               {isOpen && (
-                <ScrollArea className="ml-9 mt-2 border-l-2 sm:mr-0">
+                <ScrollArea className="ml-9 border-l-2 sm:mr-0">
                   <ul
                     className={clsx('duration-300 ease-in-out', {
                       'max-h-0': openMenu !== item.title,

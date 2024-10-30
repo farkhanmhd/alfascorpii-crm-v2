@@ -13,6 +13,7 @@ import {
   desktopSidenavAtom,
   deleteDialogAtom,
 } from '@/store';
+import { useToast } from './use-toast';
 
 export const useActiveButton = () => {
   const [activeButton, setActiveButton] = useAtom(activeButtonAtom);
@@ -82,4 +83,66 @@ export const useSidebarDesktop = () => {
   const [sidebarOpen, setSidebarOpen] = useAtom(desktopSidenavAtom);
 
   return { sidebarOpen, setSidebarOpen };
+};
+
+export const useSubmitToast = (
+  result: any,
+  onSuccessNavigate: () => void,
+  onErrorReset: () => void
+) => {
+  const { toast } = useToast();
+  useEffect(() => {
+    if (result?.data?.status === 'success') {
+      toast({
+        title: 'Success',
+        description: result.data.message,
+        duration: 3000,
+      });
+      onSuccessNavigate();
+    } else if (result?.data?.status === 'error') {
+      toast({
+        title: 'Error',
+        description: result.data.message,
+        variant: 'destructive',
+        duration: 3000,
+      });
+      onErrorReset();
+    }
+  }, [result, toast, onSuccessNavigate, onErrorReset]);
+};
+
+export const useDeleteToast = (
+  deleteResult: any,
+  onSuccessNavigate: () => void,
+  onErrorRevert: () => void
+) => {
+  const { toast } = useToast();
+  useEffect(() => {
+    if (deleteResult?.data?.status === 'success') {
+      toast({
+        title: 'Success',
+        description: deleteResult.data.message,
+        duration: 3000,
+      });
+      onSuccessNavigate();
+    } else if (deleteResult?.data?.status === 'error') {
+      toast({
+        title: 'Error',
+        description: deleteResult.data.message,
+        variant: 'destructive',
+        duration: 3000,
+      });
+      onErrorRevert();
+    }
+  }, [deleteResult, toast, onSuccessNavigate, onErrorRevert]);
+};
+
+export const useRemoveParam = (
+  searchParams: URLSearchParams,
+  setDeleteModal: (value: boolean) => void
+) => {
+  useEffect(() => {
+    const removeParam = searchParams.get('remove');
+    setDeleteModal(removeParam === 'true');
+  }, [searchParams, setDeleteModal]);
 };

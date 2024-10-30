@@ -1,14 +1,9 @@
 'use client';
 
 import React from 'react';
-import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 
-const SubmitButton = ({
-  variant,
-  className = '',
-  children,
-}: {
+interface SubmitButtonProps {
   className?: string;
   children: React.ReactNode;
   variant?:
@@ -20,19 +15,23 @@ const SubmitButton = ({
     | 'link'
     | null
     | undefined;
-}) => {
-  const { pending } = useFormStatus();
+  disabled?: boolean;
+}
 
-  return (
-    <Button
-      type="submit"
-      variant={variant}
-      className={`text-white ${className}`}
-      disabled={pending}
-    >
-      {pending ? 'Loading...' : children}
-    </Button>
-  );
-};
+const SubmitButton = ({
+  variant,
+  className = '',
+  children,
+  disabled = false,
+}: SubmitButtonProps) => (
+  <Button
+    type="submit"
+    variant={variant}
+    className={`text-white ${className}`}
+    disabled={disabled}
+  >
+    {disabled ? 'Loading...' : children}
+  </Button>
+);
 
 export default SubmitButton;

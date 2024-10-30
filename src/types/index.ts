@@ -159,12 +159,9 @@ export interface IDialogTables {
   staff: boolean;
   customers: boolean;
   kerabat: boolean;
-  pekerjaan: {
+  customerjob: {
     open: boolean;
-    id: number;
-    pekerjaan: string;
-    kode: string;
-    status: Status;
+    ...ICustomerJob
   };
   pendidikan: boolean;
   pengeluaran: boolean;

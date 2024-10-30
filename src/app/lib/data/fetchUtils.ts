@@ -28,19 +28,25 @@ const createQueryParams = (params: {
   return queryParams;
 };
 
-const fetchData = async (endpoint: string, params: SearchQueryParams) => {
-  const validatedParams = validateSearchQuery(searchQuerySchema, params);
-  const queryParams = createQueryParams(validatedParams);
-  const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}?${queryParams.toString()}`;
+export const fetchData = async (
+  endpoint: string,
+  params?: SearchQueryParams,
+  method: string = 'GET',
+  body?: any
+) => {
+  const validatedParams = validateSearchQuery(searchQuerySchema, params || {});
+  const queryParams = createQueryParams(validatedParams) || '';
+  const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}${queryParams ? `?${queryParams.toString()}` : ''}`;
   const cookieStore = await cookies();
   const token = cookieStore.get('at');
   const res = await fetch(fetchUrl, {
     cache: 'force-cache',
-    method: 'GET',
+    method,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token?.value}`,
     },
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {

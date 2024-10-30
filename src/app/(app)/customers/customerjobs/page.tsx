@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import DataTable from '@/components/fragments/table/DataTable';
-import { fetchPekerjaan } from '@/app/lib/data/customers/pekerjaan';
+import { getCustomerJobs } from '@/app/lib/data/customers/customerjobs';
 import columns from './columns';
 
 const Page = async (props: {
@@ -14,8 +14,8 @@ const Page = async (props: {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const per_page = searchParams?.per_page;
-  const data = await fetchPekerjaan(search, page, per_page);
+  const perPage = searchParams?.per_page;
+  const data = await getCustomerJobs(search, page, perPage);
 
   if (!data) {
     return (

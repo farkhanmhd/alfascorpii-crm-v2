@@ -6,11 +6,11 @@ import { useSidebarDesktop } from '@/hooks';
 import useClickOutside from '@/hooks/useClickOutside';
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 import SideNavLinks from './SideNavLinks';
 import { Logo } from '../navigation/Logo';
 import SidebarMenuButton from '../buttons/SidebarMenuButton';
 import { NavItems } from '../navigation/constants';
-import { signOut } from 'next-auth/react';
 
 const Sidenav = () => {
   const sidenavRef = useRef<HTMLBaseElement>(null);

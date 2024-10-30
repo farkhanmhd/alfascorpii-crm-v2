@@ -4,12 +4,12 @@ import React from 'react';
 import clsx from 'clsx';
 import { useMobileSidenav } from '@/hooks';
 import { LogOut } from 'lucide-react';
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import MobileNavLinks from './MobileNavLinks';
 import { MobileLogo } from '../navigation/Logo';
 import { MobileSidenavItems } from '../navigation/constants';
 import ThemeToggle from '../toggle/ThemeToggle';
-import { signOut } from 'next-auth/react';
 
 const MobileSidenav = () => {
   const { mobileSidenav } = useMobileSidenav();

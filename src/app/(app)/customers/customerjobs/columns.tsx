@@ -2,9 +2,10 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 import { ICustomerJob, Column } from '@/types';
-import EditPekerjaanButton from './EditPekerjaanButton';
-import DeletePekerjaanButton from './DeletePekerjaanButton';
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const columns: Column<ICustomerJob>[] = [
   {
@@ -34,17 +35,29 @@ const columns: Column<ICustomerJob>[] = [
   },
   {
     header: 'Action',
-    getCellContent: (job: ICustomerJob) => (
-      <div className="flex items-center gap-x-2">
-        <EditPekerjaanButton
-          id={job.id}
-          pekerjaan={job.job_name}
-          kode={job.job_code}
-          status={job.status}
-        />
-        <DeletePekerjaanButton id={job.id} />
-      </div>
-    ),
+    getCellContent: (job: ICustomerJob) => {
+      const { push } = useRouter();
+      return (
+        <div className="flex gap-x-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => push(`/customers/customerjobs/${job.id}`)}
+          >
+            <Pencil />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() =>
+              push(`/customers/customerjobs/${job.id}?remove=true`)
+            }
+          >
+            <Trash />
+          </Button>
+        </div>
+      );
+    },
   },
 ];
 

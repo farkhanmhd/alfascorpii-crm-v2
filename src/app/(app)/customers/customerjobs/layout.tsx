@@ -1,40 +1,27 @@
-'use client';
-
 import React from 'react';
 import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
 import Tablesearch from '@/components/fragments/table/tablesearch';
-import { Button } from '@/components/ui/button';
-import { useCreateDialog } from '@/hooks';
-import AddPekerjaanDialog from './AddPekerjaanDialog';
-import EditPekerjaanDialog from './EditPekerjaanDialog';
-import DeletePekerjaanDialog from './DeletePekerjaanDialog';
+import AddButton from '@/components/fragments/buttons/AddButton';
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
-  const { setCreateDialog } = useCreateDialog();
+interface LayoutProps {
+  children: React.ReactNode;
+  action: React.ReactNode;
+  create: React.ReactNode;
+}
 
-  const openPekerjaanDialog = () => {
-    setCreateDialog((prevState) => ({
-      ...prevState,
-      pekerjaan: {
-        ...prevState.pekerjaan,
-        open: true,
-      },
-    }));
-  };
-
+const Layout = ({ children, action, create }: LayoutProps) => {
   return (
-    <div className="flex h-full flex-1 flex-col">
-      <TableContainerHeader>
-        <Tablesearch placeholder="Search pekerjaan" />
-        <Button className="w-fit text-white" onClick={openPekerjaanDialog}>
-          Add Pekerjaan
-        </Button>
-      </TableContainerHeader>
-      {children}
-      <AddPekerjaanDialog />
-      <EditPekerjaanDialog />
-      <DeletePekerjaanDialog />
-    </div>
+    <>
+      <div className="flex h-full flex-1 flex-col">
+        <TableContainerHeader>
+          <Tablesearch placeholder="Search pekerjaan" />
+          <AddButton>Add Pekerjaan</AddButton>
+        </TableContainerHeader>
+        {children}
+      </div>
+      {action}
+      {create}
+    </>
   );
 };
 

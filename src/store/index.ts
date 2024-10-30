@@ -23,7 +23,7 @@ const dialogTables: IDialogTables = {
   kerabat: false,
   pekerjaan: {
     open: false,
-    id: 0,
+    id: null,
     pekerjaan: '',
     kode: '',
     status: 'SHOW',
