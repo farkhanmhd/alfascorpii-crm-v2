@@ -2,9 +2,13 @@ import React from 'react';
 import type { Metadata } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
-import GlobalProvider from '@/components/providers/global';
+import JotaiProvider from '@/components/providers/jotai';
 import ThemeProvider from '@/components/providers/theme-provider';
 import SearchDialog from '@/components/fragments/searchDialog';
+import { Toaster } from '@/components/ui/toaster';
+import NextTopLoader from 'nextjs-toploader';
+import ClientOnly from '@/components/ClientOnly';
+import NextAuthProvider from '@/components/providers/next-auth';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -24,19 +28,25 @@ const RootLayout = ({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-background antialiased backdrop-blur-md dark:bg-background`}
+        className={`${inter.className} overflow-hidden bg-background antialiased backdrop-blur-md dark:bg-background`}
       >
-        <GlobalProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <SearchDialog />
-            {children}
-          </ThemeProvider>
-        </GlobalProvider>
+        <NextAuthProvider>
+          <JotaiProvider>
+            <ClientOnly>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <NextTopLoader showSpinner={false} />
+                <SearchDialog />
+                {children}
+                <Toaster />
+              </ThemeProvider>
+            </ClientOnly>
+          </JotaiProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );

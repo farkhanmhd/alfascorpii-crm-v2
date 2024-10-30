@@ -19,7 +19,7 @@ const Breadcrumbs = () => {
   return (
     <div className="flex items-center space-x-2">
       {paths.map((path, i) => (
-        <div key={path} className="flex items-center space-x-2 capitalize">
+        <div key={i} className="flex items-center space-x-2 capitalize">
           {i !== paths.length - 1 ? (
             <Link
               href={createBreadcrumbPath(i)}

@@ -1,17 +1,8 @@
 'use client';
 
 import React from 'react';
-
-import { useAtom } from 'jotai';
-
-import {
-  Calendar,
-  Calculator,
-  CreditCard,
-  Settings,
-  Smile,
-  User,
-} from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useSearchDialog } from '@/hooks';
 
 import {
   CommandDialog,
@@ -20,51 +11,56 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandItem,
-  CommandShortcut,
   CommandSeparator,
 } from '@/components/ui/command';
-
-import { searchDialogAtom } from '@/store';
+import { DialogTitle } from '@/components/ui/dialog';
+import { NavItems } from '../navigation/constants';
 
 const SearchDialog = () => {
-  const [searchDialog, setSearchDialog] = useAtom(searchDialogAtom);
+  const router = useRouter();
+  const { searchDialog, setSearchDialog } = useSearchDialog();
+  const handleSelected = (href: string) => {
+    setSearchDialog(false);
+    router.push(href);
+  };
   return (
     <CommandDialog open={searchDialog} onOpenChange={setSearchDialog}>
-      <CommandInput placeholder="Type a command or search..." />
+      <DialogTitle className="hidden">Search</DialogTitle>
+      <CommandInput
+        id="search-dialog"
+        name="search-dialog"
+        placeholder="Type a command or search..."
+      />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Suggestions">
-          <CommandItem>
-            <Calendar className="mr-2 h-4 w-4" />
-            <span>Calendar</span>
-          </CommandItem>
-          <CommandItem>
-            <Smile className="mr-2 h-4 w-4" />
-            <span>Search Emoji</span>
-          </CommandItem>
-          <CommandItem>
-            <Calculator className="mr-2 h-4 w-4" />
-            <span>Calculator</span>
-          </CommandItem>
-        </CommandGroup>
-        <CommandSeparator />
-        <CommandGroup heading="Settings">
-          <CommandItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <CommandShortcut>⌘P</CommandShortcut>
-          </CommandItem>
-          <CommandItem>
-            <CreditCard className="mr-2 h-4 w-4" />
-            <span>Billing</span>
-            <CommandShortcut>⌘B</CommandShortcut>
-          </CommandItem>
-          <CommandItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-            <CommandShortcut>⌘S</CommandShortcut>
-          </CommandItem>
-        </CommandGroup>
+        {NavItems.map((item, i) =>
+          item.isParent ? (
+            <React.Fragment key={`${item.title}-parent`}>
+              <CommandGroup key={item.title} heading={item.title}>
+                {item.childrens?.map((child, j) => (
+                  <CommandItem
+                    key={`${i}-${j}`}
+                    onSelect={() => handleSelected(child.href ?? '')}
+                  >
+                    <span className="mr-2 h-4 w-4">{child.icon}</span>
+                    <span>{child.title}</span>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+              <CommandSeparator key={`${item.title}-separator`} />
+            </React.Fragment>
+          ) : (
+            <React.Fragment key={`${item.title}-non-parent`}>
+              <CommandGroup key={i} heading={item.title}>
+                <CommandItem onSelect={() => handleSelected(item.href ?? '')}>
+                  <span className="mr-2 h-4 w-4">{item.icon}</span>
+                  <span>{item.title}</span>
+                </CommandItem>
+              </CommandGroup>
+              <CommandSeparator key={`${i}-separator`} />
+            </React.Fragment>
+          )
+        )}
       </CommandList>
     </CommandDialog>
   );

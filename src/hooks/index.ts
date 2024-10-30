@@ -1,0 +1,148 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useAtom } from 'jotai';
+import {
+  activeButtonAtom,
+  createDialogAtom,
+  editDialogAtom,
+  isMobileAtom,
+  mobileSidenavAtom,
+  openMenuAtom,
+  searchDialogAtom,
+  desktopSidenavAtom,
+  deleteDialogAtom,
+} from '@/store';
+import { useToast } from './use-toast';
+
+export const useActiveButton = () => {
+  const [activeButton, setActiveButton] = useAtom(activeButtonAtom);
+
+  return { activeButton, setActiveButton };
+};
+
+export const useCreateDialog = () => {
+  const [createDialog, setCreateDialog] = useAtom(createDialogAtom);
+
+  return { createDialog, setCreateDialog };
+};
+
+export const useEditDialog = () => {
+  const [editDialog, setEditDialog] = useAtom(editDialogAtom);
+
+  return { editDialog, setEditDialog };
+};
+
+export const useDeleteDialog = () => {
+  const [deleteDialog, setDeleteDialog] = useAtom(deleteDialogAtom);
+
+  return { deleteDialog, setDeleteDialog };
+};
+
+export const useMobile = () => {
+  const [isMobile, setIsMobile] = useAtom(isMobileAtom);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, [setIsMobile]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [setIsMobile]);
+
+  return { isMobile, setIsMobile };
+};
+
+export const useMobileSidenav = () => {
+  const [mobileSidenav, setMobileSidenav] = useAtom(mobileSidenavAtom);
+
+  return { mobileSidenav, setMobileSidenav };
+};
+
+export const useOpenMenu = () => {
+  const [openMenu, setOpenMenu] = useAtom(openMenuAtom);
+
+  return { openMenu, setOpenMenu };
+};
+
+export const useSearchDialog = () => {
+  const [searchDialog, setSearchDialog] = useAtom(searchDialogAtom);
+
+  return { searchDialog, setSearchDialog };
+};
+
+export const useSidebarDesktop = () => {
+  const [sidebarOpen, setSidebarOpen] = useAtom(desktopSidenavAtom);
+
+  return { sidebarOpen, setSidebarOpen };
+};
+
+export const useSubmitToast = (
+  result: any,
+  onSuccessNavigate: () => void,
+  onErrorReset: () => void
+) => {
+  const { toast } = useToast();
+  useEffect(() => {
+    if (result?.data?.status === 'success') {
+      toast({
+        title: 'Success',
+        description: result.data.message,
+        duration: 3000,
+      });
+      onSuccessNavigate();
+    } else if (result?.data?.status === 'error') {
+      toast({
+        title: 'Error',
+        description: result.data.message,
+        variant: 'destructive',
+        duration: 3000,
+      });
+      onErrorReset();
+    }
+  }, [result, toast, onSuccessNavigate, onErrorReset]);
+};
+
+export const useDeleteToast = (
+  deleteResult: any,
+  onSuccessNavigate: () => void,
+  onErrorRevert: () => void
+) => {
+  const { toast } = useToast();
+  useEffect(() => {
+    if (deleteResult?.data?.status === 'success') {
+      toast({
+        title: 'Success',
+        description: deleteResult.data.message,
+        duration: 3000,
+      });
+      onSuccessNavigate();
+    } else if (deleteResult?.data?.status === 'error') {
+      toast({
+        title: 'Error',
+        description: deleteResult.data.message,
+        variant: 'destructive',
+        duration: 3000,
+      });
+      onErrorRevert();
+    }
+  }, [deleteResult, toast, onSuccessNavigate, onErrorRevert]);
+};
+
+export const useRemoveParam = (
+  searchParams: URLSearchParams,
+  setDeleteModal: (value: boolean) => void
+) => {
+  useEffect(() => {
+    const removeParam = searchParams.get('remove');
+    setDeleteModal(removeParam === 'true');
+  }, [searchParams, setDeleteModal]);
+};

@@ -2,7 +2,27 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+Install the dependencies using the following commands:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+Generate auth secret key using the following command:
+
+```bash
+npx auth secret
+#or
+bun auth secret
+```
+
+## Run the development server
 
 ```bash
 npm run dev

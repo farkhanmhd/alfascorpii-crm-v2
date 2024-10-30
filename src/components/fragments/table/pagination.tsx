@@ -1,12 +1,13 @@
-import React from 'react';
+'use client';
 
+import React, { useState } from 'react';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ArrowLeft,
   ArrowRight,
 } from 'lucide-react';
-import { Table } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -17,50 +18,95 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-interface DataTablePaginationProps<TData> {
-  table: Table<TData>;
-}
+type Option = {
+  value: string;
+  label: string;
+};
 
-const DataTablePagination = <TData,>({
-  table,
-}: DataTablePaginationProps<TData>) => {
+const options: Option[] = [
+  { value: '20', label: '20' },
+  { value: '30', label: '30' },
+  { value: '40', label: '40' },
+  { value: '50', label: '50' },
+];
+
+const DataTablePagination = ({
+  currentPage,
+  totalPages,
+}: {
+  currentPage: number;
+  totalPages: number;
+}) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { replace } = useRouter();
+  const params = new URLSearchParams(searchParams);
+  const initialper_page = params.get('per_page') || '20';
+  const [per_page, setper_page] = useState(initialper_page);
+
+  const handleper_pageChange = (value: string) => {
+    setper_page(value);
+    if (value === '20') {
+      params.delete('per_page');
+    } else {
+      params.set('per_page', value);
+    }
+    params.delete('page');
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handleFirstPage = () => {
+    params.delete('page');
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const handletotalPages = () => {
+    params.set('page', totalPages.toString());
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      params.set('page', (currentPage + 1).toString());
+      router.push(`${pathname}?${params.toString()}`);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      params.set('page', (currentPage - 1).toString());
+      if (currentPage - 1 === 1) params.delete('page');
+      router.push(`${pathname}?${params.toString()}`);
+    }
+  };
+
   return (
-    <div className="sticky bottom-0 z-50 flex items-center justify-between bg-background py-6">
-      <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of{' '}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
+    <div className="sticky bottom-0 flex items-center justify-between bg-background py-6">
+      <div className="flex items-center space-x-2">
+        <p className="text-sm font-medium">Rows</p>
+        <Select value={per_page} onValueChange={handleper_pageChange}>
+          <SelectTrigger className="h-8 w-[70px]">
+            <SelectValue placeholder={per_page} />
+          </SelectTrigger>
+          <SelectContent side="top">
+            {options.map((option) => (
+              <SelectItem key={option.label} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
-          <Select
-            value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value));
-            }}
-          >
-            <SelectTrigger className="h-8 w-[70px]">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
-            </SelectTrigger>
-            <SelectContent side="top">
-              {[10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={`${pageSize}`}>
-                  {pageSize}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {table.getState().pagination.pageIndex + 1} of{' '}
-          {table.getPageCount()}
+          Page {currentPage} of {totalPages}
         </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
+            onClick={handleFirstPage}
           >
             <span className="sr-only">Go to first page</span>
             <ArrowLeft className="h-4 w-4" />
@@ -68,8 +114,7 @@ const DataTablePagination = <TData,>({
           <Button
             variant="outline"
             className="h-8 w-8 p-0"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={handlePrevPage}
           >
             <span className="sr-only">Go to previous page</span>
             <ChevronLeftIcon className="h-4 w-4" />
@@ -77,8 +122,7 @@ const DataTablePagination = <TData,>({
           <Button
             variant="outline"
             className="h-8 w-8 p-0"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={handleNextPage}
           >
             <span className="sr-only">Go to next page</span>
             <ChevronRightIcon className="h-4 w-4" />
@@ -86,8 +130,7 @@ const DataTablePagination = <TData,>({
           <Button
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
+            onClick={handletotalPages}
           >
             <span className="sr-only">Go to last page</span>
             <ArrowRight className="h-4 w-4" />

@@ -1,25 +1,39 @@
+'use client';
+
 import React from 'react';
-import { User } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import clsx from 'clsx';
+import Link from 'next/link';
+import { useSidebarDesktop } from '@/hooks';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs';
 import ThemeToggle from '../toggle/ThemeToggle';
 import SearchButton from '../buttons/SearchButton';
+import SidebarMenuButton from '../buttons/SidebarMenuButton';
 
 const SectionHeader = () => {
+  const { sidebarOpen } = useSidebarDesktop();
   return (
-    <header className="flex items-center justify-between bg-background px-6 pb-6 pt-14">
-      <Breadcrumbs />
+    <header
+      className={clsx('flex items-center justify-between bg-background py-6')}
+    >
+      <div className="flex space-x-4">
+        {!sidebarOpen && (
+          <div>
+            <SidebarMenuButton />
+          </div>
+        )}
+        <Breadcrumbs />
+      </div>
       <div>
         <div className="flex space-x-4">
           <SearchButton />
           <ThemeToggle />
-          <Button variant="ghost" className="rounded-full" size="icon">
-            <User />
-          </Button>
-          <div>
-            <h4 className="text-sm font-semibold">Farkhan Muhammad</h4>
-            <span className="text-xs text-gray-400">IT Staff</span>
-          </div>
+          <Link href="/user-1">
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </Link>
         </div>
       </div>
     </header>
