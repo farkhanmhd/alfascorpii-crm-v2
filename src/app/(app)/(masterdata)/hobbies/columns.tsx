@@ -9,12 +9,12 @@ const columns: Column<IHobby>[] = [
   {
     header: 'Hobi',
     key: 'hobby_name',
-    getCellContent: (hobby: IHobby) => hobby.hobby_name,
+    GetCellContent: (hobby: IHobby) => hobby.hobby_name,
   },
   {
     header: 'Status',
     key: 'status' as keyof IHobby,
-    getCellContent: (hobby: IHobby) => (
+    GetCellContent: (hobby: IHobby) => (
       <span
         className={clsx({
           'text-green-500': hobby.status === 'SHOW',
@@ -28,7 +28,7 @@ const columns: Column<IHobby>[] = [
   {
     header: 'Action',
     key: 'action' as keyof IHobby,
-    getCellContent: (hobby: IHobby) => (
+    GetCellContent: (hobby: IHobby) => (
       <Link
         className="text-primary hover:underline"
         href={`/customer/hobby/${hobby.id}`}

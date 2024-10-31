@@ -14,6 +14,7 @@ const NavLinkBase = ({
   isOpen,
   isSubMenu = false,
   show = true,
+  size,
 }: NavLinkBaseProps) => {
   const pathname = usePathname();
   const mainPath = pathname.split('/').filter((path) => path !== '')[0];
@@ -49,7 +50,7 @@ const NavLinkBase = ({
       )}
     >
       <span>{icon}</span>
-      {show && <span className="text-sm">{title}</span>}
+      {show && <span className={size ? 'text-sm' : ''}>{title}</span>}
     </Link>
   );
 };

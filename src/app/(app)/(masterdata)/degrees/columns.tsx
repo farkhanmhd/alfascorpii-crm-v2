@@ -9,17 +9,17 @@ const columns: Column<IDegree>[] = [
   {
     header: 'Kode',
     key: 'degree_code',
-    getCellContent: (data) => data.degree_code,
+    GetCellContent: (data) => data.degree_code,
   },
   {
     header: 'Pendidikan',
     key: 'degree_name',
-    getCellContent: (data) => data.degree_name,
+    GetCellContent: (data) => data.degree_name,
   },
   {
     header: 'Status',
     key: 'status',
-    getCellContent: (data: IDegree) => (
+    GetCellContent: (data: IDegree) => (
       <span
         className={clsx({
           'text-green-500': data.status === 'SHOW',
@@ -32,7 +32,7 @@ const columns: Column<IDegree>[] = [
   },
   {
     header: 'Action',
-    getCellContent: (pendidikan: IDegree) => (
+    GetCellContent: (pendidikan: IDegree) => (
       <Link
         className="text-primary hover:underline"
         href={`/customers/degrees/${pendidikan.id}`}

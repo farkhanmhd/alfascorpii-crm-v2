@@ -9,12 +9,12 @@ const columns: Column<IHouseOwnership>[] = [
   {
     header: 'Status Rumah',
     key: 'house_ownership_status',
-    getCellContent: (data: IHouseOwnership) => data.house_ownership_status,
+    GetCellContent: (data: IHouseOwnership) => data.house_ownership_status,
   },
   {
     header: 'Status',
     key: 'status',
-    getCellContent: (statusRumah: IHouseOwnership) => (
+    GetCellContent: (statusRumah: IHouseOwnership) => (
       <span
         className={clsx({
           'text-green-500': statusRumah.status === 'SHOW',
@@ -27,7 +27,7 @@ const columns: Column<IHouseOwnership>[] = [
   },
   {
     header: 'Action',
-    getCellContent: (statusRumah: IHouseOwnership) => (
+    GetCellContent: (statusRumah: IHouseOwnership) => (
       <Link
         className="text-primary hover:underline"
         href={`/customer/status-rumah/${statusRumah.id}`}

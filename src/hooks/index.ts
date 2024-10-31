@@ -4,15 +4,15 @@ import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import {
   activeButtonAtom,
-  createDialogAtom,
-  editDialogAtom,
   isMobileAtom,
   mobileSidenavAtom,
   openMenuAtom,
   searchDialogAtom,
   desktopSidenavAtom,
   deleteDialogAtom,
+  actionDialogAtom,
 } from '@/store';
+import { ActionDialog } from '@/types';
 import { useToast } from './use-toast';
 
 export const useActiveButton = () => {
@@ -21,17 +21,17 @@ export const useActiveButton = () => {
   return { activeButton, setActiveButton };
 };
 
-export const useCreateDialog = () => {
-  const [createDialog, setCreateDialog] = useAtom(createDialogAtom);
+// export const useCreateDialog = () => {
+//   const [createDialog, setCreateDialog] = useAtom(createDialogAtom);
 
-  return { createDialog, setCreateDialog };
-};
+//   return { createDialog, setCreateDialog };
+// };
 
-export const useEditDialog = () => {
-  const [editDialog, setEditDialog] = useAtom(editDialogAtom);
+// export const useEditDialog = () => {
+//   const [editDialog, setEditDialog] = useAtom(editDialogAtom);
 
-  return { editDialog, setEditDialog };
-};
+//   return { editDialog, setEditDialog };
+// };
 
 export const useDeleteDialog = () => {
   const [deleteDialog, setDeleteDialog] = useAtom(deleteDialogAtom);
@@ -113,10 +113,10 @@ export const useSubmitToast = (
 
 export const useDeleteToast = (
   deleteResult: any,
-  onSuccessNavigate: () => void,
   onErrorRevert: () => void
 ) => {
   const { toast } = useToast();
+  const { setDeleteDialog } = useDeleteDialog();
   useEffect(() => {
     if (deleteResult?.data?.status === 'success') {
       toast({
@@ -124,7 +124,7 @@ export const useDeleteToast = (
         description: deleteResult.data.message,
         duration: 3000,
       });
-      onSuccessNavigate();
+      setDeleteDialog({ open: false, id: null });
     } else if (deleteResult?.data?.status === 'error') {
       toast({
         title: 'Error',
@@ -134,7 +134,7 @@ export const useDeleteToast = (
       });
       onErrorRevert();
     }
-  }, [deleteResult, toast, onSuccessNavigate, onErrorRevert]);
+  }, [deleteResult, toast, setDeleteDialog, onErrorRevert]);
 };
 
 export const useRemoveParam = (
@@ -145,4 +145,18 @@ export const useRemoveParam = (
     const removeParam = searchParams.get('remove');
     setDeleteModal(removeParam === 'true');
   }, [searchParams, setDeleteModal]);
+};
+
+export const useActionDialog = <T>() => {
+  const [actionDialog, setActionDialog] = useAtom(actionDialogAtom);
+
+  const handleClose = () => {
+    setActionDialog(null);
+  };
+
+  return {
+    actionDialog: actionDialog as ActionDialog<T> | null,
+    setActionDialog,
+    handleClose,
+  };
 };

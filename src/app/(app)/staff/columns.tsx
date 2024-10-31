@@ -6,26 +6,26 @@ import Link from 'next/link';
 import { IStaff, Column } from '@/types';
 
 const columns: Column<IStaff>[] = [
-  { header: 'NIP', key: 'nip', getCellContent: (staff: IStaff) => staff.nip },
+  { header: 'NIP', key: 'nip', GetCellContent: (staff: IStaff) => staff.nip },
   {
     header: 'Username',
     key: 'username',
-    getCellContent: (staff: IStaff) => staff.username,
+    GetCellContent: (staff: IStaff) => staff.username,
   },
   {
     header: 'Name',
     key: 'name',
-    getCellContent: (staff: IStaff) => staff.name,
+    GetCellContent: (staff: IStaff) => staff.name,
   },
   {
     header: 'Email',
     key: 'email',
-    getCellContent: (staff: IStaff) => staff.email,
+    GetCellContent: (staff: IStaff) => staff.email,
   },
   {
     header: 'Status',
     key: 'status',
-    getCellContent: (staff: IStaff) => (
+    GetCellContent: (staff: IStaff) => (
       <span
         className={clsx({
           'text-green-500': staff.status === 'VALID',
@@ -40,11 +40,11 @@ const columns: Column<IStaff>[] = [
   {
     header: 'Role',
     key: 'role',
-    getCellContent: (staff: IStaff) => staff.role,
+    GetCellContent: (staff: IStaff) => staff.role,
   },
   {
     header: 'Action',
-    getCellContent: (staff: IStaff) => (
+    GetCellContent: (staff: IStaff) => (
       <Link
         className="text-primary hover:underline"
         href={`/staff/${staff.id}`}

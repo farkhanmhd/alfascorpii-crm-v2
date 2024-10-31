@@ -82,7 +82,7 @@ const NavLinks = ({ items, isOpen, isMobile = false }: NavLinksProps) => {
                   <ul
                     className={clsx('duration-300 ease-in-out', {
                       'max-h-0': openMenu !== item.title,
-                      'max-h-[20vh]': openMenu === item.title,
+                      'max-h-[30vh]': openMenu === item.title,
                     })}
                   >
                     {item.childrens?.map((child) => (

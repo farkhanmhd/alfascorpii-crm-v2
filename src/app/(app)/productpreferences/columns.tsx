@@ -9,11 +9,11 @@ const columns: Column<IProductPreferences>[] = [
   {
     header: 'Product',
     key: 'product_name',
-    getCellContent: (product: IProductPreferences) => product.product_name,
+    GetCellContent: (product: IProductPreferences) => product.product_name,
   },
   {
     header: 'Action',
-    getCellContent: (product: IProductPreferences) => (
+    GetCellContent: (product: IProductPreferences) => (
       <Link
         className="text-primary hover:underline"
         href={`/productpreferences/${product.id}`}

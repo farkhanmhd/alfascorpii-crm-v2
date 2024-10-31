@@ -3,33 +3,33 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { IIncome, Column } from '@/types';
+import { IExpense, Column } from '@/types';
 
-const columns: Column<IIncome>[] = [
+const columns: Column<IExpense>[] = [
   {
     header: 'Batas Bawah',
-    key: 'income_lower_limit',
-    getCellContent: (data: IIncome) => data.income_lower_limit,
+    key: 'expense_lower_limit',
+    GetCellContent: (data: IExpense) => data.expense_lower_limit,
   },
   {
     header: 'Batas Atas',
-    key: 'income_upper_limit',
-    getCellContent: (data: IIncome) => data.income_upper_limit,
+    key: 'expense_upper_limit',
+    GetCellContent: (data: IExpense) => data.expense_upper_limit,
   },
   {
     header: 'Detail',
-    key: 'income_detail',
-    getCellContent: (data: IIncome) => data.income_detail,
+    key: 'expense_detail',
+    GetCellContent: (data: IExpense) => data.expense_detail,
   },
   {
     header: 'Kode',
-    key: 'income_code',
-    getCellContent: (data: IIncome) => data.income_code,
+    key: 'expense_code',
+    GetCellContent: (data: IExpense) => data.expense_code,
   },
   {
     header: 'Status',
     key: 'status',
-    getCellContent: (data: IIncome) => (
+    GetCellContent: (data: IExpense) => (
       <span
         className={clsx({
           'text-green-500': data.status === 'SHOW',
@@ -42,10 +42,10 @@ const columns: Column<IIncome>[] = [
   },
   {
     header: 'Action',
-    getCellContent: (data: IIncome) => (
+    GetCellContent: (pengeluaran: IExpense) => (
       <Link
         className="text-primary hover:underline"
-        href={`/incomes/${data.id}`}
+        href={`/expenses/${pengeluaran.id}`}
       >
         Edit
       </Link>

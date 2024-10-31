@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import {
   putPekerjaan,
-  postPekerjaan,
+  postJob,
   deletePekerjaan,
 } from '@/app/lib/data/customers/customerjobs';
 
@@ -18,12 +18,12 @@ const jobSchema = z.object({
 
 const createJobSchema = jobSchema.omit({ id: true });
 
-export const addNewPekerjaan = actionClient
+export const addJob = actionClient
   .schema(createJobSchema)
   .action(async ({ parsedInput: { job, code, status } }) => {
     try {
-      await postPekerjaan(job, code, status);
-      revalidatePath('/customers/customerjobs');
+      await postJob(job, code, status);
+      revalidatePath('/customerjobs');
       return { status: 'success', message: 'Pekerjaan added successfully' };
     } catch (error) {
       return {
@@ -38,8 +38,8 @@ export const updateJob = actionClient
   .action(async ({ parsedInput: { id, job, code, status } }) => {
     try {
       await putPekerjaan(id, job, code, status);
-      revalidatePath('/customers/customerjobs');
-      revalidatePath(`/customers/customerjobs/${id}`);
+      revalidatePath('/customerjobs');
+      revalidatePath(`/customerjobs/${id}`);
       return {
         status: 'success',
         message: 'Pekerjaan updated successfully',
@@ -61,7 +61,7 @@ export const removeJob = actionClient
   .action(async ({ parsedInput: { id } }) => {
     try {
       await deletePekerjaan(id);
-      revalidatePath('/customers/customerjobs');
+      revalidatePath('/customerjobs');
       return { status: 'success', message: 'Pekerjaan deleted successfully' };
     } catch (error) {
       return {

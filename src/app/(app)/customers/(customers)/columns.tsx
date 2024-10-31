@@ -8,31 +8,31 @@ const columns: Column<ICustomer>[] = [
   {
     header: 'Dealer',
     key: 'dealer',
-    getCellContent: (customer: ICustomer) => customer.dealer,
+    GetCellContent: (customer: ICustomer) => customer.dealer,
   },
   {
     header: 'Customer',
     key: 'name',
-    getCellContent: (customer: ICustomer) => customer.name,
+    GetCellContent: (customer: ICustomer) => customer.name,
   },
   {
     header: 'Lokasi',
     key: 'lokasi',
-    getCellContent: (customer: ICustomer) => customer.lokasi,
+    GetCellContent: (customer: ICustomer) => customer.lokasi,
   },
   {
     header: 'Phone',
     key: 'phone',
-    getCellContent: (customer: ICustomer) => customer.phone,
+    GetCellContent: (customer: ICustomer) => customer.phone,
   },
   {
     header: 'Follow Up',
     key: 'follow_up',
-    getCellContent: (customer: ICustomer) => customer.follow_up,
+    GetCellContent: (customer: ICustomer) => customer.follow_up,
   },
   {
     header: 'Action',
-    getCellContent: (customer: ICustomer) => (
+    GetCellContent: (customer: ICustomer) => (
       <Link
         className="text-primary hover:underline"
         href={`/customer/${customer.id}`}

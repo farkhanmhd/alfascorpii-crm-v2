@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import TextInput from '@/components/fragments/form/TextInput';
 import StatusRadio from '@/components/fragments/form/StatusRadio';
 import SubmitButton from '@/components/fragments/buttons/SubmitButton';
+import { getErrorMessages } from '@/lib/utils';
 
 interface CustomerJobFormProps {
   initialJob?: string;
@@ -30,9 +31,6 @@ const CustomerJobForm = ({
   const handleStatusChange = (value: 'SHOW' | 'HIDE') => {
     setStatus(value);
   };
-
-  const getErrorMessages = (errorObj?: { _errors?: string[] }) =>
-    errorObj?._errors || [];
 
   return (
     <form className="flex flex-col gap-y-8" action={action}>

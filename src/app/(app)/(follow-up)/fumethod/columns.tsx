@@ -9,12 +9,12 @@ const columns: Column<IFUMethod>[] = [
   {
     header: 'Metode',
     key: 'fu_method_name',
-    getCellContent: (metode: IFUMethod) => metode.fu_method_name,
+    GetCellContent: (metode: IFUMethod) => metode.fu_method_name,
   },
   {
     header: 'Status',
     key: 'status',
-    getCellContent: (metode: IFUMethod) => (
+    GetCellContent: (metode: IFUMethod) => (
       <span
         className={clsx({
           'text-green-500': metode.status === 'SHOW',
@@ -27,7 +27,7 @@ const columns: Column<IFUMethod>[] = [
   },
   {
     header: 'Action',
-    getCellContent: (metode: IFUMethod) => (
+    GetCellContent: (metode: IFUMethod) => (
       <Link
         className="text-primary hover:underline"
         href={`/metode-fu/${metode.id}`}

@@ -14,8 +14,8 @@ const Page = async (props: {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const per_page = searchParams?.per_page;
-  const data = await fetchLeasing(search, page, per_page);
+  const perPage = searchParams?.per_page;
+  const data = await fetchLeasing(search, page, perPage);
 
   if (!data) {
     return (

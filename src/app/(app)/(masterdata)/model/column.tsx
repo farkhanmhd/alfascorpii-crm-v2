@@ -5,21 +5,21 @@ import Link from 'next/link';
 import { IDpackModel, Column } from '@/types';
 
 const columns: Column<IDpackModel>[] = [
-  { header: 'Model', key: 'model', getCellContent: (model) => model.model },
+  { header: 'Model', key: 'model', GetCellContent: (model) => model.model },
   {
     header: 'Catalog',
     key: 'catalog',
-    getCellContent: (model) => model.catalog,
+    GetCellContent: (model) => model.catalog,
   },
   {
     header: 'Category',
     key: 'category',
-    getCellContent: (model) => model.category,
+    GetCellContent: (model) => model.category,
   },
-  { header: 'Color', key: 'color', getCellContent: (model) => model.color },
+  { header: 'Color', key: 'color', GetCellContent: (model) => model.color },
   {
     header: 'Action',
-    getCellContent: (model: IDpackModel) => (
+    GetCellContent: (model: IDpackModel) => (
       <Link
         className="text-primary hover:underline"
         href={`/model/${model.id}`}

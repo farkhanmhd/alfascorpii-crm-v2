@@ -1,23 +1,30 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { useActionDialog } from '@/hooks';
 
-interface DialogContainerProps {
+interface ActionDialogContainerProps {
   title: string;
   children: React.ReactNode;
 }
 
-const DialogContainer = ({ title, children }: DialogContainerProps) => {
-  const router = useRouter();
+const ActionDialogContainer = ({
+  title,
+  children,
+}: ActionDialogContainerProps) => {
+  const { actionDialog, handleClose } = useActionDialog<unknown>();
+
   return (
-    <Dialog open onOpenChange={() => router.back()}>
+    <Dialog
+      open={actionDialog?.create || actionDialog?.edit}
+      onOpenChange={handleClose}
+    >
       <DialogContent className="w-[90vw] rounded-md">
         <DialogHeader>
           <DialogTitle className="text-left">{title}</DialogTitle>
@@ -28,4 +35,4 @@ const DialogContainer = ({ title, children }: DialogContainerProps) => {
   );
 };
 
-export default DialogContainer;
+export default ActionDialogContainer;

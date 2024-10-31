@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import { IDialogTables } from '@/types';
+import { DeleteDialog, ActionDialog } from '@/types';
 
 export const searchDialogAtom = atom<boolean>(false);
 
@@ -17,31 +17,9 @@ export const activeButtonAtom = atomWithStorage<null | string>(
 );
 export const openMenuAtom = atomWithStorage<null | string>('openMenu', null);
 
-const dialogTables: IDialogTables = {
-  staff: false,
-  customers: false,
-  kerabat: false,
-  pekerjaan: {
-    open: false,
-    id: null,
-    pekerjaan: '',
-    kode: '',
-    status: 'SHOW',
-  },
-  pendidikan: false,
-  pengeluaran: false,
-  income: false,
-  hobi: false,
-  house_ownership_status: false,
-  keterangan_fu: false,
-  keterangan_hasil: false,
-  dealers: false,
-  leasing: false,
-  model: false,
-  holiday_name: false,
-  metode_fu: false,
-};
+export const deleteDialogAtom = atom<DeleteDialog | null>({
+  open: false,
+  id: null,
+});
 
-export const createDialogAtom = atom<IDialogTables>(dialogTables);
-export const editDialogAtom = atom<IDialogTables>(dialogTables);
-export const deleteDialogAtom = atom<IDialogTables>(dialogTables);
+export const actionDialogAtom = atom<ActionDialog<unknown> | null>(null);

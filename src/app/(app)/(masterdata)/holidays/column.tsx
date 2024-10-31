@@ -9,18 +9,18 @@ const columns: Column<IHolidays>[] = [
   {
     header: 'Hari Besar',
     key: 'holiday_name',
-    getCellContent: (item) => item.holiday_name,
+    GetCellContent: (item) => item.holiday_name,
   },
   {
     header: 'Tanggal',
     key: 'holiday_date',
-    getCellContent: (item) => item.holiday_date,
+    GetCellContent: (item) => item.holiday_date,
   },
-  { header: 'Ucapan', key: 'message', getCellContent: (item) => item.message },
+  { header: 'Ucapan', key: 'message', GetCellContent: (item) => item.message },
   {
     header: 'Status',
     key: 'status',
-    getCellContent: (hari: IHolidays) => (
+    GetCellContent: (hari: IHolidays) => (
       <span
         className={clsx({
           'text-green-500': hari.status === 'SHOW',
@@ -33,7 +33,7 @@ const columns: Column<IHolidays>[] = [
   },
   {
     header: 'Action',
-    getCellContent: (hari: IHolidays) => (
+    GetCellContent: (hari: IHolidays) => (
       <Link
         className="text-primary hover:underline"
         href={`/hari-besar/${hari.id}`}

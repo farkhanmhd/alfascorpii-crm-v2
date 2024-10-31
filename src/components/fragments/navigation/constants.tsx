@@ -3,11 +3,11 @@ import React from 'react';
 import {
   LayoutDashboard,
   Database,
-  User,
+  // User,
   Users,
   Building,
   DollarSign,
-  FileChartLineIcon,
+  // FileChartLineIcon,
   Calendar,
   MessageSquare,
   Table,
@@ -55,6 +55,41 @@ export const NavItems: NavItem[] = [
         icon: <Calendar />,
         href: '/holidays',
       },
+      {
+        title: 'Kerabat',
+        icon: <Users />,
+        href: '/relations',
+      },
+      {
+        title: 'Pekerjaan',
+        icon: <Briefcase />,
+        href: '/customerjobs',
+      },
+      {
+        title: 'Pendidikan',
+        icon: <GraduationCap />,
+        href: '/degrees',
+      },
+      {
+        title: 'Pengeluaran',
+        icon: <CreditCard />,
+        href: '/expenses',
+      },
+      {
+        title: 'Penghasilan',
+        icon: <Wallet />,
+        href: '/incomes',
+      },
+      {
+        title: 'Hobi',
+        icon: <Camera />,
+        href: '/hobbies',
+      },
+      {
+        title: 'Status Rumah',
+        icon: <House />,
+        href: '/houseownerships',
+      },
     ],
   },
   // {
@@ -65,49 +100,7 @@ export const NavItems: NavItem[] = [
   {
     title: 'Customers',
     icon: <Users />,
-    isParent: true,
-    childrens: [
-      // {
-      //   title: 'Daftar Customer',
-      //   icon: <Users />,
-      //   href: '/customers',
-      // },
-      {
-        title: 'Kerabat',
-        icon: <Users />,
-        href: '/customers/relations',
-      },
-      {
-        title: 'Pekerjaan',
-        icon: <Briefcase />,
-        href: '/customers/customerjobs',
-      },
-      {
-        title: 'Pendidikan',
-        icon: <GraduationCap />,
-        href: '/customers/degrees',
-      },
-      {
-        title: 'Pengeluaran',
-        icon: <CreditCard />,
-        href: '/customers/expenses',
-      },
-      {
-        title: 'Penghasilan',
-        icon: <Wallet />,
-        href: '/customers/incomes',
-      },
-      {
-        title: 'Hobi',
-        icon: <Camera />,
-        href: '/customers/hobbies',
-      },
-      {
-        title: 'Status Rumah',
-        icon: <House />,
-        href: '/customers/houseownerships',
-      },
-    ],
+    href: '/customers',
   },
   {
     title: 'Products',
@@ -187,54 +180,47 @@ export const MobileSidenavItems: NavItem[] = [
         icon: <Calendar />,
         href: '/holidays',
       },
+      {
+        title: 'Kerabat',
+        icon: <Users />,
+        href: '/relations',
+      },
+      {
+        title: 'Pekerjaan',
+        icon: <Briefcase />,
+        href: '/customerjobs',
+      },
+      {
+        title: 'Pendidikan',
+        icon: <GraduationCap />,
+        href: '/degrees',
+      },
+      {
+        title: 'Pengeluaran',
+        icon: <CreditCard />,
+        href: '/expenses',
+      },
+      {
+        title: 'Penghasilan',
+        icon: <Wallet />,
+        href: '/incomes',
+      },
+      {
+        title: 'Hobi',
+        icon: <Camera />,
+        href: '/hobbies',
+      },
+      {
+        title: 'Status Rumah',
+        icon: <House />,
+        href: '/houseownerships',
+      },
     ],
   },
   {
     title: 'Customers',
     icon: <Users />,
-    isParent: true,
-    childrens: [
-      // {
-      //   title: 'Daftar Customer',
-      //   icon: <Users />,
-      //   href: '/customers',
-      // },
-      {
-        title: 'Kerabat',
-        icon: <Users />,
-        href: '/customers/relations',
-      },
-      {
-        title: 'Pekerjaan',
-        icon: <Briefcase />,
-        href: '/customers/customerjobs',
-      },
-      {
-        title: 'Pendidikan',
-        icon: <GraduationCap />,
-        href: '/customers/degrees',
-      },
-      {
-        title: 'Pengeluaran',
-        icon: <CreditCard />,
-        href: '/customers/expenses',
-      },
-      {
-        title: 'Penghasilan',
-        icon: <Wallet />,
-        href: '/customers/incomes',
-      },
-      {
-        title: 'Hobi',
-        icon: <Camera />,
-        href: '/customers/hobbies',
-      },
-      {
-        title: 'Status Rumah',
-        icon: <House />,
-        href: '/customers/houseownerships',
-      },
-    ],
+    href: '/customers',
   },
 
   {

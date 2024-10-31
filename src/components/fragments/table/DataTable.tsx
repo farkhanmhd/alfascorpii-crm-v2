@@ -41,7 +41,7 @@ const DataTable = <T,>({
                   of={columns}
                   render={(col: Column<T>, index) => (
                     <TableCell key={index}>
-                      {col.getCellContent(item)}
+                      {col.GetCellContent(item)}
                     </TableCell>
                   )}
                 />

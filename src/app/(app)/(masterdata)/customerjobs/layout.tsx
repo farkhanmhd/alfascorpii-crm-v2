@@ -1,26 +1,35 @@
+'use client';
+
 import React from 'react';
 import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
 import Tablesearch from '@/components/fragments/table/tablesearch';
 import AddButton from '@/components/fragments/buttons/AddButton';
+import { useDeleteDialog, useActionDialog } from '@/hooks';
+import {
+  CreateCustomerJobDialog,
+  EditCustomerJobDialog,
+  DeleteJobDialog,
+} from './actions';
 
 interface LayoutProps {
   children: React.ReactNode;
-  action: React.ReactNode;
-  create: React.ReactNode;
 }
 
-const Layout = ({ children, action, create }: LayoutProps) => {
+const Layout = ({ children }: LayoutProps) => {
+  const { deleteDialog } = useDeleteDialog();
+  const { actionDialog } = useActionDialog();
   return (
     <>
       <div className="flex h-full flex-1 flex-col">
         <TableContainerHeader>
-          <Tablesearch placeholder="Search pekerjaan" />
+          <Tablesearch placeholder="Search Pekerjaan" />
           <AddButton>Add Pekerjaan</AddButton>
         </TableContainerHeader>
         {children}
       </div>
-      {action}
-      {create}
+      {actionDialog?.create && <CreateCustomerJobDialog />}
+      {actionDialog?.edit && <EditCustomerJobDialog />}
+      {deleteDialog?.open && <DeleteJobDialog />}
     </>
   );
 };

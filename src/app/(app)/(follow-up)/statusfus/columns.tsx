@@ -9,12 +9,12 @@ const columns: Column<IStatusFU>[] = [
   {
     header: 'Keterangan',
     key: 'detail_fu_name',
-    getCellContent: (status: IStatusFU) => status.detail_fu_name || 'Null',
+    GetCellContent: (status: IStatusFU) => status.detail_fu_name || 'Null',
   },
   {
     header: 'Status',
     key: 'status',
-    getCellContent: (status: IStatusFU) => (
+    GetCellContent: (status: IStatusFU) => (
       <span
         className={clsx({
           'text-green-500': status.status === 'SHOW',
@@ -27,7 +27,7 @@ const columns: Column<IStatusFU>[] = [
   },
   {
     header: 'Action',
-    getCellContent: (keterangan: IStatusFU) => (
+    GetCellContent: (keterangan: IStatusFU) => (
       <Link
         className="text-primary hover:underline"
         href={`/keterangan-fu/${keterangan.id}`}

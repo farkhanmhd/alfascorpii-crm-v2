@@ -22,3 +22,6 @@ export function convertDateToISO(
   date.setUTCHours(hours, minutes, seconds, milliseconds);
   return date.toISOString();
 }
+
+export const getErrorMessages = (errorObj?: { _errors?: string[] }) =>
+  errorObj?._errors || [];

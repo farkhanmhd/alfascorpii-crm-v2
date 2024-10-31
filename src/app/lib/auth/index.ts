@@ -6,6 +6,6 @@ export const getUser = async (username: string, password: string) => {
     const responseData = response.data;
     return responseData;
   } catch (error) {
-    console.error(error);
+    return error;
   }
 };

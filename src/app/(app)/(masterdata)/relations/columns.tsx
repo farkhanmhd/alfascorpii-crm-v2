@@ -9,12 +9,12 @@ const columns: Column<IRelation>[] = [
   {
     header: 'Kerabat',
     key: 'relation_name',
-    getCellContent: (relation: IRelation) => relation.relation_name,
+    GetCellContent: (relation: IRelation) => relation.relation_name,
   },
   {
     header: 'Status',
     key: 'status' as keyof IRelation,
-    getCellContent: (relation: IRelation) => (
+    GetCellContent: (relation: IRelation) => (
       <span
         className={clsx({
           'text-green-500': relation.status === 'SHOW',
@@ -28,7 +28,7 @@ const columns: Column<IRelation>[] = [
   {
     header: 'Action',
     key: 'action' as keyof IRelation,
-    getCellContent: (customer: IRelation) => (
+    GetCellContent: (customer: IRelation) => (
       <Link
         className="text-primary hover:underline"
         href={`/customers/relations/${customer.id}`}

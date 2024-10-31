@@ -9,12 +9,12 @@ const columns: Column<IResultFU>[] = [
   {
     header: 'Hasil Follow Up',
     key: 'fu_result_name',
-    getCellContent: (result: IResultFU) => result.fu_result_name,
+    GetCellContent: (result: IResultFU) => result.fu_result_name,
   },
   {
     header: 'Status',
     key: 'status',
-    getCellContent: (result: IResultFU) => (
+    GetCellContent: (result: IResultFU) => (
       <span
         className={clsx({
           'text-green-500': result.status === 'SHOW',
@@ -27,7 +27,7 @@ const columns: Column<IResultFU>[] = [
   },
   {
     header: 'Action',
-    getCellContent: (result: IResultFU) => (
+    GetCellContent: (result: IResultFU) => (
       <Link
         className="text-primary hover:underline"
         href={`/furesult/${result.id}`}

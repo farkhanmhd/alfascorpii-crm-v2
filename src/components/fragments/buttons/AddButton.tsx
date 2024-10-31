@@ -1,16 +1,17 @@
 'use client';
 
 import React from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { useActionDialog } from '@/hooks';
 
 const AddButton = ({ children }: { children: React.ReactNode }) => {
-  const pathname = usePathname();
-  const { push } = useRouter();
-  const createPath = `${pathname}/create`;
+  const { setActionDialog } = useActionDialog<unknown>();
 
   return (
-    <Button className="text-white" onClick={() => push(createPath)}>
+    <Button
+      className="w-fit text-white"
+      onClick={() => setActionDialog({ create: true })}
+    >
       {children}
     </Button>
   );
