@@ -23,3 +23,7 @@ export const deleteDialogAtom = atom<DeleteDialog | null>({
 });
 
 export const actionDialogAtom = atom<ActionDialog<unknown> | null>(null);
+
+export const selectedDateAtom = atom<Date | string | number | undefined>(
+  new Date()
+);

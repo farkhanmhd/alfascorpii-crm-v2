@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import DataTablePagination from '@/components/fragments/table/pagination';
-import { fetchincome } from '@/app/lib/data/customers/incomes';
+import { fetchincome } from '@/app/lib/data/incomes';
 import DataTable from '@/components/fragments/table/DataTable';
 import columns from './columns';
 

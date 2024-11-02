@@ -2,8 +2,10 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
 import { IDegree, Column } from '@/types';
+import { Button } from '@/components/ui/button';
+import { Pencil, Trash } from 'lucide-react';
+import { useDeleteDialog, useActionDialog } from '@/hooks';
 
 const columns: Column<IDegree>[] = [
   {
@@ -32,14 +34,30 @@ const columns: Column<IDegree>[] = [
   },
   {
     header: 'Action',
-    GetCellContent: (pendidikan: IDegree) => (
-      <Link
-        className="text-primary hover:underline"
-        href={`/customers/degrees/${pendidikan.id}`}
-      >
-        Edit
-      </Link>
-    ),
+    GetCellContent: (degree: IDegree) => {
+      const { setDeleteDialog } = useDeleteDialog();
+      const { setActionDialog } = useActionDialog<IDegree>();
+      return (
+        <div className="flex gap-x-4">
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onClick={() => setActionDialog({ edit: true, data: degree })}
+          >
+            <Pencil />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onClick={() => setDeleteDialog({ open: true, id: degree.id })}
+          >
+            <Trash />
+          </Button>
+        </div>
+      );
+    },
   },
 ];
 

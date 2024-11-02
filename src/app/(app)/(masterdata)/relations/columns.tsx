@@ -2,8 +2,10 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
 import { IRelation, Column } from '@/types';
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useDeleteDialog, useActionDialog } from '@/hooks';
 
 const columns: Column<IRelation>[] = [
   {
@@ -13,7 +15,7 @@ const columns: Column<IRelation>[] = [
   },
   {
     header: 'Status',
-    key: 'status' as keyof IRelation,
+    key: 'status',
     GetCellContent: (relation: IRelation) => (
       <span
         className={clsx({
@@ -27,15 +29,31 @@ const columns: Column<IRelation>[] = [
   },
   {
     header: 'Action',
-    key: 'action' as keyof IRelation,
-    GetCellContent: (customer: IRelation) => (
-      <Link
-        className="text-primary hover:underline"
-        href={`/customers/relations/${customer.id}`}
-      >
-        Edit
-      </Link>
-    ),
+    GetCellContent: (item: IRelation) => {
+      const { setDeleteDialog } = useDeleteDialog();
+      const { setActionDialog } = useActionDialog<IRelation>();
+
+      return (
+        <div className="flex gap-x-4">
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onClick={() => setActionDialog({ edit: true, data: item })}
+          >
+            <Pencil />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onClick={() => setDeleteDialog({ open: true, id: item.id })}
+          >
+            <Trash />
+          </Button>
+        </div>
+      );
+    },
   },
 ];
 

@@ -1,4 +1,4 @@
-import { fetchWithParams, fetchData } from '../../fetchUtils';
+import { fetchWithParams, fetchData } from '../fetchUtils';
 
 export const getCustomerJobs = (
   search?: string,
@@ -6,10 +6,6 @@ export const getCustomerJobs = (
   per_page?: string
 ) => {
   return fetchWithParams('customerjobs', search, page, per_page);
-};
-
-export const getCustomerJobById = async (id: string) => {
-  return fetchData({ endpoint: `customerjobs/${id}` });
 };
 
 export const postJob = async (job: string, code: string, status: string) => {

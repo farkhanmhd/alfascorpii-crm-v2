@@ -2,8 +2,10 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
 import { IHouseOwnership, Column } from '@/types';
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useDeleteDialog, useActionDialog } from '@/hooks';
 
 const columns: Column<IHouseOwnership>[] = [
   {
@@ -27,14 +29,31 @@ const columns: Column<IHouseOwnership>[] = [
   },
   {
     header: 'Action',
-    GetCellContent: (statusRumah: IHouseOwnership) => (
-      <Link
-        className="text-primary hover:underline"
-        href={`/customer/status-rumah/${statusRumah.id}`}
-      >
-        Edit
-      </Link>
-    ),
+    GetCellContent: (item: IHouseOwnership) => {
+      const { setDeleteDialog } = useDeleteDialog();
+      const { setActionDialog } = useActionDialog<IHouseOwnership>();
+
+      return (
+        <div className="flex gap-x-4">
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onClick={() => setActionDialog({ edit: true, data: item })}
+          >
+            <Pencil />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onClick={() => setDeleteDialog({ open: true, id: item.id })}
+          >
+            <Trash />
+          </Button>
+        </div>
+      );
+    },
   },
 ];
 

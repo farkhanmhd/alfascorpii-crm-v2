@@ -2,8 +2,10 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
 import { IHobby, Column } from '@/types';
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useDeleteDialog, useActionDialog } from '@/hooks';
 
 const columns: Column<IHobby>[] = [
   {
@@ -13,7 +15,7 @@ const columns: Column<IHobby>[] = [
   },
   {
     header: 'Status',
-    key: 'status' as keyof IHobby,
+    key: 'status',
     GetCellContent: (hobby: IHobby) => (
       <span
         className={clsx({
@@ -27,15 +29,31 @@ const columns: Column<IHobby>[] = [
   },
   {
     header: 'Action',
-    key: 'action' as keyof IHobby,
-    GetCellContent: (hobby: IHobby) => (
-      <Link
-        className="text-primary hover:underline"
-        href={`/customer/hobby/${hobby.id}`}
-      >
-        Edit
-      </Link>
-    ),
+    GetCellContent: (item: IHobby) => {
+      const { setDeleteDialog } = useDeleteDialog();
+      const { setActionDialog } = useActionDialog<IHobby>();
+
+      return (
+        <div className="flex gap-x-4">
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onClick={() => setActionDialog({ edit: true, data: item })}
+          >
+            <Pencil />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onClick={() => setDeleteDialog({ open: true, id: item.id })}
+          >
+            <Trash />
+          </Button>
+        </div>
+      );
+    },
   },
 ];
 

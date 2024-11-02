@@ -26,7 +26,7 @@ const ActionDialogContainer = ({
       onOpenChange={handleClose}
     >
       <DialogContent className="w-[90vw] rounded-md">
-        <DialogHeader>
+        <DialogHeader className="mb-4">
           <DialogTitle className="text-left">{title}</DialogTitle>
         </DialogHeader>
         {children}

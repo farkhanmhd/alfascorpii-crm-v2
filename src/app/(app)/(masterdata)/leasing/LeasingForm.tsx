@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import TextInput from '@/components/fragments/form/TextInput';
 import SubmitButton from '@/components/fragments/buttons/SubmitButton';

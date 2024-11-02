@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import { useAction } from 'next-safe-action/hooks';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
@@ -10,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import SubmitButton from '@/components/fragments/buttons/SubmitButton';
 
 const LoginPage = () => {
+  const { data: session } = useSession();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { toast } = useToast();
@@ -18,6 +20,17 @@ const LoginPage = () => {
     new URLSearchParams(window.location.search).get('callbackUrl') || '/';
 
   const { execute, result } = useAction(loginAction);
+
+  useEffect(() => {
+    if (!session) {
+      toast({
+        title: 'Session Expired',
+        description: 'Please login again',
+        variant: 'destructive',
+        duration: 3000,
+      });
+    }
+  }, [session, toast]);
 
   useEffect(() => {
     if (result.serverError) {

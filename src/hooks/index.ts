@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState, useRef, RefObject } from 'react';
 import { useAtom } from 'jotai';
 import {
   activeButtonAtom,
@@ -11,9 +11,11 @@ import {
   desktopSidenavAtom,
   deleteDialogAtom,
   actionDialogAtom,
+  selectedDateAtom,
 } from '@/store';
 import { ActionDialog } from '@/types';
 import { useToast } from './use-toast';
+import { useDebouncedCallback } from 'use-debounce';
 
 export const useActiveButton = () => {
   const [activeButton, setActiveButton] = useAtom(activeButtonAtom);
@@ -137,21 +139,13 @@ export const useDeleteToast = (
   }, [deleteResult, toast, setDeleteDialog, onErrorRevert]);
 };
 
-export const useRemoveParam = (
-  searchParams: URLSearchParams,
-  setDeleteModal: (value: boolean) => void
-) => {
-  useEffect(() => {
-    const removeParam = searchParams.get('remove');
-    setDeleteModal(removeParam === 'true');
-  }, [searchParams, setDeleteModal]);
-};
-
 export const useActionDialog = <T>() => {
   const [actionDialog, setActionDialog] = useAtom(actionDialogAtom);
+  const { setSelectedDate } = useSelectedDate();
 
   const handleClose = () => {
     setActionDialog(null);
+    setSelectedDate(new Date().toString());
   };
 
   return {
@@ -159,4 +153,30 @@ export const useActionDialog = <T>() => {
     setActionDialog,
     handleClose,
   };
+};
+
+export const useSelectedDate = () => {
+  const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
+
+  return { selectedDate, setSelectedDate };
+};
+
+export const useElementWidth = () => {
+  const elementRef = useRef<HTMLElement | null>(null);
+  const [elementWidth, setElementWidth] = useState(0);
+
+  const handleResize = useDebouncedCallback(() => {
+    const newWidth = elementRef.current?.getBoundingClientRect().width || 0;
+    setElementWidth(newWidth);
+  }, 300);
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [elementRef.current?.offsetWidth]);
+
+  return { elementRef, elementWidth };
 };

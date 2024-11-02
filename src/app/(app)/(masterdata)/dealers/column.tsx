@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
 import { Pencil, Trash } from 'lucide-react';
 import { IDealer, Column } from '@/types';
 import { Button } from '@/components/ui/button';
+import { useDeleteDialog, useActionDialog } from '@/hooks';
 
 const columns: Column<IDealer>[] = [
   {
@@ -29,21 +29,23 @@ const columns: Column<IDealer>[] = [
   },
   {
     header: 'Action',
-    GetCellContent: (job: IDealer) => {
-      const { push } = useRouter();
+    GetCellContent: (dealer: IDealer) => {
+      const { setDeleteDialog } = useDeleteDialog();
+      const { setActionDialog } = useActionDialog<IDealer>();
+
+      const handleEdit = () => {
+        setActionDialog({ edit: true, data: dealer });
+      };
+
       return (
         <div className="flex gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => push(`/dealers/${job.id}`)}
-          >
+          <Button variant="outline" size="sm" onClick={handleEdit}>
             <Pencil />
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => push(`/dealers/${job.id}?remove=true`)}
+            onClick={() => setDeleteDialog({ open: true, id: dealer.id })}
           >
             <Trash />
           </Button>

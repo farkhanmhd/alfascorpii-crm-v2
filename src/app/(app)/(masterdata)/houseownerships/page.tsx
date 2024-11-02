@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import DataTable from '@/components/fragments/table/DataTable';
-import { fetchStatusRumah } from '@/app/lib/data/customers/houseownerships';
+import { fetchHouseOwnerships } from '@/app/lib/data/houseownerships';
 import columns from './columns';
 
 const Page = async (props: {
@@ -15,7 +15,7 @@ const Page = async (props: {
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
   const per_page = searchParams?.per_page;
-  const data = await fetchStatusRumah(search, page, per_page);
+  const data = await fetchHouseOwnerships(search, page, per_page);
 
   if (!data) {
     return (

@@ -7,7 +7,7 @@ import {
   putPekerjaan,
   postJob,
   deletePekerjaan,
-} from '@/app/lib/data/customers/customerjobs';
+} from '@/app/lib/data/customerjobs';
 
 const jobSchema = z.object({
   id: z.number(),

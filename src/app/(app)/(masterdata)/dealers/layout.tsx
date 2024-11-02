@@ -1,15 +1,19 @@
+'use client';
+
 import React from 'react';
 import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
 import Tablesearch from '@/components/fragments/table/tablesearch';
+import { useDeleteDialog, useActionDialog } from '@/hooks';
 import AddButton from '@/components/fragments/buttons/AddButton';
+import {
+  CreateDealerDialog,
+  EditDealerDialog,
+  DeleteDealerDialog,
+} from './actions';
 
-interface LayoutProps {
-  children: React.ReactNode;
-  action: React.ReactNode;
-  create: React.ReactNode;
-}
-
-const Layout = ({ children, action, create }: LayoutProps) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
+  const { actionDialog } = useActionDialog();
+  const { deleteDialog } = useDeleteDialog();
   return (
     <>
       <div className="flex h-full flex-1 flex-col">
@@ -19,8 +23,9 @@ const Layout = ({ children, action, create }: LayoutProps) => {
         </TableContainerHeader>
         {children}
       </div>
-      {action}
-      {create}
+      {actionDialog?.create && <CreateDealerDialog />}
+      {actionDialog?.edit && <EditDealerDialog />}
+      {deleteDialog?.open && <DeleteDealerDialog />}
     </>
   );
 };

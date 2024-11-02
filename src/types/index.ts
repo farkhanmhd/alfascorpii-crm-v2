@@ -34,11 +34,19 @@ export interface IStaff extends IIdentifiable {
   updated_at: string;
 }
 
+export type DealerArea =
+  | 'Aceh'
+  | 'Sumatera Utara'
+  | 'Medan'
+  | 'Riau'
+  | 'Kepulauan Riau';
+export type DealerType = 'MDS' | 'Independen';
+
 export interface IDealer extends IIdentifiable {
   dealer_code: string;
   dealer_name: string;
-  dealer_area: string;
-  dealer_type: string;
+  dealer_area: DealerArea;
+  dealer_type: DealerType;
 }
 
 export interface ICustomer extends IIdentifiable {
@@ -216,4 +224,9 @@ export type ActionDialog<T> = {
   create?: boolean;
   edit?: boolean;
   data?: T;
+};
+
+export type ComboBoxOptions = {
+  label: string;
+  value: string;
 };

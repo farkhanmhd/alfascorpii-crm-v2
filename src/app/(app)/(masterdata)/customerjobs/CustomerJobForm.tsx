@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import TextInput from '@/components/fragments/form/TextInput';
 import StatusRadio from '@/components/fragments/form/StatusRadio';
