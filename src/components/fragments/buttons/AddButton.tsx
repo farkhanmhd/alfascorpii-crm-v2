@@ -9,7 +9,8 @@ const AddButton = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Button
-      className="w-fit text-white"
+      className="w-fit"
+      variant="default"
       onClick={() => setActionDialog({ create: true })}
     >
       {children}

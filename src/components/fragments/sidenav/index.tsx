@@ -53,7 +53,13 @@ const Sidenav = () => {
           'px-9': sidebarOpen,
           'justify-center': !sidebarOpen,
         })}
-        onClick={() => signOut()}
+        onClick={() => {
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('loggedOut', 'true');
+            localStorage.setItem('loggedOutManual', 'true');
+          }
+          return signOut();
+        }}
       >
         <div className="flex gap-x-6 rounded-xl py-3 text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary">
           <LogOut />

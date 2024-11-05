@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import DataTable from '@/components/fragments/table/DataTable';
-import { fetchMetodeFU } from '@/app/lib/data/fumethod';
+import { fetchFuMethod } from '@/app/lib/data/fumethod';
 import columns from './columns';
 
 const Page = async (props: {
@@ -15,7 +15,7 @@ const Page = async (props: {
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
   const per_page = searchParams?.per_page;
-  const data = await fetchMetodeFU(search, page, per_page);
+  const data = await fetchFuMethod(search, page, per_page);
 
   if (!data) {
     return (

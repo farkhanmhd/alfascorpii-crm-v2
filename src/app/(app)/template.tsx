@@ -2,6 +2,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import { useSession } from 'next-auth/react';
 import { useSidebarDesktop, useMobile } from '@/hooks';
 import Sidenav from '@/components/fragments/sidenav';
 import MobileNav from '@/components/fragments/mobilenav';
@@ -10,6 +11,8 @@ import MobileSidenav from '@/components/fragments/mobilenav/MobileSidenav';
 import Breadcrumbs from '@/components/fragments/breadcrumbs/Breadcrumbs';
 
 const Template = ({ children }: { children: React.ReactNode }) => {
+  const { data: session } = useSession();
+  console.log(session);
   const { sidebarOpen } = useSidebarDesktop();
   const { isMobile } = useMobile();
 

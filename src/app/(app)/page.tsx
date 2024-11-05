@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useSession } from 'next-auth/react';
 import ComboBox from '@/components/fragments/form/ComboBox';
 import { ComboBoxOptions } from '@/types';
 
 const Page = () => {
   const [selectedValue, setSelectedValue] = useState('');
+  const { data: session } = useSession();
 
   const options: ComboBoxOptions[] = [
     { label: 'Option 1', value: 'option-1' },
@@ -19,13 +21,14 @@ const Page = () => {
   };
   return (
     <div>
-      <h1 className="mb-8">Dashboard</h1>
+      <h1 className="mb-8">{session?.user?.name}</h1>
       <ComboBox
         options={options}
         label={selectedValue || 'Choose an option'}
         placeholder="Select an option"
         onSelect={handleSelect}
         id="combo-box"
+        value={selectedValue}
       />
     </div>
   );

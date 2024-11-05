@@ -128,9 +128,9 @@ export const NavItems: NavItem[] = [
         href: '/furesult',
       },
       {
-        title: 'Detail FU',
+        title: 'Keterangan FU',
         icon: <Logs />,
-        href: '/detailfu',
+        href: '/keteranganfu',
       },
     ],
   },
@@ -244,9 +244,9 @@ export const MobileSidenavItems: NavItem[] = [
         href: '/furesult',
       },
       {
-        title: 'Detail FU',
+        title: 'Keterangan FU',
         icon: <Logs />,
-        href: '/detailfu',
+        href: '/keteranganfu',
       },
     ],
   },

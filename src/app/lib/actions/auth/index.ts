@@ -5,10 +5,8 @@ import { loginSchema } from '@/validation/schemas';
 import actionClient from '@/lib/safe-action';
 import { signIn } from '@/auth';
 
-const schema = zfd.formData(loginSchema);
-
 export const loginAction = actionClient
-  .schema(schema)
+  .schema(loginSchema)
   .action(async ({ parsedInput: { username, password } }) => {
     const user = await signIn('credentials', {
       username,

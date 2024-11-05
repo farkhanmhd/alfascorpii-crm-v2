@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import { getUser } from './app/lib/auth';
 import { cookies } from 'next/headers';
+import { getUser } from './app/lib/auth';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -51,6 +51,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   session: {
     strategy: 'jwt',
-    maxAge: 60 * 60 * 24,
+    maxAge: 60 * 60,
   },
 });
