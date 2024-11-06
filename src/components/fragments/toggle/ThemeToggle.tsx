@@ -1,36 +1,52 @@
 'use client';
 
 import React from 'react';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun, MonitorCog } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { Button } from '@/components/ui/button';
+import { useSidebar } from '@/components/ui/sidebar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { SidebarMenuButton } from '@/components/ui/sidebar';
+import { ChevronRight } from 'lucide-react';
 
 const ThemeToggle = () => {
-  const { setTheme } = useTheme();
-
+  const { theme, setTheme } = useTheme();
+  const { isMobile } = useSidebar();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
+        <SidebarMenuButton tooltip={`${theme} mode`}>
+          {theme === 'light' ? (
+            <Sun />
+          ) : theme === 'dark' ? (
+            <Moon />
+          ) : (
+            <MonitorCog />
+          )}
+          <span className="line-clamp-1">Theme</span>
+          <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+        </SidebarMenuButton>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent
+        className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+        side={isMobile ? 'bottom' : 'right'}
+        align="end"
+        sideOffset={4}
+      >
         <DropdownMenuItem onClick={() => setTheme('light')}>
+          <Sun />
           Light
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>
+          <Moon />
           Dark
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>
+          <MonitorCog />
           System
         </DropdownMenuItem>
       </DropdownMenuContent>

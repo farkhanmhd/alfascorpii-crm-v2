@@ -41,7 +41,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return token;
     },
-    session({ session, token }) {
+    async session({ session, token }) {
+      const cookieStore = await cookies();
+      const tokenValue = cookieStore.get('at');
+
+      if (!tokenValue) {
+        throw new Error('No authentication token found');
+      }
+
       session.user = token.user;
       return session;
     },
@@ -51,6 +58,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   session: {
     strategy: 'jwt',
-    maxAge: 60 * 60,
+    maxAge: 2592000,
   },
 });

@@ -18,7 +18,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <>
       <div className="flex h-full flex-1 flex-col">
         <TableContainerHeader>
-          <Tablesearch placeholder="Search pekerjaan" />
+          <Tablesearch placeholder="Search Dealer" />
           <AddButton>Add Dealer</AddButton>
         </TableContainerHeader>
         {children}

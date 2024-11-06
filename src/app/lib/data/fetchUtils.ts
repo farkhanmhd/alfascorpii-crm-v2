@@ -82,7 +82,6 @@ export const fetchData = async ({
   const token = cookieStore.get('at');
 
   const res = await fetch(fetchUrl, {
-    cache: 'force-cache',
     method,
     headers: {
       Accept: 'application/json',
