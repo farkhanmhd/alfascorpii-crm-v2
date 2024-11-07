@@ -2,7 +2,8 @@
 
 import React, { useEffect } from 'react';
 import { useSearchDialog } from '@/hooks';
-import { Button } from '@/components/ui/button';
+import { SidebarMenuButton } from '@/components/ui/sidebar';
+import { Search } from 'lucide-react';
 
 const SearchButton = () => {
   const { searchDialog, setSearchDialog } = useSearchDialog();
@@ -20,16 +21,10 @@ const SearchButton = () => {
   }, [searchDialog, setSearchDialog]);
 
   return (
-    <Button
-      variant="secondary"
-      className="z-50 flex items-center justify-between gap-x-32 rounded-full text-sm text-muted-foreground"
-      onClick={() => setSearchDialog(!searchDialog)}
-    >
-      Search...{' '}
-      <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-        <span className="text-xs">⌘</span>K
-      </kbd>
-    </Button>
+    <SidebarMenuButton tooltip="Search" onClick={() => setSearchDialog(true)}>
+      <Search />
+      <span>Search</span>
+    </SidebarMenuButton>
   );
 };
 

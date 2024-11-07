@@ -9,8 +9,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex h-full flex-1 flex-col">
       <TableContainerHeader>
-        <Tablesearch placeholder="Search Staff" />
-        <Button className="w-fit text-white">Add Staff</Button>
+        <Tablesearch placeholder="Search Status" />
+        <Button className="w-fit">Add Status</Button>
       </TableContainerHeader>
       {children}
     </div>

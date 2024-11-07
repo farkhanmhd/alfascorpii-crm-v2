@@ -12,11 +12,13 @@
     "react/jsx-props-no-spreading": 0,
     "react/require-default-props": 0,
     "react/react-in-jsx-scope": 1,
+    "react/destructuring-assignment": 0,
     "no-underscore-dangle": "off",
     "react/no-array-index-key": 0,
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "arrow-body-style": 0,
     "prefer-arrow-callback": 1,
+    "no-nested-ternary": "off",
     "react/function-component-definition": [
       2,
       {

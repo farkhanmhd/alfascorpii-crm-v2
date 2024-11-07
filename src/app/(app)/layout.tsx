@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  return <main className="max-h-screen overflow-hidden">{children}</main>;
+  return <div className="max-h-screen overflow-hidden">{children}</div>;
 };
 
 export default Layout;

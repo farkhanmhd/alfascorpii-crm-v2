@@ -11,6 +11,7 @@ const NavLinkSubMenu = ({ href, title, icon, onClick }: SubMenuProp) => {
       title={title}
       icon={icon}
       onClick={onClick}
+      size="sm"
       isSubMenu
       show
     />

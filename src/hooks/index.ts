@@ -1,19 +1,23 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAtom } from 'jotai';
 import {
   activeButtonAtom,
-  createDialogAtom,
-  editDialogAtom,
   isMobileAtom,
   mobileSidenavAtom,
   openMenuAtom,
   searchDialogAtom,
   desktopSidenavAtom,
   deleteDialogAtom,
+  actionDialogAtom,
+  selectedDateAtom,
+  customerFiltersAtom,
 } from '@/store';
+import { ActionDialog } from '@/types';
 import { useToast } from './use-toast';
+import { useDebouncedCallback } from 'use-debounce';
+import { CustomerFilters } from '@/types';
 
 export const useActiveButton = () => {
   const [activeButton, setActiveButton] = useAtom(activeButtonAtom);
@@ -21,17 +25,17 @@ export const useActiveButton = () => {
   return { activeButton, setActiveButton };
 };
 
-export const useCreateDialog = () => {
-  const [createDialog, setCreateDialog] = useAtom(createDialogAtom);
+// export const useCreateDialog = () => {
+//   const [createDialog, setCreateDialog] = useAtom(createDialogAtom);
 
-  return { createDialog, setCreateDialog };
-};
+//   return { createDialog, setCreateDialog };
+// };
 
-export const useEditDialog = () => {
-  const [editDialog, setEditDialog] = useAtom(editDialogAtom);
+// export const useEditDialog = () => {
+//   const [editDialog, setEditDialog] = useAtom(editDialogAtom);
 
-  return { editDialog, setEditDialog };
-};
+//   return { editDialog, setEditDialog };
+// };
 
 export const useDeleteDialog = () => {
   const [deleteDialog, setDeleteDialog] = useAtom(deleteDialogAtom);
@@ -113,10 +117,10 @@ export const useSubmitToast = (
 
 export const useDeleteToast = (
   deleteResult: any,
-  onSuccessNavigate: () => void,
   onErrorRevert: () => void
 ) => {
   const { toast } = useToast();
+  const { setDeleteDialog } = useDeleteDialog();
   useEffect(() => {
     if (deleteResult?.data?.status === 'success') {
       toast({
@@ -124,7 +128,7 @@ export const useDeleteToast = (
         description: deleteResult.data.message,
         duration: 3000,
       });
-      onSuccessNavigate();
+      setDeleteDialog({ open: false, id: null });
     } else if (deleteResult?.data?.status === 'error') {
       toast({
         title: 'Error',
@@ -134,15 +138,54 @@ export const useDeleteToast = (
       });
       onErrorRevert();
     }
-  }, [deleteResult, toast, onSuccessNavigate, onErrorRevert]);
+  }, [deleteResult, toast, setDeleteDialog, onErrorRevert]);
 };
 
-export const useRemoveParam = (
-  searchParams: URLSearchParams,
-  setDeleteModal: (value: boolean) => void
-) => {
+export const useActionDialog = <T>() => {
+  const [actionDialog, setActionDialog] = useAtom(actionDialogAtom);
+  const { setSelectedDate } = useSelectedDate();
+
+  const handleClose = () => {
+    setActionDialog(null);
+    setSelectedDate(new Date().toString());
+  };
+
+  return {
+    actionDialog: actionDialog as ActionDialog<T> | null,
+    setActionDialog,
+    handleClose,
+  };
+};
+
+export const useSelectedDate = () => {
+  const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
+
+  return { selectedDate, setSelectedDate };
+};
+
+export const useElementWidth = () => {
+  const elementRef = useRef<HTMLElement | null>(null);
+  const [elementWidth, setElementWidth] = useState(0);
+
+  const handleResize = useDebouncedCallback(() => {
+    const newWidth = elementRef.current?.getBoundingClientRect().width || 0;
+    setElementWidth(newWidth);
+  }, 300);
+
   useEffect(() => {
-    const removeParam = searchParams.get('remove');
-    setDeleteModal(removeParam === 'true');
-  }, [searchParams, setDeleteModal]);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [elementRef.current?.offsetWidth]);
+
+  return { elementRef, elementWidth };
+};
+
+export const useCustomerFilters = () => {
+  const [customerFilters, setCustomerFilters] =
+    useAtom<CustomerFilters>(customerFiltersAtom);
+
+  return { customerFilters, setCustomerFilters };
 };

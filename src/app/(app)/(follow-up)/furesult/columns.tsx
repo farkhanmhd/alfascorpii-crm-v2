@@ -2,19 +2,21 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
 import { IResultFU, Column } from '@/types';
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useDeleteDialog, useActionDialog } from '@/hooks';
 
 const columns: Column<IResultFU>[] = [
   {
     header: 'Hasil Follow Up',
     key: 'fu_result_name',
-    getCellContent: (result: IResultFU) => result.fu_result_name,
+    GetCellContent: (result: IResultFU) => result.fu_result_name,
   },
   {
     header: 'Status',
     key: 'status',
-    getCellContent: (result: IResultFU) => (
+    GetCellContent: (result: IResultFU) => (
       <span
         className={clsx({
           'text-green-500': result.status === 'SHOW',
@@ -27,14 +29,31 @@ const columns: Column<IResultFU>[] = [
   },
   {
     header: 'Action',
-    getCellContent: (result: IResultFU) => (
-      <Link
-        className="text-primary hover:underline"
-        href={`/furesult/${result.id}`}
-      >
-        Edit
-      </Link>
-    ),
+    GetCellContent: (item: IResultFU) => {
+      const { setDeleteDialog } = useDeleteDialog();
+      const { setActionDialog } = useActionDialog<IResultFU>();
+
+      return (
+        <div className="flex gap-x-4">
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onClick={() => setActionDialog({ edit: true, data: item })}
+          >
+            <Pencil />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onClick={() => setDeleteDialog({ open: true, id: item.id })}
+          >
+            <Trash />
+          </Button>
+        </div>
+      );
+    },
   },
 ];
 

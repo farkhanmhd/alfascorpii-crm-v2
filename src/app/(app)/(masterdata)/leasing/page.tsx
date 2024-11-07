@@ -2,7 +2,13 @@ import React, { Suspense } from 'react';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import DataTable from '@/components/fragments/table/DataTable';
 import { fetchLeasing } from '@/app/lib/data/leasing';
+import { Metadata } from 'next';
 import columns from './column';
+
+export const metadata: Metadata = {
+  title: 'Leasings',
+  description: 'List of Leasing Partners',
+};
 
 const Page = async (props: {
   searchParams?: Promise<{
@@ -14,8 +20,8 @@ const Page = async (props: {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const per_page = searchParams?.per_page;
-  const data = await fetchLeasing(search, page, per_page);
+  const perPage = searchParams?.per_page;
+  const data = await fetchLeasing(search, page, perPage);
 
   if (!data) {
     return (

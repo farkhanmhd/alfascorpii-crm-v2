@@ -3,11 +3,11 @@ import React from 'react';
 import {
   LayoutDashboard,
   Database,
-  User,
+  // User,
   Users,
   Building,
   DollarSign,
-  FileChartLineIcon,
+  // FileChartLineIcon,
   Calendar,
   MessageSquare,
   Table,
@@ -41,7 +41,7 @@ export const NavItems: NavItem[] = [
         href: '/dealers',
       },
       {
-        title: 'Leasing',
+        title: 'Leasings',
         icon: <DollarSign />,
         href: '/leasing',
       },
@@ -51,9 +51,44 @@ export const NavItems: NavItem[] = [
       //   href: '/model',
       // },
       {
-        title: 'Hari Besar',
+        title: 'Holidays',
         icon: <Calendar />,
         href: '/holidays',
+      },
+      {
+        title: 'Relations',
+        icon: <Users />,
+        href: '/relations',
+      },
+      {
+        title: 'Jobs',
+        icon: <Briefcase />,
+        href: '/customerjobs',
+      },
+      {
+        title: 'Education Degree',
+        icon: <GraduationCap />,
+        href: '/degrees',
+      },
+      {
+        title: 'Expenses',
+        icon: <CreditCard />,
+        href: '/expenses',
+      },
+      {
+        title: 'Incomes',
+        icon: <Wallet />,
+        href: '/incomes',
+      },
+      {
+        title: 'Hobbies',
+        icon: <Camera />,
+        href: '/hobbies',
+      },
+      {
+        title: 'House Ownerships',
+        icon: <House />,
+        href: '/houseownerships',
       },
     ],
   },
@@ -65,49 +100,7 @@ export const NavItems: NavItem[] = [
   {
     title: 'Customers',
     icon: <Users />,
-    isParent: true,
-    childrens: [
-      // {
-      //   title: 'Daftar Customer',
-      //   icon: <Users />,
-      //   href: '/customers',
-      // },
-      {
-        title: 'Kerabat',
-        icon: <Users />,
-        href: '/customers/relations',
-      },
-      {
-        title: 'Pekerjaan',
-        icon: <Briefcase />,
-        href: '/customers/customerjobs',
-      },
-      {
-        title: 'Pendidikan',
-        icon: <GraduationCap />,
-        href: '/customers/degrees',
-      },
-      {
-        title: 'Pengeluaran',
-        icon: <CreditCard />,
-        href: '/customers/expenses',
-      },
-      {
-        title: 'Penghasilan',
-        icon: <Wallet />,
-        href: '/customers/incomes',
-      },
-      {
-        title: 'Hobi',
-        icon: <Camera />,
-        href: '/customers/hobbies',
-      },
-      {
-        title: 'Status Rumah',
-        icon: <House />,
-        href: '/customers/houseownerships',
-      },
-    ],
+    href: '/customers',
   },
   {
     title: 'Products',
@@ -120,24 +113,24 @@ export const NavItems: NavItem[] = [
     isParent: true,
     childrens: [
       {
-        title: 'Metode FU',
+        title: 'Methods',
         icon: <MessageSquare />,
         href: '/fumethod',
       },
       {
-        title: 'Status FU',
+        title: 'Status',
         icon: <Table />,
         href: '/statusfus',
       },
       {
-        title: 'Hasil FU',
+        title: 'Results',
         icon: <LucideTable2 />,
         href: '/furesult',
       },
       {
-        title: 'Detail FU',
+        title: 'Details',
         icon: <Logs />,
-        href: '/detailfu',
+        href: '/keteranganfu',
       },
     ],
   },
@@ -187,54 +180,47 @@ export const MobileSidenavItems: NavItem[] = [
         icon: <Calendar />,
         href: '/holidays',
       },
+      {
+        title: 'Kerabat',
+        icon: <Users />,
+        href: '/relations',
+      },
+      {
+        title: 'Pekerjaan',
+        icon: <Briefcase />,
+        href: '/customerjobs',
+      },
+      {
+        title: 'Pendidikan',
+        icon: <GraduationCap />,
+        href: '/degrees',
+      },
+      {
+        title: 'Pengeluaran',
+        icon: <CreditCard />,
+        href: '/expenses',
+      },
+      {
+        title: 'Penghasilan',
+        icon: <Wallet />,
+        href: '/incomes',
+      },
+      {
+        title: 'Hobi',
+        icon: <Camera />,
+        href: '/hobbies',
+      },
+      {
+        title: 'Status Rumah',
+        icon: <House />,
+        href: '/houseownerships',
+      },
     ],
   },
   {
     title: 'Customers',
     icon: <Users />,
-    isParent: true,
-    childrens: [
-      // {
-      //   title: 'Daftar Customer',
-      //   icon: <Users />,
-      //   href: '/customers',
-      // },
-      {
-        title: 'Kerabat',
-        icon: <Users />,
-        href: '/customers/relations',
-      },
-      {
-        title: 'Pekerjaan',
-        icon: <Briefcase />,
-        href: '/customers/customerjobs',
-      },
-      {
-        title: 'Pendidikan',
-        icon: <GraduationCap />,
-        href: '/customers/degrees',
-      },
-      {
-        title: 'Pengeluaran',
-        icon: <CreditCard />,
-        href: '/customers/expenses',
-      },
-      {
-        title: 'Penghasilan',
-        icon: <Wallet />,
-        href: '/customers/incomes',
-      },
-      {
-        title: 'Hobi',
-        icon: <Camera />,
-        href: '/customers/hobbies',
-      },
-      {
-        title: 'Status Rumah',
-        icon: <House />,
-        href: '/customers/houseownerships',
-      },
-    ],
+    href: '/customers',
   },
 
   {
@@ -258,9 +244,9 @@ export const MobileSidenavItems: NavItem[] = [
         href: '/furesult',
       },
       {
-        title: 'Detail FU',
+        title: 'Keterangan FU',
         icon: <Logs />,
-        href: '/detailfu',
+        href: '/keteranganfu',
       },
     ],
   },

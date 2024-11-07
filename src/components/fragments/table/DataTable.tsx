@@ -17,6 +17,7 @@ const DataTable = <T,>({
   data,
   includeIndex = false,
 }: DataTableProps<T>) => {
+  console.log(columns.length);
   return (
     <Table className="md:none order-1">
       <TableHeader>
@@ -41,7 +42,7 @@ const DataTable = <T,>({
                   of={columns}
                   render={(col: Column<T>, index) => (
                     <TableCell key={index}>
-                      {col.getCellContent(item)}
+                      {col.GetCellContent(item)}
                     </TableCell>
                   )}
                 />
@@ -50,7 +51,9 @@ const DataTable = <T,>({
           />
         ) : (
           <TableRow>
-            <TableCell colSpan={columns.length}>No Data</TableCell>
+            <TableCell colSpan={columns.length + 1} className="text-center">
+              No Data
+            </TableCell>
           </TableRow>
         )}
       </TableBody>

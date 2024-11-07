@@ -1,12 +1,12 @@
 type Status = 'HIDE' | 'SHOW';
-type ActiveStatus = 'AKTIF' | 'HOLD';
-type ContactStatus = 'CONTACTED' | 'NOT CONTACTED';
-type InterestStatus =
-  | 'NOT CONTACTED'
-  | 'TIDAK BERTEMU'
-  | 'TIDAK BERMINAT'
-  | 'MINAT'
-  | 'PROSPECT';
+// type ActiveStatus = 'AKTIF' | 'HOLD';
+// type ContactStatus = 'CONTACTED' | 'NOT CONTACTED';
+// type InterestStatus =
+//   | 'NOT CONTACTED'
+//   | 'TIDAK BERTEMU'
+//   | 'TIDAK BERMINAT'
+//   | 'MINAT'
+//   | 'PROSPECT';
 
 interface IIdentifiable {
   id: number;
@@ -34,20 +34,31 @@ export interface IStaff extends IIdentifiable {
   updated_at: string;
 }
 
+export type DealerArea =
+  | 'Aceh'
+  | 'Sumatera Utara'
+  | 'Medan'
+  | 'Riau'
+  | 'Kepulauan Riau';
+export type DealerType = 'MDS' | 'Independen';
+
 export interface IDealer extends IIdentifiable {
   dealer_code: string;
   dealer_name: string;
-  dealer_area: string;
-  dealer_type: string;
+  dealer_area: DealerArea;
+  dealer_type: DealerType;
 }
 
 export interface ICustomer extends IIdentifiable {
   dealer: string;
   name: string;
+  location: string;
   phone: string;
   motor: string;
+  purchase_date: string;
+  update: string;
   follow_up: string;
-  lokasi: string;
+  status: string;
 }
 
 export interface IRelation extends IIdentifiable {
@@ -146,35 +157,13 @@ export interface ISearchQuery {
 export interface Column<T, K = keyof T> {
   header: string;
   key?: K;
-  getCellContent: (item: T) => React.ReactNode;
+  GetCellContent: (item: T) => React.ReactNode;
 }
 
 export interface DataTableProps<T> {
   columns: Column<T>[];
   data: T[];
   includeIndex?: boolean;
-}
-
-export interface IDialogTables {
-  staff: boolean;
-  customers: boolean;
-  kerabat: boolean;
-  customerjob: {
-    open: boolean;
-    ...ICustomerJob
-  };
-  pendidikan: boolean;
-  pengeluaran: boolean;
-  income: boolean;
-  hobi: boolean;
-  house_ownership_status: boolean;
-  keterangan_fu: boolean;
-  keterangan_hasil: boolean;
-  dealers: boolean;
-  leasing: boolean;
-  model: boolean;
-  holiday_name: boolean;
-  metode_fu: boolean;
 }
 
 export type NavLinkProps = {
@@ -200,6 +189,7 @@ export interface NavLinkBaseProps {
   isOpen?: boolean;
   isSubMenu?: boolean;
   show: boolean;
+  size?: string;
 }
 
 export interface SubMenuProp {
@@ -226,4 +216,36 @@ export type ApiResponse<T = any> = {
   message: string;
   data?: T;
   errors?: Record<string, string[]>;
+};
+
+export type DeleteDialog = {
+  open: boolean;
+  id: number | string | null;
+};
+
+export type ActionDialog<T> = {
+  create?: boolean;
+  edit?: boolean;
+  data?: T;
+};
+
+export type ComboBoxOptions = {
+  label: string;
+  value: string;
+};
+
+export type CustomerFilters = {
+  dateOptions?: string | null;
+  selectedDate?: string | null;
+  profileUpdate?: string | null;
+  followUp?: string | null;
+  fuMethod?: string | null;
+  fuResult?: string | null;
+  product?: string | null;
+  purchasedProduct?: string | null;
+  desiredProduct?: string | null;
+  area?: string | null;
+  dealer?: string | null;
+  income?: string | null;
+  houseOwnership?: string | null;
 };
