@@ -19,6 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!data) {
           throw new Error('User not found');
         }
+
         const cookieStore = await cookies();
 
         cookieStore.set('at', data.accessToken, {

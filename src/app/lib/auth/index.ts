@@ -1,14 +1,17 @@
-import { fetchData } from '../data/fetchUtils';
-
 export const getUser = async (username: string, password: string) => {
   try {
-    const apiResponse = await fetchData({
-      cache: 'no-store',
-      endpoint: '/login',
+    const loginResponse = await fetch(`${process.env.BACKEND_URL}/login`, {
       method: 'POST',
-      body: { username, password },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
     });
-    return apiResponse;
+    const { data } = await loginResponse.json();
+    return data;
   } catch (error) {
     return error;
   }
