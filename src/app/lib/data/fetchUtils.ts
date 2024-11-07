@@ -70,18 +70,27 @@ interface FetchData {
   endpoint: string;
   method?: string;
   body?: object | null;
+  cache?:
+    | 'default'
+    | 'force-cache'
+    | 'no-cache'
+    | 'no-store'
+    | 'only-if-cached'
+    | 'reload';
 }
 
 export const fetchData = async ({
   endpoint,
   method = 'GET',
   body = null,
+  cache = 'force-cache',
 }: FetchData) => {
   const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
   const cookieStore = await cookies();
   const token = cookieStore.get('at');
 
   const res = await fetch(fetchUrl, {
+    cache,
     method,
     headers: {
       Accept: 'application/json',

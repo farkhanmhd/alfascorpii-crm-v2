@@ -26,15 +26,15 @@ import { ComboBoxOptions } from '@/types';
 
 interface ComboBoxProps {
   options: ComboBoxOptions[];
-  label: string;
+  label?: string;
   placeholder: string;
   id: string;
-  value: string;
+  value: string | null | undefined;
   onSelect: (value: string) => void;
   error?: string[];
 }
 
-export default function ComboBox({
+const ComboBox = ({
   options,
   placeholder,
   label,
@@ -42,7 +42,7 @@ export default function ComboBox({
   value,
   onSelect,
   error,
-}: ComboBoxProps) {
+}: ComboBoxProps) => {
   const [open, setOpen] = useState(false);
   const { elementRef, elementWidth } = useElementWidth();
 
@@ -54,14 +54,16 @@ export default function ComboBox({
 
   return (
     <div className="flex flex-col gap-y-4">
-      <Label htmlFor={id} className="flex gap-x-2">
-        <span>{label}</span>
-        {error && (
-          <span className="text-red-500">
-            {error.map((errMsg) => `* ${errMsg}`).join(', ') || '*'}
-          </span>
-        )}
-      </Label>
+      {label && (
+        <Label htmlFor={id} className="flex gap-x-2">
+          <span>{label}</span>
+          {error && (
+            <span className="text-red-500">
+              {error.map((errMsg) => `* ${errMsg}`).join(', ') || '*'}
+            </span>
+          )}
+        </Label>
+      )}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild id={id}>
           <Button
@@ -106,4 +108,6 @@ export default function ComboBox({
       </Popover>
     </div>
   );
-}
+};
+
+export default ComboBox;

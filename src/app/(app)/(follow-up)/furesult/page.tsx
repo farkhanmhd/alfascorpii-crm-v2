@@ -2,7 +2,13 @@ import React, { Suspense } from 'react';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import DataTable from '@/components/fragments/table/DataTable';
 import { fetchFuResult } from '@/app/lib/data/furesult';
+import { Metadata } from 'next';
 import columns from './columns';
+
+export const metadata: Metadata = {
+  title: 'Follow Up Results',
+  description: 'List of Follow Up Result Categories',
+};
 
 const Page = async (props: {
   searchParams?: Promise<{
@@ -14,8 +20,8 @@ const Page = async (props: {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const per_page = searchParams?.per_page;
-  const data = await fetchFuResult(search, page, per_page);
+  const perPage = searchParams?.per_page;
+  const data = await fetchFuResult(search, page, perPage);
 
   if (!data) {
     return (

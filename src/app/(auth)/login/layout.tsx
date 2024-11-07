@@ -8,11 +8,7 @@ export const metadata: Metadata = {
   description: 'Login to Alfa Scorpii CRM',
 };
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="h-[100dvh] w-screen">
       <div className="relative grid h-full w-full flex-col items-center justify-center lg:grid-cols-2 lg:px-0">
@@ -44,4 +40,6 @@ export default function AuthLayout({
       </div>
     </div>
   );
-}
+};
+
+export default AuthLayout;

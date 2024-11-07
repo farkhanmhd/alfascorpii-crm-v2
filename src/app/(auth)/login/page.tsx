@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { UserAuthForm } from './UserAuthForm';
 import { useSession } from 'next-auth/react';
 import { useAction } from 'next-safe-action/hooks';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { loginAction } from '@/app/lib/actions/auth';
+import { UserAuthForm } from './UserAuthForm';
 
 const LoginPage = () => {
   const { data: session } = useSession();

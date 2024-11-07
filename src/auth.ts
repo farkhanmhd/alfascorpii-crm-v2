@@ -11,16 +11,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
-        const response = await getUser(
+        const data = await getUser(
           credentials?.username as string,
           credentials?.password as string
         );
 
-        if (!response) {
+        if (!data) {
           throw new Error('User not found');
         }
-
-        const { data } = response;
         const cookieStore = await cookies();
 
         cookieStore.set('at', data.accessToken, {

@@ -2,7 +2,13 @@ import React, { Suspense } from 'react';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import DataTable from '@/components/fragments/table/DataTable';
 import { fetchFuMethod } from '@/app/lib/data/fumethod';
+import { Metadata } from 'next';
 import columns from './columns';
+
+export const metadata: Metadata = {
+  title: 'Follow Up Methods',
+  description: 'List of Follow Up Methods',
+};
 
 const Page = async (props: {
   searchParams?: Promise<{
@@ -14,8 +20,8 @@ const Page = async (props: {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const per_page = searchParams?.per_page;
-  const data = await fetchFuMethod(search, page, per_page);
+  const perPage = searchParams?.per_page;
+  const data = await fetchFuMethod(search, page, perPage);
 
   if (!data) {
     return (

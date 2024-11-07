@@ -1,10 +1,14 @@
-import axios from '@/lib/axios';
+import { fetchData } from '../data/fetchUtils';
 
 export const getUser = async (username: string, password: string) => {
   try {
-    const response = await axios.post('/login', { username, password });
-    const responseData = response.data;
-    return responseData;
+    const apiResponse = await fetchData({
+      cache: 'no-store',
+      endpoint: '/login',
+      method: 'POST',
+      body: { username, password },
+    });
+    return apiResponse;
   } catch (error) {
     return error;
   }

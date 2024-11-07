@@ -9,10 +9,6 @@ import {
   Users,
   Phone,
   Bike,
-  Search,
-  Moon,
-  Sun,
-  MonitorCog,
 } from 'lucide-react';
 
 import { useSession } from 'next-auth/react';
@@ -26,7 +22,6 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-  SidebarMenuButton,
 } from '@/components/ui/sidebar';
 
 import SearchButton from './fragments/buttons/SearchButton';
@@ -40,9 +35,9 @@ export const sidebarData = {
   },
   teams: [
     {
-      name: 'Acme Inc',
+      name: 'Alfa Scorpii',
       logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
+      plan: 'CRM',
     },
     {
       name: 'Acme Corp.',
@@ -64,12 +59,16 @@ export const sidebarData = {
       isParent: true,
       items: [
         {
-          title: 'Dealer',
+          title: 'Dealers',
           url: '/dealers',
         },
         {
-          title: 'Leasing',
+          title: 'Leasings',
           url: '/leasing',
+        },
+        {
+          title: 'Jobs',
+          url: '/customerjobs',
         },
         {
           title: 'Holidays',
@@ -109,19 +108,19 @@ export const sidebarData = {
       isParent: true,
       items: [
         {
-          title: 'Metode FU',
+          title: 'Methods',
           url: '/fumethod',
         },
         {
-          title: 'Status FU',
+          title: 'Status',
           url: '/statusfus',
         },
         {
-          title: 'Hasil FU',
+          title: 'Results',
           url: '/furesult',
         },
         {
-          title: 'Keterangan FU',
+          title: 'Details',
           url: '/keteranganfu',
         },
       ],
@@ -141,13 +140,14 @@ export const sidebarData = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export const AppSidebar = ({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) => {
   const { data: session } = useSession();
   const user = {
     name: session?.user?.name,
     username: session?.user?.username,
   };
-  console.log(session);
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -164,4 +164,4 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarRail />
     </Sidebar>
   );
-}
+};

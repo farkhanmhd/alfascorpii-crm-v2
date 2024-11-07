@@ -95,6 +95,10 @@ body {
   }
 }
 
+.rdp-vhidden {
+  @apply hidden;
+}
+
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

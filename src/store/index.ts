@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import { DeleteDialog, ActionDialog } from '@/types';
+import { DeleteDialog, ActionDialog, CustomerFilters } from '@/types';
 
 export const searchDialogAtom = atom<boolean>(false);
 
@@ -25,5 +25,20 @@ export const deleteDialogAtom = atom<DeleteDialog | null>({
 export const actionDialogAtom = atom<ActionDialog<unknown> | null>(null);
 
 export const selectedDateAtom = atom<Date | string | number | undefined>(
-  new Date()
+  undefined
 );
+
+export const customerFiltersAtom = atom<CustomerFilters>({
+  dateOptions: null,
+  selectedDate: null,
+  followUp: null,
+  fuMethod: null,
+  fuResult: null,
+  product: null,
+  purchasedProduct: null,
+  desiredProduct: null,
+  area: null,
+  dealer: null,
+  income: null,
+  houseOwnership: null,
+});

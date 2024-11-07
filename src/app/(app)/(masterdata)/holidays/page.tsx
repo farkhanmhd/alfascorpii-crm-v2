@@ -2,7 +2,13 @@ import React, { Suspense } from 'react';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import DataTable from '@/components/fragments/table/DataTable';
 import { fetchHoliday } from '@/app/lib/data/holidays';
+import { Metadata } from 'next';
 import columns from './column';
+
+export const metadata: Metadata = {
+  title: 'Holidays',
+  description: 'List of Holiday Dates',
+};
 
 const Page = async (props: {
   searchParams?: Promise<{
@@ -14,8 +20,8 @@ const Page = async (props: {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const per_page = searchParams?.per_page;
-  const data = await fetchHoliday(search, page, per_page);
+  const perPage = searchParams?.per_page;
+  const data = await fetchHoliday(search, page, perPage);
 
   if (!data) {
     return (

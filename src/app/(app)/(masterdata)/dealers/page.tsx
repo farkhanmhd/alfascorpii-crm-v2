@@ -2,7 +2,13 @@ import React, { Suspense } from 'react';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import DataTable from '@/components/fragments/table/DataTable';
 import { fetchDealer } from '@/app/lib/data/dealers';
+import { Metadata } from 'next';
 import columns from './column';
+
+export const metadata: Metadata = {
+  title: 'Dealers',
+  description: 'List of Dealers',
+};
 
 const Page = async (props: {
   searchParams?: Promise<{

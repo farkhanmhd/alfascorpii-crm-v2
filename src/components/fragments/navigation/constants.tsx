@@ -41,7 +41,7 @@ export const NavItems: NavItem[] = [
         href: '/dealers',
       },
       {
-        title: 'Leasing',
+        title: 'Leasings',
         icon: <DollarSign />,
         href: '/leasing',
       },
@@ -51,42 +51,42 @@ export const NavItems: NavItem[] = [
       //   href: '/model',
       // },
       {
-        title: 'Hari Besar',
+        title: 'Holidays',
         icon: <Calendar />,
         href: '/holidays',
       },
       {
-        title: 'Kerabat',
+        title: 'Relations',
         icon: <Users />,
         href: '/relations',
       },
       {
-        title: 'Pekerjaan',
+        title: 'Jobs',
         icon: <Briefcase />,
         href: '/customerjobs',
       },
       {
-        title: 'Pendidikan',
+        title: 'Education Degree',
         icon: <GraduationCap />,
         href: '/degrees',
       },
       {
-        title: 'Pengeluaran',
+        title: 'Expenses',
         icon: <CreditCard />,
         href: '/expenses',
       },
       {
-        title: 'Penghasilan',
+        title: 'Incomes',
         icon: <Wallet />,
         href: '/incomes',
       },
       {
-        title: 'Hobi',
+        title: 'Hobbies',
         icon: <Camera />,
         href: '/hobbies',
       },
       {
-        title: 'Status Rumah',
+        title: 'House Ownerships',
         icon: <House />,
         href: '/houseownerships',
       },
@@ -113,22 +113,22 @@ export const NavItems: NavItem[] = [
     isParent: true,
     childrens: [
       {
-        title: 'Metode FU',
+        title: 'Methods',
         icon: <MessageSquare />,
         href: '/fumethod',
       },
       {
-        title: 'Status FU',
+        title: 'Status',
         icon: <Table />,
         href: '/statusfus',
       },
       {
-        title: 'Hasil FU',
+        title: 'Results',
         icon: <LucideTable2 />,
         href: '/furesult',
       },
       {
-        title: 'Keterangan FU',
+        title: 'Details',
         icon: <Logs />,
         href: '/keteranganfu',
       },

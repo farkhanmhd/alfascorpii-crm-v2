@@ -52,10 +52,13 @@ export interface IDealer extends IIdentifiable {
 export interface ICustomer extends IIdentifiable {
   dealer: string;
   name: string;
+  location: string;
   phone: string;
   motor: string;
+  purchase_date: string;
+  update: string;
   follow_up: string;
-  lokasi: string;
+  status: string;
 }
 
 export interface IRelation extends IIdentifiable {
@@ -229,4 +232,20 @@ export type ActionDialog<T> = {
 export type ComboBoxOptions = {
   label: string;
   value: string;
+};
+
+export type CustomerFilters = {
+  dateOptions?: string | null;
+  selectedDate?: string | null;
+  profileUpdate?: string | null;
+  followUp?: string | null;
+  fuMethod?: string | null;
+  fuResult?: string | null;
+  product?: string | null;
+  purchasedProduct?: string | null;
+  desiredProduct?: string | null;
+  area?: string | null;
+  dealer?: string | null;
+  income?: string | null;
+  houseOwnership?: string | null;
 };

@@ -16,14 +16,19 @@ const columns: Column<ICustomer>[] = [
     GetCellContent: (customer: ICustomer) => customer.name,
   },
   {
-    header: 'Lokasi',
-    key: 'lokasi',
-    GetCellContent: (customer: ICustomer) => customer.lokasi,
+    header: 'Location',
+    key: 'location',
+    GetCellContent: (customer: ICustomer) => customer.location,
   },
   {
     header: 'Phone',
     key: 'phone',
     GetCellContent: (customer: ICustomer) => customer.phone,
+  },
+  {
+    header: 'Motor',
+    key: 'motor',
+    GetCellContent: (customer: ICustomer) => customer.motor,
   },
   {
     header: 'Follow Up',

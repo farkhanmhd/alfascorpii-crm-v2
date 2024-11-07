@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef, RefObject } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAtom } from 'jotai';
 import {
   activeButtonAtom,
@@ -12,10 +12,12 @@ import {
   deleteDialogAtom,
   actionDialogAtom,
   selectedDateAtom,
+  customerFiltersAtom,
 } from '@/store';
 import { ActionDialog } from '@/types';
 import { useToast } from './use-toast';
 import { useDebouncedCallback } from 'use-debounce';
+import { CustomerFilters } from '@/types';
 
 export const useActiveButton = () => {
   const [activeButton, setActiveButton] = useAtom(activeButtonAtom);
@@ -179,4 +181,11 @@ export const useElementWidth = () => {
   }, [elementRef.current?.offsetWidth]);
 
   return { elementRef, elementWidth };
+};
+
+export const useCustomerFilters = () => {
+  const [customerFilters, setCustomerFilters] =
+    useAtom<CustomerFilters>(customerFiltersAtom);
+
+  return { customerFilters, setCustomerFilters };
 };
