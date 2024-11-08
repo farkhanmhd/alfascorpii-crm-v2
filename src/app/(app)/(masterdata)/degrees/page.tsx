@@ -29,12 +29,12 @@ const Page = async (props: {
     );
   }
 
-  const { degrees, last_page: totalPages } = data;
+  const { dealers, last_page: totalPages } = data;
 
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
-        <DataTable columns={columns} data={degrees} includeIndex />
+        <DataTable columns={columns} data={dealers} includeIndex />
       </Suspense>
       <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
     </>

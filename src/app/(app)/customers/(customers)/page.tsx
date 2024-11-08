@@ -38,9 +38,7 @@ const Page = async () => {
       </Accordion>
       <SelectedFilters />
       <Tablesearch placeholder="Search Customer" />
-      <div className="overflow-hidden rounded-lg border">
-        <DataTable columns={columns} data={customers} includeIndex />
-      </div>
+      <DataTable columns={columns} data={customers} includeIndex />
       <DataTablePagination currentPage={1} totalPages={5} />
     </div>
   );

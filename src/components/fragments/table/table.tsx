@@ -7,7 +7,7 @@ export const Table = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <div className="hide-scrollbar h-full overflow-auto">
+  <div className="hide-scrollbar overflow-auto">
     <table className={`w-full text-sm ${className}`}>{children}</table>
   </div>
 );
@@ -20,8 +20,10 @@ export const TableHeader = ({
   className?: string;
 }) => (
   <thead
-    className={`bg-background/8 sticky top-[-1px] border-b border-t-background backdrop-blur-lg ${className}`}
-    style={{ boxShadow: '0px .5px 0px hsl(var(--border))' }}
+    className={`bg-background/8 sticky top-0 backdrop-blur-lg ${className}`}
+    style={{
+      boxShadow: '0px .5px 0px hsl(var(--border)),',
+    }}
   >
     {children}
   </thead>

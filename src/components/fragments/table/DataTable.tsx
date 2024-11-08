@@ -17,9 +17,8 @@ const DataTable = <T,>({
   data,
   includeIndex = false,
 }: DataTableProps<T>) => {
-  console.log(columns.length);
   return (
-    <Table className="md:none order-1">
+    <Table>
       <TableHeader>
         <TableRow>
           {includeIndex && <TableHeaderCell>No</TableHeaderCell>}
