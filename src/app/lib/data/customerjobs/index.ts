@@ -1,6 +1,6 @@
 import { fetchWithParams, fetchData } from '../fetchUtils';
 
-export const getCustomerJobs = (
+export const fetchCustomerJobs = (
   search?: string,
   page?: string,
   per_page?: string

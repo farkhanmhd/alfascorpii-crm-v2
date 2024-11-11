@@ -214,7 +214,7 @@ const CustomerFilter = () => {
   return (
     <ScrollArea>
       <div className="max-h-[25vh] sm:max-h-[30vh] lg:max-h-[auto]">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           <ComboBox
             id="date-options"
             options={dateOptions}

@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import { searchQuerySchema } from '@/validation/schemas';
 import { SearchQueryParams } from '@/types';
-import { cookies } from 'next/headers';
+import { auth } from '@/auth';
+import { getToken } from 'next-auth/jwt';
 
 const validateSearchQuery = (
   schema: typeof searchQuerySchema,
@@ -44,8 +45,8 @@ export const fetchSearch = async ({
   const validatedParams = validateSearchQuery(searchQuerySchema, params);
   const queryParams = createQueryParams(validatedParams) || '';
   const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}${queryParams ? `?${queryParams.toString()}` : ''}`;
-  const cookieStore = await cookies();
-  const token = cookieStore.get('at');
+  const session = await auth();
+  const accessToken = session?.accessToken;
 
   const res = await fetch(fetchUrl, {
     cache: 'force-cache',
@@ -53,7 +54,7 @@ export const fetchSearch = async ({
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token?.value}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: body ? JSON.stringify(body) : null,
   });
@@ -86,8 +87,8 @@ export const fetchData = async ({
   cache = 'force-cache',
 }: FetchData) => {
   const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
-  const cookieStore = await cookies();
-  const token = cookieStore.get('at');
+  const session = await auth();
+  const accessToken = session?.accessToken;
 
   const res = await fetch(fetchUrl, {
     cache,
@@ -95,7 +96,7 @@ export const fetchData = async ({
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token?.value}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: body ? JSON.stringify(body) : null,
   });

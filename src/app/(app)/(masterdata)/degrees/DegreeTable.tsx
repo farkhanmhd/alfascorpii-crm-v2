@@ -1,12 +1,17 @@
 import React from 'react';
 import DataTable from '@/components/fragments/table/DataTable';
-import columns from './column';
-import { fetchDealer } from '@/app/lib/data/dealers';
+import columns from './columns';
+import { fetchDegree } from '@/app/lib/data/degrees';
 import DataTablePagination from '@/components/fragments/table/pagination';
-import { SearchParamsProps } from '@/types';
 
-const DealerTable = async ({ search, page, perPage }: SearchParamsProps) => {
-  const data = await fetchDealer(search, page, perPage);
+interface SearchParamsProps {
+  search?: string;
+  page?: string;
+  perPage?: string;
+}
+
+const DegreeTable = async ({ search, page, perPage }: SearchParamsProps) => {
+  const data = await fetchDegree(search, page, perPage);
 
   if (!data) {
     return (
@@ -25,4 +30,4 @@ const DealerTable = async ({ search, page, perPage }: SearchParamsProps) => {
   );
 };
 
-export default DealerTable;
+export default DegreeTable;

@@ -111,10 +111,10 @@ export const sidebarData = {
           title: 'Methods',
           url: '/fumethod',
         },
-        {
-          title: 'Status',
-          url: '/statusfus',
-        },
+        // {
+        //   title: 'Status',
+        //   url: '/statusfus',
+        // },
         {
           title: 'Results',
           url: '/furesult',
@@ -145,8 +145,8 @@ export const AppSidebar = ({
 }: React.ComponentProps<typeof Sidebar>) => {
   const { data: session } = useSession();
   const user = {
-    name: session?.user?.name,
-    username: session?.user?.username,
+    name: session && (session.user.name as string),
+    username: session && (session.user.username as string),
   };
   return (
     <Sidebar collapsible="icon" {...props}>

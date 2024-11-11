@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { lazy } from 'react';
 import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
 import Tablesearch from '@/components/fragments/table/tablesearch';
 import { useDeleteDialog, useActionDialog } from '@/hooks';

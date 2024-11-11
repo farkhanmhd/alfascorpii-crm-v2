@@ -1,9 +1,7 @@
 import React, { Suspense } from 'react';
-import DataTablePagination from '@/components/fragments/table/pagination';
-import DataTable from '@/components/fragments/table/DataTable';
-import { fetchFuMethod } from '@/app/lib/data/fumethod';
 import { Metadata } from 'next';
-import columns from './columns';
+import FuMethodTable from './FuMethodTable';
+import TableSkeleton from '@/components/fragments/table/TableSkeleton';
 
 export const metadata: Metadata = {
   title: 'Follow Up Methods',
@@ -21,23 +19,11 @@ const Page = async (props: {
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
   const perPage = searchParams?.per_page;
-  const data = await fetchFuMethod(search, page, perPage);
-
-  if (!data) {
-    return (
-      <div className="flex h-full flex-1 flex-col">Failed to fetch data</div>
-    );
-  }
-
-  const { fumethod, last_page: totalPages } = data;
 
   return (
-    <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <DataTable columns={columns} data={fumethod} includeIndex />
-      </Suspense>
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <Suspense fallback={<TableSkeleton />}>
+      <FuMethodTable page={page} search={search} perPage={perPage} />
+    </Suspense>
   );
 };
 export default Page;

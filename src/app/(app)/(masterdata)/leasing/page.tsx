@@ -1,13 +1,11 @@
 import React, { Suspense } from 'react';
-import DataTablePagination from '@/components/fragments/table/pagination';
-import DataTable from '@/components/fragments/table/DataTable';
-import { fetchLeasing } from '@/app/lib/data/leasing';
 import { Metadata } from 'next';
-import columns from './column';
+import LeasingTable from './LeasingTable';
+import TableSkeleton from '@/components/fragments/table/TableSkeleton';
 
 export const metadata: Metadata = {
   title: 'Leasings',
-  description: 'List of Leasing Partners',
+  description: 'List of Leasings',
 };
 
 const Page = async (props: {
@@ -21,23 +19,11 @@ const Page = async (props: {
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
   const perPage = searchParams?.per_page;
-  const data = await fetchLeasing(search, page, perPage);
-
-  if (!data) {
-    return (
-      <div className="flex h-full flex-1 flex-col">Failed to fetch data</div>
-    );
-  }
-
-  const { leasings, last_page: totalPages } = data;
 
   return (
-    <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <DataTable columns={columns} data={leasings} includeIndex />
-      </Suspense>
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <Suspense fallback={<TableSkeleton />}>
+      <LeasingTable page={page} search={search} perPage={perPage} />
+    </Suspense>
   );
 };
 export default Page;

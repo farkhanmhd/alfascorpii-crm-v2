@@ -1,12 +1,16 @@
 import React from 'react';
 import DataTable from '@/components/fragments/table/DataTable';
-import columns from './column';
-import { fetchDealer } from '@/app/lib/data/dealers';
+import columns from './columns';
+import { fetchCustomerJobs } from '@/app/lib/data/customerjobs';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import { SearchParamsProps } from '@/types';
 
-const DealerTable = async ({ search, page, perPage }: SearchParamsProps) => {
-  const data = await fetchDealer(search, page, perPage);
+const CustomerJobTable = async ({
+  search,
+  page,
+  perPage,
+}: SearchParamsProps) => {
+  const data = await fetchCustomerJobs(search, page, perPage);
 
   if (!data) {
     return (
@@ -16,13 +20,13 @@ const DealerTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { dealers, last_page: totalPages } = data;
+  const { jobs, last_page: totalPages } = data;
   return (
     <>
-      <DataTable columns={columns} data={dealers} includeIndex />
+      <DataTable columns={columns} data={jobs} includeIndex />
       <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
     </>
   );
 };
 
-export default DealerTable;
+export default CustomerJobTable;

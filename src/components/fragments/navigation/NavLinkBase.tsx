@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import clsx from 'clsx';
 import { NavLinkBaseProps } from '@/types';
 

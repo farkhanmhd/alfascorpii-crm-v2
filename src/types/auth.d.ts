@@ -12,7 +12,13 @@ declare module 'next-auth' {
   }
 
   interface Session {
-    user: User & DefaultSession['user'];
+    accessToken: string;
+    user: {
+      uuid: string;
+      username: string;
+      name?: string | null | undefined;
+      status: string;
+    } & DefaultSession['user'];
   }
 
   interface Account {

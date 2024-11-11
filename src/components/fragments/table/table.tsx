@@ -20,7 +20,7 @@ export const TableHeader = ({
   className?: string;
 }) => (
   <thead
-    className={`bg-background/8 sticky top-0 backdrop-blur-lg ${className}`}
+    className={`bg-background/8 sticky top-0 z-50 backdrop-blur-lg ${className}`}
     style={{
       boxShadow: '0px .5px 0px hsl(var(--border)),',
     }}
@@ -61,7 +61,7 @@ export const TableCell = ({
   colSpan?: number;
 }) => (
   <td
-    className={`h-12 px-4 align-middle font-medium ${className}`}
+    className={`h-12 px-4 align-middle font-medium fade-in ${className}`}
     colSpan={colSpan}
   >
     {children}
@@ -75,7 +75,9 @@ export const TableHeaderCell = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <th className={`h-12 px-4 text-left align-middle font-medium ${className}`}>
+  <th
+    className={`h-12 px-4 text-left align-middle font-medium fade-in ${className}`}
+  >
     {children}
   </th>
 );

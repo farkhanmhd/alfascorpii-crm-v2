@@ -8,6 +8,12 @@ type Status = 'HIDE' | 'SHOW';
 //   | 'MINAT'
 //   | 'PROSPECT';
 
+export interface SearchParamsProps {
+  search?: string;
+  page?: string;
+  perPage?: string;
+}
+
 interface IIdentifiable {
   id: number;
 }

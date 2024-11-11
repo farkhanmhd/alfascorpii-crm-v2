@@ -1,9 +1,6 @@
 import React, { Suspense } from 'react';
-import DataTablePagination from '@/components/fragments/table/pagination';
-import DataTable from '@/components/fragments/table/DataTable';
-import { fetchDealer } from '@/app/lib/data/dealers';
 import { Metadata } from 'next';
-import columns from './column';
+import DealerTable from './DealerTable';
 
 export const metadata: Metadata = {
   title: 'Dealers',
@@ -21,23 +18,11 @@ const Page = async (props: {
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
   const perPage = searchParams?.per_page;
-  const data = await fetchDealer(search, page, perPage);
-
-  if (!data) {
-    return (
-      <div className="flex h-full flex-1 flex-col">Failed to fetch data</div>
-    );
-  }
-
-  const { dealers, last_page: totalPages } = data;
 
   return (
-    <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <DataTable columns={columns} data={dealers} includeIndex />
-      </Suspense>
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <Suspense fallback={<div>Loading...</div>}>
+      <DealerTable page={page} search={search} perPage={perPage} />
+    </Suspense>
   );
 };
 export default Page;

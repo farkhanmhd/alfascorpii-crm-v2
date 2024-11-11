@@ -8,37 +8,43 @@ export const fetchCustomer = (
 ) => fetchWithParams('customers', search, page, per_page);
 
 export const getCustomers = (): Promise<ICustomer[]> => {
-  const dealers = ['Dealer 1', 'Dealer 2', 'Dealer 3', 'Dealer 4', 'Dealer 5'];
-  const names = [
+  const dealers: string[] = [
+    'Dealer 1',
+    'Dealer 2',
+    'Dealer 3',
+    'Dealer 4',
+    'Dealer 5',
+  ];
+  const names: string[] = [
     'John Doe',
     'Jane Smith',
     'Michael Brown',
     'Emily Davis',
     'Chris Johnson',
   ];
-  const locations = [
+  const locations: string[] = [
     'Medan',
     'Aceh',
     'Sumatera Utara',
     'Riau',
     'Kepulauan Riau',
   ];
-  const phones = [
+  const phones: string[] = [
     '123-456-7890',
     '987-654-3210',
     '555-123-4567',
     '444-555-6666',
     '333-777-8888',
   ];
-  const motors = [
+  const motors: string[] = [
     'Yamaha YZF-R15',
     'Yamaha YZF-R3',
     'Yamaha YZF-R6',
     'Yamaha YZF-R1',
     'Yamaha YZR-M1',
   ];
-  const statuses = ['active', 'inactive', 'pending', 'completed'];
-  const followUps = [
+  const statuses: string[] = ['active', 'inactive', 'pending', 'completed'];
+  const followUps: string[] = [
     'Never',
     'Follow Up 1',
     'Follow Up 2',
@@ -46,7 +52,11 @@ export const getCustomers = (): Promise<ICustomer[]> => {
     'Follow Up 4',
     'Follow Up 5',
   ];
-  const updates = ['Updated Profile', 'No Changes', 'Address Updated'];
+  const updates: string[] = [
+    'Updated Profile',
+    'No Changes',
+    'Address Updated',
+  ];
 
   const getRandomDate = () => {
     const start = new Date(2020, 0, 1);
@@ -73,5 +83,9 @@ export const getCustomers = (): Promise<ICustomer[]> => {
     status: getRandomItem(statuses),
   }));
 
-  return Promise.resolve(data);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(data);
+    }, 2000);
+  });
 };

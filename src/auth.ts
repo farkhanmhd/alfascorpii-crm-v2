@@ -1,6 +1,5 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import { cookies } from 'next/headers';
 import { getUser } from './app/lib/auth';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -19,14 +18,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!data) {
           throw new Error('User not found');
         }
-        const cookieStore = await cookies();
 
-        cookieStore.set('at', data.accessToken, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'lax',
-          maxAge: 60 * 60,
-        });
         return data;
       },
     }),
@@ -40,13 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      const cookieStore = await cookies();
-      const tokenValue = cookieStore.get('at');
-
-      if (!tokenValue) {
-        throw new Error('No authentication token found');
-      }
-
+      session.accessToken = token.accessToken as string;
       session.user = token.user;
       return session;
     },
