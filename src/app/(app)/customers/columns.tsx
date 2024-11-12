@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import { ICustomer, Column } from '@/types';
 
 const columns: Column<ICustomer>[] = [
@@ -40,7 +40,7 @@ const columns: Column<ICustomer>[] = [
     GetCellContent: (customer: ICustomer) => (
       <Link
         className="text-primary hover:underline"
-        href={`/customer/${customer.id}`}
+        href={`/customers/${customer.id}`}
       >
         Edit
       </Link>

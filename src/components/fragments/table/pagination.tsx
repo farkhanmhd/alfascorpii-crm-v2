@@ -82,7 +82,7 @@ const DataTablePagination = ({
   };
 
   return (
-    <div className="sticky bottom-0 flex items-center justify-between bg-background py-6">
+    <div className="sticky bottom-0 flex items-center justify-between bg-background pb-4 pt-1">
       <div className="flex items-center space-x-2">
         <p className="text-sm font-medium">Rows</p>
         <Select value={per_page} onValueChange={handleper_pageChange}>

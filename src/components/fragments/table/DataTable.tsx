@@ -18,7 +18,7 @@ const DataTable = <T,>({
   includeIndex = false,
 }: DataTableProps<T>) => {
   return (
-    <Table className="md:none order-1">
+    <Table>
       <TableHeader>
         <TableRow>
           {includeIndex && <TableHeaderCell>No</TableHeaderCell>}

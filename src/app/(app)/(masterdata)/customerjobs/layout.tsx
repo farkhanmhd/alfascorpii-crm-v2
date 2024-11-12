@@ -20,13 +20,11 @@ const Layout = ({ children }: LayoutProps) => {
   const { actionDialog } = useActionDialog();
   return (
     <>
-      <div className="flex h-full flex-1 flex-col">
-        <TableContainerHeader>
-          <Tablesearch placeholder="Search Pekerjaan" />
-          <AddButton>Add Pekerjaan</AddButton>
-        </TableContainerHeader>
-        {children}
-      </div>
+      <TableContainerHeader>
+        <Tablesearch placeholder="Search Pekerjaan" />
+        <AddButton>Add Pekerjaan</AddButton>
+      </TableContainerHeader>
+      {children}
       {actionDialog?.create && <CreateCustomerJobDialog />}
       {actionDialog?.edit && <EditCustomerJobDialog />}
       {deleteDialog?.open && <DeleteJobDialog />}

@@ -8,7 +8,7 @@ import SearchDialog from '@/components/fragments/searchDialog';
 import { Toaster } from '@/components/ui/toaster';
 import NextTopLoader from 'nextjs-toploader';
 import ClientOnly from '@/components/ClientOnly';
-import NextAuthProvider from '@/components/providers/next-auth';
+import { ViewTransitions } from 'next-view-transitions';
 
 export const metadata: Metadata = {
   title: {
@@ -24,11 +24,11 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang="en">
-      <body
-        className={`${GeistSans.className} w-screen overflow-hidden bg-background antialiased backdrop-blur-md dark:bg-background`}
-      >
-        <NextAuthProvider>
+    <ViewTransitions>
+      <html lang="en">
+        <body
+          className={`${GeistSans.className} w-screen overflow-hidden bg-background antialiased backdrop-blur-md dark:bg-background`}
+        >
           <JotaiProvider>
             <ClientOnly>
               <ThemeProvider
@@ -44,9 +44,9 @@ const RootLayout = ({
               </ThemeProvider>
             </ClientOnly>
           </JotaiProvider>
-        </NextAuthProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 };
 

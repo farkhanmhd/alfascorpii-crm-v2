@@ -14,7 +14,7 @@ import {
   selectedDateAtom,
   customerFiltersAtom,
 } from '@/store';
-import { ActionDialog } from '@/types';
+import { ActionDialog, UserSession } from '@/types';
 import { useToast } from './use-toast';
 import { useDebouncedCallback } from 'use-debounce';
 import { CustomerFilters } from '@/types';

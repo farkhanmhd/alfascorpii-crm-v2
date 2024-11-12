@@ -23,17 +23,19 @@ const SelectedFilters = () => {
 
   return (
     <div className="flex justify-between gap-x-8">
-      <div className="flex max-h-max flex-wrap gap-2 self-center rounded-lg">
+      <div className="flex max-h-max max-w-[60vw] flex-1 gap-2 self-center overflow-x-auto rounded-lg sm:max-w-none md:flex-wrap">
         {selectedFilters.length > 0 ? (
           <MapItems
             of={selectedFilters}
             render={([key, value]) => (
               <Badge
                 key={key}
-                className="flex items-center gap-1 capitalize"
+                className="flex flex-1 items-center justify-between gap-1 py-2 capitalize sm:py-1 md:flex-none"
                 variant="outline"
               >
-                {`${key.replace(/([A-Z])/g, ' $1')}: ${value?.replace(/([A-Z])/g, ' $1')}`}
+                <span className="line-clamp-1">
+                  {`${key.replace(/([A-Z])/g, ' $1')}: ${value?.replace(/([A-Z])/g, ' $1')}`}
+                </span>
                 <button
                   onClick={() => handleRemoveFilter(key)}
                   className="ml-1 rounded p-1 hover:bg-muted"

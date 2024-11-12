@@ -1,6 +1,6 @@
 import { fetchWithParams, fetchData } from '@/app/lib/data/fetchUtils';
 
-export const fetchDealer = (
+export const fetchDealer = async (
   search?: string,
   page?: string,
   per_page?: string

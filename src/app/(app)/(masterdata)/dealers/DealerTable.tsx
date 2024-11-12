@@ -3,12 +3,7 @@ import DataTable from '@/components/fragments/table/DataTable';
 import columns from './column';
 import { fetchDealer } from '@/app/lib/data/dealers';
 import DataTablePagination from '@/components/fragments/table/pagination';
-
-interface SearchParamsProps {
-  search?: string;
-  page?: string;
-  perPage?: string;
-}
+import { SearchParamsProps } from '@/types';
 
 const DealerTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchDealer(search, page, perPage);

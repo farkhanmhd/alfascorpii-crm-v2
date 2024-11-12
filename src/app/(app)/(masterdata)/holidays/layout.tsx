@@ -17,13 +17,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <div className="flex h-full flex-1 flex-col">
-        <TableContainerHeader>
-          <Tablesearch placeholder="Search Holiday" />
-          <AddButton>Add Hari Besar</AddButton>
-        </TableContainerHeader>
-        {children}
-      </div>
+      <TableContainerHeader>
+        <Tablesearch placeholder="Search Holiday" />
+        <AddButton>Add Hari Besar</AddButton>
+      </TableContainerHeader>
+      {children}
       {actionDialog?.create && <CreateHolidayDialog />}
       {actionDialog?.edit && <EditHolidayDialog />}
       {deleteDialog?.open && <DeleteHolidayDialog />}

@@ -8,6 +8,12 @@ type Status = 'HIDE' | 'SHOW';
 //   | 'MINAT'
 //   | 'PROSPECT';
 
+export interface SearchParamsProps {
+  search?: string;
+  page?: string;
+  perPage?: string;
+}
+
 interface IIdentifiable {
   id: number;
 }
@@ -248,4 +254,12 @@ export type CustomerFilters = {
   dealer?: string | null;
   income?: string | null;
   houseOwnership?: string | null;
+};
+
+export type UserSession = {
+  userId: string;
+  name: string;
+  username: string;
+  status: string;
+  avatar?: string;
 };

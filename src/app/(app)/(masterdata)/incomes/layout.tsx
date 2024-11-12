@@ -16,13 +16,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { actionDialog } = useActionDialog();
   return (
     <>
-      <div className="flex h-full flex-1 flex-col">
-        <TableContainerHeader>
-          <Tablesearch placeholder="Search Penghasilan" />
-          <AddButton>Add Penghasilan</AddButton>
-        </TableContainerHeader>
-        {children}
-      </div>
+      <TableContainerHeader>
+        <Tablesearch placeholder="Search Penghasilan" />
+        <AddButton>Add Penghasilan</AddButton>
+      </TableContainerHeader>
+      {children}
       {actionDialog?.create && <CreateIncomeDialog />}
       {actionDialog?.edit && <EditIncomeDialog />}
       {deleteDialog?.open && <DeleteIncomeDialog />}

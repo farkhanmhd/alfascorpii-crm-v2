@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { useMobileSidenav } from '@/hooks';
 import { LogOut } from 'lucide-react';
 import { signOut } from 'next-auth/react';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import MobileNavLinks from './MobileNavLinks';
 import { MobileLogo } from '../navigation/Logo';
 import { MobileSidenavItems } from '../navigation/constants';

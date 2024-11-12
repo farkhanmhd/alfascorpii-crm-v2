@@ -16,7 +16,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { actionDialog } = useActionDialog();
   return (
     <>
-      <div className="flex h-full flex-1 flex-col">
+      <div className="grid h-full grid-rows-[auto_1fr_auto] gap-y-6">
         <TableContainerHeader>
           <Tablesearch placeholder="Search Product" />
           <AddButton>Add Product</AddButton>

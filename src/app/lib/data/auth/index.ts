@@ -1,19 +1,12 @@
-import { signIn } from 'next-auth/react';
+import { cookies } from 'next/headers';
+import { decryptToken } from '../../actions/auth/session';
 
-export const authenticateUser = async (username: string, password: string) => {
-  try {
-    const res = await signIn('credentials', {
-      username,
-      password,
-      redirect: true,
-    });
+const getAccessToken = async () => {
+  const cookieStore = await cookies();
+  const encryptedToken = cookieStore.get('at')?.value;
+  const accessToken = await decryptToken(encryptedToken as string);
 
-    if (res?.error) {
-      return { success: false, message: res.error };
-    }
-
-    return { success: true, message: 'Login successful', data: res };
-  } catch (error) {
-    return { success: false, message: 'An unexpected error occurred', error };
-  }
+  return accessToken;
 };
+
+export default getAccessToken;

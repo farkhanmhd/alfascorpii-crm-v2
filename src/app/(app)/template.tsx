@@ -73,7 +73,7 @@ const MainTemplate = ({ children }: { children: React.ReactNode }) => {
             </Breadcrumb>
           </div>
         </header>
-        <section className="h-full px-6">{children}</section>
+        <section className="flex-1 px-6">{children}</section>
       </SidebarInset>
     </SidebarProvider>
   );
