@@ -255,3 +255,11 @@ export type CustomerFilters = {
   income?: string | null;
   houseOwnership?: string | null;
 };
+
+export type UserSession = {
+  userId: string;
+  name: string;
+  username: string;
+  status: string;
+  avatar?: string;
+};

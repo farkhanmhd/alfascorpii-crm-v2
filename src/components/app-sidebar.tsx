@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import React from 'react';
 import {
   AudioWaveform,
   Command,
@@ -10,8 +10,6 @@ import {
   Phone,
   Bike,
 } from 'lucide-react';
-
-import { useSession } from 'next-auth/react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -26,6 +24,7 @@ import {
 
 import SearchButton from './fragments/buttons/SearchButton';
 import ThemeToggle from './fragments/toggle/ThemeToggle';
+import { UserSession } from '@/types';
 
 export const sidebarData = {
   user: {
@@ -143,11 +142,6 @@ export const sidebarData = {
 export const AppSidebar = ({
   ...props
 }: React.ComponentProps<typeof Sidebar>) => {
-  const { data: session } = useSession();
-  const user = {
-    name: session && (session.user.name as string),
-    username: session && (session.user.username as string),
-  };
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -159,7 +153,7 @@ export const AppSidebar = ({
       <SidebarFooter>
         <SearchButton />
         <ThemeToggle />
-        <NavUser user={user} />
+        <NavUser user={sidebarData.user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

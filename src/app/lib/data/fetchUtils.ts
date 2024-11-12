@@ -1,8 +1,10 @@
 import { notFound } from 'next/navigation';
+import getAccessToken from './auth';
 import { searchQuerySchema } from '@/validation/schemas';
 import { SearchQueryParams } from '@/types';
-import { auth } from '@/auth';
-import { getToken } from 'next-auth/jwt';
+
+const secretKey = process.env.AUTH_SECRET;
+const key = new TextEncoder().encode(secretKey);
 
 const validateSearchQuery = (
   schema: typeof searchQuerySchema,
@@ -45,8 +47,7 @@ export const fetchSearch = async ({
   const validatedParams = validateSearchQuery(searchQuerySchema, params);
   const queryParams = createQueryParams(validatedParams) || '';
   const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}${queryParams ? `?${queryParams.toString()}` : ''}`;
-  const session = await auth();
-  const accessToken = session?.accessToken;
+  const accessToken = await getAccessToken();
 
   const res = await fetch(fetchUrl, {
     cache: 'force-cache',
@@ -87,8 +88,7 @@ export const fetchData = async ({
   cache = 'force-cache',
 }: FetchData) => {
   const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
-  const session = await auth();
-  const accessToken = session?.accessToken;
+  const accessToken = await getAccessToken();
 
   const res = await fetch(fetchUrl, {
     cache,

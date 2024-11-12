@@ -9,8 +9,8 @@ export const getUser = async (username: string, password: string) => {
       body: JSON.stringify({ username, password }),
     });
 
-    const { data: loginData } = await response.json();
-    return loginData;
+    const { data: user } = await response.json();
+    return user;
   } catch (error) {
     return error;
   }
