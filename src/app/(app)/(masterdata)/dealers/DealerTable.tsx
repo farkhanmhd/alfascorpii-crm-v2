@@ -1,6 +1,6 @@
 import React from 'react';
 import DataTable from '@/components/fragments/table/DataTable';
-import columns from './column';
+import columns from './columns';
 import { fetchDealer } from '@/app/lib/data/dealers';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import { SearchParamsProps } from '@/types';

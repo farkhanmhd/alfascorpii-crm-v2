@@ -1,10 +1,7 @@
 import { notFound } from 'next/navigation';
-import getAccessToken from './auth';
 import { searchQuerySchema } from '@/validation/schemas';
 import { SearchQueryParams } from '@/types';
-
-const secretKey = process.env.AUTH_SECRET;
-const key = new TextEncoder().encode(secretKey);
+import getAccessToken from './auth';
 
 const validateSearchQuery = (
   schema: typeof searchQuerySchema,

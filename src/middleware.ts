@@ -19,12 +19,9 @@ const middleware = async (req: NextRequest) => {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (
-    isPublicRoute &&
-    session?.userId &&
-    !req.nextUrl.pathname.startsWith('/dashboard')
-  ) {
-    return NextResponse.redirect(new URL('/dashboard', req.nextUrl));
+  if (isPublicRoute && session?.userId) {
+    const redirectUrl = new URL('/', req.nextUrl.origin);
+    return NextResponse.redirect(redirectUrl);
   }
 
   return NextResponse.next();

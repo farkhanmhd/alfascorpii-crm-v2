@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import DealerTable from './DealerTable';
+import TableSkeleton from '@/components/fragments/table/TableSkeleton';
 
 export const metadata: Metadata = {
   title: 'Dealers',
@@ -20,7 +21,7 @@ const Page = async (props: {
   const perPage = searchParams?.per_page;
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<TableSkeleton />}>
       <DealerTable page={page} search={search} perPage={perPage} />
     </Suspense>
   );

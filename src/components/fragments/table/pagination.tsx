@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useTransitionRouter } from 'next-view-transitions';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -39,8 +40,8 @@ const DataTablePagination = ({
 }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const { replace } = useRouter();
+  const router = useTransitionRouter();
+  const { replace } = useTransitionRouter();
   const params = new URLSearchParams(searchParams);
   const initialper_page = params.get('per_page') || '20';
   const [per_page, setper_page] = useState(initialper_page);

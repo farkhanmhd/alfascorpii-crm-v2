@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
-import CustomerJobTable from './CustomerJobTable';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
+import CustomerJobTable from './CustomerJobTable';
 
 const Page = async (props: {
   searchParams?: Promise<{

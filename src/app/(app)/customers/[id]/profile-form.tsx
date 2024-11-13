@@ -1,21 +1,22 @@
 'use client';
 
-import { Link } from 'next-view-transitions';
+import React from 'react';
+// import { Link } from 'next-view-transitions';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { cn } from '@/lib/utils';
+// import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
+  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  // FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import {
@@ -25,54 +26,51 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 
 const profileFormSchema = z.object({
-  username: z
+  dealer: z.string(),
+  location: z.string(),
+  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
+  address: z
     .string()
-    .min(2, {
-      message: 'Username must be at least 2 characters.',
-    })
-    .max(30, {
-      message: 'Username must not be longer than 30 characters.',
-    }),
-  email: z
-    .string({
-      required_error: 'Please select an email to display.',
-    })
-    .email(),
-  bio: z.string().max(160).min(4),
-  urls: z
-    .array(
-      z.object({
-        value: z.string().url({ message: 'Please enter a valid URL.' }),
-      })
-    )
-    .optional(),
+    .min(2, { message: 'Address must be at least 2 characters.' }),
+  phone: z
+    .string()
+    .min(2, { message: 'Phone must be at least 2 characters.' })
+    .regex(/^\+?\d+$/, { message: 'Phone must only contain numbers.' }),
+  sub_district: z
+    .string()
+    .min(2, { message: 'Sub-District must be at least 2 characters.' }),
+  district: z
+    .string()
+    .min(2, { message: 'Sub-District must be at least 2 characters.' }),
+  city: z
+    .string()
+    .min(2, { message: 'Sub-District must be at least 2 characters.' }),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  bio: 'I own a computer.',
-  urls: [
-    { value: 'https://shadcn.com' },
-    { value: 'http://twitter.com/shadcn' },
-  ],
-};
+// const defaultValues: Partial<ProfileFormValues> = {
+//   bio: 'I own a computer.',
+//   urls: [
+//     { value: 'https://shadcn.com' },
+//     { value: 'http://twitter.com/shadcn' },
+//   ],
+// };
 
-export function ProfileForm() {
+export const ProfileForm = () => {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues,
+    // defaultValues,
     mode: 'onChange',
   });
 
-  const { fields, append } = useFieldArray({
-    name: 'urls',
-    control: form.control,
-  });
+  //   const { fields, append } = useFieldArray({
+  //     name: 'urls',
+  //     control: form.control,
+  //   });
 
   function onSubmit(data: ProfileFormValues) {
     toast({
@@ -87,105 +85,148 @@ export function ProfileForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="flex flex-col gap-6 md:flex-row">
+          <FormField
+            control={form.control}
+            name="dealer"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Dealer / Code</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
-                  </SelectTrigger>
+                  <Input
+                    placeholder="Main Dealer"
+                    defaultValue="PT Alfa Scorpii / MD01"
+                    disabled
+                    {...field}
+                  />
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
-                  <SelectItem value="m@google.com">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                You can manage verified email addresses in your{' '}
-                <Link href="/examples/forms">email settings</Link>.
-              </FormDescription>
-              <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Location</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue="Sumatera Utara"
+                >
+                  <FormControl>
+                    <SelectTrigger disabled>
+                      <SelectValue placeholder="Select a location" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Medan">Medan</SelectItem>
+                    <SelectItem value="Sumatera Utara">
+                      Sumatera Utara
+                    </SelectItem>
+                    <SelectItem value="Aceh">Aceh</SelectItem>
+                    <SelectItem value="Riau">Riau</SelectItem>
+                    <SelectItem value="Kepulauan Riau">
+                      Kepulauan Riau
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+        </div>
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Name" defaultValue="Jhon Doe" {...field} />
+              </FormControl>
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="bio"
+          name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bio</FormLabel>
+              <FormLabel>Phone</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="Tell us a little bit about yourself"
-                  className="resize-none"
+                <Input
+                  placeholder="+6281234567890"
+                  defaultValue="+6281234567890"
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
-              </FormDescription>
-              <FormMessage />
             </FormItem>
           )}
         />
-        <div>
-          {fields.map((field, index) => (
-            <FormField
-              control={form.control}
-              key={field.id}
-              name={`urls.${index}.value`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className={cn(index !== 0 && 'sr-only')}>
-                    URLs
-                  </FormLabel>
-                  <FormDescription className={cn(index !== 0 && 'sr-only')}>
-                    Add links to your website, blog, or social media profiles.
-                  </FormDescription>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="mt-2"
-            onClick={() => append({ value: '' })}
-          >
-            Add URL
-          </Button>
-        </div>
-        <Button type="submit">Update profile</Button>
+        <FormField
+          control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Address</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Address"
+                  defaultValue="Jl. Raya No. 1"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="sub_district"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Sub-District</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Sub-District"
+                  defaultValue="Kesawan"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="district"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>District</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="District"
+                  defaultValue="Medan Barat"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="city"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>City</FormLabel>
+              <FormControl>
+                <Input placeholder="City" defaultValue="Medan" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">Update Customer</Button>
       </form>
     </Form>
   );
-}
+};
