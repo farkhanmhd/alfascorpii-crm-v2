@@ -1,11 +1,8 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import SelectedFilters from './selected-filters';
 import { Card, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronsUpDown } from 'lucide-react';
-import CustomerFilter from './filters';
-import CustomerTable from './CustomerTable';
 import Tablesearch from '@/components/fragments/table/tablesearch';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
 import {
@@ -13,6 +10,9 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import CustomerTable from './CustomerTable';
+import CustomerFilter from './filters';
+import SelectedFilters from './selected-filters';
 
 export const metadata: Metadata = {
   title: 'Customers',

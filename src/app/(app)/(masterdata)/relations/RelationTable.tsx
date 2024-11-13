@@ -1,8 +1,8 @@
 import React from 'react';
 import DataTable from '@/components/fragments/table/DataTable';
-import columns from './columns';
 import { fetchRelation } from '@/app/lib/data/relations';
 import DataTablePagination from '@/components/fragments/table/pagination';
+import columns from './columns';
 
 interface SearchParamsProps {
   search?: string;

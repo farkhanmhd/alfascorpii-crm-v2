@@ -72,6 +72,18 @@ export interface IRelation extends IIdentifiable {
   status: Status;
 }
 
+export interface IFollowUp extends IIdentifiable {
+  follow_up: string;
+  phone_receiver: string;
+  relationship: string;
+  whatsapp: string;
+  date: string;
+  method: string;
+  status: string;
+  result: string;
+  motorcycle: string;
+}
+
 export interface ICustomerJob extends IIdentifiable {
   job_code: string;
   job_name: string;

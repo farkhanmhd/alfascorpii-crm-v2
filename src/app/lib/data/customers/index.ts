@@ -70,8 +70,8 @@ export const getCustomers = (): Promise<ICustomer[]> => {
   const getRandomItem = (arr: string[]) =>
     arr[Math.floor(Math.random() * arr.length)];
 
-  const data = Array.from({ length: 50 }, () => ({
-    id: Math.ceil(Math.random() * 100),
+  const data = Array.from({ length: 50 }, (_, index) => ({
+    id: index + 1,
     dealer: getRandomItem(dealers),
     name: getRandomItem(names),
     location: getRandomItem(locations),

@@ -1,8 +1,8 @@
 import React from 'react';
 import DataTable from '@/components/fragments/table/DataTable';
-import columns from './columns';
 import { getCustomers } from '@/app/lib/data/customers';
 import DataTablePagination from '@/components/fragments/table/pagination';
+import columns from './columns';
 
 const CustomerTable = async () => {
   const data = await getCustomers();
@@ -15,7 +15,7 @@ const CustomerTable = async () => {
     );
   }
 
-  const customers = data;
+  const customers = data.sort((a, b) => a.id - b.id);
   return (
     <>
       <DataTable columns={columns} data={customers} includeIndex />
