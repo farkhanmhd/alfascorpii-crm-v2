@@ -13,11 +13,11 @@ import {
   actionDialogAtom,
   selectedDateAtom,
   customerFiltersAtom,
+  customerFilterSheetAtom,
 } from '@/store';
-import { ActionDialog, UserSession } from '@/types';
-import { useToast } from './use-toast';
+import { ActionDialog, CustomerFilters } from '@/types';
 import { useDebouncedCallback } from 'use-debounce';
-import { CustomerFilters } from '@/types';
+import { useToast } from './use-toast';
 
 export const useActiveButton = () => {
   const [activeButton, setActiveButton] = useAtom(activeButtonAtom);
@@ -141,6 +141,12 @@ export const useDeleteToast = (
   }, [deleteResult, toast, setDeleteDialog, onErrorRevert]);
 };
 
+export const useSelectedDate = () => {
+  const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
+
+  return { selectedDate, setSelectedDate };
+};
+
 export const useActionDialog = <T>() => {
   const [actionDialog, setActionDialog] = useAtom(actionDialogAtom);
   const { setSelectedDate } = useSelectedDate();
@@ -155,12 +161,6 @@ export const useActionDialog = <T>() => {
     setActionDialog,
     handleClose,
   };
-};
-
-export const useSelectedDate = () => {
-  const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
-
-  return { selectedDate, setSelectedDate };
 };
 
 export const useElementWidth = () => {
@@ -178,7 +178,7 @@ export const useElementWidth = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [elementRef.current?.offsetWidth]);
+  }, [elementRef.current?.offsetWidth, handleResize]);
 
   return { elementRef, elementWidth };
 };
@@ -188,4 +188,10 @@ export const useCustomerFilters = () => {
     useAtom<CustomerFilters>(customerFiltersAtom);
 
   return { customerFilters, setCustomerFilters };
+};
+
+export const useCustomerSheet = () => {
+  const [openSheet, setOpenSheet] = useAtom(customerFilterSheetAtom);
+
+  return { openSheet, setOpenSheet };
 };

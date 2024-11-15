@@ -1,7 +1,10 @@
 'use client';
 
 import React from 'react';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
 import { Link } from 'next-view-transitions';
+import { Pencil } from 'lucide-react';
 import { ICustomer, Column } from '@/types';
 
 const columns: Column<ICustomer>[] = [
@@ -39,10 +42,10 @@ const columns: Column<ICustomer>[] = [
     header: 'Action',
     GetCellContent: (customer: ICustomer) => (
       <Link
-        className="text-primary hover:underline"
+        className={cn(buttonVariants({ variant: 'ghost' }))}
         href={`/customers/${customer.id}`}
       >
-        Edit
+        <Pencil />
       </Link>
     ),
   },

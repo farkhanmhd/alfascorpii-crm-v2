@@ -6,7 +6,7 @@ import { useSidebarDesktop } from '@/hooks';
 import useClickOutside from '@/hooks/useClickOutside';
 import { LogOut } from 'lucide-react';
 import { Link } from 'next-view-transitions';
-import { signOut } from 'next-auth/react';
+// import { signOut } from 'next-auth/react';
 import SideNavLinks from './SideNavLinks';
 import { Logo } from '../navigation/Logo';
 import SidebarMenuButton from '../buttons/SidebarMenuButton';
@@ -53,13 +53,6 @@ const Sidenav = () => {
           'px-9': sidebarOpen,
           'justify-center': !sidebarOpen,
         })}
-        onClick={() => {
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('loggedOut', 'true');
-            localStorage.setItem('loggedOutManual', 'true');
-          }
-          return signOut();
-        }}
       >
         <div className="flex gap-x-6 rounded-xl py-3 text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary">
           <LogOut />

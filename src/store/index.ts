@@ -42,3 +42,5 @@ export const customerFiltersAtom = atom<CustomerFilters>({
   income: null,
   houseOwnership: null,
 });
+
+export const customerFilterSheetAtom = atom<boolean>(false);

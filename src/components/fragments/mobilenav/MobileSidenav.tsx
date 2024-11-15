@@ -4,7 +4,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { useMobileSidenav } from '@/hooks';
 import { LogOut } from 'lucide-react';
-import { signOut } from 'next-auth/react';
+// import { signOut } from 'next-auth/react';
 import { Link } from 'next-view-transitions';
 import MobileNavLinks from './MobileNavLinks';
 import { MobileLogo } from '../navigation/Logo';
@@ -44,13 +44,6 @@ const MobileSidenav = () => {
             'px-9': mobileSidenav,
             'justify-center': !mobileSidenav,
           })}
-          onClick={() => {
-            if (typeof window !== 'undefined') {
-              localStorage.setItem('loggedOut', 'true');
-              localStorage.setItem('loggedOutManual', 'true');
-            }
-            return signOut();
-          }}
         >
           <div className="flex gap-x-6 rounded-xl py-3 text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary">
             <LogOut />

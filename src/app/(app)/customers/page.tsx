@@ -1,17 +1,10 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import { Card, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ChevronsUpDown } from 'lucide-react';
+import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
+import AddButton from '@/components/fragments/buttons/AddButton';
 import Tablesearch from '@/components/fragments/table/tablesearch';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
 import CustomerTable from './CustomerTable';
-import CustomerFilter from './filters';
 import SelectedFilters from './selected-filters';
 
 export const metadata: Metadata = {
@@ -21,24 +14,12 @@ export const metadata: Metadata = {
 
 const Page = async () => {
   return (
-    <div className="grid h-full grid-rows-[auto_auto_auto_1fr_auto] gap-y-4">
-      <Collapsible>
-        <CollapsibleTrigger asChild>
-          <Button variant="secondary">
-            <span>Select Filters</span>
-            <ChevronsUpDown className="h-4 w-4" />
-          </Button>
-        </CollapsibleTrigger>
-        <CollapsibleContent className="mt-4">
-          <Card>
-            <CardHeader>
-              <CustomerFilter />
-            </CardHeader>
-          </Card>
-        </CollapsibleContent>
-      </Collapsible>
+    <div className="grid h-full grid-rows-[auto_auto_1fr_auto] gap-y-4">
       <SelectedFilters />
-      <Tablesearch placeholder="Search Customer" />
+      <TableContainerHeader>
+        <Tablesearch placeholder="Search Customer" />
+        <AddButton>Add Customer</AddButton>
+      </TableContainerHeader>
       <Suspense fallback={<TableSkeleton />}>
         <CustomerTable />
       </Suspense>

@@ -167,7 +167,7 @@ const DealsForm = () => {
           name="price"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Promo Code</FormLabel>
+              <FormLabel>Price</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Price"

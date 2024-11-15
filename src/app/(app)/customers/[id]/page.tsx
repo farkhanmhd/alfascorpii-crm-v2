@@ -1,6 +1,6 @@
 import React from 'react';
 import { Separator } from '@/components/ui/separator';
-import { ProfileForm } from './profile-form';
+import ProfileTab from './profile-tab';
 
 const SettingsProfilePage = () => {
   return (
@@ -13,7 +13,7 @@ const SettingsProfilePage = () => {
         </p>
       </div>
       <Separator />
-      <ProfileForm />
+      <ProfileTab />
     </div>
   );
 };

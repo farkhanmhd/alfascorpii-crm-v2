@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { Link } from 'next-view-transitions';
 import { usePathname } from 'next/navigation';
 
@@ -13,7 +14,7 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   }[];
 }
 
-export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
+export const SidebarNav = ({ className, items, ...props }: SidebarNavProps) => {
   const pathname = usePathname();
 
   return (
@@ -41,4 +42,4 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
       ))}
     </nav>
   );
-}
+};

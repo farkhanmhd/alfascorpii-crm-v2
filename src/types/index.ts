@@ -275,3 +275,9 @@ export type UserSession = {
   status: string;
   avatar?: string;
 };
+
+export type TabData<T> = {
+  value: string;
+  label: string;
+  content: T;
+};

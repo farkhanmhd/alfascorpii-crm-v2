@@ -1,9 +1,9 @@
 'use server';
 
-import { getUser } from '../../auth';
 import { loginSchema } from '@/validation/schemas';
 import actionClient from '@/lib/safe-action';
-import { createSession, deleteSession, encryptToken } from './session';
+import { getUser } from '../../auth';
+import { createSession, deleteSession, storeToken } from './session';
 
 export const loginAction = actionClient
   .schema(loginSchema)
@@ -17,7 +17,7 @@ export const loginAction = actionClient
     const { uuid: userId, name, username, status } = data.user;
     const { accessToken } = data;
 
-    await encryptToken(accessToken);
+    await storeToken(accessToken);
 
     await createSession(userId, name, username, status);
 

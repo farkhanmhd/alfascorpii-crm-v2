@@ -1,14 +1,14 @@
 import React from 'react';
 import DataTable from '@/components/fragments/table/DataTable';
-import columns from './columns';
 import { fetchCustomerJobs } from '@/app/lib/data/customerjobs';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import { SearchParamsProps } from '@/types';
+import columns from './columns';
 
 const CustomerJobTable = async ({
-  search,
-  page,
-  perPage,
+  search = '',
+  page = '1',
+  perPage = '20',
 }: SearchParamsProps) => {
   const data = await fetchCustomerJobs(search, page, perPage);
 

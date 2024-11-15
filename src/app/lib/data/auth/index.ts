@@ -4,7 +4,7 @@ import { decryptToken } from '../../actions/auth/session';
 const getAccessToken = async () => {
   const cookieStore = await cookies();
   const encryptedToken = cookieStore.get('at')?.value;
-  const accessToken = await decryptToken(encryptedToken as string);
+  const accessToken = decryptToken(encryptedToken as string);
 
   return accessToken;
 };

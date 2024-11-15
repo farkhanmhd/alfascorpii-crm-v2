@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 import {
   BadgeCheck,
   Bell,
@@ -19,7 +21,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
+  // DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
@@ -30,7 +32,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 
-export function NavUser({
+export const NavUser = ({
   user,
 }: {
   user: {
@@ -39,7 +41,7 @@ export function NavUser({
     email?: string;
     avatar?: string;
   };
-}) {
+}) => {
   const { isMobile } = useSidebar();
   const { push } = useTransitionRouter();
   localStorage.setItem('userLogout', 'false');
@@ -122,4 +124,4 @@ export function NavUser({
       </SidebarMenuItem>
     </SidebarMenu>
   );
-}
+};

@@ -24,7 +24,6 @@ import {
 
 import SearchButton from './fragments/buttons/SearchButton';
 import ThemeToggle from './fragments/toggle/ThemeToggle';
-import { UserSession } from '@/types';
 
 export const sidebarData = {
   user: {
