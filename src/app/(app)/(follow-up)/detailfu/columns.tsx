@@ -3,35 +3,35 @@
 import React from 'react';
 import clsx from 'clsx';
 import { Pencil, Trash } from 'lucide-react';
-import { IStatusFU, Column } from '@/types';
+import { IDetailFU, Column } from '@/types';
 import { Button } from '@/components/ui/button';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
 
-const columns: Column<IStatusFU>[] = [
+const columns: Column<IDetailFU>[] = [
   {
     header: 'Keterangan',
     key: 'detail_fu_name',
-    GetCellContent: (status: IStatusFU) => status.detail_fu_name || 'Null',
+    GetCellContent: (detail: IDetailFU) => detail.detail_fu_name,
   },
   {
     header: 'Status',
     key: 'status',
-    GetCellContent: (status: IStatusFU) => (
+    GetCellContent: (detail: IDetailFU) => (
       <span
         className={clsx({
-          'text-green-500': status.status === 'SHOW',
-          'text-red-500': status.status === 'HIDE',
+          'text-green-500': detail.status === 'SHOW',
+          'text-red-500': detail.status === 'HIDE',
         })}
       >
-        {status.status}
+        {detail.status}
       </span>
     ),
   },
   {
     header: 'Action',
-    GetCellContent: (item: IStatusFU) => {
+    GetCellContent: (item: IDetailFU) => {
       const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IStatusFU>();
+      const { setActionDialog } = useActionDialog<IDetailFU>();
 
       return (
         <div className="flex gap-x-4">

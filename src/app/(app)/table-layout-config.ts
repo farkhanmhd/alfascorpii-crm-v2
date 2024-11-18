@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   TableConfig,
   ICustomerJob,
@@ -96,9 +94,11 @@ import {
   DeleteProductDialog,
 } from './productpreferences/actions';
 
-const FuDetailDialog: React.FC = () => {
-  return <div>Dialog</div>;
-};
+import {
+  CreateDetailFuDialog,
+  EditDetailFuDialog,
+  DeleteDetailFuDialog,
+} from './(follow-up)/detailfu/actions';
 
 const TableLayoutConfig: TableConfig<
   | ICustomerJob
@@ -228,12 +228,12 @@ const TableLayoutConfig: TableConfig<
   },
   {
     // dialog form hasnt made and api not consumed yet. will fixed later
-    pathname: '/keteranganfu',
+    pathname: '/detailfu',
     searchPlaceholder: 'Follow Up Detail',
     addButtonLabel: 'Add FU Detail',
-    CreateDialog: FuDetailDialog,
-    EditDialog: FuDetailDialog,
-    DeleteDialog: FuDetailDialog,
+    CreateDialog: CreateDetailFuDialog,
+    EditDialog: EditDetailFuDialog,
+    DeleteDialog: DeleteDetailFuDialog,
     type: {} as IDetailFU,
   },
   {

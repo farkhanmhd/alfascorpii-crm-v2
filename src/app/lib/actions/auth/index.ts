@@ -2,7 +2,7 @@
 
 import { loginSchema } from '@/validation/schemas';
 import actionClient from '@/lib/safe-action';
-import { getUser } from '../../auth';
+import { getUser } from '../../data/auth';
 import { createSession, deleteSession, storeToken } from './session';
 
 export const loginAction = actionClient

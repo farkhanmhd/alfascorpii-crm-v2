@@ -120,7 +120,7 @@ export const sidebarData = {
         },
         {
           title: 'Details',
-          url: '/keteranganfu',
+          url: '/detailfu',
         },
       ],
     },

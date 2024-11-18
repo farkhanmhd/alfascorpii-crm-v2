@@ -160,7 +160,7 @@ export interface IResultFU extends IIdentifiable {
 
 export interface IDetailFU extends IIdentifiable {
   status_fu_id: number;
-  detail_fu_name: string | null;
+  detail_fu_name: string;
   status: Status;
 }
 
