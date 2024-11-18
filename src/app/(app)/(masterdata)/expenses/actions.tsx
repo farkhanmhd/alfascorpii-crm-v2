@@ -28,6 +28,7 @@ export const CreateExpenseDialog = () => {
       expense_code: formData.get('expense_code'),
       status: formData.get('status'),
     };
+
     return addExpenseAction(data);
   });
   useSubmitToast(result, handleClose, reset);
@@ -47,8 +48,8 @@ export const EditExpenseDialog = () => {
   const { execute, result, isPending, reset } = useAction(async (formData) => {
     const data = {
       id: Number(actionDialog?.data?.id),
-      expense_upper_limit: formData.get('expense_upper_limit'),
-      expense_lower_limit: formData.get('expense_lower_limit'),
+      expense_upper_limit: Number(formData.get('expense_upper_limit')),
+      expense_lower_limit: Number(formData.get('expense_lower_limit')),
       expense_detail: formData.get('expense_detail'),
       expense_code: formData.get('expense_code'),
       status: formData.get('status'),

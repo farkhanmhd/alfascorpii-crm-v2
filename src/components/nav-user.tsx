@@ -31,16 +31,20 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { JWTPayload } from 'jose';
 
 export const NavUser = ({
   user,
 }: {
-  user: {
-    name: string;
-    username?: string;
-    email?: string;
-    avatar?: string;
-  };
+  user:
+    | {
+        name: string;
+        username?: string;
+        email?: string;
+        avatar?: string;
+      }
+    | JWTPayload
+    | null;
 }) => {
   const { isMobile } = useSidebar();
   const { push } = useTransitionRouter();

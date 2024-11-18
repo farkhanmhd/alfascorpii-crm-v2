@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
+import { JWTPayload } from 'jose';
 import { AppSidebar, sidebarData } from '@/components/app-sidebar';
 import {
   Breadcrumb,
@@ -18,10 +19,19 @@ import {
 } from '@/components/ui/sidebar';
 import MapItems from '@/utils/MapItems';
 
+interface TemplateProviderProps {
+  children: React.ReactNode;
+  session: JWTPayload | null;
+}
+
 const { navMain } = sidebarData;
 
-const MainTemplate = ({ children }: { children: React.ReactNode }) => {
+const TemplateProvider: React.FC<TemplateProviderProps> = ({
+  children,
+  session,
+}) => {
   const pathname = usePathname();
+
   const breadcrumbs = navMain
     .map((item) => {
       if (item.isParent && item.items) {
@@ -42,7 +52,7 @@ const MainTemplate = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar session={session} />
       <SidebarInset>
         <header className="flex h-12 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
@@ -79,4 +89,4 @@ const MainTemplate = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default MainTemplate;
+export default TemplateProvider;

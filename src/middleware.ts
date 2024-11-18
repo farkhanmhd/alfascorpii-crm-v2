@@ -10,8 +10,8 @@ const middleware = async (req: NextRequest) => {
   const isPublicRoute = publicRoutes.includes(path);
 
   const cookieStore = await cookies();
-  const cookie = cookieStore.get('sd')?.value;
-  const session = await decryptSession(cookie);
+  const encryptedSession = cookieStore.get('sd')?.value;
+  const session = await decryptSession(encryptedSession);
 
   if (isProtectedRoute && !session?.userId) {
     const redirectUrl = new URL('/login', req.nextUrl.origin);

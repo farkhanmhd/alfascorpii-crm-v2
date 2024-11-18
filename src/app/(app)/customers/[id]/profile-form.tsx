@@ -64,6 +64,9 @@ const profileFormSchema = z.object({
   hobby_name: z.string().min(2, {
     message: 'Hobby must be at least 2 characters.',
   }),
+  holiday_name: z.string().min(2, {
+    message: 'Holiday must be at least 2 characters.',
+  }),
   income_upper_limit: z.string().min(2, {
     message: 'Income Code must be at least 2 characters.',
   }),
@@ -305,6 +308,22 @@ const ProfileForm = ({ value }: { value: 'overview' | 'extended' }) => {
                 <FormLabel className="mb-2 block">Date of Birth</FormLabel>
                 <FormControl>
                   <DatePicker />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="holiday_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Holiday</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Holiday"
+                    defaultValue="Independence Day"
+                    {...field}
+                  />
                 </FormControl>
               </FormItem>
             )}

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { JWTPayload } from 'jose';
 import {
   AudioWaveform,
   Command,
@@ -138,9 +139,12 @@ export const sidebarData = {
   ],
 };
 
-export const AppSidebar = ({
-  ...props
-}: React.ComponentProps<typeof Sidebar>) => {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  session: JWTPayload | null;
+}
+
+export const AppSidebar = ({ session, ...props }: AppSidebarProps) => {
+  const user = session;
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -152,7 +156,7 @@ export const AppSidebar = ({
       <SidebarFooter>
         <SearchButton />
         <ThemeToggle />
-        <NavUser user={sidebarData.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

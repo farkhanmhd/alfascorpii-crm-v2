@@ -1,9 +1,9 @@
 import React from 'react';
 import DataTable from '@/components/fragments/table/DataTable';
-import columns from './columns';
 import { fetchDealer } from '@/app/lib/data/dealers';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import { SearchParamsProps } from '@/types';
+import columns from './columns';
 
 const DealerTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchDealer(search, page, perPage);

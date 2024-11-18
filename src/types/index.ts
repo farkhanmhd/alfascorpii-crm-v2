@@ -1,3 +1,5 @@
+import React from 'react';
+
 type Status = 'HIDE' | 'SHOW';
 // type ActiveStatus = 'AKTIF' | 'HOLD';
 // type ContactStatus = 'CONTACTED' | 'NOT CONTACTED';
@@ -281,3 +283,13 @@ export type TabData<T> = {
   label: string;
   content: T;
 };
+
+export interface TableConfig<T> {
+  pathname: string;
+  searchPlaceholder: string;
+  addButtonLabel: string;
+  CreateDialog: React.ComponentType;
+  EditDialog: React.ComponentType;
+  DeleteDialog: React.ComponentType;
+  type: T;
+}

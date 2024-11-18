@@ -20,7 +20,7 @@ export const encryptSession = async (payload: SessionPayload) => {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('1hr')
+    .setExpirationTime('1 day')
     .sign(key);
 };
 
@@ -39,11 +39,11 @@ export const decryptToken = async (encryptedToken: string): Promise<string> => {
 export const storeToken = async (token: string): Promise<void> => {
   const encryptedToken = await encryptToken(token);
   const cookieStore = await cookies();
-  const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
   cookieStore.set('at', encryptedToken, {
     httpOnly: true,
     secure: true,
-    expires: expiresAt,
+    expires,
     sameSite: 'lax',
     path: '/',
   });
@@ -95,6 +95,14 @@ export const verifySession = async () => {
   }
 
   return { isAuth: true, userId: session.userId };
+};
+
+export const getSession = async () => {
+  const cookieStore = await cookies();
+  const cookie = cookieStore.get('sd')?.value;
+  const session = await decryptSession(cookie);
+
+  return session;
 };
 
 // export const updateSession = async () : Promise<void> | null => {

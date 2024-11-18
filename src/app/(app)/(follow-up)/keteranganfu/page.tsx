@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import FuDetailTable from './FuDetailTable';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
+import FuDetailTable from './FuDetailTable';
 
 export const metadata: Metadata = {
   title: 'Follow Up Details',
