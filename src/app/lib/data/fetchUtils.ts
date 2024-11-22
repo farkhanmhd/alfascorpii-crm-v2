@@ -3,7 +3,7 @@ import { searchQuerySchema } from '@/validation/schemas';
 import { SearchQueryParams } from '@/types';
 import { getAccessToken } from './auth';
 
-const validateSearchQuery = (
+export const validateSearchQuery = (
   schema: typeof searchQuerySchema,
   params: SearchQueryParams
 ) => {
@@ -14,7 +14,7 @@ const validateSearchQuery = (
   return validationResult.data;
 };
 
-const createQueryParams = (params: {
+export const createQueryParams = (params: {
   search?: string;
   page: number;
   per_page: number;

@@ -10,6 +10,7 @@ import {
   Users,
   Phone,
   Bike,
+  LayoutDashboard,
 } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
@@ -50,6 +51,12 @@ export const sidebarData = {
     },
   ],
   navMain: [
+    {
+      title: 'Dashboard',
+      url: '/',
+      icon: LayoutDashboard,
+      isParent: false,
+    },
     {
       title: 'Master Data',
       url: '#',

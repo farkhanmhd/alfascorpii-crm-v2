@@ -6,10 +6,11 @@ import { redirect } from 'next/navigation';
 import { ncrypt as Ncrypt } from 'ncrypt-js';
 
 type SessionPayload = {
-  userId: string | number;
-  name: string;
+  id: string | number;
+  nip: string;
   username: string;
-  status: string;
+  name: string;
+  role: string;
   expiresAt: Date;
 };
 
@@ -61,17 +62,19 @@ export const decryptSession = async (session: string | undefined = '') => {
 };
 
 export const createSession = async (
-  userId: string,
-  name: string,
+  id: string,
+  nip: string,
   username: string,
-  status: string
+  name: string,
+  role: string
 ) => {
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
   const session = await encryptSession({
-    userId,
-    name,
+    id,
+    nip,
     username,
-    status,
+    name,
+    role,
     expiresAt,
   });
 
@@ -83,6 +86,8 @@ export const createSession = async (
     sameSite: 'lax',
     path: '/',
   });
+
+  return session;
 };
 
 export const verifySession = async () => {

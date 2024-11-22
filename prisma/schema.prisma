@@ -1,0 +1,391 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Users
+model User {
+  id                   String                @id @default(uuid())
+  nip                  String
+  name                 String
+  role                 UserRole
+  username             String                @unique
+  password             String
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @default(now())
+  followUpParticipants FollowUpParticipant[]
+}
+
+enum UserRole {
+  ADMIN   @map("Admin")
+  MANAGER @map("Manager")
+  LEADER  @map("Leader")
+  CRO     @map("CRO")
+}
+
+// Dealers
+model Dealer {
+  id              Int              @id @default(autoincrement())
+  dealerCode      String
+  dealerName      String
+  dealerCity      String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @default(now())
+  customerDealers CustomerDealer[]
+}
+
+// Customers
+model Customer {
+  id                   String                  @id @default(uuid())
+  nik                  String                  @unique
+  name                 String
+  phoneNumber          String
+  email                String?
+  whatsapp             String?
+  instagram            String?
+  facebook             String?
+  dateOfBirth          DateTime
+  address              String
+  subDistrict          String
+  district             String
+  city                 String
+  province             Province
+  createdAt            DateTime                @default(now())
+  updatedAt            DateTime                @default(now())
+  motorcycles          CustomerMotorcycle[]
+  purchases            CustomerPurchases[]
+  job                  CustomerJob?
+  holidays             CustomerHoliday[]
+  customerDealer       CustomerDealer?
+  followUpParticipants FollowUpParticipant[]
+  houseOwnership       CustomerHouseOwnership?
+  hobby                CustomerHobby?
+  finances             CustomerFinancial?
+}
+
+enum Province {
+  SUMATERA_UTARA @map("Sumatera Utara")
+  ACEH           @map("Aceh")
+  KEPULAUAN_RIAU @map("Kepulauan Riau")
+  RIAU           @map("Riau")
+}
+
+// ReligiousHolidays
+model ReligiousHoliday {
+  id               Int               @id @default(autoincrement())
+  holidayName      String
+  holidayMessage   String
+  holidayDate      DateTime
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @default(now())
+  customerHolidays CustomerHoliday[]
+}
+
+// MotorcycleTypes
+model MotorcycleType {
+  id               Int               @id @default(autoincrement())
+  motorcycleName   String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @default(now())
+  motorcycles      Motorcycle[]
+  followUpProducts FollowUpProduct[]
+}
+
+// Motorcycles
+model Motorcycle {
+  id                  Int                  @id @default(autoincrement())
+  price               Int
+  type                MotorcycleType       @relation(fields: [typeId], references: [id])
+  typeId              Int
+  chassisId           String
+  engineId            String
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @default(now())
+  customerMotorcycles CustomerMotorcycle[]
+}
+
+// CustomerMotorcycles
+model CustomerMotorcycle {
+  id           String     @id @default(uuid())
+  customer     Customer   @relation(fields: [customerId], references: [id])
+  customerId   String
+  motorcycle   Motorcycle @relation(fields: [motorcycleId], references: [id])
+  motorcycleId Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now())
+}
+
+model CustomerPurchases {
+  id         String   @id @default(uuid())
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String
+  purchase   Purchase @relation(fields: [purchaseId], references: [id])
+  purchaseId String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+}
+
+// Purchases
+model Purchase {
+  id                  String                @id @default(uuid())
+  purchaseType        String
+  purchaseDate        DateTime
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @default(now())
+  customerPurchases   CustomerPurchases?
+  purchaseWithLeasing PurchasesWithLeasing?
+}
+
+// Leasings
+model Leasing {
+  id                   Int                    @id @default(autoincrement())
+  leasingName          String
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @default(now())
+  purchasesWithLeasing PurchasesWithLeasing[]
+}
+
+// PurchasesWithLeasing
+model PurchasesWithLeasing {
+  id         String   @id @default(uuid())
+  purchase   Purchase @relation(fields: [purchaseId], references: [id])
+  purchaseId String   @unique
+  leasing    Leasing  @relation(fields: [leasingId], references: [id])
+  leasingId  Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+}
+
+// CustomerJobs
+model CustomerJob {
+  id         String   @id @default(uuid())
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String   @unique
+  job        Job      @relation(fields: [jobId], references: [id])
+  jobId      Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+}
+
+// Jobs
+model Job {
+  id           Int           @id @default(autoincrement())
+  jobName      String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now())
+  customerJobs CustomerJob[]
+}
+
+// CustomerHolidays
+model CustomerHoliday {
+  id         Int              @id @default(autoincrement())
+  customer   Customer         @relation(fields: [customerId], references: [id])
+  customerId String
+  holiday    ReligiousHoliday @relation(fields: [holidayId], references: [id])
+  holidayId  Int
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @default(now())
+}
+
+// CustomerDealers
+model CustomerDealer {
+  id         String   @id @default(uuid())
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String   @unique
+  dealer     Dealer   @relation(fields: [dealerId], references: [id])
+  dealerId   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+}
+
+// FollowUp
+model FollowUp {
+  id              String                @id @default(uuid())
+  callerRecipient String
+  callerRelation  CallerRelation
+  followUpDate    DateTime
+  followUpMethod  FollowUpMethod
+  followUpStatus  FollowUpStatus
+  followUpDetail  FollowUpDetail
+  followUpResult  FollowUpResult
+  followUpMessage String
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @default(now())
+  participants    FollowUpParticipant[]
+  products        FollowUpProduct[]
+}
+
+enum CallerRelation {
+  DIRECT_CUSTOMER @map("Direct Customer")
+  PARENTS         @map("Parents")
+  CHILDREN        @map("Children")
+  SPOUSE          @map("Spouse")
+  SIBLING         @map("Sibling")
+  NEIGHBOR        @map("Neighbor")
+  UNCLE           @map("Uncle")
+  AUNT            @map("Aunt")
+  NEPHEW          @map("Nephew")
+  NIECE           @map("Niece")
+  GRANDPARENTS    @map("Grandparents")
+  COUSIN          @map("Cousin")
+  FRIEND          @map("Friend")
+  OTHER           @map("Other")
+}
+
+enum FollowUpMethod {
+  CALL
+  WHATSAPP
+}
+
+enum FollowUpStatus {
+  CONTACTED     @map("Contacted")
+  NOT_CONTACTED @map("Not Contacted")
+  DELIVERED     @map("Delivered")
+  NOT_DELIVERED @map("Not Delivered")
+}
+
+enum FollowUpDetail {
+  NOT_INTERESTED   @map("Not Interested")
+  NOT_YET          @map("Not Yet")
+  BUSY             @map("Busy")
+  COLD             @map("Cold")
+  WARM             @map("Warm")
+  HOT              @map("Hot")
+  UNANSWERED       @map("Unanswered")
+  UNREGISTERED     @map("Unregistered")
+  UNREACHABLE      @map("Unreachable")
+  WRONG_NUMBER     @map("Wrong Number")
+  WRONG_CONNECTION @map("Wrong Connection")
+  INACTIVE         @map("Inactive")
+}
+
+enum FollowUpResult {
+  CASH    @map("Cash")
+  APPROVE @map("Approve")
+  CANCEL  @map("Cancel")
+  REJECT  @map("Reject")
+  PENDING @map("Pending")
+  NOT_YET @map("Not Yet")
+}
+
+// FollowUpParticipants
+model FollowUpParticipant {
+  id         String   @id @default(uuid())
+  followUp   FollowUp @relation(fields: [followUpId], references: [id])
+  followUpId String   @unique
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String   @unique
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+}
+
+// FollowUpProducts
+model FollowUpProduct {
+  id         String         @id @default(uuid())
+  followUp   FollowUp       @relation(fields: [followUpId], references: [id])
+  followUpId String
+  product    MotorcycleType @relation(fields: [productId], references: [id])
+  productId  Int
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @default(now())
+}
+
+model HouseOwnership {
+  id                      Int                      @id @default(autoincrement())
+  ownershipStatus         HouseOwnershipStatus
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @default(now())
+  customerHouseOwnerships CustomerHouseOwnership[]
+}
+
+enum HouseOwnershipStatus {
+  OWNED            @map("Owned")
+  PARENTS_PROPERTY @map("Parents Property")
+  RENTED           @map("Rented")
+  MOVING           @map("Moving")
+  OFFICIAL_HOUSE   @map("Official House")
+  OTHERS           @map("Others")
+}
+
+model CustomerHouseOwnership {
+  id                   String         @id @default(uuid())
+  customer             Customer       @relation(fields: [customerId], references: [id])
+  customerId           String         @unique
+  houseOwnership       HouseOwnership @relation(fields: [houseOwnershipId], references: [id])
+  houseOwnershipId     Int
+  houseOwnershipDetail String
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @default(now())
+}
+
+model Hobby {
+  id              Int             @id @default(autoincrement())
+  hobbyName       String
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @default(now())
+  customerHobbies CustomerHobby[]
+}
+
+model CustomerHobby {
+  id          String   @id @default(uuid())
+  customer    Customer @relation(fields: [customerId], references: [id])
+  customerId  String   @unique
+  hobby       Hobby    @relation(fields: [hobbyId], references: [id])
+  hobbyId     Int
+  hobbyDetail String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+}
+
+model Income {
+  id              Int                 @id @default(autoincrement())
+  upperLimit      Int
+  lowerLimit      Int
+  incomeDetail    String
+  incomeLevel     FinancialLevel
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @default(now())
+  customerIncomes CustomerFinancial[]
+}
+
+model Expense {
+  id               Int                 @id @default(autoincrement())
+  upperLimit       Int
+  lowerLimit       Int
+  expenseDetail    String
+  expenseLevel     FinancialLevel
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @default(now())
+  customerExpenses CustomerFinancial[]
+}
+
+enum FinancialLevel {
+  VERY_LOW @map("Very Low")
+  LOW      @map("Low")
+  MEDIUM   @map("Medium")
+  HIGH     @map("High")
+}
+
+model CustomerFinancial {
+  id         String   @id @default(uuid())
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String   @unique
+  income     Income   @relation(fields: [incomeId], references: [id])
+  incomeId   Int
+  expense    Expense  @relation(fields: [expenseId], references: [id])
+  expenseId  Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+}

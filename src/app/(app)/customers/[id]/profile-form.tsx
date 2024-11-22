@@ -2,7 +2,7 @@
 
 import React from 'react';
 // import { Link } from 'next-view-transitions';
-import { zodResolver } from '@hookform/resolvers/zod';
+// import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -88,7 +88,7 @@ type OverviewFormValues = z.infer<typeof profileFormSchema>;
 
 const ProfileForm = ({ value }: { value: 'overview' | 'extended' }) => {
   const form = useForm<OverviewFormValues>({
-    resolver: zodResolver(profileFormSchema),
+    // resolver: zodResolver(profileFormSchema),
     // defaultValues,
     mode: 'onChange',
   });

@@ -23,6 +23,7 @@ import {
 import { useElementWidth } from '@/hooks';
 import { Label } from '@/components/ui/label';
 import { ComboBoxOptions } from '@/types';
+import MapItems from '@/utils/MapItems';
 
 interface ComboBoxProps {
   options: ComboBoxOptions[];
@@ -86,21 +87,24 @@ const ComboBox = ({
             <CommandList>
               <CommandEmpty>No option found.</CommandEmpty>
               <CommandGroup>
-                {options.map((option) => (
-                  <CommandItem
-                    key={option.value}
-                    value={option.value}
-                    onSelect={() => handleSelect(option.value)}
-                  >
-                    <Check
-                      className={cn(
-                        'mr-2 h-4 w-4',
-                        value === option.value ? 'opacity-100' : 'opacity-0'
-                      )}
-                    />
-                    {option.label}
-                  </CommandItem>
-                ))}
+                <MapItems
+                  of={options}
+                  render={(option) => (
+                    <CommandItem
+                      key={option.value}
+                      value={option.value}
+                      onSelect={() => handleSelect(option.value)}
+                    >
+                      <Check
+                        className={cn(
+                          'mr-2 h-4 w-4',
+                          value === option.value ? 'opacity-100' : 'opacity-0'
+                        )}
+                      />
+                      {option.label}
+                    </CommandItem>
+                  )}
+                />
               </CommandGroup>
             </CommandList>
           </Command>

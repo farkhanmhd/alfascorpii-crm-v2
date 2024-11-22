@@ -31,7 +31,6 @@ export const CreateHolidayDialog = () => {
         : '',
       status: formData.get('status'),
     };
-    console.log(data);
 
     return addHolidayAction(data);
   });

@@ -49,12 +49,7 @@ const SettingsLayout = ({ children }: SettingsLayoutProps) => {
       <Separator />
 
       <div className="flex flex-1 flex-col space-y-8 overflow-auto lg:flex-row lg:space-x-12 lg:space-y-0">
-        <aside className="lg:w-1/5">
-          <SidebarNav items={sidebarNavItems} />
-        </aside>
-        <ScrollArea className="flex-1">
-          <div className="h-full px-2 lg:max-w-4xl">{children}</div>
-        </ScrollArea>
+        {children}
       </div>
     </div>
   );

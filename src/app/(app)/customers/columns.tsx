@@ -5,45 +5,41 @@ import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { Link } from 'next-view-transitions';
 import { Pencil } from 'lucide-react';
-import { ICustomer, Column } from '@/types';
+import { Column } from '@/types';
+import type { CustomerPage } from '@/app/lib/data/customers';
 
-const columns: Column<ICustomer>[] = [
+const columns: Column<CustomerPage>[] = [
+  {
+    header: 'Dealer Code',
+    GetCellContent: (data: CustomerPage) =>
+      data.customerDealer?.dealer.dealerCode,
+  },
   {
     header: 'Dealer',
-    key: 'dealer',
-    GetCellContent: (customer: ICustomer) => customer.dealer,
+    GetCellContent: (data: CustomerPage) =>
+      data.customerDealer?.dealer.dealerName,
   },
   {
     header: 'Customer',
     key: 'name',
-    GetCellContent: (customer: ICustomer) => customer.name,
+    GetCellContent: (data: CustomerPage) => data.name,
   },
   {
-    header: 'Location',
-    key: 'location',
-    GetCellContent: (customer: ICustomer) => customer.location,
+    header: 'Address',
+    key: 'address',
+    GetCellContent: (data: CustomerPage) => data.address,
   },
   {
     header: 'Phone',
-    key: 'phone',
-    GetCellContent: (customer: ICustomer) => customer.phone,
-  },
-  {
-    header: 'Motor',
-    key: 'motor',
-    GetCellContent: (customer: ICustomer) => customer.motor,
-  },
-  {
-    header: 'Follow Up',
-    key: 'follow_up',
-    GetCellContent: (customer: ICustomer) => customer.follow_up,
+    key: 'phoneNumber',
+    GetCellContent: (data: CustomerPage) => data.phoneNumber,
   },
   {
     header: 'Action',
-    GetCellContent: (customer: ICustomer) => (
+    GetCellContent: (data: CustomerPage) => (
       <Link
         className={cn(buttonVariants({ variant: 'ghost' }))}
-        href={`/customers/${customer.id}`}
+        href={`/customers/${data.id}`}
       >
         <Pencil />
       </Link>

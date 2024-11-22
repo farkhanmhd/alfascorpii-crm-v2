@@ -16,7 +16,10 @@ const DataTable = <T,>({
   columns,
   data,
   includeIndex = false,
+  currentPage,
+  perPage,
 }: DataTableProps<T>) => {
+  const startIndex = (currentPage - 1) * perPage + 1;
   return (
     <Table>
       <TableHeader>
@@ -36,7 +39,7 @@ const DataTable = <T,>({
             of={data}
             render={(item: T, rowIndex: number) => (
               <TableRow key={rowIndex} className="hover:bg-muted/50">
-                {includeIndex && <TableCell>{rowIndex + 1}</TableCell>}
+                {includeIndex && <TableCell>{startIndex + rowIndex}</TableCell>}
                 <MapItems
                   of={columns}
                   render={(col: Column<T>, index) => (

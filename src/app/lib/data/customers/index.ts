@@ -1,91 +1,108 @@
-import { fetchWithParams } from '@/app/lib/data/fetchUtils';
-import { ICustomer } from '@/types';
+// export const fetchCustomer = (
+//   search?: string,
+//   page?: string,
+//   per_page?: string
+// ) => fetchWithParams('customers', search, page, per_page);
+// import { fetchWithParams } from '@/app/lib/data/fetchUtils';
+import { Prisma, Customer, Dealer, CustomerDealer } from '@prisma/client';
+import { unstable_cache as cache } from 'next/cache';
+import prisma from '@/prisma';
 
-export const fetchCustomer = (
-  search?: string,
-  page?: string,
-  per_page?: string
-) => fetchWithParams('customers', search, page, per_page);
+interface JoinedDealer extends Partial<CustomerDealer> {
+  dealer: Partial<Dealer>;
+}
 
-export const getCustomers = (): Promise<ICustomer[]> => {
-  const dealers: string[] = [
-    'Dealer 1',
-    'Dealer 2',
-    'Dealer 3',
-    'Dealer 4',
-    'Dealer 5',
-  ];
-  const names: string[] = [
-    'John Doe',
-    'Jane Smith',
-    'Michael Brown',
-    'Emily Davis',
-    'Chris Johnson',
-  ];
-  const locations: string[] = [
-    'Medan',
-    'Aceh',
-    'Sumatera Utara',
-    'Riau',
-    'Kepulauan Riau',
-  ];
-  const phones: string[] = [
-    '123-456-7890',
-    '987-654-3210',
-    '555-123-4567',
-    '444-555-6666',
-    '333-777-8888',
-  ];
-  const motors: string[] = [
-    'Yamaha YZF-R15',
-    'Yamaha YZF-R3',
-    'Yamaha YZF-R6',
-    'Yamaha YZF-R1',
-    'Yamaha YZR-M1',
-  ];
-  const statuses: string[] = ['active', 'inactive', 'pending', 'completed'];
-  const followUps: string[] = [
-    'Never',
-    'Follow Up 1',
-    'Follow Up 2',
-    'Follow Up 3',
-    'Follow Up 4',
-    'Follow Up 5',
-  ];
-  const updates: string[] = [
-    'Updated Profile',
-    'No Changes',
-    'Address Updated',
-  ];
+export interface CustomerPage extends Partial<Customer> {
+  customerDealer: JoinedDealer | null;
+}
 
-  const getRandomDate = () => {
-    const start = new Date(2020, 0, 1);
-    const end = new Date();
-    const date = new Date(
-      start.getTime() + Math.random() * (end.getTime() - start.getTime())
-    );
-    return date.toISOString().split('T')[0];
-  };
+export const getCustomers = cache(
+  async ({
+    searchQuery,
+    page = 1,
+    perPage = 20,
+  }: {
+    searchQuery: string;
+    page?: number;
+    perPage?: number;
+  }): Promise<{
+    data: CustomerPage[];
+    totalPages: number;
+    currentPage: number;
+  }> => {
+    // Define the base filter
+    const whereFilter: Prisma.CustomerWhereInput | undefined = searchQuery
+      ? {
+          OR: [
+            { name: { contains: searchQuery, mode: 'insensitive' } },
+            { phoneNumber: { contains: searchQuery, mode: 'insensitive' } },
+            { address: { contains: searchQuery, mode: 'insensitive' } },
+            {
+              customerDealer: {
+                dealer: {
+                  OR: [
+                    {
+                      dealerName: {
+                        contains: searchQuery,
+                        mode: 'insensitive',
+                      },
+                    },
+                    {
+                      dealerCode: {
+                        contains: searchQuery,
+                        mode: 'insensitive',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        }
+      : undefined;
 
-  const getRandomItem = (arr: string[]) =>
-    arr[Math.floor(Math.random() * arr.length)];
+    // Perform both queries simultaneously
+    const [customers, totalRecords] = await Promise.all([
+      prisma.customer.findMany({
+        where: whereFilter,
+        select: {
+          id: true,
+          name: true,
+          district: true,
+          city: true,
+          address: true,
+          phoneNumber: true,
+          customerDealer: {
+            select: {
+              dealer: {
+                select: {
+                  dealerCode: true,
+                  dealerName: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip: (Number(page) - 1) * Number(perPage),
+        take: Number(perPage),
+      }),
+      prisma.customer.count({
+        where: whereFilter, // Same filter applied as in `findMany`
+      }),
+    ]);
 
-  const data = Array.from({ length: 50 }, (_, index) => ({
-    id: index + 1,
-    dealer: getRandomItem(dealers),
-    name: getRandomItem(names),
-    location: getRandomItem(locations),
-    phone: getRandomItem(phones),
-    motor: getRandomItem(motors),
-    purchase_date: getRandomDate(),
-    update: getRandomItem(updates),
-    follow_up: getRandomItem(followUps),
-    status: getRandomItem(statuses),
-  }));
+    // Calculate total pages
+    const totalPages = Math.ceil(totalRecords / perPage);
 
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(data);
-    }, 2000);
-  });
-};
+    return {
+      data: customers,
+      totalPages,
+      currentPage: page,
+    };
+  },
+  ['customerspage'],
+  { tags: ['customerspage'] }
+);

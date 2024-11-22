@@ -1,4 +1,7 @@
 import { cookies } from 'next/headers';
+import bcrypt from 'bcrypt';
+import { User } from '@/types';
+import prisma from '@/prisma';
 import { decryptToken } from '../../actions/auth/session';
 
 export const getAccessToken = async () => {
@@ -9,18 +12,27 @@ export const getAccessToken = async () => {
   return accessToken;
 };
 
-export const getUser = async (username: string, password: string) => {
+export const getUser = async (
+  username: string,
+  password: string
+): Promise<User | { status: string; message: string } | unknown> => {
   try {
-    const response = await fetch(`${process.env.BACKEND_URL}/login`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+    const user = await prisma.user.findUnique({
+      where: {
+        username,
       },
-      body: JSON.stringify({ username, password }),
     });
 
-    const { data: user } = await response.json();
+    if (!user) {
+      return { status: 'error', message: 'Invalid username or password' };
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return null;
+    }
+
     return user;
   } catch (error) {
     return error;

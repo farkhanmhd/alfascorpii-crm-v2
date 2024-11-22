@@ -2,7 +2,7 @@
 
 import React from 'react';
 // import { Link } from 'next-view-transitions';
-import { zodResolver } from '@hookform/resolvers/zod';
+// import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -67,7 +67,7 @@ type DealsFormValues = z.infer<typeof dealsFormSchema>;
 
 const DealsForm = () => {
   const form = useForm<DealsFormValues>({
-    resolver: zodResolver(dealsFormSchema),
+    // resolver: zodResolver(dealsFormSchema),
     // defaultValues,
   });
 

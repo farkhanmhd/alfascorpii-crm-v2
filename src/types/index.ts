@@ -1,4 +1,5 @@
 import React from 'react';
+import { Province } from '@prisma/client';
 
 type Status = 'HIDE' | 'SHOW';
 // type ActiveStatus = 'AKTIF' | 'HOLD';
@@ -13,11 +14,13 @@ type Status = 'HIDE' | 'SHOW';
 export interface SearchParamsProps {
   search?: string;
   page?: string;
-  perPage?: string;
+  per_page?: string;
 }
 
 interface IIdentifiable {
-  id: number;
+  id?: number | string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface NavItem {
@@ -51,22 +54,29 @@ export type DealerArea =
 export type DealerType = 'MDS' | 'Independen';
 
 export interface IDealer extends IIdentifiable {
-  dealer_code: string;
-  dealer_name: string;
-  dealer_area: DealerArea;
-  dealer_type: DealerType;
+  dealerCode: string;
+  dealerName: string;
+  dealerCity?: string;
 }
 
 export interface ICustomer extends IIdentifiable {
-  dealer: string;
+  nik?: string;
   name: string;
-  location: string;
-  phone: string;
-  motor: string;
-  purchase_date: string;
-  update: string;
-  follow_up: string;
-  status: string;
+  phoneNumber: string;
+  email?: string | null;
+  whatsapp?: string | null;
+  instagram?: string | null;
+  dateOfBirth?: Date;
+  address: string;
+  subDistrict?: string;
+  district: string;
+  city: string;
+  province?: Province;
+}
+
+export interface ICustomerDealer extends IIdentifiable {
+  customerId?: string;
+  dealerId?: number;
 }
 
 export interface IRelation extends IIdentifiable {
@@ -184,6 +194,8 @@ export interface DataTableProps<T> {
   columns: Column<T>[];
   data: T[];
   includeIndex?: boolean;
+  currentPage: number;
+  perPage: number;
 }
 
 export type NavLinkProps = {
@@ -292,4 +304,12 @@ export interface TableConfig<T> {
   EditDialog: React.ComponentType;
   DeleteDialog: React.ComponentType;
   type: T;
+}
+
+export interface User {
+  id: string;
+  nip: string;
+  username: string;
+  name: string;
+  role: string;
 }

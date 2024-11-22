@@ -61,7 +61,7 @@ export const TableCell = ({
   colSpan?: number;
 }) => (
   <td
-    className={`h-12 px-4 align-middle font-medium fade-in ${className}`}
+    className={`h-12 w-max px-4 align-middle font-medium fade-in ${className}`}
     colSpan={colSpan}
   >
     {children}

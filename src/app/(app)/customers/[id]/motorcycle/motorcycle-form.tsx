@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
+// import { zodResolver } from '@hookform/resolvers/zod';
 // import { ChevronDown } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -57,7 +57,7 @@ type MotorcycleFormValues = z.infer<typeof motorcycleFormSchema>;
 
 const MotorcycleForm = () => {
   const form = useForm<MotorcycleFormValues>({
-    resolver: zodResolver(motorcycleFormSchema),
+    // resolver: zodResolver(motorcycleFormSchema),
   });
 
   function onSubmit(data: MotorcycleFormValues) {
