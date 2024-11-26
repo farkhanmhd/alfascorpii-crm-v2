@@ -9,13 +9,13 @@ import {
   lastNames,
   provinces,
   userRoles,
-  callerRelations,
-  followUpMethods,
-  followUpStatuses,
-  followUpDetails,
-  followUpResults,
-  houseOwnershipStatuses,
-  financialLevels,
+  // callerRelations,
+  // followUpMethods,
+  // followUpStatuses,
+  // followUpDetails,
+  // followUpResults,
+  // houseOwnershipStatuses,
+  // financialLevels,
 } from './enums';
 
 const seed = async () => {
@@ -179,13 +179,6 @@ const seed = async () => {
       },
     });
 
-    await prisma.customerDealer.createMany({
-      data: Array.from({ length: 100 }, (_, index) => ({
-        customerId: customerIds[index % customerIds.length].id,
-        dealerId: Math.floor(Math.random() * 6) + 1,
-      })),
-    });
-
     const motorcycleTypeIds = await prisma.motorcycleType.findMany({
       select: {
         id: true,
@@ -201,6 +194,43 @@ const seed = async () => {
           ].id, // Random typeId from fetched MotorcycleType ids
         chassisId: `CHS${Math.random().toString(36).substring(2, 8).toUpperCase()}`, // Random alphanumeric chassis ID
         engineId: `ENG${Math.random().toString(36).substring(2, 8).toUpperCase()}`, // Random alphanumeric engine ID
+      })),
+    });
+
+    // seeding purchases
+    await prisma.purchase.createMany({
+      data: Array.from({ length: 50 }, () => ({
+        purchaseType: 'CASH',
+        purchaseAmount: Math.floor(Math.random() * 50000000) + 15000000, // Random price between 15M and 65M,
+        purchaseDate: new Date(),
+      })),
+    });
+
+    await prisma.purchase.createMany({
+      data: Array.from({ length: 50 }, () => ({
+        purchaseType: 'CREDIT',
+        purchaseAmount: Math.floor(Math.random() * 50000000) + 15000000, // Random price between 15M and 65M,
+        purchaseDate: new Date(),
+      })),
+    });
+
+    const purchaseIds = await prisma.purchase.findMany({
+      select: {
+        id: true,
+      },
+    });
+
+    await prisma.purchaseDealer.createMany({
+      data: Array.from({ length: 100 }, (_, i) => ({
+        purchaseId: purchaseIds[i].id,
+        dealerId: Math.floor(Math.random() * 6) + 1,
+      })),
+    });
+
+    await prisma.customerPurchases.createMany({
+      data: Array.from({ length: 100 }, (_, i) => ({
+        customerId: customerIds[i].id,
+        purchaseId: purchaseIds[i].id,
       })),
     });
 

@@ -9,6 +9,7 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "migrate": "bun prisma migrate dev --name init",
+    "migrate:reset": "bun prisma migrate reset",
     "migrate:fresh": "bun prisma migrate reset && bun seed",
     "seed": "bun prisma/seed.ts"
   },

@@ -41,7 +41,7 @@ model Dealer {
   dealerCity      String
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @default(now())
-  customerDealers CustomerDealer[]
+  purchaseDealers PurchaseDealer[]
 }
 
 // Customers
@@ -62,11 +62,9 @@ model Customer {
   province             Province
   createdAt            DateTime                @default(now())
   updatedAt            DateTime                @default(now())
-  motorcycles          CustomerMotorcycle[]
   purchases            CustomerPurchases[]
   job                  CustomerJob?
   holidays             CustomerHoliday[]
-  customerDealer       CustomerDealer?
   followUpParticipants FollowUpParticipant[]
   houseOwnership       CustomerHouseOwnership?
   hobby                CustomerHobby?
@@ -103,26 +101,15 @@ model MotorcycleType {
 
 // Motorcycles
 model Motorcycle {
-  id                  Int                  @id @default(autoincrement())
-  price               Int
-  type                MotorcycleType       @relation(fields: [typeId], references: [id])
-  typeId              Int
-  chassisId           String
-  engineId            String
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @default(now())
-  customerMotorcycles CustomerMotorcycle[]
-}
-
-// CustomerMotorcycles
-model CustomerMotorcycle {
-  id           String     @id @default(uuid())
-  customer     Customer   @relation(fields: [customerId], references: [id])
-  customerId   String
-  motorcycle   Motorcycle @relation(fields: [motorcycleId], references: [id])
-  motorcycleId Int
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @default(now())
+  id                 String              @id @default(uuid())
+  price              Int
+  type               MotorcycleType      @relation(fields: [typeId], references: [id])
+  typeId             Int
+  chassisId          String
+  engineId           String
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @default(now())
+  purchaseMotorcycle PurchaseMotorcycle?
 }
 
 model CustomerPurchases {
@@ -138,12 +125,20 @@ model CustomerPurchases {
 // Purchases
 model Purchase {
   id                  String                @id @default(uuid())
-  purchaseType        String
+  purchaseType        PurchaseType
+  purchaseAmount      Int
   purchaseDate        DateTime
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @default(now())
   customerPurchases   CustomerPurchases?
+  purchaseDealers     PurchaseDealer[]
   purchaseWithLeasing PurchasesWithLeasing?
+  purchaseMotorcycles PurchaseMotorcycle[]
+}
+
+enum PurchaseType {
+  CASH   @map("Cash")
+  CREDIT @map("Credit")
 }
 
 // Leasings
@@ -164,6 +159,16 @@ model PurchasesWithLeasing {
   leasingId  Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
+}
+
+model PurchaseMotorcycle {
+  id           String     @id @default(uuid())
+  motorcycle   Motorcycle @relation(fields: [motorcycleId], references: [id])
+  motorcycleId String     @unique
+  purchase     Purchase   @relation(fields: [purchaseId], references: [id])
+  purchaseId   String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now())
 }
 
 // CustomerJobs
@@ -198,10 +203,10 @@ model CustomerHoliday {
 }
 
 // CustomerDealers
-model CustomerDealer {
+model PurchaseDealer {
   id         String   @id @default(uuid())
-  customer   Customer @relation(fields: [customerId], references: [id])
-  customerId String   @unique
+  purchase   Purchase @relation(fields: [purchaseId], references: [id])
+  purchaseId String   @unique
   dealer     Dealer   @relation(fields: [dealerId], references: [id])
   dealerId   Int
   createdAt  DateTime @default(now())

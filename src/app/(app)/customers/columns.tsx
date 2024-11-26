@@ -12,12 +12,12 @@ const columns: Column<CustomerPage>[] = [
   {
     header: 'Dealer Code',
     GetCellContent: (data: CustomerPage) =>
-      data.customerDealer?.dealer.dealerCode,
+      data.purchases[0].purchase.purchaseDealers[0].dealer.dealerCode,
   },
   {
     header: 'Dealer',
     GetCellContent: (data: CustomerPage) =>
-      data.customerDealer?.dealer.dealerName,
+      data.purchases[0].purchase.purchaseDealers[0].dealer.dealerName,
   },
   {
     header: 'Customer',

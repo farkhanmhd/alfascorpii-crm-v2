@@ -1,282 +1,442 @@
 [
   {
-    "id": "2f5b4c04-3d4b-4c83-9b85-456d9f3821e6",
-    "name": "Rizky Putri",
+    "id": "4d10f5e8-1a3c-4e89-8e94-b5ab65f8abf1",
+    "name": "Jane Wahyuni",
     "district": "District 2",
     "city": "City 2",
     "address": "Jl. Contoh No. 2",
     "phoneNumber": "+6281234567801",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FAFA003",
-        "dealerName": "PT. ALFA SCORPII - SETIA BUDI"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "9FM004",
+                "dealerName": "PT. ALFA SCORPII - KATAMSO"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "e53bab58-8670-4d63-8cf4-f6ffd77523b9",
-    "name": "Rizky Amelia",
+    "id": "0f79f27e-95a1-4604-bf93-c9ff2bcc14cc",
+    "name": "Rahmat Wijaya",
     "district": "District 3",
     "city": "City 3",
     "address": "Jl. Contoh No. 3",
     "phoneNumber": "+6281234567802",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "9FM012",
-        "dealerName": "PT. ALFA SCORPII - GATSU"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "FAFA006",
+                "dealerName": "PT. ALFA SCORPII - AR HAKIM"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "b97abbb1-335c-4652-996f-4befa01dbad9",
-    "name": "Laila Aminah",
+    "id": "e0a87be9-8dda-4edd-914d-74670874c6d9",
+    "name": "Nina Wahyuni",
     "district": "District 4",
     "city": "City 4",
     "address": "Jl. Contoh No. 4",
     "phoneNumber": "+6281234567803",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "9FM004",
-        "dealerName": "PT. ALFA SCORPII - KATAMSO"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "9FM004",
+                "dealerName": "PT. ALFA SCORPII - KATAMSO"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "d80b4c3a-308e-4c59-80ef-211975ba6cb6",
-    "name": "John Amelia",
+    "id": "7cced70a-a472-411e-82e2-9e8205194427",
+    "name": "Laila Wahyuni",
     "district": "District 5",
     "city": "City 5",
     "address": "Jl. Contoh No. 5",
     "phoneNumber": "+6281234567804",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FAFA001",
-        "dealerName": "SENTRAL YAMAHA MEDAN"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "FEFC002",
+                "dealerName": "PT. ALFA SCORPII - BATAM CENTER"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "2d01ebe5-20d9-4d1c-a586-c3db3ecc9a14",
-    "name": "Andi Hidayat",
+    "id": "4aa29a34-e123-484c-a036-ff39844f402b",
+    "name": "Zahra Akbar",
     "district": "District 6",
     "city": "City 6",
     "address": "Jl. Contoh No. 6",
     "phoneNumber": "+6281234567805",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FAFA006",
-        "dealerName": "PT. ALFA SCORPII - AR HAKIM"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "9FM004",
+                "dealerName": "PT. ALFA SCORPII - KATAMSO"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "85d7565a-eb97-47de-ad9a-987b25075d0f",
-    "name": "Budi Ramadhan",
+    "id": "04e185eb-3999-4b36-8101-69e61a2886c6",
+    "name": "Fikri Putri",
     "district": "District 7",
     "city": "City 7",
     "address": "Jl. Contoh No. 7",
     "phoneNumber": "+6281234567806",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FEFC002",
-        "dealerName": "PT. ALFA SCORPII - BATAM CENTER"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "FAFA003",
+                "dealerName": "PT. ALFA SCORPII - SETIA BUDI"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "0dc684a4-1ddc-4d7f-b42d-c11cb679a81a",
-    "name": "Nina Ramadhan",
+    "id": "29d63f2c-eba3-4e90-b924-958967af4e71",
+    "name": "Rahmat Wijaya",
     "district": "District 8",
     "city": "City 8",
     "address": "Jl. Contoh No. 8",
     "phoneNumber": "+6281234567807",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FAFA003",
-        "dealerName": "PT. ALFA SCORPII - SETIA BUDI"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "FEFC002",
+                "dealerName": "PT. ALFA SCORPII - BATAM CENTER"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "0736f939-3413-4b0a-b40b-02003aa22484",
-    "name": "Rahmat Santoso",
+    "id": "14ec791c-5681-4c87-9b12-64bd673cb7d1",
+    "name": "Dewi Fadli",
     "district": "District 9",
     "city": "City 9",
     "address": "Jl. Contoh No. 9",
     "phoneNumber": "+6281234567808",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "9FM004",
-        "dealerName": "PT. ALFA SCORPII - KATAMSO"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "9FM004",
+                "dealerName": "PT. ALFA SCORPII - KATAMSO"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "1612f447-b0bd-43ad-b630-71d3160ca4ea",
-    "name": "Fikri Doe",
+    "id": "01ce16a6-e641-4a22-b82e-745bfd208a93",
+    "name": "Nina Santoso",
     "district": "District 10",
     "city": "City 10",
     "address": "Jl. Contoh No. 10",
     "phoneNumber": "+6281234567809",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FEFC002",
-        "dealerName": "PT. ALFA SCORPII - BATAM CENTER"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "9FM012",
+                "dealerName": "PT. ALFA SCORPII - GATSU"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "56ad6c0b-f255-4b1d-be44-43ecc41eba80",
-    "name": "Fikri Fadli",
+    "id": "56d1334e-9b88-4c1e-ae78-42468847f3f0",
+    "name": "Yusuf Hidayat",
     "district": "District 11",
     "city": "City 11",
     "address": "Jl. Contoh No. 11",
     "phoneNumber": "+6281234567810",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "9FM012",
-        "dealerName": "PT. ALFA SCORPII - GATSU"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "9FM012",
+                "dealerName": "PT. ALFA SCORPII - GATSU"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "19bca6d3-20bb-4ccc-99ad-cd4263274cc9",
-    "name": "Budi Akbar",
+    "id": "acaeb09b-71b3-4646-9d1e-a0a8a2e8463f",
+    "name": "Andi Hidayat",
     "district": "District 12",
     "city": "City 12",
     "address": "Jl. Contoh No. 12",
     "phoneNumber": "+6281234567811",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "9FM004",
-        "dealerName": "PT. ALFA SCORPII - KATAMSO"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "9FM012",
+                "dealerName": "PT. ALFA SCORPII - GATSU"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "667d8469-a4c1-46e1-bef9-9c54d369bdcb",
-    "name": "Sri Putri",
+    "id": "7955da73-7e73-44b3-ac8a-8ec237c49871",
+    "name": "Sri Hidayat",
     "district": "District 13",
     "city": "City 13",
     "address": "Jl. Contoh No. 13",
     "phoneNumber": "+6281234567812",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FAFA006",
-        "dealerName": "PT. ALFA SCORPII - AR HAKIM"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "FAFA006",
+                "dealerName": "PT. ALFA SCORPII - AR HAKIM"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "98e76826-6b77-4dd0-8bfa-3d786595c5a1",
-    "name": "Siti Marlina",
+    "id": "b0eb5faf-7e8c-40ac-b98d-878b805592bc",
+    "name": "Dewi Rahayu",
     "district": "District 14",
     "city": "City 14",
     "address": "Jl. Contoh No. 14",
     "phoneNumber": "+6281234567813",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FAFA001",
-        "dealerName": "SENTRAL YAMAHA MEDAN"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "FAFA003",
+                "dealerName": "PT. ALFA SCORPII - SETIA BUDI"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "56660df7-10c9-4c93-b840-3667c3d34cf7",
-    "name": "Dewi Akbar",
+    "id": "e05192fd-84ff-4a85-806f-edf7579b648c",
+    "name": "Farhan Doe",
     "district": "District 15",
     "city": "City 15",
     "address": "Jl. Contoh No. 15",
     "phoneNumber": "+6281234567814",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FAFA003",
-        "dealerName": "PT. ALFA SCORPII - SETIA BUDI"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "FAFA003",
+                "dealerName": "PT. ALFA SCORPII - SETIA BUDI"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "3c4090bd-ce2a-4f14-8e67-88957db880e0",
-    "name": "Ahmad Akbar",
+    "id": "63fe529c-c95a-4014-b623-cfc3e6dc17f3",
+    "name": "Nina Sartika",
     "district": "District 16",
     "city": "City 16",
     "address": "Jl. Contoh No. 16",
     "phoneNumber": "+6281234567815",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "9FM004",
-        "dealerName": "PT. ALFA SCORPII - KATAMSO"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "FAFA001",
+                "dealerName": "SENTRAL YAMAHA MEDAN"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "c423a2a4-3e23-4c13-99e9-d78a92042e75",
-    "name": "Ahmad Akbar",
+    "id": "58d4fa5f-1fb3-4279-87e1-5056a0ba708f",
+    "name": "Ahmad Fadli",
     "district": "District 17",
     "city": "City 17",
     "address": "Jl. Contoh No. 17",
     "phoneNumber": "+6281234567816",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FEFC002",
-        "dealerName": "PT. ALFA SCORPII - BATAM CENTER"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "9FM004",
+                "dealerName": "PT. ALFA SCORPII - KATAMSO"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "c7c46620-41f2-46da-8b31-95e94bb6f18b",
-    "name": "Laila Putri",
+    "id": "6a3dc91a-6776-40d4-bd78-24631ede8f27",
+    "name": "Jane Wijaya",
     "district": "District 18",
     "city": "City 18",
     "address": "Jl. Contoh No. 18",
     "phoneNumber": "+6281234567817",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FAFA006",
-        "dealerName": "PT. ALFA SCORPII - AR HAKIM"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "FAFA001",
+                "dealerName": "SENTRAL YAMAHA MEDAN"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "1647ecb2-353f-4322-9b04-7d24e13da899",
-    "name": "Andi Fadli",
+    "id": "e7a74a66-5044-42a0-b8d4-ce4ea07dd118",
+    "name": "Ahmad Amelia",
     "district": "District 19",
     "city": "City 19",
     "address": "Jl. Contoh No. 19",
     "phoneNumber": "+6281234567818",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FEFC002",
-        "dealerName": "PT. ALFA SCORPII - BATAM CENTER"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "FAFA006",
+                "dealerName": "PT. ALFA SCORPII - AR HAKIM"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "7db611e9-f58d-44cc-a42f-ef8714ef336d",
-    "name": "Andi Santoso",
+    "id": "60ed7d1b-bb7f-45ac-8f8e-e01bc48c3427",
+    "name": "Rahmat Ramadhan",
     "district": "District 20",
     "city": "City 20",
     "address": "Jl. Contoh No. 20",
     "phoneNumber": "+6281234567819",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "FAFA006",
-        "dealerName": "PT. ALFA SCORPII - AR HAKIM"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "FAFA006",
+                "dealerName": "PT. ALFA SCORPII - AR HAKIM"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   },
   {
-    "id": "5578dbf2-5e24-41cd-9914-efbaab84629a",
-    "name": "Laila Sartika",
+    "id": "aa804c31-9912-46c2-80c0-c913991ae622",
+    "name": "Hendra Hidayat",
     "district": "District 1",
     "city": "City 1",
     "address": "Jl. Contoh No. 1",
     "phoneNumber": "+6281234567800",
-    "customerDealer": {
-      "dealer": {
-        "dealerCode": "9FM004",
-        "dealerName": "PT. ALFA SCORPII - KATAMSO"
+    "purchases": [
+      {
+        "purchase": {
+          "purchaseDealers": [
+            {
+              "dealer": {
+                "dealerCode": "FAFA001",
+                "dealerName": "SENTRAL YAMAHA MEDAN"
+              }
+            }
+          ]
+        }
       }
-    }
+    ]
   }
 ]

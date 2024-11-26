@@ -1,19 +1,25 @@
-// export const fetchCustomer = (
-//   search?: string,
-//   page?: string,
-//   per_page?: string
-// ) => fetchWithParams('customers', search, page, per_page);
-// import { fetchWithParams } from '@/app/lib/data/fetchUtils';
-import { Prisma, Customer, Dealer, CustomerDealer } from '@prisma/client';
+import { Prisma, Customer, Dealer } from '@prisma/client';
 import { unstable_cache as cache } from 'next/cache';
 import prisma from '@/prisma';
 
-interface JoinedDealer extends Partial<CustomerDealer> {
+// Represents the nested dealer structure
+interface JoinedDealer {
   dealer: Partial<Dealer>;
 }
 
+// Represents the nested purchase dealer structure
+interface JoinedPurchaseDealer {
+  purchaseDealers: JoinedDealer[];
+}
+
+// Represents the customer purchases structure
+interface JoinedCustomerPurchase {
+  purchase: JoinedPurchaseDealer;
+}
+
+// Represents the overall customer structure
 export interface CustomerPage extends Partial<Customer> {
-  customerDealer: JoinedDealer | null;
+  purchases: JoinedCustomerPurchase[];
 }
 
 export const getCustomers = cache(
@@ -38,22 +44,30 @@ export const getCustomers = cache(
             { phoneNumber: { contains: searchQuery, mode: 'insensitive' } },
             { address: { contains: searchQuery, mode: 'insensitive' } },
             {
-              customerDealer: {
-                dealer: {
-                  OR: [
-                    {
-                      dealerName: {
-                        contains: searchQuery,
-                        mode: 'insensitive',
+              purchases: {
+                some: {
+                  purchase: {
+                    purchaseDealers: {
+                      some: {
+                        dealer: {
+                          OR: [
+                            {
+                              dealerCode: {
+                                contains: searchQuery,
+                                mode: 'insensitive',
+                              },
+                            },
+                            {
+                              dealerName: {
+                                contains: searchQuery,
+                                mode: 'insensitive',
+                              },
+                            },
+                          ],
+                        },
                       },
                     },
-                    {
-                      dealerCode: {
-                        contains: searchQuery,
-                        mode: 'insensitive',
-                      },
-                    },
-                  ],
+                  },
                 },
               },
             },
@@ -72,12 +86,25 @@ export const getCustomers = cache(
           city: true,
           address: true,
           phoneNumber: true,
-          customerDealer: {
+          purchases: {
+            take: 1,
             select: {
-              dealer: {
+              purchase: {
                 select: {
-                  dealerCode: true,
-                  dealerName: true,
+                  purchaseDealers: {
+                    orderBy: {
+                      createdAt: 'desc',
+                    },
+                    take: 1,
+                    select: {
+                      dealer: {
+                        select: {
+                          dealerCode: true,
+                          dealerName: true,
+                        },
+                      },
+                    },
+                  },
                 },
               },
             },
