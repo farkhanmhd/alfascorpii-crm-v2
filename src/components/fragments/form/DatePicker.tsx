@@ -105,14 +105,16 @@ interface DatePickerProps {
   label?: string;
   startYear?: number;
   endYear?: number;
+  initialDate?: Date;
 }
 const DatePicker = ({
   id,
   label = 'Date',
   startYear = getYear(new Date()) - 100,
   endYear = getYear(new Date()) + 100,
+  initialDate = new Date(),
 }: DatePickerProps) => {
-  const [date, setDate] = React.useState<Date>(new Date());
+  const [date, setDate] = React.useState<Date>(initialDate);
 
   const months = [
     'January',

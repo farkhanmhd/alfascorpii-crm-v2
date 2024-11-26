@@ -169,6 +169,10 @@ const seed = async () => {
         district: `District ${index + 1}`,
         city: `City ${index + 1}`,
         province: provinces[Math.floor(Math.random() * provinces.length)], // Random province
+        email: `customer${index + 1}@example.com`,
+        whatsapp: `+62812345678${index.toString().padStart(2, '0')}`,
+        instagram: `https://instagram.com/username${index + 1}`,
+        facebook: `https://www.facebook.com/username${index + 1}`,
       })),
     });
 
@@ -220,6 +224,12 @@ const seed = async () => {
       },
     });
 
+    const motorcycleIds = await prisma.motorcycle.findMany({
+      select: {
+        id: true,
+      },
+    });
+
     await prisma.purchaseDealer.createMany({
       data: Array.from({ length: 100 }, (_, i) => ({
         purchaseId: purchaseIds[i].id,
@@ -231,6 +241,51 @@ const seed = async () => {
       data: Array.from({ length: 100 }, (_, i) => ({
         customerId: customerIds[i].id,
         purchaseId: purchaseIds[i].id,
+      })),
+    });
+
+    await prisma.purchaseMotorcycle.createMany({
+      data: Array.from({ length: 100 }, (_, i) => ({
+        purchaseId: purchaseIds[i].id,
+        motorcycleId: motorcycleIds[i].id,
+      })),
+    });
+
+    await prisma.customerJob.createMany({
+      data: Array.from({ length: 100 }, (_, i) => ({
+        customerId: customerIds[i].id,
+        jobId: Math.floor(Math.random() * 5) + 1,
+      })),
+    });
+
+    await prisma.customerHobby.createMany({
+      data: Array.from({ length: 100 }, (_, i) => ({
+        customerId: customerIds[i].id,
+        hobbyId: Math.floor(Math.random() * 5) + 1,
+        hobbyDetail: `Hobby Detail`,
+      })),
+    });
+
+    await prisma.customerFinancial.createMany({
+      data: Array.from({ length: 100 }, (_, i) => ({
+        customerId: customerIds[i].id,
+        incomeId: Math.floor(Math.random() * 4) + 1,
+        expenseId: Math.floor(Math.random() * 4) + 1,
+      })),
+    });
+
+    await prisma.customerHouseOwnership.createMany({
+      data: Array.from({ length: 100 }, (_, i) => ({
+        customerId: customerIds[i].id,
+        houseOwnershipId: Math.floor(Math.random() * 6) + 1,
+        houseOwnershipDetail: `House Ownership Detail`,
+      })),
+    });
+
+    await prisma.customerHoliday.createMany({
+      data: Array.from({ length: 100 }, (_, i) => ({
+        customerId: customerIds[i].id,
+        holidayId: Math.floor(Math.random() * 4) + 1,
       })),
     });
 

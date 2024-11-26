@@ -11,7 +11,7 @@
     "migrate": "bun prisma migrate dev --name init",
     "migrate:reset": "bun prisma migrate reset",
     "migrate:fresh": "bun prisma migrate reset && bun seed",
-    "seed": "bun prisma/seed.ts"
+    "migrate:seed": "bun prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

@@ -25,3 +25,11 @@ export function convertDateToISO(
 
 export const getErrorMessages = (errorObj?: { _errors?: string[] }) =>
   errorObj?._errors || [];
+
+export const slow = (): Promise<void> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 2000);
+  });
+};

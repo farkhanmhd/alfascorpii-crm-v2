@@ -1,6 +1,17 @@
-import { Prisma, Customer, Dealer } from '@prisma/client';
+import {
+  Prisma,
+  Customer,
+  Dealer,
+  Hobby,
+  Job,
+  ReligiousHoliday,
+  HouseOwnership,
+  Income,
+  Expense,
+} from '@prisma/client';
 import { unstable_cache as cache } from 'next/cache';
 import prisma from '@/prisma';
+import { slow } from '@/lib/utils';
 
 // Represents the nested dealer structure
 interface JoinedDealer {
@@ -131,5 +142,112 @@ export const getCustomers = cache(
     };
   },
   ['customerspage'],
-  { tags: ['customerspage'] }
+  { tags: ['customerspage'], revalidate: 1 }
 );
+
+interface JoinedJob {
+  job: Partial<Job>;
+}
+
+interface JoinedHolidays {
+  holiday: Partial<ReligiousHoliday>;
+}
+
+interface JoinedHouseOwnership {
+  houseOwnership: Partial<HouseOwnership>;
+}
+
+interface JoinedHobby {
+  hobby: Partial<Hobby>;
+}
+
+interface JoinedFinances {
+  income: Partial<Income>;
+  expense: Partial<Expense>;
+}
+
+export interface CustomerPageDetail extends Partial<Customer> {
+  job: JoinedJob;
+  holidays: JoinedHolidays[];
+  houseOwnership: JoinedHouseOwnership;
+  hobby: JoinedHobby;
+  finances: JoinedFinances;
+}
+
+export const getCustomer = async (id: string): Promise<CustomerPageDetail> => {
+  const customer = await prisma.customer.findUnique({
+    select: {
+      id: true,
+      nik: true,
+      name: true,
+      phoneNumber: true,
+      email: true,
+      whatsapp: true,
+      instagram: true,
+      facebook: true,
+      dateOfBirth: true,
+      address: true,
+      subDistrict: true,
+      district: true,
+      city: true,
+      province: true,
+      job: {
+        select: {
+          job: {
+            select: {
+              jobName: true,
+            },
+          },
+        },
+      },
+      holidays: {
+        select: {
+          holiday: {
+            select: {
+              holidayName: true,
+            },
+          },
+        },
+      },
+      houseOwnership: {
+        select: {
+          houseOwnership: {
+            select: {
+              ownershipStatus: true,
+            },
+          },
+        },
+      },
+      hobby: {
+        select: {
+          hobby: {
+            select: {
+              hobbyName: true,
+            },
+          },
+        },
+      },
+      finances: {
+        select: {
+          income: {
+            select: {
+              incomeDetail: true,
+            },
+          },
+          expense: {
+            select: {
+              expenseDetail: true,
+            },
+          },
+        },
+      },
+    },
+    where: {
+      id,
+    },
+  });
+
+  await slow();
+
+  return customer as CustomerPageDetail;
+};

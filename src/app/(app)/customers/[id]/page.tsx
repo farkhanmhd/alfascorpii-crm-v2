@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Separator } from '@/components/ui/separator';
+import TabSkeleton from '@/components/fragments/tabs/TabSkeleton';
 import ProfileTab from './profile-tab';
 
-const SettingsProfilePage = () => {
+type Params = Promise<{ id: string }>;
+
+const CustomerPage = async ({ params }: { params: Params }) => {
+  const { id } = await params;
   return (
     <div className="space-y-6">
       <div>
@@ -13,9 +17,11 @@ const SettingsProfilePage = () => {
         </p>
       </div>
       <Separator />
-      <ProfileTab />
+      <Suspense fallback={<TabSkeleton />}>
+        <ProfileTab id={id} />
+      </Suspense>
     </div>
   );
 };
 
-export default SettingsProfilePage;
+export default CustomerPage;

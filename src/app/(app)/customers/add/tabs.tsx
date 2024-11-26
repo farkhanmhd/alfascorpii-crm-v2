@@ -3,35 +3,12 @@
 import React from 'react';
 import TextInput from '@/components/fragments/form/TextInput';
 import DatePicker from '@/components/fragments/form/DatePicker';
-import { cn } from '@/lib/utils';
+import TabLayout from '@/components/fragments/tabs/TabLayout';
 import DealerList from './dealer-list';
-
-interface TabLayoutProps {
-  currentValue: string; // Active tab value
-  value: string; // Tab's own value
-  children: React.ReactNode;
-}
 
 interface TabProps {
   value: string;
 }
-
-const TabLayout: React.FC<TabLayoutProps> = ({
-  currentValue,
-  value,
-  children,
-}) => {
-  return (
-    <div
-      className={cn('mb-8 flex-col gap-y-6', {
-        hidden: currentValue !== value, // Hide if not active
-        flex: currentValue === value, // Show if active
-      })}
-    >
-      {children}
-    </div>
-  );
-};
 
 export const OverviewTab: React.FC<TabProps> = ({ value }) => {
   return (

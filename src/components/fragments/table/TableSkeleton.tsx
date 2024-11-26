@@ -12,11 +12,17 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import MapItems from '@/utils/MapItems';
 
+interface TableSkeletonProps {
+  includeIndex?: boolean;
+  columnCount?: number;
+  rowCount?: number;
+}
+
 const TableSkeleton = ({
   includeIndex = false,
   columnCount = 5,
   rowCount = 10,
-}) => {
+}: TableSkeletonProps) => {
   const columns = Array.from({ length: columnCount });
   const rows = Array.from({ length: rowCount });
 
