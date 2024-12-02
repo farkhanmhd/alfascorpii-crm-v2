@@ -65,7 +65,7 @@ export const NavUser = ({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
-                  src={user?.avatar as string}
+                  src="/avatars/shadcn.jpg"
                   alt={user?.name as string}
                 />
                 <AvatarFallback className="rounded-lg">

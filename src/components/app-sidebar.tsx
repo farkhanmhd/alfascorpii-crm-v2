@@ -11,6 +11,7 @@ import {
   Phone,
   Bike,
   LayoutDashboard,
+  Joystick,
 } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
@@ -55,6 +56,12 @@ export const sidebarData = {
       title: 'Dashboard',
       url: '/',
       icon: LayoutDashboard,
+      isParent: false,
+    },
+    {
+      title: 'Playground',
+      url: '/playground',
+      icon: Joystick,
       isParent: false,
     },
     {

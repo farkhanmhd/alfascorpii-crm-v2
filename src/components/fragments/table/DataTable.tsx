@@ -20,7 +20,6 @@ const DataTable = <T,>({
   perPage,
 }: DataTableProps<T>) => {
   const startIndex = (currentPage - 1) * perPage + 1;
-  console.log(JSON.stringify(data));
   return (
     <Table>
       <TableHeader>

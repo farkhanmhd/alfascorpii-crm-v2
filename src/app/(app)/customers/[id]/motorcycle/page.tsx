@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Separator } from '@/components/ui/separator';
-import MotorcycleForm from './motorcycle-form';
+import TabSkeleton from '@/components/fragments/tabs/TabSkeleton';
+import MotorcycleData from './motorcycle-data';
 
-const SettingsAppearancePage = () => {
+type Params = Promise<{ id: string }>;
+
+const CustomerMotorcyclePage = async ({ params }: { params: Params }) => {
+  const { id } = await params;
   return (
     <div className="space-y-6">
       <div>
@@ -13,9 +17,11 @@ const SettingsAppearancePage = () => {
         </p>
       </div>
       <Separator />
-      <MotorcycleForm />
+      <Suspense fallback={<TabSkeleton />}>
+        <MotorcycleData id={id} />
+      </Suspense>
     </div>
   );
 };
 
-export default SettingsAppearancePage;
+export default CustomerMotorcyclePage;

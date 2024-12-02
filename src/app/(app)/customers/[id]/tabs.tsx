@@ -95,7 +95,7 @@ export const ExtendedTab: React.FC<TabProps> = ({ value, customer }) => {
         defaultValue={customer.houseOwnership.houseOwnership.ownershipStatus}
       />
       <TextInput
-        label="holiday"
+        label="Holiday"
         id="holiday"
         placeholder="Religious Holiday"
         defaultValue={customer.holidays.reduce(

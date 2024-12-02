@@ -8,10 +8,14 @@ import {
   HouseOwnership,
   Income,
   Expense,
+  Purchase,
+  CustomerPurchases,
+  PurchaseMotorcycle,
+  Motorcycle,
+  MotorcycleType,
 } from '@prisma/client';
 import { unstable_cache as cache } from 'next/cache';
 import prisma from '@/prisma';
-import { slow } from '@/lib/utils';
 
 // Represents the nested dealer structure
 interface JoinedDealer {
@@ -44,8 +48,8 @@ export const getCustomers = cache(
     perPage?: number;
   }): Promise<{
     data: CustomerPage[];
+    rows: number;
     totalPages: number;
-    currentPage: number;
   }> => {
     // Define the base filter
     const whereFilter: Prisma.CustomerWhereInput | undefined = searchQuery
@@ -137,12 +141,12 @@ export const getCustomers = cache(
 
     return {
       data: customers,
+      rows: totalRecords,
       totalPages,
-      currentPage: page,
     };
   },
   ['customerspage'],
-  { tags: ['customerspage'], revalidate: 1 }
+  { tags: ['customerspage'] }
 );
 
 interface JoinedJob {
@@ -247,7 +251,67 @@ export const getCustomer = async (id: string): Promise<CustomerPageDetail> => {
     },
   });
 
-  await slow();
-
   return customer as CustomerPageDetail;
+};
+
+interface JoinedMotorcycleType extends Partial<MotorcycleType> {}
+
+interface JoinedMotorcycle extends Partial<Motorcycle> {
+  type: JoinedMotorcycleType;
+}
+
+interface JoinedMotorcycle extends Partial<PurchaseMotorcycle> {
+  motorcycle: JoinedMotorcycle;
+}
+
+interface JoinedPurchase extends Partial<Purchase> {
+  purchaseMotorcycles: JoinedMotorcycle[];
+}
+
+interface JoinedCustomerPurchases extends Partial<CustomerPurchases> {
+  purchase: JoinedPurchase;
+}
+
+export interface CustomerMotorCycle extends Partial<Customer> {
+  purchases: JoinedCustomerPurchases[];
+}
+
+export const getCustomerMotorcycle = async (
+  customerId: string
+): Promise<CustomerMotorCycle> => {
+  const motorcycle = await prisma.customer.findUnique({
+    where: {
+      id: customerId,
+    },
+    select: {
+      purchases: {
+        select: {
+          purchase: {
+            select: {
+              purchaseType: true,
+              purchaseDate: true,
+              purchaseMotorcycles: {
+                select: {
+                  motorcycle: {
+                    select: {
+                      chassisId: true,
+                      engineId: true,
+                      price: true,
+                      type: {
+                        select: {
+                          motorcycleName: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return motorcycle as CustomerMotorCycle;
 };
