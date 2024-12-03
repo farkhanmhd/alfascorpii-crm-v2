@@ -66,7 +66,7 @@ export interface ICustomer extends IIdentifiable {
   district: string;
   sub_district: string;
   regency_or_city: string;
-  postal_code: string | null;
+  postal_code?: string | null;
   telephone: string;
   mobile_phone: string;
   nik: string;
@@ -79,7 +79,7 @@ export interface ICustomer extends IIdentifiable {
   payment_method: string;
   assembly_date: string; // Assuming this is a date in string format
   purchase_date: string | null;
-  leasing: string | null;
+  leasing?: string | null;
   latest_update_date: string; // Assuming this is a date in string format
   address: string;
   house_ownership_status: string;

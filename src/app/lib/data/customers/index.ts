@@ -1,4 +1,4 @@
-import { fetchWithParams } from '@/app/lib/data/fetchUtils';
+import { fetchWithParams, fetchData } from '@/app/lib/data/fetchUtils';
 import { getAccessToken } from '../auth';
 
 export const fetchCustomer = (
@@ -23,4 +23,12 @@ export const importCustomer = async (file: File) => {
 
   const { message } = await response.json();
   return message;
+};
+
+export const getCustomer = async (id: number | string) => {
+  return fetchData({
+    endpoint: `customers/${id}`,
+    method: 'GET',
+    cache: 'no-cache',
+  });
 };

@@ -5,9 +5,9 @@ import { SearchParamsProps } from '@/types';
 import columns from './columns';
 
 const CustomerJobTable = async ({
-  search = '',
-  page = '1',
-  perPage = '20',
+  search,
+  page,
+  perPage,
 }: SearchParamsProps) => {
   const data = await fetchCustomerJobs(search, page, perPage);
 

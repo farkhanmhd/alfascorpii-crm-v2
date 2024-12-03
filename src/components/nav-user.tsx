@@ -48,9 +48,8 @@ export const NavUser = ({
 }) => {
   const { isMobile } = useSidebar();
   const { push } = useTransitionRouter();
-  localStorage.setItem('userLogout', 'false');
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     localStorage.setItem('userLogout', 'true');
     push('/login');
   };

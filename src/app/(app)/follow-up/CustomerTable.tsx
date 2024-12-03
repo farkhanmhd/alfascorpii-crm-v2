@@ -29,8 +29,8 @@ const CustomerTable = async ({ search, page, perPage }: SearchParamsProps) => {
       totalPages={totalPages}
       currentPage={currentPage}
       rows={total}
-      addLabel="Import Customer"
-      searchPlaceholder="Cari Customer"
+      addLabel="Import Follow UP"
+      searchPlaceholder="Cari Follow UP"
     />
   );
 };

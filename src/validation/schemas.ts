@@ -12,8 +12,8 @@ export const searchQuerySchema = z.object({
   per_page: z
     .string()
     .transform((val) => parseInt(val, 10))
-    .refine((val) => !Number.isNaN(val) && [20, 30, 40, 50].includes(val), {
-      message: 'per_page must be one of the allowed values: 20, 30, 40, 50',
+    .refine((val) => !Number.isNaN(val) && [50, 100, 150, 200].includes(val), {
+      message: 'per_page must be one of the allowed values: 50, 100, 150, 200',
     })
     .default('20'),
 });

@@ -50,10 +50,6 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
 }: DataTableProps<TData, TValue>) => {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 10,
-  });
   const table = useReactTable({
     data,
     columns,
@@ -64,13 +60,11 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
     manualPagination: true,
     rowCount: rows,
     onRowSelectionChange: setRowSelection,
-    onPaginationChange: setPagination,
     getRowId: (row) => String(row.id),
     autoResetPageIndex: false,
     state: {
       columnVisibility,
       rowSelection,
-      pagination,
     },
   });
 
@@ -121,7 +115,10 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
                     <MapItems
                       of={row.getVisibleCells()}
                       render={(cell) => (
-                        <TableCell key={cell.id} className="px-4 py-2">
+                        <TableCell
+                          key={cell.id}
+                          className="px-4 py-2 text-xs sm:text-sm"
+                        >
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()

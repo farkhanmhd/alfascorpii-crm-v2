@@ -25,10 +25,10 @@ type Option = {
 };
 
 const options: Option[] = [
-  { value: '20', label: '20' },
-  { value: '30', label: '30' },
-  { value: '40', label: '40' },
   { value: '50', label: '50' },
+  { value: '100', label: '100' },
+  { value: '150', label: '150' },
+  { value: '200', label: '200' },
 ];
 
 interface DataTablePaginationProps {
@@ -48,7 +48,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
   const searchParams = useSearchParams();
   const { replace, push } = useTransitionRouter();
   const params = new URLSearchParams(searchParams);
-  const initialPerPage = params.get('per_page') || '20';
+  const initialPerPage = params.get('per_page') || '50';
   const [perPage, setperPage] = useState(initialPerPage);
 
   const handleperPageChange = (value: string) => {
@@ -119,6 +119,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
               onClick={handleFirstPage}
+              disabled={currentPage === 1}
             >
               <span className="sr-only">Go to first page</span>
               <ChevronsLeft className="h-4 w-4" />
@@ -127,6 +128,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
               variant="outline"
               className="h-8 w-8 p-0"
               onClick={handlePrevPage}
+              disabled={currentPage === 1}
             >
               <span className="sr-only">Go to previous page</span>
               <ChevronLeft className="h-4 w-4" />
@@ -135,6 +137,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
               variant="outline"
               className="h-8 w-8 p-0"
               onClick={handleNextPage}
+              disabled={currentPage === totalPages}
             >
               <span className="sr-only">Go to next page</span>
               <ChevronRight className="h-4 w-4" />
@@ -143,6 +146,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
               onClick={handletotalPages}
+              disabled={currentPage === totalPages}
             >
               <span className="sr-only">Go to last page</span>
               <ChevronsRight className="h-4 w-4" />

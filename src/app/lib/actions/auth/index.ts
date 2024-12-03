@@ -2,7 +2,7 @@
 
 import { loginSchema } from '@/validation/schemas';
 import actionClient from '@/lib/safe-action';
-import { getUser } from '../../data/auth';
+import { getUser, getAccessToken } from '../../data/auth';
 import { createSession, deleteSession, storeToken } from './session';
 
 export const loginAction = actionClient
@@ -30,5 +30,12 @@ export const loginAction = actionClient
   });
 
 export const logout = async () => {
+  const token = await getAccessToken();
   await deleteSession();
+  await fetch(`${process.env.BACKEND_URL}/logout`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };

@@ -110,7 +110,7 @@ export const fetchWithParams = async (
   endpoint: string,
   search: string = '',
   page: string = '1',
-  per_page: string = '20'
+  per_page: string = '50'
 ) => {
   return fetchSearch({ endpoint, params: { search, page, per_page } });
 };
