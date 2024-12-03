@@ -75,7 +75,7 @@ export const createSession = async (
     username,
     status,
     expiresAt,
-    avatar: '/avatars/shadcn.jpg',
+    avatar,
   });
 
   const cookieStore = await cookies();

@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { Link } from 'next-view-transitions';
 import { ChevronRight, type LucideIcon } from 'lucide-react';
 
@@ -18,7 +19,7 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 
-export function NavMain({
+export const NavMain = ({
   items,
 }: {
   items: {
@@ -32,7 +33,7 @@ export function NavMain({
       url: string;
     }[];
   }[];
-}) {
+}) => {
   return (
     <SidebarGroup>
       <SidebarMenu>
@@ -81,4 +82,4 @@ export function NavMain({
       </SidebarMenu>
     </SidebarGroup>
   );
-}
+};

@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react';
-import DataTablePagination from '@/components/fragments/table/pagination';
 import { DataTable } from '@/components/fragments/table/DataTable';
 import { fetchStaff } from '@/app/lib/data/staff';
 import columns from './columns';
@@ -14,8 +13,8 @@ const Page = async (props: {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const per_page = searchParams?.per_page;
-  const data = await fetchStaff(search, page, per_page);
+  const perPage = searchParams?.per_page;
+  const data = await fetchStaff(search, page, perPage);
 
   if (!data) {
     return (
@@ -26,19 +25,17 @@ const Page = async (props: {
   const { staffs, totalPages, total } = data;
 
   return (
-    <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <DataTable
-          columns={columns}
-          data={staffs}
-          rows={total}
-          searchPlaceholder="Search Staff"
-          addLabel="Add Staff"
-          totalPages={totalPages}
-          currentPage={Number(page)}
-        />
-      </Suspense>
-    </>
+    <Suspense fallback={<div>Loading...</div>}>
+      <DataTable
+        columns={columns}
+        data={staffs}
+        rows={total}
+        searchPlaceholder="Search Staff"
+        addLabel="Add Staff"
+        totalPages={totalPages}
+        currentPage={Number(page)}
+      />
+    </Suspense>
   );
 };
 export default Page;

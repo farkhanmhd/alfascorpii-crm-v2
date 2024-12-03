@@ -1,7 +1,7 @@
 import React from 'react';
 import { DataTable } from '@/components/fragments/table/DataTable';
-import columns from './columns';
 import { fetchKeteranganFU } from '@/app/lib/data/statusfus';
+import columns from './columns';
 
 interface SearchParamsProps {
   search?: string;
@@ -22,8 +22,7 @@ const StatusFuTable = async ({ search, page, perPage }: SearchParamsProps) => {
 
   const { statusfu, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable
+    <DataTable
         columns={columns}
         data={statusfu}
         rows={total}
@@ -32,7 +31,6 @@ const StatusFuTable = async ({ search, page, perPage }: SearchParamsProps) => {
         searchPlaceholder="Search Status FU"
         addLabel="Tambah Status FU"
       />
-    </>
   );
 };
 

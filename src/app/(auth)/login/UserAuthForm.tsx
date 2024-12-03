@@ -2,11 +2,10 @@
 
 import React, { useState } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn , getErrorMessages } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import TextInput from '@/components/fragments/form/TextInput';
 import { Eye, EyeClosed } from 'lucide-react';
-import { getErrorMessages } from '@/lib/utils';
 import SubmitButton from '@/components/fragments/buttons/SubmitButton';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -22,13 +21,13 @@ interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   isPending: boolean;
 }
 
-export function UserAuthForm({
+export const UserAuthForm = ({
   action,
   validationErrors,
   className,
   isPending,
   ...props
-}: UserAuthFormProps) {
+}: UserAuthFormProps) => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordHide, setPasswordHide] = useState<boolean>(true);

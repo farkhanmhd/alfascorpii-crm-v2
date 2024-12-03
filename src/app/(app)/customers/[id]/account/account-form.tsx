@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { CalendarIcon, Check, ChevronsUpDown } from 'lucide-react';
@@ -71,7 +72,7 @@ const defaultValues: Partial<AccountFormValues> = {
   // dob: new Date("2023-01-23"),
 };
 
-export function AccountForm() {
+export const AccountForm = () => {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     defaultValues,
@@ -118,7 +119,7 @@ export function AccountForm() {
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
-                      variant={'outline'}
+                      variant="outline"
                       className={cn(
                         'w-[240px] pl-3 text-left font-normal',
                         !field.value && 'text-muted-foreground'
@@ -219,4 +220,4 @@ export function AccountForm() {
       </form>
     </Form>
   );
-}
+};

@@ -6,12 +6,10 @@ import SubmitButton from '@/components/fragments/buttons/SubmitButton';
 import StatusRadio from '@/components/fragments/form/StatusRadio';
 import DatePicker from '@/components/fragments/form/DatePicker';
 import { getErrorMessages } from '@/lib/utils';
-import { useSelectedDate } from '@/hooks';
 
 interface HolidayFormProps {
   initialHoliday?: string;
   initialMessage?: string;
-  initialDate?: string;
   initialStatus?: 'SHOW' | 'HIDE';
   action: (formData: FormData) => void | string | undefined;
   validationErrors?: {
@@ -33,7 +31,6 @@ const HolidayForm: React.FC<HolidayFormProps> = ({
 }: HolidayFormProps) => {
   const [holiday, setHoliday] = useState(initialHoliday);
   const [message, setMessage] = useState(initialMessage);
-  const { setSelectedDate } = useSelectedDate();
   const [status, setStatus] = useState(initialStatus);
   const handleStatusChange = (value: 'SHOW' | 'HIDE') => {
     setStatus(value);

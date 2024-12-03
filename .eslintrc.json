@@ -43,7 +43,8 @@
         "react/prop-types": "off",
         "react/no-unknown-property": "off",
         "@typescript-eslint/no-use-before-define": "off",
-        "jsx-a11y/anchor-has-content": "off"
+        "jsx-a11y/anchor-has-content": "off",
+        "jsx-a11y/heading-has-content": "off"
       }
     },
     {

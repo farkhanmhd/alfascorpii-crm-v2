@@ -12,13 +12,9 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import MapItems from '@/utils/MapItems';
 
-const TableSkeleton = ({
-  includeIndex = false,
-  columnCount = 5,
-  rowCount = 10,
-}) => {
-  const columns = Array.from({ length: columnCount });
-  const rows = Array.from({ length: rowCount });
+const TableSkeleton = () => {
+  const columns = Array.from({ length: 5 });
+  const rows = Array.from({ length: 10 });
 
   return (
     <Table>
@@ -37,16 +33,11 @@ const TableSkeleton = ({
       <TableBody>
         <MapItems
           of={rows}
-          render={(_, rowIndex) => (
+          render={(items, rowIndex) => (
             <TableRow key={rowIndex} className="hover:bg-muted/50">
-              {includeIndex && (
-                <TableCell>
-                  <Skeleton className="h-[20px] w-full rounded-full" />
-                </TableCell>
-              )}
               <MapItems
                 of={columns}
-                render={(_, colIndex) => (
+                render={(item, colIndex) => (
                   <TableCell key={colIndex}>
                     <Skeleton className="h-[20px] w-full rounded-full" />
                   </TableCell>

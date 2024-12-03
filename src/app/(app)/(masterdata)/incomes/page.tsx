@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import IncomeTable from './IncomeTable';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
+import IncomeTable from './IncomeTable';
 
 export const metadata: Metadata = {
   title: 'Incomes',

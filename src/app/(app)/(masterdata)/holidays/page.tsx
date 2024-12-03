@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import HolidayTable from './HolidayTable';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
+import HolidayTable from './HolidayTable';
 
 export const metadata: Metadata = {
   title: 'Holidays',

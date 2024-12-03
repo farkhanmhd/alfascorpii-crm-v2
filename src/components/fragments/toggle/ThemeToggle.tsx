@@ -1,17 +1,15 @@
 'use client';
 
 import React from 'react';
-import { Moon, Sun, MonitorCog } from 'lucide-react';
+import { Moon, Sun, MonitorCog , ChevronRight } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useSidebar } from '@/components/ui/sidebar';
+import { useSidebar , SidebarMenuButton } from '@/components/ui/sidebar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { SidebarMenuButton } from '@/components/ui/sidebar';
-import { ChevronRight } from 'lucide-react';
 
 const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();

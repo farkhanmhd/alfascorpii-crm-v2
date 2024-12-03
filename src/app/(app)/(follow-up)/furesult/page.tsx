@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import FuResultTable from './FuResultTable';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
+import FuResultTable from './FuResultTable';
 
 export const metadata: Metadata = {
   title: 'Follow Up Results',
