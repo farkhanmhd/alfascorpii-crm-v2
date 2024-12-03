@@ -1,5 +1,5 @@
 import React from 'react';
-import DataTable from '@/components/fragments/table/DataTable';
+import { DataTable } from '@/components/fragments/table/DataTable';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import { IFollowUp } from '@/types';
 import getFollowUpList from './data';
@@ -10,8 +10,15 @@ const FollowUpListTable = async () => {
 
   return (
     <>
-      <DataTable columns={columns} data={followUps} />
-      <DataTablePagination currentPage={1} totalPages={1} />
+      <DataTable
+        columns={columns}
+        data={followUps}
+        addLabel="Tambah Follow Up"
+        searchPlaceholder="Cari Follow Up"
+        totalPages={1}
+        rows={followUps.length}
+        currentPage={1}
+      />
     </>
   );
 };

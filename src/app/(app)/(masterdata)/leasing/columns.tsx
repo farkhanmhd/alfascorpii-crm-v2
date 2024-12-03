@@ -1,29 +1,54 @@
 'use client';
 
 import React from 'react';
-import { ILeasing, Column } from '@/types';
+import { ColumnDef } from '@tanstack/react-table';
+import { Checkbox } from '@/components/ui/checkbox';
+import { ILeasing } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash } from 'lucide-react';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
 
-const columns: Column<ILeasing>[] = [
+const columns: ColumnDef<ILeasing>[] = [
   {
-    header: 'Leasing',
-    key: 'leasing_name',
-    GetCellContent: (leasing: ILeasing) => leasing.leasing_name,
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
   },
   {
-    header: 'Action',
-    GetCellContent: (leasing: ILeasing) => {
+    header: 'Leasing',
+    accessorKey: 'leasing_name',
+  },
+  {
+    id: 'actions',
+    header: () => <div className="text-right">Actions</div>,
+    cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
       const { setActionDialog } = useActionDialog<ILeasing>();
       return (
-        <div className="flex gap-x-4">
+        <div className="flex justify-end gap-x-4">
           <Button
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setActionDialog({ edit: true, data: leasing })}
+            onClick={() => setActionDialog({ edit: true, data: row.original })}
           >
             <Pencil />
           </Button>
@@ -31,7 +56,7 @@ const columns: Column<ILeasing>[] = [
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setDeleteDialog({ open: true, id: leasing.id })}
+            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
           >
             <Trash />
           </Button>

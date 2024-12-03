@@ -2,12 +2,7 @@
 
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import {
-  useActionDialog,
-  useSubmitToast,
-  useDeleteToast,
-  useDeleteDialog,
-} from '@/hooks';
+import { useActionDialog, useSubmitToast, useDeleteToast } from '@/hooks';
 import DeleteDialog from '@/components/fragments/dialogs/DeleteDialog';
 import ActionDialogContainer from '@/components/fragments/dialogs/ActionDialogContainer';
 import { IDetailFU } from '@/types';
@@ -64,7 +59,7 @@ export const EditDetailFuDialog = () => {
 };
 
 export const DeleteDetailFuDialog = () => {
-  const { actionDialog, handleClose } = useActionDialog<IDetailFU>();
+  const { actionDialog } = useActionDialog<IDetailFU>();
   const { execute, result, isPending, reset } = useAction(removeDetailFuAction);
   useDeleteToast(result, reset);
   return (

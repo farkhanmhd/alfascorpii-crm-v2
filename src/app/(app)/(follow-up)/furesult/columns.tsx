@@ -2,44 +2,69 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { IResultFU, Column } from '@/types';
+import { ColumnDef } from '@tanstack/react-table';
+import { Checkbox } from '@/components/ui/checkbox';
+import { IResultFU } from '@/types';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
 
-const columns: Column<IResultFU>[] = [
+const columns: ColumnDef<IResultFU>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     header: 'Hasil Follow Up',
-    key: 'fu_result_name',
-    GetCellContent: (result: IResultFU) => result.fu_result_name,
+    accessorKey: 'fu_result_name',
   },
   {
     header: 'Status',
-    key: 'status',
-    GetCellContent: (result: IResultFU) => (
+    accessorKey: 'status',
+    cell: ({ row }) => (
       <span
         className={clsx({
-          'text-green-500': result.status === 'SHOW',
-          'text-red-500': result.status === 'HIDE',
+          'text-green-500': row.getValue('status') === 'SHOW',
+          'text-red-500': row.getValue('status') === 'HIDE',
         })}
       >
-        {result.status}
+        {row.getValue('status')}
       </span>
     ),
   },
   {
-    header: 'Action',
-    GetCellContent: (item: IResultFU) => {
+    id: 'actions',
+    header: () => <div className="text-right">Actions</div>,
+    cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
       const { setActionDialog } = useActionDialog<IResultFU>();
 
       return (
-        <div className="flex gap-x-4">
+        <div className="flex justify-end gap-x-4">
           <Button
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setActionDialog({ edit: true, data: item })}
+            onClick={() => setActionDialog({ edit: true, data: row.original })}
           >
             <Pencil />
           </Button>
@@ -47,7 +72,7 @@ const columns: Column<IResultFU>[] = [
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setDeleteDialog({ open: true, id: item.id })}
+            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
           >
             <Trash />
           </Button>

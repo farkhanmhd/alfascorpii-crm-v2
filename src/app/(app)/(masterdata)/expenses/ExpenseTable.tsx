@@ -1,8 +1,7 @@
 import React from 'react';
-import DataTable from '@/components/fragments/table/DataTable';
-import columns from './columns';
+import { DataTable } from '@/components/fragments/table/DataTable';
 import { fetchExpenses } from '@/app/lib/data/expenses';
-import DataTablePagination from '@/components/fragments/table/pagination';
+import columns from './columns';
 
 interface SearchParamsProps {
   search?: string;
@@ -21,12 +20,17 @@ const ExpenseTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { expenses, last_page: totalPages } = data;
+  const { expenses, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable columns={columns} data={expenses} includeIndex />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={expenses}
+      totalPages={totalPages}
+      rows={total}
+      addLabel="Tambah Pengeluaran"
+      searchPlaceholder="Cari Pengeluaran"
+      currentPage={Number(page)}
+    />
   );
 };
 

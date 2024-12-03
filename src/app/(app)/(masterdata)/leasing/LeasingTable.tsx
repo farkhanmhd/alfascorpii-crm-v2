@@ -1,8 +1,7 @@
 import React from 'react';
-import DataTable from '@/components/fragments/table/DataTable';
-import columns from './columns';
 import { fetchLeasing } from '@/app/lib/data/leasing';
-import DataTablePagination from '@/components/fragments/table/pagination';
+import { DataTable } from '@/components/fragments/table/DataTable';
+import columns from './columns';
 
 interface SearchParamsProps {
   search?: string;
@@ -21,12 +20,17 @@ const LeasingTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { leasings, last_page: totalPages } = data;
+  const { leasings, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable columns={columns} data={leasings} includeIndex />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={leasings}
+      totalPages={totalPages}
+      rows={total}
+      addLabel="Tambah Leasing"
+      currentPage={Number(page)}
+      searchPlaceholder="Cari Leasing"
+    />
   );
 };
 

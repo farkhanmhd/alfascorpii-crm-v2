@@ -79,7 +79,7 @@ export const DeleteJobDialog = () => {
   useDeleteToast(result, reset);
   return (
     <DeleteDialog
-      title="Hapus Leasing?"
+      title="Hapus Pekerjaan?"
       isPending={isPending}
       deleteAction={() => deleteLeasing({ id: Number(deleteDialog?.id) })}
     />

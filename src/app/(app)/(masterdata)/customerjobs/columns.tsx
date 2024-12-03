@@ -2,49 +2,73 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import { ColumnDef } from '@tanstack/react-table';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
-import { ICustomerJob, Column } from '@/types';
-import { Pencil, Trash } from 'lucide-react';
+import { ICustomerJob } from '@/types';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
+import { Pencil, Trash } from 'lucide-react';
 
-const columns: Column<ICustomerJob>[] = [
+const columns: ColumnDef<ICustomerJob>[] = [
   {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'job_code',
     header: 'Kode',
-    key: 'job_code',
-    GetCellContent: (job: ICustomerJob) => job.job_code,
   },
   {
+    accessorKey: 'job_name',
     header: 'Pekerjaan',
-    key: 'job_name',
-    GetCellContent: (job: ICustomerJob) => job.job_name,
   },
 
   {
+    accessorKey: 'status',
     header: 'Status',
-    key: 'status',
-    GetCellContent: (job: ICustomerJob) => (
+    cell: ({ row }) => (
       <span
         className={clsx({
-          'text-green-500': job.status === 'SHOW',
-          'text-red-500': job.status === 'HIDE',
+          'text-green-500': row.getValue('status') === 'SHOW',
+          'text-red-500': row.getValue('status') === 'HIDE',
         })}
       >
-        {job.status}
+        {row.getValue('status')}
       </span>
     ),
   },
   {
-    header: 'Action',
-    GetCellContent: (job: ICustomerJob) => {
+    id: 'actions',
+    header: () => <div className="text-right">Actions</div>,
+    cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
       const { setActionDialog } = useActionDialog<ICustomerJob>();
       return (
-        <div className="flex gap-x-4">
+        <div className="flex justify-end gap-x-4">
           <Button
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setActionDialog({ edit: true, data: job })}
+            onClick={() => setActionDialog({ edit: true, data: row.original })}
           >
             <Pencil />
           </Button>
@@ -52,7 +76,7 @@ const columns: Column<ICustomerJob>[] = [
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setDeleteDialog({ open: true, id: job.id })}
+            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
           >
             <Trash />
           </Button>

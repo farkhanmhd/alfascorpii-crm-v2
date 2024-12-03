@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import DegreeTable from './DegreeTable';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
+import DegreeTable from './DegreeTable';
 
 export const metadata: Metadata = {
   title: 'Degrees',

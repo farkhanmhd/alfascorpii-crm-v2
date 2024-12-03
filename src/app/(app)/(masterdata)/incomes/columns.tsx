@@ -2,58 +2,80 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import { ColumnDef } from '@tanstack/react-table';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
-import { IIncome, Column } from '@/types';
+import { IIncome } from '@/types';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const columns: Column<IIncome>[] = [
+const columns: ColumnDef<IIncome>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     header: 'Batas Bawah',
-    key: 'income_lower_limit',
-    GetCellContent: (data: IIncome) => data.income_lower_limit,
+    accessorKey: 'income_lower_limit',
   },
   {
     header: 'Batas Atas',
-    key: 'income_upper_limit',
-    GetCellContent: (data: IIncome) => data.income_upper_limit,
+    accessorKey: 'income_upper_limit',
   },
   {
     header: 'Detail',
-    key: 'income_detail',
-    GetCellContent: (data: IIncome) => data.income_detail,
+    accessorKey: 'income_detail',
   },
   {
     header: 'Kode',
-    key: 'income_code',
-    GetCellContent: (data: IIncome) => data.income_code,
+    accessorKey: 'income_code',
   },
   {
     header: 'Status',
-    key: 'status',
-    GetCellContent: (data: IIncome) => (
+    accessorKey: 'status',
+    cell: ({ row }) => (
       <span
         className={clsx({
-          'text-green-500': data.status === 'SHOW',
-          'text-red-500': data.status === 'HIDE',
+          'text-green-500': row.getValue('status') === 'SHOW',
+          'text-red-500': row.getValue('status') === 'HIDE',
         })}
       >
-        {data.status}
+        {row.getValue('status')}
       </span>
     ),
   },
   {
-    header: 'Action',
-    GetCellContent: (income: IIncome) => {
+    id: 'actions',
+    header: () => <div className="text-right">Actions</div>,
+    cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
       const { setActionDialog } = useActionDialog<IIncome>();
       return (
-        <div className="flex gap-x-4">
+        <div className="flex justify-end gap-x-4">
           <Button
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setActionDialog({ edit: true, data: income })}
+            onClick={() => setActionDialog({ edit: true, data: row.original })}
           >
             <Pencil />
           </Button>
@@ -61,7 +83,7 @@ const columns: Column<IIncome>[] = [
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setDeleteDialog({ open: true, id: income.id })}
+            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
           >
             <Trash />
           </Button>

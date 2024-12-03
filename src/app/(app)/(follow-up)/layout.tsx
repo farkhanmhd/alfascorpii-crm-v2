@@ -15,10 +15,8 @@ const FollowUpLayout = ({ children }: { children: React.ReactNode }) => {
 
   type RouteType = typeof config.type;
   return (
-    <div className="grid h-full max-h-[calc(100dvh-48px)] grid-rows-[auto_1fr_auto] gap-y-6">
+    <div className="grid h-full max-h-[calc(100dvh-48px)] grid-rows-[1fr] gap-y-6">
       <TableLayout<RouteType>
-        searchPlaceholder={config.searchPlaceholder}
-        addButtonLabel={config.addButtonLabel}
         CreateDialog={config.CreateDialog}
         EditDialog={config.EditDialog}
         DeleteDialog={config.DeleteDialog}

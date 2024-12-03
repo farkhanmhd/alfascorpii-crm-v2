@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import DataTablePagination from '@/components/fragments/table/pagination';
-import DataTable from '@/components/fragments/table/DataTable';
+import { DataTable } from '@/components/fragments/table/DataTable';
 import { fetchStaff } from '@/app/lib/data/staff';
 import columns from './columns';
 
@@ -23,14 +23,21 @@ const Page = async (props: {
     );
   }
 
-  const { staffs, totalPages } = data;
+  const { staffs, totalPages, total } = data;
 
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
-        <DataTable columns={columns} data={staffs} includeIndex />
+        <DataTable
+          columns={columns}
+          data={staffs}
+          rows={total}
+          searchPlaceholder="Search Staff"
+          addLabel="Add Staff"
+          totalPages={totalPages}
+          currentPage={Number(page)}
+        />
       </Suspense>
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
     </>
   );
 };

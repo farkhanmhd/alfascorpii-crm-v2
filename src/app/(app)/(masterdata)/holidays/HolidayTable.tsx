@@ -1,8 +1,7 @@
 import React from 'react';
-import DataTable from '@/components/fragments/table/DataTable';
-import columns from './columns';
+import { DataTable } from '@/components/fragments/table/DataTable';
 import { fetchHoliday } from '@/app/lib/data/holidays';
-import DataTablePagination from '@/components/fragments/table/pagination';
+import columns from './columns';
 
 interface SearchParamsProps {
   search?: string;
@@ -21,12 +20,17 @@ const HolidayTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { holidays, last_page: totalPages } = data;
+  const { holidays, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable columns={columns} data={holidays} includeIndex />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={holidays}
+      totalPages={totalPages}
+      rows={total}
+      addLabel="Tambah Hari Besar"
+      searchPlaceholder="Cari Hari Besar"
+      currentPage={Number(page)}
+    />
   );
 };
 

@@ -1,8 +1,7 @@
 import React from 'react';
-import DataTable from '@/components/fragments/table/DataTable';
-import columns from './columns';
 import { fetchFuResult } from '@/app/lib/data/furesult';
-import DataTablePagination from '@/components/fragments/table/pagination';
+import { DataTable } from '@/components/fragments/table/DataTable';
+import columns from './columns';
 
 interface SearchParamsProps {
   search?: string;
@@ -21,12 +20,17 @@ const FuResultTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { furesult, last_page: totalPages } = data;
+  const { furesult, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable columns={columns} data={furesult} includeIndex />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={furesult}
+      addLabel="Tambah Hasil FU"
+      totalPages={totalPages}
+      currentPage={Number(page)}
+      rows={total}
+      searchPlaceholder="Cari Hasil FU"
+    />
   );
 };
 

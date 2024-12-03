@@ -1,49 +1,73 @@
 'use client';
 
 import React from 'react';
+import { ColumnDef } from '@tanstack/react-table';
 import clsx from 'clsx';
-import { IDegree, Column } from '@/types';
+import { IDegree } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
 
-const columns: Column<IDegree>[] = [
+const columns: ColumnDef<IDegree>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     header: 'Kode',
-    key: 'degree_code',
-    GetCellContent: (data) => data.degree_code,
+    accessorKey: 'degree_code',
   },
   {
     header: 'Pendidikan',
-    key: 'degree_name',
-    GetCellContent: (data) => data.degree_name,
+    accessorKey: 'degree_name',
   },
   {
     header: 'Status',
-    key: 'status',
-    GetCellContent: (data: IDegree) => (
+    accessorKey: 'status',
+    cell: ({ row }) => (
       <span
         className={clsx({
-          'text-green-500': data.status === 'SHOW',
-          'text-red-500': data.status === 'HIDE',
+          'text-green-500': row.getValue('status') === 'SHOW',
+          'text-red-500': row.getValue('status') === 'HIDE',
         })}
       >
-        {data.status}
+        {row.getValue('status')}
       </span>
     ),
   },
   {
-    header: 'Action',
-    GetCellContent: (degree: IDegree) => {
+    id: 'actions',
+    header: () => <div className="text-right">Actions</div>,
+    cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
       const { setActionDialog } = useActionDialog<IDegree>();
       return (
-        <div className="flex gap-x-4">
+        <div className="flex justify-end gap-x-4">
           <Button
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setActionDialog({ edit: true, data: degree })}
+            onClick={() => setActionDialog({ edit: true, data: row.original })}
           >
             <Pencil />
           </Button>
@@ -51,7 +75,7 @@ const columns: Column<IDegree>[] = [
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setDeleteDialog({ open: true, id: degree.id })}
+            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
           >
             <Trash />
           </Button>

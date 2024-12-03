@@ -2,49 +2,71 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import { ColumnDef } from '@tanstack/react-table';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
-import { IExpense, Column } from '@/types';
+import { IExpense } from '@/types';
 import { Pencil, Trash } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 
-const columns: Column<IExpense>[] = [
+const columns: ColumnDef<IExpense>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     header: 'Batas Bawah',
-    key: 'expense_lower_limit',
-    GetCellContent: (data: IExpense) => data.expense_lower_limit,
+    accessorKey: 'expense_lower_limit',
   },
   {
     header: 'Batas Atas',
-    key: 'expense_upper_limit',
-    GetCellContent: (data: IExpense) => data.expense_upper_limit,
+    accessorKey: 'expense_upper_limit',
   },
   {
     header: 'Detail',
-    key: 'expense_detail',
-    GetCellContent: (data: IExpense) => data.expense_detail,
+    accessorKey: 'expense_detail',
   },
   {
     header: 'Kode',
-    key: 'expense_code',
-    GetCellContent: (data: IExpense) => data.expense_code,
+    accessorKey: 'expense_code',
   },
   {
     header: 'Status',
-    key: 'status',
-    GetCellContent: (data: IExpense) => (
+    accessorKey: 'status',
+    cell: ({ row }) => (
       <span
         className={clsx({
-          'text-green-500': data.status === 'SHOW',
-          'text-red-500': data.status === 'HIDE',
+          'text-green-500': row.getValue('status') === 'SHOW',
+          'text-red-500': row.getValue('status') === 'HIDE',
         })}
       >
-        {data.status}
+        {row.getValue('status')}
       </span>
     ),
   },
   {
-    header: 'Action',
-    GetCellContent: (expense: IExpense) => {
+    id: 'actions',
+    header: 'Actions',
+    cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
       const { setActionDialog } = useActionDialog<IExpense>();
       return (
@@ -53,7 +75,7 @@ const columns: Column<IExpense>[] = [
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setActionDialog({ edit: true, data: expense })}
+            onClick={() => setActionDialog({ edit: true, data: row.original })}
           >
             <Pencil />
           </Button>
@@ -61,7 +83,7 @@ const columns: Column<IExpense>[] = [
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setDeleteDialog({ open: true, id: expense.id })}
+            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
           >
             <Trash />
           </Button>

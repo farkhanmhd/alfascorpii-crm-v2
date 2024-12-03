@@ -1,7 +1,6 @@
 import React from 'react';
-import DataTable from '@/components/fragments/table/DataTable';
 import { fetchProductPreferences } from '@/app/lib/data/productpreferences';
-import DataTablePagination from '@/components/fragments/table/pagination';
+import { DataTable } from '@/components/fragments/table/DataTable';
 import columns from './columns';
 
 interface SearchParamsProps {
@@ -25,12 +24,17 @@ const ProductPreferenceTable = async ({
     );
   }
 
-  const { productpreferences, last_page: totalPages } = data;
+  const { productpreferences, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable columns={columns} data={productpreferences} includeIndex />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={productpreferences}
+      addLabel="Add Motorcycle"
+      searchPlaceholder="Search Motorcycle"
+      currentPage={Number(page)}
+      totalPages={totalPages}
+      rows={total}
+    />
   );
 };
 

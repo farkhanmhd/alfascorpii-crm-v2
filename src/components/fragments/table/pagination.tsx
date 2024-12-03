@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useTransitionRouter } from 'next-view-transitions';
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ArrowLeft,
-  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -31,23 +31,28 @@ const options: Option[] = [
   { value: '50', label: '50' },
 ];
 
-const DataTablePagination = ({
-  currentPage,
-  totalPages,
-}: {
+interface DataTablePaginationProps {
   currentPage: number;
   totalPages: number;
+  selectedRows: number;
+  totalRows: number;
+}
+
+const DataTablePagination: React.FC<DataTablePaginationProps> = ({
+  currentPage,
+  totalPages,
+  selectedRows,
+  totalRows,
 }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const router = useTransitionRouter();
-  const { replace } = useTransitionRouter();
+  const { replace, push } = useTransitionRouter();
   const params = new URLSearchParams(searchParams);
-  const initialper_page = params.get('per_page') || '20';
-  const [per_page, setper_page] = useState(initialper_page);
+  const initialPerPage = params.get('per_page') || '20';
+  const [perPage, setperPage] = useState(initialPerPage);
 
-  const handleper_pageChange = (value: string) => {
-    setper_page(value);
+  const handleperPageChange = (value: string) => {
+    setperPage(value);
     if (value === '20') {
       params.delete('per_page');
     } else {
@@ -59,18 +64,18 @@ const DataTablePagination = ({
 
   const handleFirstPage = () => {
     params.delete('page');
-    router.push(`${pathname}?${params.toString()}`);
+    push(`${pathname}?${params.toString()}`);
   };
 
   const handletotalPages = () => {
     params.set('page', totalPages.toString());
-    router.push(`${pathname}?${params.toString()}`);
+    push(`${pathname}?${params.toString()}`);
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       params.set('page', (currentPage + 1).toString());
-      router.push(`${pathname}?${params.toString()}`);
+      push(`${pathname}?${params.toString()}`);
     }
   };
 
@@ -78,64 +83,71 @@ const DataTablePagination = ({
     if (currentPage > 1) {
       params.set('page', (currentPage - 1).toString());
       if (currentPage - 1 === 1) params.delete('page');
-      router.push(`${pathname}?${params.toString()}`);
+      push(`${pathname}?${params.toString()}`);
     }
   };
 
   return (
-    <div className="sticky bottom-0 flex items-center justify-between bg-background pb-4 pt-1">
-      <div className="flex items-center space-x-2">
-        <p className="text-sm font-medium">Rows</p>
-        <Select value={per_page} onValueChange={handleper_pageChange}>
-          <SelectTrigger className="h-8 w-[70px]">
-            <SelectValue placeholder={per_page} />
-          </SelectTrigger>
-          <SelectContent side="top">
-            {options.map((option) => (
-              <SelectItem key={option.label} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {currentPage} of {totalPages}
-        </div>
+    <div className="sticky bottom-0 flex items-center justify-between bg-background py-4">
+      <p className="flex-1 text-sm text-muted-foreground">
+        {selectedRows > 0
+          ? `${selectedRows} of ${totalRows} row(s) selected.`
+          : ``}
+      </p>
+      <div className="flex gap-x-4">
         <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={handleFirstPage}
-          >
-            <span className="sr-only">Go to first page</span>
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="h-8 w-8 p-0"
-            onClick={handlePrevPage}
-          >
-            <span className="sr-only">Go to previous page</span>
-            <ChevronLeftIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="h-8 w-8 p-0"
-            onClick={handleNextPage}
-          >
-            <span className="sr-only">Go to next page</span>
-            <ChevronRightIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={handletotalPages}
-          >
-            <span className="sr-only">Go to last page</span>
-            <ArrowRight className="h-4 w-4" />
-          </Button>
+          <p className="text-sm font-medium">Rows</p>
+          <Select value={perPage} onValueChange={handleperPageChange}>
+            <SelectTrigger className="h-8 w-[70px]">
+              <SelectValue placeholder={perPage} />
+            </SelectTrigger>
+            <SelectContent side="top">
+              {options.map((option) => (
+                <SelectItem key={option.label} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex items-center space-x-6 lg:space-x-8">
+          <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+            Page {currentPage} of {totalPages}
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              className="hidden h-8 w-8 p-0 lg:flex"
+              onClick={handleFirstPage}
+            >
+              <span className="sr-only">Go to first page</span>
+              <ChevronsLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="h-8 w-8 p-0"
+              onClick={handlePrevPage}
+            >
+              <span className="sr-only">Go to previous page</span>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="h-8 w-8 p-0"
+              onClick={handleNextPage}
+            >
+              <span className="sr-only">Go to next page</span>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="hidden h-8 w-8 p-0 lg:flex"
+              onClick={handletotalPages}
+            >
+              <span className="sr-only">Go to last page</span>
+              <ChevronsRight className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,51 +1,73 @@
 'use client';
 
 import React from 'react';
+import { ColumnDef } from '@tanstack/react-table';
 import { Pencil, Trash } from 'lucide-react';
-import { IDealer, Column } from '@/types';
+import { Checkbox } from '@/components/ui/checkbox';
+import { IDealer } from '@/types';
 import { Button } from '@/components/ui/button';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
 
-const columns: Column<IDealer>[] = [
+const columns: ColumnDef<IDealer>[] = [
   {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'dealer_code',
     header: 'Kode',
-    key: 'dealer_code',
-    GetCellContent: (dealer: IDealer) => dealer.dealer_code,
   },
   {
+    accessorKey: 'dealer_name',
     header: 'Nama',
-    key: 'dealer_name',
-    GetCellContent: (dealer: IDealer) => dealer.dealer_name,
   },
   {
+    accessorKey: 'dealer_area',
     header: 'Area',
-    key: 'dealer_area',
-    GetCellContent: (dealer: IDealer) => dealer.dealer_area,
   },
   {
+    accessorKey: 'dealer_type',
     header: 'Type',
-    key: 'dealer_type',
-    GetCellContent: (dealer: IDealer) => dealer.dealer_type,
   },
   {
-    header: 'Action',
-    GetCellContent: (dealer: IDealer) => {
+    id: 'action',
+    header: () => <div className="text-right">Actions</div>,
+    cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
       const { setActionDialog } = useActionDialog<IDealer>();
 
       const handleEdit = () => {
-        setActionDialog({ edit: true, data: dealer });
+        setActionDialog({ edit: true, data: row.original });
       };
 
       return (
-        <div className="flex gap-x-4">
+        <div className="flex justify-end gap-x-4">
           <Button variant="outline" size="sm" onClick={handleEdit}>
             <Pencil />
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setDeleteDialog({ open: true, id: dealer.id })}
+            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
           >
             <Trash />
           </Button>

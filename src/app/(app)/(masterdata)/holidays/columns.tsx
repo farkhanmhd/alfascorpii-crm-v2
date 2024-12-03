@@ -2,47 +2,70 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { Button } from '@/components/ui/button';
-import { IHolidays, Column } from '@/types';
 import { Pencil, Trash } from 'lucide-react';
+import { ColumnDef } from '@tanstack/react-table';
+import { IHolidays } from '@/types';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useDeleteDialog, useActionDialog, useSelectedDate } from '@/hooks';
 
-const columns: Column<IHolidays>[] = [
+const columns: ColumnDef<IHolidays>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     header: 'Hari Besar',
-    key: 'holiday_name',
-    GetCellContent: (item) => item.holiday_name,
+    accessorKey: 'holiday_name',
   },
   {
     header: 'Tanggal',
-    key: 'holiday_date',
-    GetCellContent: (item) => item.holiday_date,
+    accessorKey: 'holiday_date',
   },
-  { header: 'Ucapan', key: 'message', GetCellContent: (item) => item.message },
+  { header: 'Ucapan', accessorKey: 'message' },
   {
+    accessorKey: 'status',
     header: 'Status',
-    key: 'status',
-    GetCellContent: (hari: IHolidays) => (
+    cell: ({ row }) => (
       <span
         className={clsx({
-          'text-green-500': hari.status === 'SHOW',
-          'text-red-500': hari.status === 'HIDE',
+          'text-green-500': row.getValue('status') === 'SHOW',
+          'text-red-500': row.getValue('status') === 'HIDE',
         })}
       >
-        {hari.status}
+        {row.getValue('status')}
       </span>
     ),
   },
   {
     header: 'Action',
-    GetCellContent: (item: IHolidays) => {
+    cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
       const { setActionDialog } = useActionDialog<IHolidays>();
       const { setSelectedDate } = useSelectedDate();
 
       const handleEdit = () => {
-        setActionDialog({ edit: true, data: item });
-        setSelectedDate(new Date(item.holiday_date).toString());
+        setActionDialog({ edit: true, data: row.original });
+        setSelectedDate(new Date(row.original.holiday_date).toString());
       };
 
       return (
@@ -59,7 +82,7 @@ const columns: Column<IHolidays>[] = [
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setDeleteDialog({ open: true, id: item.id })}
+            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
           >
             <Trash />
           </Button>

@@ -10,6 +10,7 @@ type SessionPayload = {
   name: string;
   username: string;
   status: string;
+  avatar: string;
   expiresAt: Date;
 };
 
@@ -64,7 +65,8 @@ export const createSession = async (
   userId: string,
   name: string,
   username: string,
-  status: string
+  status: string,
+  avatar: string
 ) => {
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
   const session = await encryptSession({
@@ -73,6 +75,7 @@ export const createSession = async (
     username,
     status,
     expiresAt,
+    avatar: '/avatars/shadcn.jpg',
   });
 
   const cookieStore = await cookies();

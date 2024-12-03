@@ -10,6 +10,7 @@ import {
   Users,
   Phone,
   Bike,
+  LayoutDashboard,
 } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
@@ -50,6 +51,12 @@ export const sidebarData = {
     },
   ],
   navMain: [
+    {
+      title: 'Dashboard',
+      url: '/',
+      icon: LayoutDashboard,
+      isParent: false,
+    },
     {
       title: 'Master Data',
       url: '#',
@@ -106,6 +113,10 @@ export const sidebarData = {
       icon: Phone,
       isParent: true,
       items: [
+        {
+          title: 'List Follow Up',
+          url: '/follow-up',
+        },
         {
           title: 'Methods',
           url: '/fumethod',

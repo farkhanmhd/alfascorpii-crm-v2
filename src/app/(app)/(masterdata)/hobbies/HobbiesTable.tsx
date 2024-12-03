@@ -1,8 +1,7 @@
 import React from 'react';
-import DataTable from '@/components/fragments/table/DataTable';
-import columns from './columns';
 import { fetchHobi } from '@/app/lib/data/hobbies';
-import DataTablePagination from '@/components/fragments/table/pagination';
+import { DataTable } from '@/components/fragments/table/DataTable';
+import columns from './columns';
 
 interface SearchParamsProps {
   search?: string;
@@ -21,12 +20,17 @@ const HobbiesTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { hobbies, last_page: totalPages } = data;
+  const { hobbies, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable columns={columns} data={hobbies} includeIndex />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={hobbies}
+      totalPages={totalPages}
+      rows={total}
+      addLabel="Tambah Hobi"
+      searchPlaceholder="Cari Hobi"
+      currentPage={Number(page)}
+    />
   );
 };
 

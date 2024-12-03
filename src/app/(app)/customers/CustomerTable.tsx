@@ -1,26 +1,36 @@
 import React from 'react';
-import DataTable from '@/components/fragments/table/DataTable';
-import { getCustomers } from '@/app/lib/data/customers';
-import DataTablePagination from '@/components/fragments/table/pagination';
-import columns from './columns';
+import { DataTable } from '@/components/fragments/table/DataTable';
+import { fetchCustomer } from '@/app/lib/data/customers';
+import { columns } from './columns';
+
+export interface FlatCustomer {
+  id: string;
+  name: string;
+  district: string;
+  city: string;
+  address: string;
+  phoneNumber: string;
+  dealerCode: string;
+  dealerName: string;
+}
 
 const CustomerTable = async () => {
-  const data = await getCustomers();
-
-  if (!data) {
-    return (
-      <div className="flex h-full flex-1 flex-col items-center justify-center">
-        Failed to fetch data
-      </div>
-    );
-  }
-
-  const customers = data.sort((a, b) => a.id - b.id);
+  const {
+    customers,
+    last_page: totalPages,
+    current_page: currentPage,
+    total,
+  } = await fetchCustomer();
   return (
-    <>
-      <DataTable columns={columns} data={customers} includeIndex />
-      <DataTablePagination currentPage={1} totalPages={5} />
-    </>
+    <DataTable
+      columns={columns}
+      data={customers}
+      totalPages={totalPages}
+      currentPage={currentPage}
+      rows={total}
+      addLabel="Import Customer"
+      searchPlaceholder="Cari Customer"
+    />
   );
 };
 

@@ -1,8 +1,7 @@
 import React from 'react';
-import DataTable from '@/components/fragments/table/DataTable';
-import columns from './columns';
 import { fetchHouseOwnerships } from '@/app/lib/data/houseownerships';
-import DataTablePagination from '@/components/fragments/table/pagination';
+import { DataTable } from '@/components/fragments/table/DataTable';
+import columns from './columns';
 
 interface SearchParamsProps {
   search?: string;
@@ -25,12 +24,17 @@ const HouseOwnershipTable = async ({
     );
   }
 
-  const { houseownerships, last_page: totalPages } = data;
+  const { houseownerships, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable columns={columns} data={houseownerships} includeIndex />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={houseownerships}
+      addLabel="Add House Ownership"
+      totalPages={totalPages}
+      currentPage={Number(page)}
+      rows={total}
+      searchPlaceholder="Search House Ownership"
+    />
   );
 };
 

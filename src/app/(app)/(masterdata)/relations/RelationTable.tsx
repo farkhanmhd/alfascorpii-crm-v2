@@ -1,7 +1,6 @@
 import React from 'react';
-import DataTable from '@/components/fragments/table/DataTable';
 import { fetchRelation } from '@/app/lib/data/relations';
-import DataTablePagination from '@/components/fragments/table/pagination';
+import { DataTable } from '@/components/fragments/table/DataTable';
 import columns from './columns';
 
 interface SearchParamsProps {
@@ -21,12 +20,17 @@ const RelationTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { relations, last_page: totalPages } = data;
+  const { relations, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable columns={columns} data={relations} includeIndex />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={relations}
+      addLabel="Tambah Hubungan"
+      currentPage={Number(page)}
+      totalPages={totalPages}
+      rows={total}
+      searchPlaceholder="Cari Hubungan"
+    />
   );
 };
 
