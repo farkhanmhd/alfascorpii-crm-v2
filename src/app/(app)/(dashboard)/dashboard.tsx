@@ -18,14 +18,16 @@ const Dashboard = () => {
     <ScrollArea className="h-full max-h-[calc(100dvh-48px)] overflow-hidden pb-6">
       <div className="grid grid-rows-[auto_1fr] gap-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            Dashboard
+          </h2>
           <div className="flex items-center space-x-2">
             <DatePickerWithRange />
-            <Button>Download</Button>
+            <Button className="hidden sm:block">Download</Button>
           </div>
         </div>
         <Tabs defaultValue="overview" className="flex flex-col gap-y-4">
-          <TabsList className="self-start">
+          {/* <TabsList className="self-start">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics" disabled>
               Analytics
@@ -36,7 +38,7 @@ const Dashboard = () => {
             <TabsTrigger value="notifications" disabled>
               Notifications
             </TabsTrigger>
-          </TabsList>
+          </TabsList> */}
           <TabsContent
             value="overview"
             className="grid h-full grid-rows-[auto_1fr] gap-y-4"

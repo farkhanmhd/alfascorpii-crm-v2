@@ -58,10 +58,17 @@ export const fetchSearch = async ({
   });
 
   if (!res.ok) {
-    notFound();
+    throw new Error(
+      `Internal Server Error : ${res.status} - ${res.statusText}`
+    );
   }
 
   const { data } = await res.json();
+
+  if (!data) {
+    notFound();
+  }
+
   return data;
 };
 
@@ -99,10 +106,17 @@ export const fetchData = async ({
   });
 
   if (!res.ok) {
-    notFound();
+    throw new Error(
+      `Internal Server Error : ${res.status} - ${res.statusText}`
+    );
   }
 
   const { data } = await res.json();
+
+  if (!data) {
+    notFound();
+  }
+
   return data;
 };
 

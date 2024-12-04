@@ -11,11 +11,13 @@ const RecentSales = () => {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">Olivia Martin</p>
-          <p className="text-sm text-muted-foreground">
+          <p className="hidden text-sm text-muted-foreground sm:block">
             olivia.martin@email.com
           </p>
         </div>
-        <div className="ml-auto font-medium">+$1,999.00</div>
+        <div className="ml-auto text-sm font-medium sm:text-base">
+          +$1,999.00
+        </div>
       </div>
       <div className="flex items-center">
         <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border">
@@ -24,9 +26,11 @@ const RecentSales = () => {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">Jackson Lee</p>
-          <p className="text-sm text-muted-foreground">jackson.lee@email.com</p>
+          <p className="hidden text-sm text-muted-foreground sm:block">
+            jackson.lee@email.com
+          </p>
         </div>
-        <div className="ml-auto font-medium">+$39.00</div>
+        <div className="ml-auto text-sm font-medium sm:text-base">+$39.00</div>
       </div>
       <div className="flex items-center">
         <Avatar className="h-9 w-9">
@@ -35,11 +39,11 @@ const RecentSales = () => {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">Isabella Nguyen</p>
-          <p className="text-sm text-muted-foreground">
+          <p className="hidden text-sm text-muted-foreground sm:block">
             isabella.nguyen@email.com
           </p>
         </div>
-        <div className="ml-auto font-medium">+$299.00</div>
+        <div className="ml-auto text-sm font-medium sm:text-base">+$299.00</div>
       </div>
       <div className="flex items-center">
         <Avatar className="h-9 w-9">
@@ -48,9 +52,11 @@ const RecentSales = () => {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">William Kim</p>
-          <p className="text-sm text-muted-foreground">will@email.com</p>
+          <p className="hidden text-sm text-muted-foreground sm:block">
+            will@email.com
+          </p>
         </div>
-        <div className="ml-auto font-medium">+$99.00</div>
+        <div className="ml-auto text-sm font-medium sm:text-base">+$99.00</div>
       </div>
       <div className="flex items-center">
         <Avatar className="h-9 w-9">
@@ -59,9 +65,11 @@ const RecentSales = () => {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">Sofia Davis</p>
-          <p className="text-sm text-muted-foreground">sofia.davis@email.com</p>
+          <p className="hidden text-sm text-muted-foreground sm:block">
+            sofia.davis@email.com
+          </p>
         </div>
-        <div className="ml-auto font-medium">+$39.00</div>
+        <div className="ml-auto text-sm font-medium sm:text-base">+$39.00</div>
       </div>
     </div>
   );

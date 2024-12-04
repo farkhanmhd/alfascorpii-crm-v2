@@ -14,14 +14,6 @@ pnpm install
 bun install
 ```
 
-Generate auth secret key using the following command:
-
-```bash
-npx auth secret
-#or
-bun auth secret
-```
-
 ## Run the development server
 
 ```bash
