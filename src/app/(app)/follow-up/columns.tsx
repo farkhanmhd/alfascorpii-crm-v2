@@ -45,10 +45,6 @@ export const columns: ColumnDef<ICustomer>[] = [
     header: 'Dealer Code',
   },
   {
-    accessorKey: 'dealer_name',
-    header: 'Dealer Name',
-  },
-  {
     accessorKey: 'customer_name',
     header: 'Name',
   },
@@ -57,7 +53,7 @@ export const columns: ColumnDef<ICustomer>[] = [
     header: 'District',
   },
   {
-    accessorKey: 'address',
+    accessorKey: 'customer_address',
     header: 'Address',
   },
   {

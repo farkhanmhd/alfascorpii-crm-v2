@@ -1,4 +1,4 @@
-import { fetchWithParams, fetchData } from '../fetchUtils';
+import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchExpenses = (
   search?: string,
@@ -48,8 +48,7 @@ export const putExpense = (
 };
 
 export const deleteExpense = (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `expenses/${id}`,
-    method: 'DELETE',
   });
 };

@@ -47,7 +47,7 @@ export const fetchSearch = async ({
   const accessToken = await getAccessToken();
 
   const res = await fetch(fetchUrl, {
-    cache: 'force-cache',
+    // cache: 'force-cache',
     method,
     headers: {
       Accept: 'application/json',
@@ -93,7 +93,6 @@ export const fetchData = async ({
 }: FetchData) => {
   const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
   const accessToken = await getAccessToken();
-
   const res = await fetch(fetchUrl, {
     cache,
     method,
@@ -116,6 +115,29 @@ export const fetchData = async ({
   if (!data) {
     notFound();
   }
+
+  return data;
+};
+
+export const deleteData = async ({ endpoint }: FetchData) => {
+  const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
+  const accessToken = await getAccessToken();
+  const res = await fetch(fetchUrl, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(
+      `Internal Server Error : ${res.status} - ${res.statusText}`
+    );
+  }
+
+  const { data } = await res.json();
 
   return data;
 };

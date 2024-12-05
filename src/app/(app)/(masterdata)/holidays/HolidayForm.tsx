@@ -54,7 +54,7 @@ const HolidayForm: React.FC<HolidayFormProps> = ({
         onChange={(e) => setMessage(e.target.value)}
         error={getErrorMessages(validationErrors.message)}
       />
-      <DatePicker />
+      <DatePicker id="date" />
       <StatusRadio statusValue={status} onValueChange={handleStatusChange} />
       <SubmitButton disabled={isPending}>Submit</SubmitButton>
     </form>

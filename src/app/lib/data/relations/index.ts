@@ -1,4 +1,4 @@
-import { fetchWithParams, fetchData } from '../fetchUtils';
+import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchRelation = (
   search?: string,
@@ -26,7 +26,7 @@ export const putRelation = (id: number, relation: string, status: string) => {
 };
 
 export const deleteRelation = (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `relations/${id}`,
     method: 'DELETE',
   });

@@ -10,7 +10,10 @@ const CustomTabs: React.FC<{ tabData: TabData<React.ReactNode>[] }> = ({
   tabData,
 }) => {
   return (
-    <Tabs defaultValue="overview" className="w-full">
+    <Tabs
+      defaultValue="overview"
+      className="hide-scrollbar h-full w-full overflow-auto"
+    >
       <TabsList className="sticky top-0 z-10 h-9 w-full justify-start rounded-none border-b bg-background p-0">
         {tabData.map((tab) => (
           <TabsTrigger
@@ -28,7 +31,7 @@ const CustomTabs: React.FC<{ tabData: TabData<React.ReactNode>[] }> = ({
         <TabsContent
           key={tab.value}
           value={tab.value}
-          className="rounded-md p-4"
+          className="hide-scrollbar mt-0 h-[calc(100%-36px)] overflow-auto rounded-md p-0"
         >
           {tab.content}
         </TabsContent>

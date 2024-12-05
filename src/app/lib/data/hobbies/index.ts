@@ -1,4 +1,4 @@
-import { fetchWithParams, fetchData } from '../fetchUtils';
+import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchHobi = (search?: string, page?: string, per_page?: string) =>
   fetchWithParams('hobbies', search, page, per_page);
@@ -24,8 +24,7 @@ export const putHobby = (
 };
 
 export const deleteHobby = (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `hobbies/${id}`,
-    method: 'DELETE',
   });
 };

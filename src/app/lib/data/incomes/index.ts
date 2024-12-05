@@ -1,4 +1,4 @@
-import { fetchWithParams, fetchData } from '../fetchUtils';
+import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchincome = (
   search?: string,
@@ -48,8 +48,7 @@ export const putIncome = (
 };
 
 export const deleteIncome = (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `incomes/${id}`,
-    method: 'DELETE',
   });
 };

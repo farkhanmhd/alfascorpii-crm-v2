@@ -1,4 +1,4 @@
-import { fetchWithParams, fetchData } from '../fetchUtils';
+import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchCustomerJobs = (
   search?: string,
@@ -30,8 +30,7 @@ export const putPekerjaan = async (
 };
 
 export const deletePekerjaan = async (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `customerjobs/${id}`,
-    method: 'DELETE',
   });
 };

@@ -1,4 +1,8 @@
-import { fetchWithParams, fetchData } from '@/app/lib/data/fetchUtils';
+import {
+  fetchWithParams,
+  fetchData,
+  deleteData,
+} from '@/app/lib/data/fetchUtils';
 
 export const fetchDetailFU = (
   search?: string,
@@ -37,8 +41,7 @@ export const putDetailFu = (
 };
 
 export const deleteDetailFu = (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `detailfu/${id}`,
-    method: 'DELETE',
   });
 };

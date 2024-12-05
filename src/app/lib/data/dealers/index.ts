@@ -1,4 +1,8 @@
-import { fetchWithParams, fetchData } from '@/app/lib/data/fetchUtils';
+import {
+  fetchWithParams,
+  fetchData,
+  deleteData,
+} from '@/app/lib/data/fetchUtils';
 
 export const fetchDealer = async (
   search?: string,
@@ -44,8 +48,7 @@ export const putDealer = (
 };
 
 export const deleteDealer = (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `dealers/${id}`,
-    method: 'DELETE',
   });
 };

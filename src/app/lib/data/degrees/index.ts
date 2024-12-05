@@ -1,4 +1,4 @@
-import { fetchWithParams, fetchData } from '../fetchUtils';
+import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchDegree = (
   search?: string,
@@ -32,8 +32,7 @@ export const putDegree = async (
 };
 
 export const deleteDegree = async (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `degrees/${id}`,
-    method: 'DELETE',
   });
 };

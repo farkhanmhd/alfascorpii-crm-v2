@@ -104,7 +104,7 @@ const DealsForm = () => {
             <FormItem>
               <FormLabel className="mb-2 block">Purchase Date</FormLabel>
               <FormControl>
-                <DatePicker />
+                <DatePicker id="date" />
               </FormControl>
             </FormItem>
           )}

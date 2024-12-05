@@ -1,4 +1,4 @@
-import { fetchWithParams, fetchData } from '../fetchUtils';
+import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchLeasing = (
   search?: string,
@@ -23,8 +23,7 @@ export const updateLeasing = (id: number, leasing: string) => {
 };
 
 export const removeLeasing = (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `leasing/${id}`,
-    method: 'DELETE',
   });
 };

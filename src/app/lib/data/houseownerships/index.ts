@@ -1,4 +1,4 @@
-import { fetchWithParams, fetchData } from '../fetchUtils';
+import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchHouseOwnerships = (
   search?: string,
@@ -30,8 +30,7 @@ export const putHouseOwnership = (
 };
 
 export const deleteHouseOwnership = (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `houseownerships/${id}`,
-    method: 'DELETE',
   });
 };

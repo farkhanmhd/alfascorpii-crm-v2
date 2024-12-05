@@ -1,4 +1,4 @@
-import { fetchWithParams, fetchData } from '../fetchUtils';
+import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchFuMethod = (
   search?: string,
@@ -30,8 +30,7 @@ export const putFuMethod = (
 };
 
 export const deleteFuMethod = (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `fumethod/${id}`,
-    method: 'DELETE',
   });
 };

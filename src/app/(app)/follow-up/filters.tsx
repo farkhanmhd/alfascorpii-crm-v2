@@ -243,7 +243,7 @@ const CustomerFilter = () => {
               onSelect={(value) => handleSelectChange('dateOptions', value)}
             />
             {customerFilters.dateOptions === 'date-of-birth' ? (
-              <DatePicker />
+              <DatePicker id="date" />
             ) : (
               customerFilters.dateOptions && <DatePickerWithRange />
             )}

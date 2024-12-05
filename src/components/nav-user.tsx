@@ -68,7 +68,8 @@ export const NavUser = ({
                   alt={user?.name as string}
                 />
                 <AvatarFallback className="rounded-lg">
-                  {(user?.name as string).slice(0, 2).toUpperCase()}
+                  {/* {(user?.name as string).slice(0, 2).toUpperCase()} */}
+                  AD
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">

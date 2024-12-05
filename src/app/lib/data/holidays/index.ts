@@ -1,4 +1,4 @@
-import { fetchWithParams, fetchData } from '../fetchUtils';
+import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchHoliday = (
   search?: string,
@@ -34,8 +34,7 @@ export const putHoliday = (
 };
 
 export const deleteHoliday = (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `holidays/${id}`,
-    method: 'DELETE',
   });
 };

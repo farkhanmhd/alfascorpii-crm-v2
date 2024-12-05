@@ -1,4 +1,8 @@
-import { fetchWithParams, fetchData } from '@/app/lib/data/fetchUtils';
+import {
+  fetchWithParams,
+  fetchData,
+  deleteData,
+} from '@/app/lib/data/fetchUtils';
 
 export const fetchProductPreferences = (
   search?: string,
@@ -26,7 +30,7 @@ export const putProductPreferences = async (
 };
 
 export const deleteProductPreferences = async (id: number) => {
-  return fetchData({
+  return deleteData({
     endpoint: `productpreferences/${id}`,
     method: 'DELETE',
   });
