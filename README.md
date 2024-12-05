@@ -14,6 +14,16 @@ pnpm install
 bun install
 ```
 
+## Update the environment variables
+
+First, rename the `.env.example` file to `.env.local` and update the environment variables values.
+
+Generate Auth Secret Key with the following command on bun or node repl with:
+
+```bash
+require('crypto').randomBytes(32).toString('hex');
+```
+
 ## Run the development server
 
 ```bash
@@ -24,6 +34,30 @@ yarn dev
 pnpm dev
 # or
 bun dev
+```
+
+## Build the app with
+
+```bash
+npm run build
+# or
+yarn build
+# or
+pnpm build
+# or
+bun build
+```
+
+## Run the Production Build
+
+```bash
+npm run start
+# or
+yarn start
+# or
+pnpm start
+# or
+bun start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
