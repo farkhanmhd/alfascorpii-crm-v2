@@ -3,7 +3,7 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import { ChevronRight } from 'lucide-react';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 
 const Breadcrumbs = () => {
   const pathname = usePathname();

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { useSidebarDesktop } from '@/hooks';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs';

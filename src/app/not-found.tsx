@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'next-view-transitions';
-import Image from 'next/image';
+import Link from 'next/link';
 import clsx from 'clsx';
 import { buttonVariants } from '@/components/ui/button';
 

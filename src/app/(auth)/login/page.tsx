@@ -3,14 +3,14 @@
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useAction } from 'next-safe-action/hooks';
-import { useTransitionRouter } from 'next-view-transitions';
+import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { loginAction } from '@/app/lib/actions/auth';
 import { UserAuthForm } from './UserAuthForm';
 
 const LoginPage = () => {
   const { toast } = useToast();
-  const { push } = useTransitionRouter();
+  const { push } = useRouter();
 
   const { execute, result, isPending } = useAction((formData) => {
     const data = {

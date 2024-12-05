@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-// import { Link } from 'next-view-transitions';
+// import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

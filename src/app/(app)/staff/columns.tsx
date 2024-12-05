@@ -2,7 +2,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { IStaff, Column } from '@/types';
 
 const columns: Column<IStaff>[] = [

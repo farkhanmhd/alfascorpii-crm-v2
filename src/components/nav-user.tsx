@@ -11,7 +11,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-import { useTransitionRouter } from 'next-view-transitions';
+import { useRouter } from 'next/navigation';
 
 import { logout } from '@/app/lib/actions/auth';
 
@@ -47,7 +47,7 @@ export const NavUser = ({
     | null;
 }) => {
   const { isMobile } = useSidebar();
-  const { push } = useTransitionRouter();
+  const { push } = useRouter();
   const handleLogout = async () => {
     await logout();
     localStorage.setItem('userLogout', 'true');

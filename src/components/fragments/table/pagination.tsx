@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useTransitionRouter } from 'next-view-transitions';
+import { useRouter } from 'next/navigation';
 import {
   ChevronLeft,
   ChevronRight,
@@ -46,7 +46,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
 }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { replace, push } = useTransitionRouter();
+  const { replace, push } = useRouter();
   const params = new URLSearchParams(searchParams);
   const initialPerPage = params.get('per_page') || '50';
   const [perPage, setperPage] = useState(initialPerPage);

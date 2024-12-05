@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { useSearchParams, usePathname } from 'next/navigation';
-import { useTransitionRouter } from 'next-view-transitions';
+import { useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 import { Input } from '@/components/ui/input';
 
 const Tablesearch = ({ placeholder }: { placeholder: string }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { replace } = useTransitionRouter();
+  const { replace } = useRouter();
 
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);

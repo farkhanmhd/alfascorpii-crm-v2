@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { useSidebarDesktop } from '@/hooks';
 import useClickOutside from '@/hooks/useClickOutside';
 import { LogOut } from 'lucide-react';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 // import { signOut } from 'next-auth/react';
 import SideNavLinks from './SideNavLinks';
 import { Logo } from '../navigation/Logo';

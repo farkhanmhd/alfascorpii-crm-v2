@@ -47,7 +47,7 @@ export const fetchSearch = async ({
   const accessToken = await getAccessToken();
 
   const res = await fetch(fetchUrl, {
-    // cache: 'force-cache',
+    cache: 'force-cache',
     method,
     headers: {
       Accept: 'application/json',
