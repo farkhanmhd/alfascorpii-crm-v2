@@ -65,12 +65,12 @@ const columns: ColumnDef<IExpense>[] = [
   },
   {
     id: 'actions',
-    header: 'Actions',
+    header: () => <div className="text-right">Actions</div>,
     cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
       const { setActionDialog } = useActionDialog<IExpense>();
       return (
-        <div className="flex gap-x-4">
+        <div className="flex justify-end gap-x-4">
           <Button
             variant="outline"
             size="sm"
