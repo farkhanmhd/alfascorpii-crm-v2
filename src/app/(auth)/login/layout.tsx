@@ -13,7 +13,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="h-[100dvh] w-screen">
       <div className="relative grid h-full w-full flex-col items-center justify-center lg:grid-cols-2 lg:px-0">
         <div className="relative hidden h-full flex-col p-10 text-white lg:flex">
-          <Image src="/images/login-bg.jpg" alt="login-bg" fill />
+          <Image src="/images/login-bg.webp" alt="login-bg" fill />
           <div className="relative z-20 flex w-max items-center gap-x-4 text-lg font-medium">
             <LogoIcon />
             Alfa Scorpii
