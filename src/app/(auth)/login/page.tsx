@@ -54,7 +54,7 @@ const LoginPage = () => {
         description: result.data.message,
         duration: 3000,
       });
-      push(redirectUrl);
+      push('/');
     } else if (result?.data?.status === 'error') {
       toast({
         title: 'Error',
@@ -63,7 +63,7 @@ const LoginPage = () => {
         duration: 3000,
       });
     }
-  }, [result, toast, push, redirectUrl]);
+  }, [result, toast, push]);
   return (
     <UserAuthForm
       action={execute}

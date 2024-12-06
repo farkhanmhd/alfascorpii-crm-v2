@@ -45,7 +45,7 @@ export const storeToken = async (token: string): Promise<void> => {
     httpOnly: true,
     secure: true,
     expires,
-    sameSite: 'lax',
+    sameSite: 'none',
     path: '/',
   });
 };
@@ -83,7 +83,7 @@ export const createSession = async (
     httpOnly: true,
     secure: true,
     expires: expiresAt,
-    sameSite: 'lax',
+    sameSite: 'none',
     path: '/',
   });
 };
