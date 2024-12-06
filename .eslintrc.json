@@ -1,69 +1,69 @@
-// {
-//   "extends": [
-//     "next/core-web-vitals",
-//     "airbnb",
-//     "airbnb-typescript",
-//     "prettier"
-//   ],
-//   "parserOptions": {
-//     "project": "./tsconfig.json"
-//   },
-//   "rules": {
-//     "react/jsx-props-no-spreading": 0,
-//     "react/require-default-props": 0,
-//     "react/react-in-jsx-scope": 1,
-//     "react/destructuring-assignment": 0,
-//     "no-underscore-dangle": "off",
-//     "react/no-array-index-key": 0,
-//     "react-hooks/rules-of-hooks": 0,
-//     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-//     "arrow-body-style": 0,
-//     "prefer-arrow-callback": 1,
-//     "no-nested-ternary": "off",
-//     "react/function-component-definition": [
-//       2,
-//       {
-//         "namedComponents": "arrow-function",
-//         "unnamedComponents": "arrow-function"
-//       }
-//     ],
-//     "no-warning-comments": [
-//       "warn",
-//       {
-//         "terms": ["todo", "fixme", "xxx", "note"],
-//         "location": "start"
-//       }
-//     ],
-//     "import/prefer-default-export": "off"
-//   },
-//   "overrides": [
-//     {
-//       "files": ["src/components/ui/**/*.tsx"],
-//       "rules": {
-//         "react/prop-types": "off",
-//         "react/no-unknown-property": "off",
-//         "@typescript-eslint/no-use-before-define": "off",
-//         "jsx-a11y/anchor-has-content": "off",
-//         "jsx-a11y/heading-has-content": "off"
-//       }
-//     },
-//     {
-//       "files": ["prisma/*.ts", "src/app/api/**/*.ts", "src/app/lib/data.ts"],
-//       "rules": {
-//         "no-console": "off"
-//       }
-//     },
-//     {
-//       "files": ["src/app/lib/actions.ts"],
-//       "rules": {
-//         "consistent-return": "off"
-//       }
-//     },
-//     {
-//       "files": ["src/auth.ts"],
-//       "rules": {
-//         "no-param-reassign": "off"
-//       }
-//     }
-//   ]
-// }
+{
+  "extends": [
+    "next/core-web-vitals",
+    "airbnb",
+    "airbnb-typescript",
+    "prettier"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "react/jsx-props-no-spreading": 0,
+    "react/require-default-props": 0,
+    "react/react-in-jsx-scope": 1,
+    "react/destructuring-assignment": 0,
+    "no-underscore-dangle": "off",
+    "react/no-array-index-key": 0,
+    "react-hooks/rules-of-hooks": 0,
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "arrow-body-style": 0,
+    "prefer-arrow-callback": 1,
+    "no-nested-ternary": "off",
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "no-warning-comments": [
+      "warn",
+      {
+        "terms": ["todo", "fixme", "xxx", "note"],
+        "location": "start"
+      }
+    ],
+    "import/prefer-default-export": "off"
+  },
+  "overrides": [
+    {
+      "files": ["src/components/ui/**/*.tsx"],
+      "rules": {
+        "react/prop-types": "off",
+        "react/no-unknown-property": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "jsx-a11y/anchor-has-content": "off",
+        "jsx-a11y/heading-has-content": "off"
+      }
+    },
+    {
+      "files": ["prisma/*.ts", "src/app/api/**/*.ts", "src/app/lib/data.ts"],
+      "rules": {
+        "no-console": "off"
+      }
+    },
+    {
+      "files": ["src/app/lib/actions.ts"],
+      "rules": {
+        "consistent-return": "off"
+      }
+    },
+    {
+      "files": ["src/auth.ts"],
+      "rules": {
+        "no-param-reassign": "off"
+      }
+    }
+  ]
+}
