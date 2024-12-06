@@ -43,9 +43,7 @@ export const storeToken = async (token: string): Promise<void> => {
   const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
   cookieStore.set('at', encryptedToken, {
     httpOnly: true,
-    secure: true,
     expires,
-    sameSite: 'none',
     path: '/',
   });
 };
@@ -81,9 +79,7 @@ export const createSession = async (
   const cookieStore = await cookies();
   cookieStore.set('sd', session, {
     httpOnly: true,
-    secure: true,
     expires: expiresAt,
-    sameSite: 'none',
     path: '/',
   });
 };
