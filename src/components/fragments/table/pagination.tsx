@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import {
   ChevronLeft,
   ChevronRight,

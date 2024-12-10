@@ -1,4 +1,4 @@
-import { fetchWithParams, fetchData } from '../fetchUtils';
+import { fetchWithParams } from '../fetchUtils';
 
 export const getFollowUps = async (
   search?: string,

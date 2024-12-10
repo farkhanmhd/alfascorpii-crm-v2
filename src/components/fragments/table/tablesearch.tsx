@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useSearchParams, usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 import { Input } from '@/components/ui/input';
 

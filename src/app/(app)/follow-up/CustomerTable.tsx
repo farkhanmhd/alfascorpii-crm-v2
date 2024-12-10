@@ -2,14 +2,13 @@ import React from 'react';
 import CustomTabs from '@/components/fragments/tabs/customtab';
 import { DataTable } from '@/components/fragments/table/DataTable';
 import { getFollowUps } from '@/app/lib/data/follow-up';
-import { SearchParamsProps } from '@/types';
+import { SearchParamsProps, TabData } from '@/types';
 import { columns } from './columns';
-import { TabData } from '@/types';
 
 const CustomerTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const {
     followupqueue,
-    duplicated_data,
+    duplicated_data: duplicatedData,
     last_page: totalPages,
     current_page: currentPage,
     total,
@@ -36,7 +35,7 @@ const CustomerTable = async ({ search, page, perPage }: SearchParamsProps) => {
       content: (
         <DataTable
           columns={columns}
-          data={duplicated_data}
+          data={duplicatedData}
           totalPages={totalPages}
           currentPage={currentPage}
           rows={total}

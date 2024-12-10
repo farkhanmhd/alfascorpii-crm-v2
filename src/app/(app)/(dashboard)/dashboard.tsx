@@ -7,7 +7,12 @@ import {
   CardDescription,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import {
+  Tabs,
+  // TabsList,
+  // TabsTrigger,
+  TabsContent,
+} from '@/components/ui/tabs';
 import DatePickerWithRange from '@/components/fragments/form/DatePickerWithRange';
 import { ScrollArea } from '@/components/ui/scrollarea';
 import RecentSales from './recent-sales';

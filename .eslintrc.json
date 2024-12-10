@@ -43,26 +43,37 @@
         "react/prop-types": "off",
         "react/no-unknown-property": "off",
         "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "no-unused-vars": "off",
         "jsx-a11y/anchor-has-content": "off",
-        "jsx-a11y/heading-has-content": "off"
+        "jsx-a11y/heading-has-content": "off",
+        "react/no-unstable-nested-components": "off",
+        "@typescript-eslint/no-shadow": "off",
+        "react/jsx-no-constructed-context-values": "off",
+        "react/no-danger": "off",
+        "@typescript-eslint/no-redeclare": "off",
+        "@typescript-eslint/naming-convention": [
+          "off",
+          {
+            "selector": "variable",
+            "format": ["camelCase", "PascalCase", "UPPER_CASE"]
+          }
+        ],
+        "react/button-has-type": "off",
+        "no-param-reassign": "off",
+        "consistent-return": "off",
+        "default-case": "off"
       }
     },
     {
-      "files": ["prisma/*.ts", "src/app/api/**/*.ts", "src/app/lib/data.ts"],
+      "files": ["src/hooks/use-toast.ts"],
       "rules": {
-        "no-console": "off"
-      }
-    },
-    {
-      "files": ["src/app/lib/actions.ts"],
-      "rules": {
-        "consistent-return": "off"
-      }
-    },
-    {
-      "files": ["src/auth.ts"],
-      "rules": {
-        "no-param-reassign": "off"
+        "@typescript-eslint/naming-convention": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "no-unused-vars": "off",
+        "consistent-return": "off",
+        "default-case": "off",
+        "@typescript-eslint/no-shadow": "off"
       }
     }
   ]

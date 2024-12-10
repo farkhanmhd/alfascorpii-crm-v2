@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { Separator } from '@/components/ui/separator';
+import TabSkeleton from '@/components/fragments/tabs/TabSkeleton';
 import ProfileTab from './profile-tab';
 
 type Params = Promise<{ id: string }>;
@@ -16,7 +17,9 @@ const CustomerPage = async ({ params }: { params: Params }) => {
         </p>
       </div>
       <Separator />
-      <ProfileTab id={id} />
+      <Suspense fallback={<TabSkeleton />}>
+        <ProfileTab id={id} />
+      </Suspense>
     </div>
   );
 };
