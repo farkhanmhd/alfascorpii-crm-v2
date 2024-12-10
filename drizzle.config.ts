@@ -1,13 +1,13 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { defineConfig } from 'drizzle-kit';
-import dotenv from 'dotenv';
+import { config } from 'dotenv';
 
-dotenv.config({
+config({
   path: '.env.local',
 });
 
 export default defineConfig({
-  out: './drizzle',
+  out: './src/db/drizzle',
   schema: './src/db/schema.ts',
   dialect: 'mysql',
   dbCredentials: {

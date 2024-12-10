@@ -4,15 +4,7 @@ import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { ncrypt as Ncrypt } from 'ncrypt-js';
-
-type SessionPayload = {
-  userId: string | number;
-  name: string;
-  username: string;
-  status: string;
-  avatar: string;
-  expiresAt: Date;
-};
+import type { SessionPayload } from '../../data/auth';
 
 const secretKey = process.env.AUTH_SECRET;
 const key = new TextEncoder().encode(secretKey);
@@ -37,10 +29,10 @@ export const decryptToken = async (encryptedToken: string): Promise<string> => {
   return decryptedToken as string;
 };
 
-export const storeToken = async (token: string): Promise<void> => {
+export const storeAccessToken = async (token: string): Promise<void> => {
   const encryptedToken = await encryptToken(token);
   const cookieStore = await cookies();
-  const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const expires = new Date(Date.now() + 15 * 60 * 1000);
   cookieStore.set('at', encryptedToken, {
     httpOnly: true,
     secure: true,
@@ -48,6 +40,30 @@ export const storeToken = async (token: string): Promise<void> => {
     sameSite: 'lax',
     path: '/',
   });
+};
+
+export const storeRefreshToken = async (token: string): Promise<void> => {
+  const encryptedToken = await encryptToken(token);
+  const cookieStore = await cookies();
+  const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  cookieStore.set('rt', encryptedToken, {
+    httpOnly: true,
+    secure: true,
+    expires,
+    sameSite: 'lax',
+    path: '/',
+  });
+};
+
+export const verifyAccessToken = async (
+  accessToken: string
+): Promise<boolean> => {
+  try {
+    await jwtVerify(accessToken, key, { algorithms: ['HS256'] });
+    return true;
+  } catch (error) {
+    return false;
+  }
 };
 
 export const decryptSession = async (session: string | undefined = '') => {
@@ -61,21 +77,25 @@ export const decryptSession = async (session: string | undefined = '') => {
   }
 };
 
-export const createSession = async (
-  userId: string,
-  name: string,
-  username: string,
-  status: string,
-  avatar: string
-) => {
+export const createSession = async ({
+  id,
+  name,
+  username,
+  nip,
+  role,
+  status,
+  avatar,
+}: SessionPayload): Promise<string> => {
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
   const session = await encryptSession({
-    userId,
+    id,
     name,
     username,
+    nip,
+    role,
     status,
-    expiresAt,
     avatar,
+    expiresAt,
   });
 
   const cookieStore = await cookies();
@@ -86,6 +106,8 @@ export const createSession = async (
     sameSite: 'lax',
     path: '/',
   });
+
+  return session;
 };
 
 export const verifySession = async () => {
@@ -108,24 +130,24 @@ export const getSession = async () => {
   return session;
 };
 
-// export const updateSession = async () : Promise<void> | null => {
-//   const cookieStore = await cookies();
-//   const session = cookieStore.get('sd')?.value;
-//   const payload = await decryptSession(session);
+export const updateSession = async () => {
+  const cookieStore = await cookies();
+  const session = cookieStore.get('sd')?.value;
+  const payload = await decryptSession(session);
 
-//   if (!session || !payload) {
-//     return null;
-//   }
+  if (!session || !payload) {
+    return null;
+  }
 
-//   const expires = new Date(Date.now() + 60 * 60 * 1000);
-//   cookieStore.set('sd', session, {
-//     httpOnly: true,
-//     secure: true,
-//     expires,
-//     sameSite: 'lax',
-//     path: '/',
-//   });
-// };
+  const expires = new Date(Date.now() + 60 * 60 * 1000);
+  cookieStore.set('sd', session, {
+    httpOnly: true,
+    secure: true,
+    expires,
+    sameSite: 'lax',
+    path: '/',
+  });
+};
 
 export const deleteSession = async () => {
   const cookieStore = await cookies();

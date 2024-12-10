@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "0887b659-273a-4e2a-ad9e-3589061f93ee",
+  "id": "beb55115-d143-4912-9196-230650b84c58",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "users": {
@@ -9,13 +9,20 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
         "username": {
           "name": "username",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "nip": {
+          "name": "nip",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
@@ -37,9 +44,16 @@
         },
         "role": {
           "name": "role",
-          "type": "varchar(255)",
+          "type": "enum('Admin','Manager','Leader','CRO')",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('Active','Inactive')",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "created_at": {
@@ -75,6 +89,12 @@
           "name": "users_username_unique",
           "columns": [
             "username"
+          ]
+        },
+        "users_nip_unique": {
+          "name": "users_nip_unique",
+          "columns": [
+            "nip"
           ]
         }
       },

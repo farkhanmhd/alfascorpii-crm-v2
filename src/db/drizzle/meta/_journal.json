@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1733823399030,
+      "tag": "0000_modern_warbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1733827799691,
+      "tag": "0001_melodic_black_cat",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1733829550271,
+      "tag": "0002_magenta_jasper_sitwell",
+      "breakpoints": true
+    }
+  ]
+}

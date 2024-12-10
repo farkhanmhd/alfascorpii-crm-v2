@@ -3,29 +3,26 @@
 import { loginSchema } from '@/validation/schemas';
 import actionClient from '@/lib/safe-action';
 import { getUser, getAccessToken } from '../../data/auth';
-import { createSession, deleteSession, storeToken } from './session';
+import { deleteSession, storeAccessToken, storeRefreshToken } from './session';
 
 export const loginAction = actionClient
   .schema(loginSchema)
   .action(async ({ parsedInput: { username: loginUsername, password } }) => {
-    const data = await getUser(loginUsername, password);
-    const avatar = '/avatars/shadcn.jpg';
+    const data: any = await getUser(loginUsername, password);
 
     if (!data.user) {
       return { status: 'error', message: 'Invalid username or password' };
     }
 
-    const { uuid: userId, name, username, status } = data.user;
-    const { accessToken } = data;
+    const { id, name, username, nip, role, status, avatar } = data.user;
+    const { accessToken, refreshToken } = data;
 
-    await storeToken(accessToken);
-
-    await createSession(userId, name, username, status, avatar);
-
+    await storeAccessToken(accessToken);
+    await storeRefreshToken(refreshToken);
     return {
       status: 'success',
       message: 'Login successful',
-      user: { userId, name, username, status, avatar },
+      user: { id, name, username, nip, role, status, avatar },
     };
   });
 
