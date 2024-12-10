@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import db from '@/db';
 import Dashboard from './dashboard';
 
 const Page = () => {
