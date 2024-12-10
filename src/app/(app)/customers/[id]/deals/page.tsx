@@ -1,6 +1,6 @@
 import React from 'react';
 import { Separator } from '@/components/ui/separator';
-import DealsForm from './deals-form';
+// import DealsForm from './deals-form';
 
 const DealsPage = () => {
   return (
@@ -12,7 +12,7 @@ const DealsPage = () => {
         </p>
       </div>
       <Separator />
-      <DealsForm />
+      {/* <DealsForm /> */}
     </div>
   );
 };

@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useAction } from 'next-safe-action/hooks';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { loginAction } from '@/app/lib/actions/auth';
 import { UserAuthForm } from './UserAuthForm';
@@ -54,7 +53,7 @@ const LoginPage = () => {
         description: result.data.message,
         duration: 3000,
       });
-      push('/');
+      push(redirectUrl);
     } else if (result?.data?.status === 'error') {
       toast({
         title: 'Error',
@@ -63,7 +62,7 @@ const LoginPage = () => {
         duration: 3000,
       });
     }
-  }, [result, toast, push]);
+  }, [result, toast, push, redirectUrl]);
   return (
     <UserAuthForm
       action={execute}

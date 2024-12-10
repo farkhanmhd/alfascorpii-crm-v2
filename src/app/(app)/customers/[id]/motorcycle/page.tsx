@@ -1,6 +1,6 @@
 import React from 'react';
 import { Separator } from '@/components/ui/separator';
-import MotorcycleForm from './motorcycle-form';
+// import MotorcycleForm from './motorcycle-form';
 
 const SettingsAppearancePage = () => {
   return (
@@ -13,7 +13,7 @@ const SettingsAppearancePage = () => {
         </p>
       </div>
       <Separator />
-      <MotorcycleForm />
+      {/* <MotorcycleForm /> */}
     </div>
   );
 };

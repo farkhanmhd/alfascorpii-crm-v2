@@ -1,9 +1,7 @@
 import { notFound } from 'next/navigation';
-import { redirect } from 'next/navigation';
 import { searchQuerySchema } from '@/validation/schemas';
 import { SearchQueryParams } from '@/types';
 import { getAccessToken } from './auth';
-import { logout } from '../actions/auth';
 
 const validateSearchQuery = (
   schema: typeof searchQuerySchema,
