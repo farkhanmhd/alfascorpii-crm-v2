@@ -9,7 +9,7 @@ import { getErrorMessages } from '@/lib/utils';
 interface HouseOwnershipFormProps {
   initialHouseOwnership?: string;
   initialStatus?: 'SHOW' | 'HIDE';
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     house_ownership_status?: { _errors?: string[] };
     status?: { _errors?: string[] };

@@ -10,7 +10,7 @@ interface CustomerJobFormProps {
   initialJob?: string;
   initialCode?: string;
   initialStatus?: 'SHOW' | 'HIDE';
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     job?: { _errors?: string[] };
     code?: { _errors?: string[] };

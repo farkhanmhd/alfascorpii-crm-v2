@@ -7,7 +7,7 @@ import { getErrorMessages } from '@/lib/utils';
 
 interface LeasingFormProps {
   initialProduct?: string;
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     product_name?: { _errors?: string[] };
   };

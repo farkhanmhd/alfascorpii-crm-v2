@@ -9,7 +9,7 @@ import { getErrorMessages } from '@/lib/utils';
 interface FuDetailFormProps {
   initialDetail?: string;
   initialStatus?: 'SHOW' | 'HIDE';
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     detail_fu_name?: { _errors?: string[] };
     status?: { _errors?: string[] };

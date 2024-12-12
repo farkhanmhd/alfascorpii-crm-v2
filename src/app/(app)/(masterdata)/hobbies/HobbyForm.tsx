@@ -9,7 +9,7 @@ import { getErrorMessages } from '@/lib/utils';
 interface HobbyFormProps {
   initialHobby?: string;
   initialStatus?: 'SHOW' | 'HIDE';
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     hobby_name?: { _errors?: string[] };
     status?: { _errors?: string[] };

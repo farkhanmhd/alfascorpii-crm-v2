@@ -9,7 +9,7 @@ import { getErrorMessages } from '@/lib/utils';
 interface RelationFormProps {
   initialRelation?: string;
   initialStatus?: 'SHOW' | 'HIDE';
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     relation?: { _errors?: string[] };
     status?: { _errors?: string[] };

@@ -11,7 +11,7 @@ interface HolidayFormProps {
   initialHoliday?: string;
   initialMessage?: string;
   initialStatus?: 'SHOW' | 'HIDE';
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     holiday?: { _errors?: string[] };
     message?: { _errors?: string[] };

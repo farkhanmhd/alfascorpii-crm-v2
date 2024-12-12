@@ -5,7 +5,7 @@ import TextInput from '@/components/fragments/form/TextInput';
 import ComboBox from '@/components/fragments/form/ComboBox';
 import SubmitButton from '@/components/fragments/buttons/SubmitButton';
 import { getErrorMessages } from '@/lib/utils';
-import { ComboBoxOptions , IDealer } from '@/types';
+import { ComboBoxOptions, IDealer } from '@/types';
 import { useActionDialog } from '@/hooks';
 
 interface DealerFormProps {
@@ -13,7 +13,7 @@ interface DealerFormProps {
   initialName?: string;
   initialArea?: string;
   initialType?: string;
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     dealer_code?: { _errors?: string[] };
     dealer_name?: { _errors?: string[] };

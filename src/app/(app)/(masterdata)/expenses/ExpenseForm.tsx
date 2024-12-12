@@ -12,7 +12,7 @@ interface ExpenseFormProps {
   initialDetail?: string;
   initialCode?: string;
   initialStatus?: 'SHOW' | 'HIDE';
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     expense_upper_limit?: { _errors?: string[] };
     expense_lower_limit?: { _errors?: string[] };

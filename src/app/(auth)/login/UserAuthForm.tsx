@@ -2,14 +2,14 @@
 
 import React, { useState } from 'react';
 
-import { cn , getErrorMessages } from '@/lib/utils';
+import { cn, getErrorMessages } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import TextInput from '@/components/fragments/form/TextInput';
 import { Eye, EyeClosed } from 'lucide-react';
 import SubmitButton from '@/components/fragments/buttons/SubmitButton';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     username?: {
       _errors?: string[];
@@ -82,4 +82,4 @@ export const UserAuthForm = ({
       </form>
     </div>
   );
-}
+};

@@ -9,7 +9,7 @@ import { getErrorMessages } from '@/lib/utils';
 interface FuMethodFormProps {
   initialMethod?: string;
   initialStatus?: 'SHOW' | 'HIDE';
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     method?: { _errors?: string[] };
     status?: { _errors?: string[] };

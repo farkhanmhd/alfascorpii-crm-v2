@@ -12,7 +12,7 @@ interface IncomeFormProps {
   initialDetail?: string;
   initialCode?: string;
   initialStatus?: 'SHOW' | 'HIDE';
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     income_upper_limit?: { _errors?: string[] };
     income_lower_limit?: { _errors?: string[] };

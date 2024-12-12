@@ -10,7 +10,7 @@ interface DegreeFormProps {
   initialDegree?: string;
   initialCode?: string;
   initialStatus?: 'SHOW' | 'HIDE';
-  action: (formData: FormData) => void | string | undefined;
+  action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     degree?: { _errors?: string[] };
     code?: { _errors?: string[] };
