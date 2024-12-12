@@ -60,20 +60,19 @@ export interface IDealer extends IIdentifiable {
 }
 
 export interface ICustomer extends IIdentifiable {
-  id: string;
   nik: string;
   name: string;
-  dateOfBirth: Date;
+  dateOfBirth?: Date;
   phoneNumber: string;
   address: string;
-  email: string;
-  whatsapp: string;
-  instagram: string;
-  facebook: string;
   subDistrict: string;
+  cityOrRegency?: string;
   district: string;
-  cityOrRegency: string;
-  province: string;
+  province?: string;
+  email?: string;
+  whatsapp?: string;
+  instagram?: string;
+  facebook?: string;
 }
 
 export interface IRelation extends IIdentifiable {

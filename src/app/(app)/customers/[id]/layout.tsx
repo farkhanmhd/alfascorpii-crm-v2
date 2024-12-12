@@ -10,30 +10,33 @@ export const metadata: Metadata = {
   title: 'Customer',
 };
 
-const sidebarNavItems = [
-  {
-    title: 'Customer Data',
-    href: '/customers/1',
-  },
-  {
-    title: 'Motorcycle',
-    href: '/customers/1/motorcycle',
-  },
-  {
-    title: 'Deals',
-    href: '/customers/1/deals',
-  },
-  {
-    title: 'Follow Up',
-    href: '/customers/1/follow-up',
-  },
-];
+type Params = Promise<{ id: string }>;
 
 interface SettingsLayoutProps {
   children: React.ReactNode;
+  params: Params;
 }
 
-const SettingsLayout = ({ children }: SettingsLayoutProps) => {
+const SettingsLayout = async ({ children, params }: SettingsLayoutProps) => {
+  const { id } = await params;
+  const sidebarNavItems = [
+    {
+      title: 'Customer Data',
+      href: `/customers/${id}`,
+    },
+    {
+      title: 'Motorcycle',
+      href: `/customers/${id}/motorcycle`,
+    },
+    {
+      title: 'Deals',
+      href: `/customers/${id}/deals`,
+    },
+    {
+      title: 'Follow Up',
+      href: `/customers/${id}/followup`,
+    },
+  ];
   return (
     <div className="grid max-h-[calc(100dvh-48px)] flex-1 grid-rows-[auto_auto_1fr] gap-y-6 pb-6 lg:px-10">
       <div>

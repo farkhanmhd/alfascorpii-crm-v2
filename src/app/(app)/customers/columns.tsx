@@ -50,7 +50,7 @@ export const columns: ColumnDef<ICustomer>[] = [
   },
   {
     accessorKey: 'subDistrict',
-    header: 'District',
+    header: 'Sub District',
   },
   {
     accessorKey: 'district',

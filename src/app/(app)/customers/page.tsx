@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
 import CustomerTable from './CustomerTable';
-import SelectedFilters from './selected-filters';
 
 export const metadata: Metadata = {
   title: 'Customers',
@@ -21,8 +20,7 @@ const Page = async (props: {
   const page = searchParams?.page || '1';
   const perPage = searchParams?.per_page;
   return (
-    <div className="grid h-full grid-rows-[auto_1fr] gap-y-4">
-      <SelectedFilters />
+    <div className="grid h-full grid-rows-[auto] gap-y-4">
       <Suspense fallback={<TableSkeleton />}>
         <CustomerTable search={search} page={page} perPage={perPage} />
       </Suspense>

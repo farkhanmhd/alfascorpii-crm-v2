@@ -9,7 +9,7 @@ const AddButton = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Button
-      className="w-fit"
+      className="w-full sm:w-fit"
       variant="default"
       onClick={() => setActionDialog({ create: true })}
     >

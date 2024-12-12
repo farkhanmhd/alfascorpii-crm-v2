@@ -15,7 +15,10 @@ const seedPersons = async () => {
           isUnique: true,
         }),
         name: funcs.fullName(),
-        dateOfBirth: funcs.date(),
+        dateOfBirth: funcs.date({
+          minDate: '1960-01-01',
+          maxDate: '2006-12-31',
+        }),
         phoneNumber: funcs.phoneNumber({
           prefixes: ['+62 8'],
         }),
@@ -36,10 +39,10 @@ const seedPersons = async () => {
         district: funcs.valuesFromArray({
           values: ['Medan Barat', 'Medan Polonia'],
         }),
-        city: funcs.default({ defaultValue: 'Medan' }),
+        cityOrRegency: funcs.default({ defaultValue: 'Medan' }),
         province: funcs.default({ defaultValue: 'Sumatera Utara' }),
       },
-      count: 100,
+      count: 1000,
     },
   }));
 };

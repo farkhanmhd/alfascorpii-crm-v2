@@ -8,7 +8,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
-  VisibilityState,
+  // VisibilityState,
 } from '@tanstack/react-table';
 // import { atom, useAtom } from 'jotai';
 
@@ -24,7 +24,7 @@ import Tablesearch from '@/components/fragments/table/tablesearch';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import MapItems from '@/utils/MapItems';
 import AddButton from '../buttons/AddButton';
-import DataTableViewOptions from './data-table-view-options';
+// import DataTableViewOptions from './data-table-view-options';
 
 interface DataTableProps<TData extends { id: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -48,7 +48,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   addLabel,
   searchPlaceholder,
 }: DataTableProps<TData, TValue>) => {
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  // const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const table = useReactTable({
     data,
@@ -56,24 +56,24 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
+    // onColumnVisibilityChange: setColumnVisibility,
     manualPagination: true,
     rowCount: rows,
     onRowSelectionChange: setRowSelection,
     getRowId: (row) => String(row.id),
     autoResetPageIndex: false,
     state: {
-      columnVisibility,
+      // columnVisibility,
       rowSelection,
     },
   });
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr_auto] overflow-auto">
-      <div className="flex items-center justify-between gap-x-4 py-4">
+      <div className="flex flex-col justify-between gap-4 py-4 sm:flex-row sm:items-center">
         <Tablesearch placeholder={searchPlaceholder} />
         <div className="flex items-center gap-x-4">
-          <DataTableViewOptions table={table} />
+          {/* <DataTableViewOptions table={table} /> */}
           <AddButton>{addLabel}</AddButton>
         </div>
       </div>

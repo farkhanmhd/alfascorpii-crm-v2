@@ -1,14 +1,18 @@
-import { eq, like, or } from 'drizzle-orm';
-import { fetchWithParams, fetchData } from '@/app/lib/data/fetchUtils';
+// import { unstable_cache as cache } from 'next/cache';
+import { eq, like, or, count } from 'drizzle-orm';
+// import {
+//   // fetchWithParams,
+//   fetchData,
+// } from '@/app/lib/data/fetchUtils';
 import db from '@/db';
 import { customersTable, personsTable } from '@/db/schema';
 import { getAccessToken } from '../auth';
 
-export const fetchCustomer = (
-  search?: string,
-  page?: string,
-  per_page?: string
-) => fetchWithParams('customers', search, page, per_page);
+// export const fetchCustomer = (
+//   search?: string,
+//   page?: string,
+//   per_page?: string
+// ) => fetchWithParams('customers', search, page, per_page);
 
 export const importCustomer = async (file: File) => {
   const accessToken = await getAccessToken();
@@ -28,12 +32,37 @@ export const importCustomer = async (file: File) => {
   return message;
 };
 
-export const getCustomer = async (id: number | string) => {
-  return fetchData({
-    endpoint: `customers/${id}`,
-    method: 'GET',
-    cache: 'no-cache',
-  });
+// export const getCustomer = async (id: number | string) => {
+//   return fetchData({
+//     endpoint: `customers/${id}`,
+//     method: 'GET',
+//     cache: 'no-cache',
+//   });
+// };
+
+export const getCustomer = async (id: string) => {
+  const data = await db
+    .select({
+      id: customersTable.id,
+      nik: personsTable.nik,
+      name: personsTable.name,
+      dateOfBirth: personsTable.dateOfBirth,
+      phoneNumber: personsTable.phoneNumber,
+      address: personsTable.address,
+      subDistrict: personsTable.subDistrict,
+      district: personsTable.district,
+      cityOrRegency: personsTable.cityOrRegency,
+      province: personsTable.province,
+      email: personsTable.email,
+      whatsapp: personsTable.whatsapp,
+      instagram: personsTable.instagram,
+      facebook: personsTable.facebook,
+    })
+    .from(customersTable)
+    .innerJoin(personsTable, eq(customersTable.personId, personsTable.id))
+    .where(eq(customersTable.id, id));
+  const customer = data[0];
+  return customer;
 };
 
 export const getCustomers = async (
@@ -41,8 +70,20 @@ export const getCustomers = async (
   page?: string,
   per_page?: string
 ) => {
+  const pageNum = page ? Number(page) : 1;
+  const perPageNum = per_page ? Number(per_page) : 50;
+  const offsetValue = (pageNum - 1) * perPageNum;
+
   const customers = await db
-    .select()
+    .select({
+      id: customersTable.id,
+      nik: personsTable.nik,
+      name: personsTable.name,
+      subDistrict: personsTable.subDistrict,
+      district: personsTable.district,
+      phoneNumber: personsTable.phoneNumber,
+      address: personsTable.address,
+    })
     .from(customersTable)
     .innerJoin(personsTable, eq(customersTable.personId, personsTable.id))
     .where(
@@ -53,31 +94,34 @@ export const getCustomers = async (
             like(personsTable.phoneNumber, `%${search}%`),
             like(personsTable.address, `%${search}%`),
             like(personsTable.subDistrict, `%${search}%`),
-            like(personsTable.district, `%${search}%`),
-            like(personsTable.cityOrRegency, `%${search}%`),
-            like(personsTable.province, `%${search}%`)
+            like(personsTable.district, `%${search}%`)
           )
-        : undefined // If `search` is undefined, do not apply any filter
+        : undefined
     )
-    .limit(per_page ? Number(per_page) : 50)
-    .offset(page && per_page ? (Number(page) - 1) * Number(per_page) : 0);
+    .limit(perPageNum)
+    .offset(offsetValue);
 
-  const flattenedCustomers = customers.map((record) => ({
-    id: record.Customers.id,
-    nik: record.Persons.nik,
-    name: record.Persons.name,
-    dateOfBirth: record.Persons.dateOfBirth,
-    phoneNumber: record.Persons.phoneNumber,
-    address: record.Persons.address,
-    email: record.Persons.email,
-    whatsapp: record.Persons.whatsapp,
-    instagram: record.Persons.instagram,
-    facebook: record.Persons.facebook,
-    subDistrict: record.Persons.subDistrict,
-    district: record.Persons.district,
-    cityOrRegency: record.Persons.cityOrRegency,
-    province: record.Persons.province,
-  }));
+  const rows = await db
+    .select({
+      count: count(),
+    })
+    .from(customersTable)
+    .innerJoin(personsTable, eq(customersTable.personId, personsTable.id))
+    .where(
+      search
+        ? or(
+            like(personsTable.name, `%${search}%`),
+            like(personsTable.nik, `%${search}%`),
+            like(personsTable.phoneNumber, `%${search}%`),
+            like(personsTable.address, `%${search}%`),
+            like(personsTable.subDistrict, `%${search}%`),
+            like(personsTable.district, `%${search}%`)
+          )
+        : undefined
+    );
 
-  return flattenedCustomers;
+  const totalRows = rows[0].count;
+  const totalPages = Math.ceil(totalRows / perPageNum);
+
+  return { customers, totalRows, totalPages };
 };

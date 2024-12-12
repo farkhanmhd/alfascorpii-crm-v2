@@ -5,8 +5,7 @@ import { getCustomer } from '@/app/lib/data/customers';
 import ProfileForm from './profile-form';
 
 const ProfileTab = async ({ id }: { id: string }) => {
-  const data = await getCustomer(id);
-  const customer: ICustomer = data.customers;
+  const customer = (await getCustomer(id)) as ICustomer;
   const tabData: TabData<React.ReactNode>[] = [
     {
       value: 'overview',

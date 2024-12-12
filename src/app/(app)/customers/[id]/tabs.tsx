@@ -23,19 +23,19 @@ export const OverviewTab: React.FC<TabProps> = ({ value, customer }) => {
         label="Name"
         id="name"
         placeholder="Customer Name"
-        defaultValue={customer.customer_name}
+        defaultValue={customer.name}
       />
       <TextInput
         label="Phone"
         id="phone"
         placeholder="+6281234567890"
-        defaultValue={customer.mobile_phone}
+        defaultValue={customer.phoneNumber}
       />
 
       <DatePicker
         id="date_of_birth"
         label="Date of Birth"
-        initialDate={new Date(customer.date_of_birth)}
+        initialDate={customer.dateOfBirth}
       />
       <TextInput
         label="Address"
@@ -47,7 +47,7 @@ export const OverviewTab: React.FC<TabProps> = ({ value, customer }) => {
         label="Sub-district"
         id="sub-District"
         placeholder="Sub-District"
-        defaultValue={customer.sub_district}
+        defaultValue={customer.subDistrict}
       />
       <TextInput
         label="District"
@@ -60,7 +60,7 @@ export const OverviewTab: React.FC<TabProps> = ({ value, customer }) => {
         label="City / Regency"
         id="city"
         placeholder="City / Regency"
-        defaultValue={customer.regency_or_city}
+        defaultValue={customer.cityOrRegency}
       />
 
       <TextInput
@@ -80,31 +80,31 @@ export const ExtendedTab: React.FC<TabProps> = ({ value, customer }) => {
         label="Job"
         id="job"
         placeholder="Customer Job"
-        defaultValue={customer.job_name}
+        // defaultValue={customer.job_name}
       />
       <TextInput
         label="Hobby"
         id="hobby"
         placeholder="Customer hobby"
-        defaultValue={customer.hobby}
+        // defaultValue={customer.hobby}
       />
       <TextInput
         label="House Ownership"
         id="house-ownership"
         placeholder="Customer House Ownership"
-        defaultValue={customer.house_ownership_status}
+        // defaultValue={customer.house_ownership_status}
       />
       <TextInput
         label="Income"
         id="income"
         placeholder="Customer Income"
-        defaultValue={customer.income_per_month}
+        // defaultValue={customer.income_per_month}
       />
       <TextInput
         label="Expense"
         id="expense"
         placeholder="Customer Expense"
-        defaultValue={customer.expense_per_month}
+        // defaultValue={customer.expense_per_month}
       />
     </TabLayout>
   );
@@ -117,7 +117,7 @@ export const SocialTab: React.FC<TabProps> = ({ value, customer }) => {
         label="Whatsapp"
         id="whatsapp"
         placeholder="+6281234567890"
-        defaultValue={customer.whatsapp_number}
+        defaultValue={customer.whatsapp}
       />
       <TextInput
         label="Instagram"

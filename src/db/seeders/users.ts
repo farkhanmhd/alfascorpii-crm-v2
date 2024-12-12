@@ -42,6 +42,24 @@ const seedUsers = async () => {
       role: 'CRO',
       status: 'Active',
     },
+    {
+      id: `user-${uuidv4()}`,
+      username: 'cro2',
+      nip: String(Math.floor(Math.random() * 90000) + 10000),
+      name: 'CRO 2',
+      password: await bcrypt.hash('password', 10),
+      role: 'CRO',
+      status: 'Active',
+    },
+    {
+      id: `user-${uuidv4()}`,
+      username: 'cro3',
+      nip: String(Math.floor(Math.random() * 90000) + 10000),
+      name: 'CRO 3',
+      password: await bcrypt.hash('password', 10),
+      role: 'CRO',
+      status: 'Active',
+    },
   ];
 
   await db.insert(usersTable).values(users);
