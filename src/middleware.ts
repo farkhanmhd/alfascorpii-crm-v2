@@ -13,13 +13,13 @@ const middleware = async (req: NextRequest) => {
   const encryptedSession = cookieStore.get('sd')?.value;
   const session = await decryptSession(encryptedSession);
 
-  if (isProtectedRoute && !session?.userId) {
+  if (isProtectedRoute && !session?.id) {
     const redirectUrl = new URL('/login', req.nextUrl.origin);
     redirectUrl.searchParams.set('redirectUrl', path);
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (isPublicRoute && session?.userId) {
+  if (isPublicRoute && session?.id) {
     const redirectUrl = new URL('/', req.nextUrl.origin);
     return NextResponse.redirect(redirectUrl);
   }

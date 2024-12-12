@@ -1,4 +1,8 @@
 import { cookies } from 'next/headers';
+import bcrypt from 'bcrypt';
+import { eq } from 'drizzle-orm';
+import db from '@/db';
+import { usersTable } from '@/db/schema';
 import { decryptToken } from '../../actions/auth/session';
 
 export const getAccessToken = async () => {
@@ -11,16 +15,22 @@ export const getAccessToken = async () => {
 
 export const getUser = async (username: string, password: string) => {
   try {
-    const response = await fetch(`${process.env.BACKEND_URL}/login`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-    });
+    const user = (
+      await db
+        .select()
+        .from(usersTable)
+        .where(eq(usersTable.username, username))
+    ).at(0) as typeof usersTable.$inferSelect;
 
-    const { data: user } = await response.json();
+    if (!user) {
+      return null;
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return null;
+    }
     return user;
   } catch (error) {
     return error;

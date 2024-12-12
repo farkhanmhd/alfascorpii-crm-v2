@@ -41,16 +41,16 @@ export const columns: ColumnDef<ICustomer>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'dealer_code',
-    header: 'Dealer Code',
+    accessorKey: 'nik',
+    header: 'NIK',
   },
   {
-    accessorKey: 'dealer_name',
-    header: 'Dealer Name',
-  },
-  {
-    accessorKey: 'customer_name',
+    accessorKey: 'name',
     header: 'Name',
+  },
+  {
+    accessorKey: 'subDistrict',
+    header: 'District',
   },
   {
     accessorKey: 'district',
@@ -61,7 +61,7 @@ export const columns: ColumnDef<ICustomer>[] = [
     header: 'Address',
   },
   {
-    accessorKey: 'mobile_phone',
+    accessorKey: 'phoneNumber',
     header: 'Phone',
   },
   // {

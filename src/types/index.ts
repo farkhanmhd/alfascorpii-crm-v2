@@ -60,48 +60,20 @@ export interface IDealer extends IIdentifiable {
 }
 
 export interface ICustomer extends IIdentifiable {
-  customer_name: string;
-  customer_address: string;
-  province: string;
-  district: string;
-  sub_district: string;
-  regency_or_city: string;
-  postal_code?: string | null;
-  telephone: string;
-  mobile_phone: string;
+  id: string;
   nik: string;
-  dealer_name: string;
-  dealer_code: string;
-  dealer_area: string;
-  motorcycle_type: string;
-  frame_number: string;
-  engine_number: string;
-  payment_method: string;
-  assembly_date: string; // Assuming this is a date in string format
-  purchase_date: string | null;
-  leasing?: string | null;
-  latest_update_date: string; // Assuming this is a date in string format
+  name: string;
+  dateOfBirth: Date;
+  phoneNumber: string;
   address: string;
-  house_ownership_status: string;
-  job_name: string;
-  job_description: string;
-  date_of_birth: string; // Assuming this is a date in string format
-  religion: string;
-  education_level: string;
-  hobby: string;
-  hobby_description: string;
-  amount_of_family: number;
-  family_under_12_yo: number;
-  family_12_until_17_yo: number;
-  amount_of_motorcycle: number;
-  whatsapp_number: string;
-  facebook: string;
-  instagram: string;
   email: string;
-  income_per_month: string;
-  expense_per_month: string;
-  data_source: string;
-  customer_status: string;
+  whatsapp: string;
+  instagram: string;
+  facebook: string;
+  subDistrict: string;
+  district: string;
+  cityOrRegency: string;
+  province: string;
 }
 
 export interface IRelation extends IIdentifiable {

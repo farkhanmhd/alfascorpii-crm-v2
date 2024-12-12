@@ -6,10 +6,12 @@ import { redirect } from 'next/navigation';
 import { ncrypt as Ncrypt } from 'ncrypt-js';
 
 type SessionPayload = {
-  userId: string | number;
+  id: string | number;
   name: string;
   username: string;
   status: string;
+  nip: string;
+  role: string;
   avatar: string;
   expiresAt: Date;
 };
@@ -60,18 +62,22 @@ export const decryptSession = async (session: string | undefined = '') => {
 };
 
 export const createSession = async (
-  userId: string,
+  id: string,
   name: string,
   username: string,
   status: string,
+  nip: string,
+  role: string,
   avatar: string
 ) => {
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
   const session = await encryptSession({
-    userId,
+    id,
     name,
     username,
     status,
+    nip,
+    role,
     expiresAt,
     avatar,
   });
@@ -89,11 +95,11 @@ export const verifySession = async () => {
   const cookie = cookieStore.get('sd')?.value;
   const session = await decryptSession(cookie);
 
-  if (!session?.userId) {
+  if (!session?.id) {
     redirect('/login');
   }
 
-  return { isAuth: true, userId: session.userId };
+  return { isAuth: true, id: session.id };
 };
 
 export const getSession = async () => {
@@ -126,5 +132,4 @@ export const getSession = async () => {
 export const deleteSession = async () => {
   const cookieStore = await cookies();
   cookieStore.delete('sd');
-  cookieStore.delete('at');
 };

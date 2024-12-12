@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1733901952135,
+      "tag": "0000_remarkable_bill_hollister",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1733905391746,
+      "tag": "0001_icy_caretaker",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1733911432083,
+      "tag": "0002_bent_reaper",
+      "breakpoints": true
+    }
+  ]
+}
