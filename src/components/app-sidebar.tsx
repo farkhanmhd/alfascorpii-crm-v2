@@ -114,6 +114,10 @@ export const sidebarData = {
       isParent: true,
       items: [
         {
+          title: 'Assign to CRO',
+          url: '/assign',
+        },
+        {
           title: 'List Follow Up',
           url: '/follow-up',
         },

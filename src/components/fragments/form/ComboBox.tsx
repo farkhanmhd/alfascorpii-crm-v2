@@ -24,7 +24,7 @@ import { useElementWidth } from '@/hooks';
 import { Label } from '@/components/ui/label';
 import { ComboBoxOptions } from '@/types';
 
-interface ComboBoxProps {
+interface ComboBoxClientProps {
   options: ComboBoxOptions[];
   label?: string;
   placeholder: string;
@@ -42,7 +42,7 @@ const ComboBox = ({
   value,
   onSelect,
   error,
-}: ComboBoxProps) => {
+}: ComboBoxClientProps) => {
   const [open, setOpen] = useState(false);
   const { elementRef, elementWidth } = useElementWidth();
 
@@ -89,7 +89,7 @@ const ComboBox = ({
                 {options.map((option) => (
                   <CommandItem
                     key={option.value}
-                    value={option.value}
+                    value={option.label}
                     onSelect={() => handleSelect(option.value)}
                   >
                     <Check

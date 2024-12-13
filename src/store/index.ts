@@ -44,3 +44,5 @@ export const customerFiltersAtom = atom<CustomerFilters>({
 });
 
 export const customerFilterSheetAtom = atom<boolean>(false);
+
+export const selectedRowsAtom = atom<string[] | number[]>([]);

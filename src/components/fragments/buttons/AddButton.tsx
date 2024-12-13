@@ -3,6 +3,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useActionDialog } from '@/hooks';
+import { Plus } from 'lucide-react';
 
 const AddButton = ({ children }: { children: React.ReactNode }) => {
   const { setActionDialog } = useActionDialog<unknown>();
@@ -13,6 +14,7 @@ const AddButton = ({ children }: { children: React.ReactNode }) => {
       variant="default"
       onClick={() => setActionDialog({ create: true })}
     >
+      <Plus />
       {children}
     </Button>
   );

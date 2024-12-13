@@ -14,6 +14,7 @@ import {
   selectedDateAtom,
   customerFiltersAtom,
   customerFilterSheetAtom,
+  selectedRowsAtom,
 } from '@/store';
 import { ActionDialog, CustomerFilters } from '@/types';
 import { useDebouncedCallback } from 'use-debounce';
@@ -194,4 +195,10 @@ export const useCustomerSheet = () => {
   const [openSheet, setOpenSheet] = useAtom(customerFilterSheetAtom);
 
   return { openSheet, setOpenSheet };
+};
+
+export const useSelectedRows = () => {
+  const [selectedRows, setSelectedRows] = useAtom(selectedRowsAtom);
+
+  return { selectedRows, setSelectedRows };
 };

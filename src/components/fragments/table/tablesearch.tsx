@@ -25,7 +25,7 @@ const Tablesearch = ({ placeholder }: { placeholder: string }) => {
   return (
     <Input
       placeholder={placeholder}
-      className="w-full sm:ml-2 md:max-w-sm"
+      className="w-full sm:ml-2 md:max-w-lg"
       onChange={(e) => handleSearch(e.target.value)}
       defaultValue={searchParams.get('search')?.toString()}
     />

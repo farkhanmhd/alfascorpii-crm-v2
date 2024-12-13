@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ColumnDef,
   flexRender,
@@ -10,7 +10,8 @@ import {
   useReactTable,
   // VisibilityState,
 } from '@tanstack/react-table';
-// import { atom, useAtom } from 'jotai';
+
+import { atom, useAtom } from 'jotai';
 
 import {
   Table,
@@ -20,10 +21,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import Tablesearch from '@/components/fragments/table/tablesearch';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import MapItems from '@/utils/MapItems';
+import Tablesearch from './tablesearch';
 import AddButton from '../buttons/AddButton';
+
 // import DataTableViewOptions from './data-table-view-options';
 
 interface DataTableProps<TData extends { id: string | number }, TValue> {
@@ -32,12 +34,11 @@ interface DataTableProps<TData extends { id: string | number }, TValue> {
   rows: number;
   currentPage: number;
   totalPages: number;
-  addLabel: string;
-  searchPlaceholder: string;
+  children: React.ReactNode;
 }
 
 // in case if we need to get selected rows on different component
-// const selectedAtom = atom<Record<string, boolean>>({});
+export const selectedAtom = atom<Record<string, boolean>>({});
 
 export const DataTable = <TData extends { id: string | number }, TValue>({
   columns,
@@ -45,11 +46,11 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   currentPage,
   rows,
   totalPages,
-  addLabel,
-  searchPlaceholder,
+  children,
 }: DataTableProps<TData, TValue>) => {
   // const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const [rowSelection, setRowSelection] = useAtom(selectedAtom);
+
   const table = useReactTable({
     data,
     columns,
@@ -69,18 +70,16 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   });
 
   return (
-    <div className="grid h-full grid-rows-[auto_1fr_auto] overflow-auto">
-      <div className="flex flex-col justify-between gap-4 py-4 sm:flex-row sm:items-center">
-        <Tablesearch placeholder={searchPlaceholder} />
-        <div className="flex items-center gap-x-4">
-          {/* <DataTableViewOptions table={table} /> */}
-          <AddButton>{addLabel}</AddButton>
-        </div>
-      </div>
+    <>
+      <header className="flex flex-col justify-between gap-4 py-4 sm:flex-row sm:items-center">
+        <div>{children}</div>
+        <Tablesearch placeholder="Cari Customer" />
+        <AddButton>Import Follow UP</AddButton>
+      </header>
       <div className="hide-scrollbar overflow-auto">
         <Table>
           <TableHeader
-            className="bg-background/8 sticky top-0 z-50 backdrop-blur-lg"
+            className="sticky top-0 bg-background"
             style={{
               boxShadow: '0px .5px 0px hsl(var(--border)),',
             }}
@@ -90,7 +89,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
                 <MapItems
                   of={headerGroup.headers}
                   render={(header) => (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="p-3">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -117,7 +116,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
                       render={(cell) => (
                         <TableCell
                           key={cell.id}
-                          className="px-4 py-2 text-xs sm:text-sm"
+                          className="p-3 text-xs sm:text-sm"
                         >
                           {flexRender(
                             cell.column.columnDef.cell,
@@ -145,9 +144,9 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
       <DataTablePagination
         currentPage={currentPage}
         totalPages={totalPages}
-        selectedRows={Object.keys(rowSelection).length}
-        totalRows={table.getRowCount()}
+        // selectedRows={Object.keys(rowSelection).length}
+        // totalRows={table.getRowCount()}
       />
-    </div>
+    </>
   );
 };
