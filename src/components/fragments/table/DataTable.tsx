@@ -28,7 +28,9 @@ interface DataTableProps<TData extends { id: string | number }, TValue> {
   currentPage: number;
   totalPages: number;
   rowSelection?: Record<string, boolean>;
-  setRowSelection?: (row: Record<string, boolean>) => void;
+  setRowSelection?: React.Dispatch<
+    React.SetStateAction<Record<string, boolean>>
+  >;
 }
 
 export const DataTable = <TData extends { id: string | number }, TValue>({
@@ -49,7 +51,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     manualPagination: true,
     rowCount: rows,
-    onRowSelectionChange: () => setRowSelection,
+    onRowSelectionChange: setRowSelection,
     getRowId: (row) => String(row.id),
     autoResetPageIndex: false,
     state: {

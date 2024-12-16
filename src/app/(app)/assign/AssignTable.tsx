@@ -14,7 +14,8 @@ interface Props {
 }
 
 const AssignTable = ({ data, totalPages, currentPage, rows }: Props) => {
-  const { selectedRows, setSelectedRows } = useSelectedRows('assignTable');
+  const { selectedRowsState, setRowSelectionState } =
+    useSelectedRows('assignTable');
 
   return (
     <DataTable
@@ -23,8 +24,8 @@ const AssignTable = ({ data, totalPages, currentPage, rows }: Props) => {
       totalPages={totalPages}
       currentPage={currentPage}
       rows={rows}
-      rowSelection={selectedRows}
-      setRowSelection={() => setSelectedRows(selectedRows)}
+      rowSelection={selectedRowsState}
+      setRowSelection={setRowSelectionState}
     />
   );
 };

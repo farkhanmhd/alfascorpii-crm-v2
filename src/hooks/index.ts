@@ -189,14 +189,5 @@ export const useCustomerSheet = () => {
 export const useSelectedRows = (key: string) => {
   const [selectedRowsState, setRowSelectionState] = useAtom(rowSelectionAtom);
 
-  const selectedRows = selectedRowsState?.[key] || {};
-
-  const setSelectedRows = (rows: RowSelectionState) => {
-    setRowSelectionState((prevSelectedRows) => ({
-      ...prevSelectedRows,
-      [key]: rows,
-    }));
-  };
-
-  return { selectedRows, setSelectedRows };
+  return { selectedRowsState, setRowSelectionState };
 };
