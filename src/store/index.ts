@@ -1,6 +1,7 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { DeleteDialog, ActionDialog, CustomerFilters } from '@/types';
+import { RowSelectionState } from '@tanstack/react-table';
 
 export const searchDialogAtom = atom<boolean>(false);
 
@@ -45,4 +46,9 @@ export const customerFiltersAtom = atom<CustomerFilters>({
 
 export const customerFilterSheetAtom = atom<boolean>(false);
 
-export const selectedRowsAtom = atom<string[] | number[]>([]);
+export const rowSelectionAtom = atom<
+  | undefined
+  | {
+      [key: string]: RowSelectionState;
+    }
+>(undefined);

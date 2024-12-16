@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { useAtom } from 'jotai';
+import { RowSelectionState } from '@tanstack/react-table';
 import {
   activeButtonAtom,
   isMobileAtom,
@@ -14,7 +15,7 @@ import {
   selectedDateAtom,
   customerFiltersAtom,
   customerFilterSheetAtom,
-  selectedRowsAtom,
+  rowSelectionAtom,
 } from '@/store';
 import { ActionDialog, CustomerFilters } from '@/types';
 import { useDebouncedCallback } from 'use-debounce';
@@ -25,18 +26,6 @@ export const useActiveButton = () => {
 
   return { activeButton, setActiveButton };
 };
-
-// export const useCreateDialog = () => {
-//   const [createDialog, setCreateDialog] = useAtom(createDialogAtom);
-
-//   return { createDialog, setCreateDialog };
-// };
-
-// export const useEditDialog = () => {
-//   const [editDialog, setEditDialog] = useAtom(editDialogAtom);
-
-//   return { editDialog, setEditDialog };
-// };
 
 export const useDeleteDialog = () => {
   const [deleteDialog, setDeleteDialog] = useAtom(deleteDialogAtom);
@@ -197,8 +186,17 @@ export const useCustomerSheet = () => {
   return { openSheet, setOpenSheet };
 };
 
-export const useSelectedRows = () => {
-  const [selectedRows, setSelectedRows] = useAtom(selectedRowsAtom);
+export const useSelectedRows = (key: string) => {
+  const [selectedRowsState, setRowSelectionState] = useAtom(rowSelectionAtom);
+
+  const selectedRows = selectedRowsState?.[key] || {};
+
+  const setSelectedRows = (rows: RowSelectionState) => {
+    setRowSelectionState((prevSelectedRows) => ({
+      ...prevSelectedRows,
+      [key]: rows,
+    }));
+  };
 
   return { selectedRows, setSelectedRows };
 };

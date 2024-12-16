@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
-import CustomerTable from './CustomerTable';
+import AssignData from './AssignData';
 
 export const metadata: Metadata = {
   title: 'Assign to CRO',
@@ -21,7 +21,7 @@ const Page = async (props: {
   const perPage = searchParams?.per_page;
   return (
     <Suspense fallback={<TableSkeleton />}>
-      <CustomerTable search={search} page={page} perPage={perPage} />
+      <AssignData search={search} page={page} perPage={perPage} />
     </Suspense>
   );
 };

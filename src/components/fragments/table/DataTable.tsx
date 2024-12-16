@@ -8,10 +8,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
-  // VisibilityState,
 } from '@tanstack/react-table';
-
-import { atom, useAtom } from 'jotai';
 
 import {
   Table,
@@ -23,10 +20,6 @@ import {
 } from '@/components/ui/table';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import MapItems from '@/utils/MapItems';
-import Tablesearch from './tablesearch';
-import AddButton from '../buttons/AddButton';
-
-// import DataTableViewOptions from './data-table-view-options';
 
 interface DataTableProps<TData extends { id: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -34,11 +27,9 @@ interface DataTableProps<TData extends { id: string | number }, TValue> {
   rows: number;
   currentPage: number;
   totalPages: number;
-  children: React.ReactNode;
+  rowSelection?: Record<string, boolean>;
+  setRowSelection?: (row: Record<string, boolean>) => void;
 }
-
-// in case if we need to get selected rows on different component
-export const selectedAtom = atom<Record<string, boolean>>({});
 
 export const DataTable = <TData extends { id: string | number }, TValue>({
   columns,
@@ -46,36 +37,28 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   currentPage,
   rows,
   totalPages,
-  children,
+  rowSelection,
+  setRowSelection,
 }: DataTableProps<TData, TValue>) => {
-  // const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useAtom(selectedAtom);
-
+  // Create the table instance with conditional rowSelection
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    // onColumnVisibilityChange: setColumnVisibility,
     manualPagination: true,
     rowCount: rows,
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: () => setRowSelection,
     getRowId: (row) => String(row.id),
     autoResetPageIndex: false,
     state: {
-      // columnVisibility,
       rowSelection,
     },
   });
 
   return (
     <>
-      <header className="flex flex-col justify-between gap-4 py-4 sm:flex-row sm:items-center">
-        <div>{children}</div>
-        <Tablesearch placeholder="Cari Customer" />
-        <AddButton>Import Follow UP</AddButton>
-      </header>
       <div className="hide-scrollbar overflow-auto">
         <Table>
           <TableHeader
@@ -109,7 +92,9 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
                 render={(row) => (
                   <TableRow
                     key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
+                    data-state={
+                      rowSelection && row.getIsSelected() && 'selected'
+                    } // Conditional styling for row selection
                   >
                     <MapItems
                       of={row.getVisibleCells()}
@@ -141,12 +126,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        // selectedRows={Object.keys(rowSelection).length}
-        // totalRows={table.getRowCount()}
-      />
+      <DataTablePagination currentPage={currentPage} totalPages={totalPages} />
     </>
   );
 };
