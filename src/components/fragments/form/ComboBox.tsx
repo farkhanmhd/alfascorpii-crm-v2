@@ -57,7 +57,7 @@ const ComboBox = ({
       {label && (
         <Label htmlFor={id} className="flex gap-x-2">
           <span>{label}</span>
-          {error && (
+          {error && error.length > 0 && (
             <span className="text-red-500">
               {error.map((errMsg) => `* ${errMsg}`).join(', ') || '*'}
             </span>
@@ -91,6 +91,7 @@ const ComboBox = ({
                     key={option.value}
                     value={option.value}
                     onSelect={() => handleSelect(option.value)}
+                    style={{ pointerEvents: 'auto' }}
                   >
                     <Check
                       className={cn(

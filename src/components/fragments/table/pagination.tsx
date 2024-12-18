@@ -33,15 +33,11 @@ const options: Option[] = [
 interface DataTablePaginationProps {
   currentPage: number;
   totalPages: number;
-  selectedRows: number;
-  totalRows: number;
 }
 
 const DataTablePagination: React.FC<DataTablePaginationProps> = ({
   currentPage,
   totalPages,
-  selectedRows,
-  totalRows,
 }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -87,12 +83,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
   };
 
   return (
-    <div className="sticky bottom-0 flex items-center justify-between bg-background py-4">
-      <p className="flex-1 text-sm text-muted-foreground">
-        {selectedRows > 0
-          ? `${selectedRows} of ${totalRows} row(s) selected.`
-          : ``}
-      </p>
+    <div className="sticky bottom-0 flex items-center justify-end bg-background py-4">
       <div className="flex gap-x-4">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows</p>

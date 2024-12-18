@@ -2,6 +2,7 @@ import React from 'react';
 import { DataTable } from '@/components/fragments/table/DataTable';
 import { fetchCustomerJobs } from '@/app/lib/data/customerjobs';
 import { SearchParamsProps } from '@/types';
+import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
 
 const CustomerJobTable = async ({
@@ -21,15 +22,10 @@ const CustomerJobTable = async ({
 
   const { jobs, last_page: totalPages, total } = data;
   return (
-    <DataTable
-      columns={columns}
-      data={jobs}
-      totalPages={totalPages}
-      currentPage={Number(page)}
-      rows={total}
-      addLabel="Tambah Pekerjaan"
-      searchPlaceholder="Cari Pekerjaan"
-    />
+    <>
+      <DataTable columns={columns} data={jobs} rows={total} />
+      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
+    </>
   );
 };
 

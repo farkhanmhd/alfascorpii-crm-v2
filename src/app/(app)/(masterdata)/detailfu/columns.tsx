@@ -3,39 +3,15 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { Checkbox } from '@/components/ui/checkbox';
-import { IResultFU } from '@/types';
 import { Pencil, Trash } from 'lucide-react';
+import { IDetailFU } from '@/types';
 import { Button } from '@/components/ui/button';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
 
-const columns: ColumnDef<IResultFU>[] = [
+const columns: ColumnDef<IDetailFU>[] = [
   {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    header: 'Hasil Follow Up',
-    accessorKey: 'fu_result_name',
+    header: 'Keterangan',
+    accessorKey: 'detail_fu_name',
   },
   {
     header: 'Status',
@@ -53,10 +29,10 @@ const columns: ColumnDef<IResultFU>[] = [
   },
   {
     id: 'actions',
-    header: () => <div className="text-right">Actions</div>,
+    header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IResultFU>();
+      const { setActionDialog } = useActionDialog<IDetailFU>();
 
       return (
         <div className="flex justify-end gap-x-4">

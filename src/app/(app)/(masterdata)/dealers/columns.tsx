@@ -3,35 +3,11 @@
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Pencil, Trash } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
 import { IDealer } from '@/types';
 import { Button } from '@/components/ui/button';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
 
 const columns: ColumnDef<IDealer>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     accessorKey: 'dealer_code',
     header: 'Kode',
@@ -50,7 +26,7 @@ const columns: ColumnDef<IDealer>[] = [
   },
   {
     id: 'action',
-    header: () => <div className="text-right">Actions</div>,
+    header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
       const { setActionDialog } = useActionDialog<IDealer>();

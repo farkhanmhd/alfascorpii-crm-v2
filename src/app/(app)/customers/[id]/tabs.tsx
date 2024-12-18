@@ -13,98 +13,121 @@ export const OverviewTab: React.FC<TabProps> = ({ value, customer }) => {
   return (
     <TabLayout currentValue={value} value="overview">
       <TextInput
-        label="NIK"
-        id="nik"
-        placeholder="Nomor Induk Kependudukan"
-        defaultValue={customer.nik}
-      />
-
-      <TextInput
-        label="Name"
+        label="Nama"
         id="name"
-        placeholder="Customer Name"
+        placeholder="Nama Customer"
         defaultValue={customer.customer_name}
       />
       <TextInput
-        label="Phone"
+        label="Nomor Handphone"
         id="phone"
-        placeholder="+6281234567890"
+        placeholder="Nomor Handphone"
         defaultValue={customer.mobile_phone}
       />
 
       <DatePicker
+        label="Tanggal Lahir"
         id="date_of_birth"
-        label="Date of Birth"
         initialDate={new Date(customer.date_of_birth)}
       />
       <TextInput
-        label="Address"
+        label="Alamat"
         id="address"
-        placeholder="Customer Address"
+        placeholder="Alamat"
         defaultValue={customer.address}
       />
       <TextInput
-        label="Sub-district"
+        label="Kelurahan"
         id="sub-District"
-        placeholder="Sub-District"
+        placeholder="Kelurahan"
         defaultValue={customer.sub_district}
       />
       <TextInput
-        label="District"
+        label="Kecamatan"
         id="district"
-        placeholder="District"
+        placeholder="Kecamatan"
         defaultValue={customer.district}
       />
 
       <TextInput
-        label="City / Regency"
+        label="Kota / Kabupaten"
         id="city"
-        placeholder="City / Regency"
+        placeholder="Kota / Kabupaten"
         defaultValue={customer.regency_or_city}
       />
 
       <TextInput
-        label="Province"
+        label="Provinsi"
         id="province"
-        placeholder="Province"
+        placeholder="Provinsi"
         defaultValue={customer.province}
       />
     </TabLayout>
   );
 };
 
-export const ExtendedTab: React.FC<TabProps> = ({ value, customer }) => {
+export const UpdateTab: React.FC<TabProps> = ({ value, customer }) => {
   return (
-    <TabLayout currentValue={value} value="extended">
+    <TabLayout currentValue={value} value="update">
       <TextInput
-        label="Job"
+        label="Pekerjaan"
         id="job"
-        placeholder="Customer Job"
-        defaultValue={customer.job_name}
+        placeholder="Pekerjaan"
+        defaultValue={customer.job}
       />
       <TextInput
-        label="Hobby"
+        label="Hobi"
         id="hobby"
-        placeholder="Customer hobby"
+        placeholder="Hobi"
         defaultValue={customer.hobby}
       />
       <TextInput
-        label="House Ownership"
+        label="Status Rumah"
         id="house-ownership"
-        placeholder="Customer House Ownership"
-        defaultValue={customer.house_ownership_status}
+        placeholder="Status Rumah"
+        defaultValue={customer.house_ownership}
       />
       <TextInput
-        label="Income"
+        label="Pendapatan"
         id="income"
-        placeholder="Customer Income"
-        defaultValue={customer.income_per_month}
+        placeholder="Pendapatan"
+        defaultValue={customer.income}
       />
       <TextInput
-        label="Expense"
+        label="Pengeluaran"
         id="expense"
-        placeholder="Customer Expense"
-        defaultValue={customer.expense_per_month}
+        placeholder="Pengeluaran"
+        defaultValue={customer.expense}
+      />
+      <TextInput
+        label="Hari Besar"
+        id="holiday"
+        placeholder="Hari Besar"
+        defaultValue={customer.holiday}
+      />
+      <TextInput
+        label="Jumlah Orang Serumah"
+        id="amount_of_family"
+        placeholder="Jumlah Orang Serumah"
+        defaultValue={customer.amount_of_family}
+      />
+      <TextInput
+        label="Serumah Usia dibawah 12 tahun"
+        id="family_under_12_yo"
+        placeholder="Serumah Usia dibawah 12 tahun"
+        defaultValue={customer.family_under_12_yo}
+      />
+      <TextInput
+        label="Serumah Usia 12 - 17 tahun"
+        id="family_under_12_yo"
+        placeholder="Serumah Usia 12 - 17 tahun"
+        defaultValue={customer.family_12_until_17_yo}
+      />
+      <TextInput
+        label="Jumlah Motor Serumah"
+        id="amount_of_motorcycle"
+        placeholder="Jumlah Motor Serumah"
+        defaultValue={customer.amount_of_motorcycle}
       />
     </TabLayout>
   );
@@ -116,25 +139,25 @@ export const SocialTab: React.FC<TabProps> = ({ value, customer }) => {
       <TextInput
         label="Whatsapp"
         id="whatsapp"
-        placeholder="+6281234567890"
+        placeholder="Nomor Whatsapp"
         defaultValue={customer.whatsapp_number}
       />
       <TextInput
         label="Instagram"
         id="instagram"
-        placeholder="https://instagram.com/username"
+        placeholder="Link Instagram"
         defaultValue={customer.instagram}
       />
       <TextInput
         label="Facebook Link"
         id="facebook"
-        placeholder="https://www.facebook.com/username"
+        placeholder="Link Facebook"
         defaultValue={customer.facebook}
       />
       <TextInput
         label="email"
         id="email"
-        placeholder="someone@example.com"
+        placeholder="email"
         inputMode="email"
         defaultValue={customer.email}
       />

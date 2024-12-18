@@ -4,7 +4,7 @@ const getFollowUpList = (): Promise<IFollowUp[]> => {
   const data: IFollowUp[] = [
     {
       id: 1,
-      follow_up: 'Follow Up #1',
+      follow_up: '#1',
       phone_receiver: 'John Doe',
       relationship: 'Owner',
       whatsapp: '+1234567890',
@@ -16,7 +16,7 @@ const getFollowUpList = (): Promise<IFollowUp[]> => {
     },
     {
       id: 2,
-      follow_up: 'Follow Up #2',
+      follow_up: '#2',
       phone_receiver: 'Jane Smith',
       relationship: 'Owner',
       whatsapp: '+1987654321',
@@ -28,7 +28,7 @@ const getFollowUpList = (): Promise<IFollowUp[]> => {
     },
     {
       id: 3,
-      follow_up: 'Follow Up #3',
+      follow_up: '#3',
       phone_receiver: 'Alice Johnson',
       relationship: "Owner's spouse",
       whatsapp: '+1123456789',
@@ -40,7 +40,7 @@ const getFollowUpList = (): Promise<IFollowUp[]> => {
     },
     {
       id: 4,
-      follow_up: 'Follow Up #4',
+      follow_up: '#4',
       phone_receiver: 'Michael Brown',
       relationship: 'Owner',
       whatsapp: '+1478523690',
@@ -52,7 +52,7 @@ const getFollowUpList = (): Promise<IFollowUp[]> => {
     },
     {
       id: 5,
-      follow_up: 'Follow Up #5',
+      follow_up: '#5',
       phone_receiver: 'Emily Davis',
       relationship: "Owner's daughter",
       whatsapp: '+1098765432',

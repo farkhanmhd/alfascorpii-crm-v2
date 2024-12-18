@@ -15,12 +15,13 @@ import {
   IDetailFU,
   IProductPreferences,
   ICustomer,
+  IStatusFU,
 } from '@/types';
 import {
   CreateFuResultDialog,
   EditFuResultDialog,
   DeleteFuResultDialog,
-} from './(follow-up)/furesult/actions';
+} from './(masterdata)/furesult/actions';
 
 import {
   CreateCustomerJobDialog,
@@ -86,7 +87,7 @@ import {
   CreateFuMethodDialog,
   EditFuMethodDialog,
   DeleteFuMethodDialog,
-} from './(follow-up)/fumethod/actions';
+} from './(masterdata)/fumethod/actions';
 
 import {
   CreateProductDialog,
@@ -98,7 +99,7 @@ import {
   CreateDetailFuDialog,
   EditDetailFuDialog,
   DeleteDetailFuDialog,
-} from './(follow-up)/detailfu/actions';
+} from './(masterdata)/detailfu/actions';
 
 const TableLayoutConfig: TableConfig<
   | ICustomerJob
@@ -114,13 +115,14 @@ const TableLayoutConfig: TableConfig<
   | IFUMethod
   | IResultFU
   | IDetailFU
+  | IStatusFU
   | IProductPreferences
   | ICustomer
 >[] = [
   {
     pathname: '/customerjobs',
-    searchPlaceholder: 'Search Job',
-    addButtonLabel: 'Add Job',
+    searchPlaceholder: 'Cari Pekerjaan',
+    addButtonLabel: 'Tambah Pekerjaan',
     CreateDialog: CreateCustomerJobDialog,
     EditDialog: EditCustomerJobDialog,
     DeleteDialog: DeleteJobDialog,
@@ -128,8 +130,8 @@ const TableLayoutConfig: TableConfig<
   },
   {
     pathname: '/dealers',
-    searchPlaceholder: 'Search Dealer',
-    addButtonLabel: 'Add Dealer',
+    searchPlaceholder: 'Cari Dealer',
+    addButtonLabel: 'Tambah Dealer',
     CreateDialog: CreateDealerDialog,
     EditDialog: EditDealerDialog,
     DeleteDialog: DeleteDealerDialog,
@@ -137,8 +139,8 @@ const TableLayoutConfig: TableConfig<
   },
   {
     pathname: '/degrees',
-    searchPlaceholder: 'Search Degree',
-    addButtonLabel: 'Add Degree',
+    searchPlaceholder: 'Cari Pendidikan',
+    addButtonLabel: 'Tambah Pendidikan',
     CreateDialog: CreateDegreeDialog,
     EditDialog: EditDegreeDialog,
     DeleteDialog: DeleteDegreeDialog,
@@ -146,8 +148,8 @@ const TableLayoutConfig: TableConfig<
   },
   {
     pathname: '/expenses',
-    searchPlaceholder: 'Search Expense',
-    addButtonLabel: 'Add Expense',
+    searchPlaceholder: 'Cari Pengeluaran',
+    addButtonLabel: 'Tambah Pengeluaran',
     CreateDialog: CreateExpenseDialog,
     EditDialog: EditExpenseDialog,
     DeleteDialog: DeleteExpenseDialog,
@@ -155,8 +157,8 @@ const TableLayoutConfig: TableConfig<
   },
   {
     pathname: '/hobbies',
-    searchPlaceholder: 'Search Hobby',
-    addButtonLabel: 'Add Hobby',
+    searchPlaceholder: 'Cari Hobi',
+    addButtonLabel: 'Tambah Hobi',
     CreateDialog: CreateHobbyDialog,
     EditDialog: EditHobbyDialog,
     DeleteDialog: DeleteHobbyDialog,
@@ -165,8 +167,8 @@ const TableLayoutConfig: TableConfig<
   {
     // not working because the date is empty. will be fixed later
     pathname: '/holidays',
-    searchPlaceholder: 'Search Holiday',
-    addButtonLabel: 'Add Holiday',
+    searchPlaceholder: 'Cari Hari Besar',
+    addButtonLabel: 'Tambah Hari Besar',
     CreateDialog: CreateHolidayDialog,
     EditDialog: EditHolidayDialog,
     DeleteDialog: DeleteHolidayDialog,
@@ -174,8 +176,8 @@ const TableLayoutConfig: TableConfig<
   },
   {
     pathname: '/houseownerships',
-    searchPlaceholder: 'Search House Ownership',
-    addButtonLabel: 'Add House Ownership',
+    searchPlaceholder: 'Cari Status Rumah',
+    addButtonLabel: 'Tambah Status Rumah',
     CreateDialog: CreateHouseOwnershipDialog,
     EditDialog: EditHouseOwnershipDialog,
     DeleteDialog: RemoveHouseOwnershipDialog,
@@ -183,8 +185,8 @@ const TableLayoutConfig: TableConfig<
   },
   {
     pathname: '/incomes',
-    searchPlaceholder: 'Search Income',
-    addButtonLabel: 'Add Income',
+    searchPlaceholder: 'Cari Pendapatan',
+    addButtonLabel: 'Tambah Pendapatan',
     CreateDialog: CreateIncomeDialog,
     EditDialog: EditIncomeDialog,
     DeleteDialog: DeleteIncomeDialog,
@@ -192,8 +194,8 @@ const TableLayoutConfig: TableConfig<
   },
   {
     pathname: '/leasing',
-    searchPlaceholder: 'Search Leasing',
-    addButtonLabel: 'Add Leasing',
+    searchPlaceholder: 'Cari Leasing',
+    addButtonLabel: 'Tambah Leasing',
     CreateDialog: CreateLeasingDialog,
     EditDialog: EditLeasingDialog,
     DeleteDialog: DeleteLeasingDialog,
@@ -201,8 +203,8 @@ const TableLayoutConfig: TableConfig<
   },
   {
     pathname: '/relations',
-    searchPlaceholder: 'Search Relation',
-    addButtonLabel: 'Add Relation',
+    searchPlaceholder: 'Cari Relasi',
+    addButtonLabel: 'Tambah Relasi',
     CreateDialog: CreateRelationDialog,
     EditDialog: EditRelationDialog,
     DeleteDialog: DeleteRelationDialog,
@@ -210,8 +212,8 @@ const TableLayoutConfig: TableConfig<
   },
   {
     pathname: '/fumethod',
-    searchPlaceholder: 'Search Method',
-    addButtonLabel: 'Add Method',
+    searchPlaceholder: 'Cari Metode FU',
+    addButtonLabel: 'Tambah Metode FU',
     CreateDialog: CreateFuMethodDialog,
     EditDialog: EditFuMethodDialog,
     DeleteDialog: DeleteFuMethodDialog,
@@ -219,8 +221,8 @@ const TableLayoutConfig: TableConfig<
   },
   {
     pathname: '/furesult',
-    searchPlaceholder: 'Follow Up Result',
-    addButtonLabel: 'Add FU Result',
+    searchPlaceholder: 'Cari Hasil Follow Up',
+    addButtonLabel: 'Tambah Hasil',
     CreateDialog: CreateFuResultDialog,
     EditDialog: EditFuResultDialog,
     DeleteDialog: DeleteFuResultDialog,
@@ -229,8 +231,18 @@ const TableLayoutConfig: TableConfig<
   {
     // dialog form hasnt made and api not consumed yet. will fixed later
     pathname: '/detailfu',
-    searchPlaceholder: 'Follow Up Detail',
-    addButtonLabel: 'Add FU Detail',
+    searchPlaceholder: 'Cari Detail Follow Up',
+    addButtonLabel: 'Tambah Detail',
+    CreateDialog: CreateDetailFuDialog,
+    EditDialog: EditDetailFuDialog,
+    DeleteDialog: DeleteDetailFuDialog,
+    type: {} as IDetailFU,
+  },
+  {
+    // dialog form hasnt made and api not consumed yet. will fixed later
+    pathname: '/statusfus',
+    searchPlaceholder: 'Cari Status Follow Up',
+    addButtonLabel: 'Tambah Status',
     CreateDialog: CreateDetailFuDialog,
     EditDialog: EditDetailFuDialog,
     DeleteDialog: DeleteDetailFuDialog,
@@ -238,8 +250,8 @@ const TableLayoutConfig: TableConfig<
   },
   {
     pathname: '/productpreferences',
-    searchPlaceholder: 'Search Product',
-    addButtonLabel: 'Add Product',
+    searchPlaceholder: 'Cari Product',
+    addButtonLabel: 'Tambah Product',
     CreateDialog: CreateProductDialog,
     EditDialog: EditProductDialog,
     DeleteDialog: DeleteProductDialog,

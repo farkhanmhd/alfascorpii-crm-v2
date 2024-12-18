@@ -3,43 +3,19 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { Checkbox } from '@/components/ui/checkbox';
-import { IFUMethod } from '@/types';
+import { IResultFU } from '@/types';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
 
-const columns: ColumnDef<IFUMethod>[] = [
+const columns: ColumnDef<IResultFU>[] = [
   {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+    header: 'Hasil Follow Up',
+    accessorKey: 'fu_result_name',
   },
   {
-    header: 'Metode',
-    accessorKey: 'fu_method_name',
-  },
-  {
-    accessorKey: 'status',
     header: 'Status',
+    accessorKey: 'status',
     cell: ({ row }) => (
       <span
         className={clsx({
@@ -53,10 +29,10 @@ const columns: ColumnDef<IFUMethod>[] = [
   },
   {
     id: 'actions',
-    header: () => <div className="text-right">Actions</div>,
+    header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IFUMethod>();
+      const { setActionDialog } = useActionDialog<IResultFU>();
 
       return (
         <div className="flex justify-end gap-x-4">

@@ -1,13 +1,9 @@
 import React from 'react';
 import { fetchHouseOwnerships } from '@/app/lib/data/houseownerships';
 import { DataTable } from '@/components/fragments/table/DataTable';
+import { SearchParamsProps } from '@/types';
+import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
-
-interface SearchParamsProps {
-  search?: string;
-  page?: string;
-  perPage?: string;
-}
 
 const HouseOwnershipTable = async ({
   search,
@@ -26,15 +22,10 @@ const HouseOwnershipTable = async ({
 
   const { houseownerships, last_page: totalPages, total } = data;
   return (
-    <DataTable
-      columns={columns}
-      data={houseownerships}
-      addLabel="Add House Ownership"
-      totalPages={totalPages}
-      currentPage={Number(page)}
-      rows={total}
-      searchPlaceholder="Search House Ownership"
-    />
+    <>
+      <DataTable columns={columns} data={houseownerships} rows={total} />
+      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
+    </>
   );
 };
 

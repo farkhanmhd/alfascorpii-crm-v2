@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
+import Tablesearch from '@/components/fragments/table/tablesearch';
 import CustomerTable from './CustomerTable';
-import SelectedFilters from './selected-filters';
 
 export const metadata: Metadata = {
   title: 'Customers',
@@ -20,9 +20,12 @@ const Page = async (props: {
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
   const perPage = searchParams?.per_page;
+  console.log(search);
   return (
-    <div className="grid h-full grid-rows-[auto_1fr] gap-y-4">
-      <SelectedFilters />
+    <div className="grid h-full grid-rows-[auto_1fr]">
+      <header className="flex items-center justify-between gap-x-4 py-4">
+        <Tablesearch placeholder="Cari Customer" />
+      </header>
       <Suspense fallback={<TableSkeleton />}>
         <CustomerTable search={search} page={page} perPage={perPage} />
       </Suspense>

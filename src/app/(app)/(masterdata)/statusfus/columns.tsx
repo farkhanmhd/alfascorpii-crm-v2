@@ -2,37 +2,36 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { ColumnDef } from '@tanstack/react-table';
 import { Pencil, Trash } from 'lucide-react';
-import { IHouseOwnership } from '@/types';
+import { ColumnDef } from '@tanstack/react-table';
+import { IStatusFU } from '@/types';
 import { Button } from '@/components/ui/button';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
 
-const columns: ColumnDef<IHouseOwnership>[] = [
+const columns: ColumnDef<IStatusFU>[] = [
   {
-    header: 'Status Rumah',
-    accessorKey: 'house_ownership_status',
+    accessorKey: 'detail_fu_name',
+    header: 'Keterangan',
   },
   {
     header: 'Status',
-    accessorKey: 'status',
-    cell: ({ row }) => (
+    cell: ({ row: { original: status } }) => (
       <span
         className={clsx({
-          'text-green-500': row.getValue('status') === 'SHOW',
-          'text-red-500': row.getValue('status') === 'HIDE',
+          'text-green-500': status.status === 'SHOW',
+          'text-red-500': status.status === 'HIDE',
         })}
       >
-        {row.getValue('status')}
+        {status.status}
       </span>
     ),
   },
   {
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
-    cell: ({ row }) => {
+    cell: ({ row: { original: item } }) => {
       const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IHouseOwnership>();
+      const { setActionDialog } = useActionDialog<IStatusFU>();
 
       return (
         <div className="flex justify-end gap-x-4">
@@ -40,7 +39,7 @@ const columns: ColumnDef<IHouseOwnership>[] = [
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setActionDialog({ edit: true, data: row.original })}
+            onClick={() => setActionDialog({ edit: true, data: item })}
           >
             <Pencil />
           </Button>
@@ -48,7 +47,7 @@ const columns: ColumnDef<IHouseOwnership>[] = [
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
+            onClick={() => setDeleteDialog({ open: true, id: item.id })}
           >
             <Trash />
           </Button>

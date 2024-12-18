@@ -2,44 +2,45 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import { ColumnDef } from '@tanstack/react-table';
+import { IFUMethod } from '@/types';
 import { Pencil, Trash } from 'lucide-react';
-import { IStatusFU, Column } from '@/types';
 import { Button } from '@/components/ui/button';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
 
-const columns: Column<IStatusFU>[] = [
+const columns: ColumnDef<IFUMethod>[] = [
   {
-    header: 'Keterangan',
-    key: 'detail_fu_name',
-    GetCellContent: (status: IStatusFU) => status.detail_fu_name || 'Null',
+    header: 'Metode',
+    accessorKey: 'fu_method_name',
   },
   {
+    accessorKey: 'status',
     header: 'Status',
-    key: 'status',
-    GetCellContent: (status: IStatusFU) => (
+    cell: ({ row }) => (
       <span
         className={clsx({
-          'text-green-500': status.status === 'SHOW',
-          'text-red-500': status.status === 'HIDE',
+          'text-green-500': row.getValue('status') === 'SHOW',
+          'text-red-500': row.getValue('status') === 'HIDE',
         })}
       >
-        {status.status}
+        {row.getValue('status')}
       </span>
     ),
   },
   {
-    header: 'Action',
-    GetCellContent: (item: IStatusFU) => {
+    id: 'actions',
+    header: () => <div className="text-right">Aksi</div>,
+    cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IStatusFU>();
+      const { setActionDialog } = useActionDialog<IFUMethod>();
 
       return (
-        <div className="flex gap-x-4">
+        <div className="flex justify-end gap-x-4">
           <Button
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setActionDialog({ edit: true, data: item })}
+            onClick={() => setActionDialog({ edit: true, data: row.original })}
           >
             <Pencil />
           </Button>
@@ -47,7 +48,7 @@ const columns: Column<IStatusFU>[] = [
             variant="outline"
             size="sm"
             type="button"
-            onClick={() => setDeleteDialog({ open: true, id: item.id })}
+            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
           >
             <Trash />
           </Button>

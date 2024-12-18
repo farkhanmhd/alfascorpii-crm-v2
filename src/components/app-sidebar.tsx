@@ -9,7 +9,6 @@ import {
   Database,
   Users,
   Phone,
-  Bike,
   LayoutDashboard,
 } from 'lucide-react';
 
@@ -61,48 +60,63 @@ export const sidebarData = {
       title: 'Master Data',
       url: '#',
       icon: Database,
-      isActive: true,
       isParent: true,
       items: [
         {
-          title: 'Dealers',
+          title: 'Dealer',
           url: '/dealers',
         },
         {
-          title: 'Leasings',
+          title: 'Leasing',
           url: '/leasing',
         },
         {
-          title: 'Jobs',
+          title: 'Pekerjaan',
           url: '/customerjobs',
         },
         {
-          title: 'Holidays',
+          title: 'Hari Besar',
           url: '/holidays',
         },
         {
-          title: 'Relations',
+          title: 'Relasi',
           url: '/relations',
         },
         {
-          title: 'Education Degree',
+          title: 'Pendidikan',
           url: '/degrees',
         },
         {
-          title: 'Expenses',
+          title: 'Pengeluaran',
           url: '/expenses',
         },
         {
-          title: 'Incomes',
+          title: 'Pendapatan',
           url: '/incomes',
         },
         {
-          title: 'Hobbies',
+          title: 'Hobi',
           url: '/hobbies',
         },
         {
-          title: 'House Ownerships',
+          title: 'Status Rumah',
           url: '/houseownerships',
+        },
+        {
+          title: 'Metode Follow Up',
+          url: '/fumethod',
+        },
+        {
+          title: 'Status Follow Up',
+          url: '/statusfus',
+        },
+        {
+          title: 'Hasil Follow Up',
+          url: '/furesult',
+        },
+        {
+          title: 'Detail Follow Up',
+          url: '/detailfu',
         },
       ],
     },
@@ -118,20 +132,8 @@ export const sidebarData = {
           url: '/follow-up',
         },
         {
-          title: 'Methods',
-          url: '/fumethod',
-        },
-        // {
-        //   title: 'Status',
-        //   url: '/statusfus',
-        // },
-        {
-          title: 'Results',
-          url: '/furesult',
-        },
-        {
-          title: 'Details',
-          url: '/detailfu',
+          title: 'Data Duplikat',
+          url: '/duplicateddata',
         },
       ],
     },
@@ -141,12 +143,12 @@ export const sidebarData = {
       icon: Users,
       isParent: false,
     },
-    {
-      title: 'Products',
-      url: '/productpreferences',
-      icon: Bike,
-      isParent: false,
-    },
+    // {
+    //   title: 'Products',
+    //   url: '/productpreferences',
+    //   icon: Bike,
+    //   isParent: false,
+    // },
   ],
 };
 

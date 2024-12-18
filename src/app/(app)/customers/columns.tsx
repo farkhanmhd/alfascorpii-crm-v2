@@ -1,68 +1,61 @@
 'use client';
 
 import React from 'react';
-import { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
-import { MoreHorizontal } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { ColumnDef } from '@tanstack/react-table';
+import { cn } from '@/lib/utils';
+// import { Checkbox } from '@/components/ui/checkbox';
+import { buttonVariants } from '@/components/ui/button';
 import { ICustomer } from '@/types';
+import { Pencil } from 'lucide-react';
 
 export const columns: ColumnDef<ICustomer>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
+  // {
+  //   id: 'select',
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={
+  //         table.getIsAllPageRowsSelected() ||
+  //         (table.getIsSomePageRowsSelected() && 'indeterminate')
+  //       }
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //     />
+  //   ),
 
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'dealer_code',
-    header: 'Dealer Code',
-  },
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
+  // {
+  //   accessorKey: 'dealer_code',
+  //   header: 'Dealer Code',
+  // },
   {
     accessorKey: 'dealer_name',
-    header: 'Dealer Name',
+    header: 'Dealer',
   },
   {
     accessorKey: 'customer_name',
-    header: 'Name',
+    header: 'Nama',
   },
   {
     accessorKey: 'district',
-    header: 'District',
+    header: 'Kecamatan',
   },
   {
     accessorKey: 'address',
-    header: 'Address',
+    header: 'Alamat',
   },
   {
     accessorKey: 'mobile_phone',
-    header: 'Phone',
+    header: 'Nomor HP',
   },
   // {
   //   accessorKey: 'email',
@@ -91,38 +84,22 @@ export const columns: ColumnDef<ICustomer>[] = [
   // },
   {
     id: 'actions',
-    header: () => <div className="text-right">Actions</div>,
+    header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
       const customer = row.original;
       return (
-        <div className="flex items-center justify-end space-x-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="ml-auto h-8 w-8 p-0"
-                data-name="actions"
-              >
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() =>
-                  navigator.clipboard.writeText(String(customer.id))
-                }
-              >
-                Copy Customer ID
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link href={`/customers/${customer.id}`}>View Customer</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div className="flex justify-end gap-x-4">
+          <Link
+            href={`/customers/${customer.id}`}
+            className={cn(
+              buttonVariants({
+                size: 'sm',
+                variant: 'outline',
+              })
+            )}
+          >
+            <Pencil />
+          </Link>
         </div>
       );
     },

@@ -1,13 +1,9 @@
 import React from 'react';
 import { DataTable } from '@/components/fragments/table/DataTable';
 import { fetchDegree } from '@/app/lib/data/degrees';
+import { SearchParamsProps } from '@/types';
+import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
-
-interface SearchParamsProps {
-  search?: string;
-  page?: string;
-  perPage?: string;
-}
 
 const DegreeTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchDegree(search, page, perPage);
@@ -22,15 +18,10 @@ const DegreeTable = async ({ search, page, perPage }: SearchParamsProps) => {
 
   const { degrees, last_page: totalPages, total } = data;
   return (
-    <DataTable
-      columns={columns}
-      data={degrees}
-      currentPage={Number(page)}
-      totalPages={totalPages}
-      rows={total}
-      addLabel="Tambah Pendidikan"
-      searchPlaceholder="Cari Pendidikan"
-    />
+    <>
+      <DataTable columns={columns} data={degrees} rows={total} />
+      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
+    </>
   );
 };
 

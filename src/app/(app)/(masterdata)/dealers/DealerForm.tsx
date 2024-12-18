@@ -55,6 +55,10 @@ const dealerTypeOptions: ComboBoxOptions[] = [
     label: 'MDS',
     value: 'MDS',
   },
+  {
+    label: 'Non Independent',
+    value: 'Non Independent',
+  },
 ];
 
 const DealerForm: React.FC<DealerFormProps> = ({

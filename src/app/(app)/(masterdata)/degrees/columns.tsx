@@ -6,33 +6,9 @@ import clsx from 'clsx';
 import { IDegree } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useDeleteDialog, useActionDialog } from '@/hooks';
 
 const columns: ColumnDef<IDegree>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     header: 'Kode',
     accessorKey: 'degree_code',
@@ -57,7 +33,7 @@ const columns: ColumnDef<IDegree>[] = [
   },
   {
     id: 'actions',
-    header: () => <div className="text-right">Actions</div>,
+    header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
       const { setActionDialog } = useActionDialog<IDegree>();

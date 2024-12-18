@@ -1,13 +1,9 @@
 import React from 'react';
 import { fetchDetailFU } from '@/app/lib/data/detailfu';
 import { DataTable } from '@/components/fragments/table/DataTable';
+import { SearchParamsProps } from '@/types';
+import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
-
-interface SearchParamsProps {
-  search?: string;
-  page?: string;
-  perPage?: string;
-}
 
 const FuDetailTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchDetailFU(search, page, perPage);
@@ -22,15 +18,10 @@ const FuDetailTable = async ({ search, page, perPage }: SearchParamsProps) => {
 
   const { detailfu, last_page: totalPages, total } = data;
   return (
-    <DataTable
-      columns={columns}
-      data={detailfu}
-      addLabel="Add FU Detail"
-      totalPages={totalPages}
-      currentPage={Number(page)}
-      rows={total}
-      searchPlaceholder="Search FU Detail"
-    />
+    <>
+      <DataTable columns={columns} data={detailfu} rows={total} />
+      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
+    </>
   );
 };
 

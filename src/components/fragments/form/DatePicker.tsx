@@ -159,7 +159,7 @@ const DatePicker = ({
           <Button
             variant="outline"
             className={cn(
-              'max-w-max justify-start text-left font-normal',
+              'w-full justify-start text-left font-normal',
               !date && 'text-muted-foreground'
             )}
           >

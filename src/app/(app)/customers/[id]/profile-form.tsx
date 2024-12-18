@@ -4,7 +4,7 @@ import React from 'react';
 // import { z } from 'zod';
 import SubmitButton from '@/components/fragments/buttons/SubmitButton';
 import { ICustomer } from '@/types';
-import { OverviewTab, ExtendedTab, SocialTab } from './tabs';
+import { OverviewTab, UpdateTab, SocialTab } from './tabs';
 
 // const profileFormSchema = z.object({
 //   dealer: z
@@ -57,13 +57,13 @@ const ProfileForm = ({
   value,
   customer,
 }: {
-  value: 'overview' | 'extended' | 'social';
+  value: 'overview' | 'update' | 'social';
   customer: ICustomer;
 }) => {
   return (
     <form>
       <OverviewTab value={value} customer={customer} />
-      <ExtendedTab value={value} customer={customer} />
+      <UpdateTab value={value} customer={customer} />
       <SocialTab value={value} customer={customer} />
 
       <SubmitButton>Update Customer Data</SubmitButton>

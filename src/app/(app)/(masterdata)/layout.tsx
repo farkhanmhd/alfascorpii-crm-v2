@@ -20,6 +20,8 @@ const MasterDataLayout = ({ children }: { children: React.ReactNode }) => {
         CreateDialog={config.CreateDialog}
         EditDialog={config.EditDialog}
         DeleteDialog={config.DeleteDialog}
+        searchPlaceholder={config.searchPlaceholder}
+        addButtonLabel={config.addButtonLabel}
       >
         {children}
       </TableLayout>

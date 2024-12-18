@@ -2,6 +2,7 @@ import React from 'react';
 import { DataTable } from '@/components/fragments/table/DataTable';
 import { fetchCustomer } from '@/app/lib/data/customers';
 import { SearchParamsProps } from '@/types';
+import DataTablePagination from '@/components/fragments/table/pagination';
 import { columns } from './columns';
 
 export interface FlatCustomer {
@@ -15,23 +16,20 @@ export interface FlatCustomer {
   dealerName: string;
 }
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const CustomerTable = async ({ search, page, perPage }: SearchParamsProps) => {
+  // await delay(2000);
   const {
     customers,
     last_page: totalPages,
-    current_page: currentPage,
     total,
   } = await fetchCustomer(search, page, perPage);
   return (
-    <DataTable
-      columns={columns}
-      data={customers}
-      totalPages={totalPages}
-      currentPage={currentPage}
-      rows={total}
-      addLabel="Import Customer"
-      searchPlaceholder="Cari Customer"
-    />
+    <>
+      <DataTable columns={columns} data={customers} rows={total} />
+      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
+    </>
   );
 };
 

@@ -13,7 +13,7 @@ const dealerSchema = z.object({
     ['Aceh', 'Sumatera Utara', 'Medan', 'Riau', 'Kepulauan Riau'],
     { message: 'Dealer area is required' }
   ),
-  dealer_type: z.enum(['MDS', 'Independen'], {
+  dealer_type: z.enum(['MDS', 'Independen', 'Non Independent'], {
     message: 'Dealer type is required',
   }),
 });

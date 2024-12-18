@@ -1,52 +1,42 @@
-'use client';
+import { ColumnDef } from '@tanstack/react-table';
+import { IFollowUp } from '@/types';
 
-import { IFollowUp, Column } from '@/types';
-
-const columns: Column<IFollowUp>[] = [
+const columns: ColumnDef<IFollowUp>[] = [
   {
-    header: 'Follow Up #',
-    key: 'follow_up',
-    GetCellContent: (fu: IFollowUp) => fu.follow_up,
+    accessorKey: 'follow_up',
+    header: '#',
   },
   {
-    header: 'Receiver',
-    key: 'phone_receiver',
-    GetCellContent: (fu: IFollowUp) => fu.phone_receiver,
+    accessorKey: 'phone_receiver',
+    header: 'Penerima',
   },
   {
-    header: 'Relationship',
-    key: 'relationship',
-    GetCellContent: (fu: IFollowUp) => fu.relationship,
+    accessorKey: 'relationship',
+    header: 'Relasi',
   },
   {
+    accessorKey: 'whatsapp',
     header: 'Whatsapp',
-    key: 'whatsapp',
-    GetCellContent: (fu: IFollowUp) => fu.whatsapp,
   },
   {
-    header: 'Date',
-    key: 'date',
-    GetCellContent: (fu: IFollowUp) => fu.date,
+    accessorKey: 'date',
+    header: 'Tanggal',
   },
   {
-    header: 'Method',
-    key: 'method',
-    GetCellContent: (fu: IFollowUp) => fu.method,
+    accessorKey: 'method',
+    header: 'Metode',
   },
   {
+    accessorKey: 'status',
     header: 'Status',
-    key: 'status',
-    GetCellContent: (fu: IFollowUp) => fu.status,
   },
   {
-    header: 'Result',
-    key: 'result',
-    GetCellContent: (fu: IFollowUp) => fu.result,
+    accessorKey: 'result',
+    header: 'Hasil',
   },
   {
-    header: 'Motorcycle',
-    key: 'motorcycle',
-    GetCellContent: (fu: IFollowUp) => fu.motorcycle,
+    accessorKey: 'motorcycle',
+    header: 'Motor',
   },
 ];
 

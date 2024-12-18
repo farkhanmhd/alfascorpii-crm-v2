@@ -1,13 +1,9 @@
 import React from 'react';
 import { fetchRelation } from '@/app/lib/data/relations';
 import { DataTable } from '@/components/fragments/table/DataTable';
+import { SearchParamsProps } from '@/types';
+import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
-
-interface SearchParamsProps {
-  search?: string;
-  page?: string;
-  perPage?: string;
-}
 
 const RelationTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchRelation(search, page, perPage);
@@ -22,15 +18,10 @@ const RelationTable = async ({ search, page, perPage }: SearchParamsProps) => {
 
   const { relations, last_page: totalPages, total } = data;
   return (
-    <DataTable
-      columns={columns}
-      data={relations}
-      addLabel="Tambah Hubungan"
-      currentPage={Number(page)}
-      totalPages={totalPages}
-      rows={total}
-      searchPlaceholder="Cari Hubungan"
-    />
+    <>
+      <DataTable columns={columns} data={relations} rows={total} />
+      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
+    </>
   );
 };
 

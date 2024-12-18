@@ -50,13 +50,24 @@ export type DealerArea =
   | 'Medan'
   | 'Riau'
   | 'Kepulauan Riau';
-export type DealerType = 'MDS' | 'Independen';
+export type DealerType = 'MDS' | 'Independen' | 'Non Independent';
 
 export interface IDealer extends IIdentifiable {
   dealer_code: string;
   dealer_name: string;
   dealer_area: DealerArea;
   dealer_type: DealerType;
+}
+
+export interface IMotorcycle extends IIdentifiable {
+  name: string;
+  color: string;
+  frame_number: string;
+  engine_number: string;
+  payment_method: string;
+  assembly_date: string;
+  purchase_date: string;
+  leasing_name: string;
 }
 
 export interface ICustomer extends IIdentifiable {
@@ -71,23 +82,15 @@ export interface ICustomer extends IIdentifiable {
   mobile_phone: string;
   nik: string;
   dealer_name: string;
-  dealer_code: string;
-  dealer_area: string;
-  motorcycle_type: string;
-  frame_number: string;
-  engine_number: string;
-  payment_method: string;
-  assembly_date: string; // Assuming this is a date in string format
-  purchase_date: string | null;
-  leasing?: string | null;
+  data_source: string;
   latest_update_date: string; // Assuming this is a date in string format
+  customer_status: string;
   address: string;
-  house_ownership_status: string;
-  job_name: string;
-  job_description: string;
+  house_ownership: string;
+  job: string;
   date_of_birth: string; // Assuming this is a date in string format
   religion: string;
-  education_level: string;
+  degree: string;
   hobby: string;
   hobby_description: string;
   amount_of_family: number;
@@ -98,10 +101,11 @@ export interface ICustomer extends IIdentifiable {
   facebook: string;
   instagram: string;
   email: string;
-  income_per_month: string;
-  expense_per_month: string;
-  data_source: string;
-  customer_status: string;
+  income: string;
+  expense: string;
+  holiday: string;
+  motorcycles: IMotorcycle[];
+  family_card: any[];
 }
 
 export interface IRelation extends IIdentifiable {
@@ -288,6 +292,8 @@ export type ComboBoxOptions = {
   label: string;
   value: string;
 };
+
+export interface SelectOptions extends ComboBoxOptions {}
 
 export type CustomerFilters = {
   dateOptions?: string | null;
