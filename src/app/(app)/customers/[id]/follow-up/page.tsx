@@ -5,10 +5,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import FollowUpList from './FollowUpList';
 
-type Params = Promise<{ id: string | number }>;
-
-const FollowUpPage = async ({ params }: { params: Params }) => {
-  const { id } = await params;
+const FollowUpPage = () => {
   return (
     <div className="grid h-full grid-rows-[auto_auto_1fr] gap-y-3">
       <div>

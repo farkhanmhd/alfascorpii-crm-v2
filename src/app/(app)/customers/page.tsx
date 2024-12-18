@@ -20,7 +20,6 @@ const Page = async (props: {
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
   const perPage = searchParams?.per_page;
-  console.log(search);
   return (
     <div className="grid h-full grid-rows-[auto_1fr]">
       <header className="flex items-center justify-between gap-x-4 py-4">

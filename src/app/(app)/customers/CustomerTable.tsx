@@ -16,8 +16,6 @@ export interface FlatCustomer {
   dealerName: string;
 }
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 const CustomerTable = async ({ search, page, perPage }: SearchParamsProps) => {
   // await delay(2000);
   const {

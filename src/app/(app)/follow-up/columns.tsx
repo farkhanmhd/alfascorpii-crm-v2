@@ -15,7 +15,7 @@ import { buttonVariants } from '@/components/ui/button';
 // } from '@/components/ui/dropdown-menu';
 import { ICustomer } from '@/types';
 import { cn } from '@/lib/utils';
-import { Pencil, PhoneCall } from 'lucide-react';
+import { PhoneCall } from 'lucide-react';
 
 export const columns: ColumnDef<ICustomer>[] = [
   {
@@ -62,8 +62,8 @@ export const columns: ColumnDef<ICustomer>[] = [
   {
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
-    cell: ({ row }) => {
-      const customer = row.original;
+    cell: () => {
+      // const customer = row.original;
       return (
         // <div className="flex items-center justify-end space-x-2">
         //   <DropdownMenu>
