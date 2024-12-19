@@ -35,6 +35,10 @@ export const columns: ColumnDef<ICustomer>[] = [
     accessorKey: 'mobile_phone',
     header: 'Phone',
   },
+  {
+    accessorKey: 'duplicate_reason',
+    header: 'Alasan Duplikat',
+  },
   // {
   //   accessorKey: 'email',
   //   header: ({ column }) => (

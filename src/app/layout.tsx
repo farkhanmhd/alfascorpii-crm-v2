@@ -37,7 +37,7 @@ const RootLayout = ({
               enableSystem
               disableTransitionOnChange
             >
-              <NextTopLoader showSpinner={false} color="white" />
+              <NextTopLoader showSpinner={false} />
               <SearchDialog />
               {children}
               <Toaster />

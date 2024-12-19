@@ -133,7 +133,7 @@ export const sidebarData = {
         },
         {
           title: 'Data Duplikat',
-          url: '/duplicateddata',
+          url: '/duplicatedata',
         },
       ],
     },

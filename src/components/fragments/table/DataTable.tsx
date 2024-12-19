@@ -55,16 +55,13 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   return (
     <div className="hide-scrollbar overflow-auto">
       <Table>
-        <TableHeader className="sticky top-0 z-50 overflow-hidden bg-background">
+        <TableHeader className="sticky top-0 overflow-hidden bg-background">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               <MapItems
                 of={headerGroup.headers}
                 render={(header) => (
-                  <TableHead
-                    key={header.id}
-                    className="rounded-md p-2 text-primary"
-                  >
+                  <TableHead key={header.id} className="p-2 text-primary">
                     {header.isPlaceholder
                       ? null
                       : flexRender(

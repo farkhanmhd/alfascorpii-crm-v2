@@ -2,17 +2,17 @@
 
 import { zfd } from 'zod-form-data';
 import actionClient from '@/lib/safe-action';
-import { importCustomer } from '../../data/customers';
+import { importFollowUp } from '../../data/customers';
 
 const schema = zfd.formData({
   file: zfd.file(),
 });
 
-export const importCustomerAction = actionClient
+export const importFollowUpAction = actionClient
   .schema(schema)
   .action(async ({ parsedInput }) => {
     try {
-      const message = await importCustomer(parsedInput.file);
+      const message = await importFollowUp(parsedInput.file);
       return { status: 'success', message };
     } catch (error) {
       return {

@@ -54,7 +54,7 @@ export const EditDealerDialog = () => {
   });
   useSubmitToast(result, handleClose, reset);
   return (
-    <ActionDialogContainer title="Tambah Dealer">
+    <ActionDialogContainer title="Edit Dealer">
       <DealerForm
         action={execute}
         validationErrors={result?.validationErrors}

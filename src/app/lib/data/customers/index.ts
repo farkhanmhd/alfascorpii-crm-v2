@@ -1,4 +1,5 @@
 import { fetchWithParams, fetchData } from '@/app/lib/data/fetchUtils';
+import { revalidatePath } from 'next/cache';
 import { getAccessToken } from '../auth';
 
 export const fetchCustomer = (
@@ -7,7 +8,7 @@ export const fetchCustomer = (
   per_page?: string
 ) => fetchWithParams('customers', search, page, per_page);
 
-export const importCustomer = async (file: File) => {
+export const importFollowUp = async (file: File) => {
   const accessToken = await getAccessToken();
   const formData = new FormData();
   formData.append('file', file);
@@ -22,6 +23,7 @@ export const importCustomer = async (file: File) => {
   });
 
   const { message } = await response.json();
+  revalidatePath('/follow-up');
   return message;
 };
 

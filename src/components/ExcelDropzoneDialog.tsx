@@ -14,14 +14,14 @@ import {
 import { Button } from '@/components/ui/button';
 import { useActionDialog, useSubmitToast } from '@/hooks';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { FileSpreadsheet, Upload, Download } from 'lucide-react';
-import { importCustomerAction } from '@/app/lib/actions/customers';
+import { FileSpreadsheet, Upload, Download, Loader2 } from 'lucide-react';
+import { importFollowUpAction } from '@/app/lib/actions/customers';
 
 const ExcelDropzoneDialog = () => {
-  const { execute, result, isPending, reset } = useAction(importCustomerAction);
+  const { execute, result, isPending, reset } = useAction(importFollowUpAction);
   const { actionDialog, handleClose } = useActionDialog();
   const [file, setFile] = useState<File | null>(null);
-  const [fileData, setFileData] = useState<any[] | null>(null);
+  const [fileData, setFileData] = useState<File[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { push } = useRouter();
 
@@ -63,6 +63,7 @@ const ExcelDropzoneDialog = () => {
         <DialogHeader>
           <DialogTitle>Upload Excel File</DialogTitle>
         </DialogHeader>
+
         <div
           {...getRootProps()}
           className={`cursor-pointer rounded-lg border-2 border-dashed p-10 text-center ${
@@ -104,18 +105,27 @@ const ExcelDropzoneDialog = () => {
             </AlertDescription>
           </Alert>
         )}
-        <DialogFooter className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-between">
-          <Button variant="outline" onClick={() => push('/template.xlsx')}>
-            <Download className="mr-2 h-4 w-4" />
-            Download Template
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            className="w-full sm:w-auto"
-            disabled={!file || isPending}
-          >
-            Submit
-          </Button>
+        <DialogFooter className="mt-4 flex gap-y-4 sm:flex-col sm:space-x-0">
+          <div className="flex w-full flex-col gap-2 sm:flex-row sm:justify-between">
+            <Button variant="outline" onClick={() => push('/template.xlsx')}>
+              <Download className="mr-2 h-4 w-4" />
+              Download Template
+            </Button>
+            <Button
+              onClick={handleSubmit}
+              className="w-full sm:w-auto"
+              disabled={!file || isPending}
+            >
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <span>Importing...</span>
+                </>
+              ) : (
+                <span>Import</span>
+              )}
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
