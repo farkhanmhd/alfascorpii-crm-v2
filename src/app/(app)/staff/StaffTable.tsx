@@ -1,12 +1,12 @@
 import React from 'react';
-import { fetchKeteranganFU } from '@/app/lib/data/statusfus';
+import { fetchStaff } from '@/app/lib/data/staff';
 import { DataTable } from '@/components/fragments/table/DataTable';
 import { SearchParamsProps } from '@/types';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
 
-const StatusFuTable = async ({ search, page, perPage }: SearchParamsProps) => {
-  const data = await fetchKeteranganFU(search, page, perPage);
+const StaffTable = async ({ search, page, perPage }: SearchParamsProps) => {
+  const data = await fetchStaff(search, page, perPage);
 
   if (!data) {
     return (
@@ -16,13 +16,13 @@ const StatusFuTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { statusfu, last_page: totalPages, total } = data;
+  const { staffs, last_page: totalPages, total } = data;
   return (
     <>
-      <DataTable columns={columns} data={statusfu} rows={total} />
+      <DataTable columns={columns} data={staffs} rows={total} />
       <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
     </>
   );
 };
 
-export default StatusFuTable;
+export default StaffTable;

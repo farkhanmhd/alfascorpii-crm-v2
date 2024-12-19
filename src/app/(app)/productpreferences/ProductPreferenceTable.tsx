@@ -1,13 +1,9 @@
 import React from 'react';
 import { fetchProductPreferences } from '@/app/lib/data/productpreferences';
 import { DataTable } from '@/components/fragments/table/DataTable';
+import { SearchParamsProps } from '@/types';
+import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
-
-interface SearchParamsProps {
-  search?: string;
-  page?: string;
-  perPage?: string;
-}
 
 const ProductPreferenceTable = async ({
   search,
@@ -26,15 +22,10 @@ const ProductPreferenceTable = async ({
 
   const { productpreferences, last_page: totalPages, total } = data;
   return (
-    <DataTable
-      columns={columns}
-      data={productpreferences}
-      addLabel="Add Motorcycle"
-      searchPlaceholder="Search Motorcycle"
-      currentPage={Number(page)}
-      totalPages={totalPages}
-      rows={total}
-    />
+    <>
+      <DataTable columns={columns} data={productpreferences} rows={total} />
+      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
+    </>
   );
 };
 
