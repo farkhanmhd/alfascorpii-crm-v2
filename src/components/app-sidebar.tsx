@@ -22,6 +22,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
+import { ScrollArea } from '@/components/ui/scrollarea';
 
 import SearchButton from './fragments/buttons/SearchButton';
 import ThemeToggle from './fragments/toggle/ThemeToggle';
@@ -168,7 +169,9 @@ export const AppSidebar = ({ session, ...props }: AppSidebarProps) => {
         <TeamSwitcher teams={sidebarData.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={sidebarData.navMain} />
+        <ScrollArea>
+          <NavMain items={sidebarData.navMain} />
+        </ScrollArea>
       </SidebarContent>
       <SidebarFooter>
         <SearchButton />
