@@ -26,7 +26,7 @@ const LeasingForm = ({
     <form className="flex flex-col gap-y-8" action={action}>
       <TextInput
         id="product_name"
-        label="Nama Product"
+        label="Nama Sepeda Motor"
         value={product}
         onChange={(e) => setProduct(e.target.value)}
         name="product_name"

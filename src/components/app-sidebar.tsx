@@ -110,13 +110,17 @@ export const sidebarData = {
           title: 'Status Follow Up',
           url: '/statusfus',
         },
-        {
-          title: 'Hasil Follow Up',
-          url: '/furesult',
-        },
+        // {
+        //   title: 'Hasil Follow Up',
+        //   url: '/furesult',
+        // },
         {
           title: 'Detail Follow Up',
           url: '/detailfu',
+        },
+        {
+          title: 'Sepeda Motor',
+          url: '/motorcycles',
         },
       ],
     },

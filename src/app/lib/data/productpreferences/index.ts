@@ -4,34 +4,34 @@ import {
   deleteData,
 } from '@/app/lib/data/fetchUtils';
 
-export const fetchProductPreferences = (
+export const fetchMotorcycles = (
   search?: string,
   page?: string,
   per_page?: string
-) => fetchWithParams('productpreferences', search, page, per_page);
+) => fetchWithParams('motorcycles', search, page, per_page);
 
-export const postProductPreferences = async (product_name: string) => {
+export const postProductPreferences = async (motorcycle_type: string) => {
   return fetchData({
-    endpoint: 'productpreferences',
+    endpoint: 'motorcycles',
     method: 'POST',
-    body: { product_name },
+    body: { motorcycle_type },
   });
 };
 
 export const putProductPreferences = async (
   id: number,
-  product_name: string
+  motorcycle_type: string
 ) => {
   return fetchData({
-    endpoint: `productpreferences/${id}`,
+    endpoint: `motorcycles/${id}`,
     method: 'PUT',
-    body: { product_name },
+    body: { motorcycle_type },
   });
 };
 
 export const deleteProductPreferences = async (id: number) => {
   return deleteData({
-    endpoint: `productpreferences/${id}`,
+    endpoint: `motorcycles/${id}`,
     method: 'DELETE',
   });
 };

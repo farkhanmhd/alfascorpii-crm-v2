@@ -13,7 +13,7 @@ import {
   IFUMethod,
   IResultFU,
   IDetailFU,
-  IProductPreferences,
+  IMotorcycle,
   ICustomer,
   IStatusFU,
 } from '@/types';
@@ -93,7 +93,7 @@ import {
   CreateProductDialog,
   EditProductDialog,
   DeleteProductDialog,
-} from './productpreferences/actions';
+} from './(masterdata)/motorcycles/actions';
 
 import {
   CreateDetailFuDialog,
@@ -116,7 +116,7 @@ const TableLayoutConfig: TableConfig<
   | IResultFU
   | IDetailFU
   | IStatusFU
-  | IProductPreferences
+  | IMotorcycle
   | ICustomer
 >[] = [
   {
@@ -249,13 +249,13 @@ const TableLayoutConfig: TableConfig<
     type: {} as IDetailFU,
   },
   {
-    pathname: '/productpreferences',
-    searchPlaceholder: 'Cari Product',
-    addButtonLabel: 'Tambah Product',
+    pathname: '/motorcycles',
+    searchPlaceholder: 'Cari Sepeda Motor',
+    addButtonLabel: 'Tambah Sepeda Motor',
     CreateDialog: CreateProductDialog,
     EditDialog: EditProductDialog,
     DeleteDialog: DeleteProductDialog,
-    type: {} as IProductPreferences,
+    type: {} as IMotorcycle,
   },
 ];
 

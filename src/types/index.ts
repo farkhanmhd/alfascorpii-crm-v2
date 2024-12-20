@@ -203,8 +203,9 @@ export interface IDetailFU extends IIdentifiable {
   status: Status;
 }
 
-export interface IProductPreferences extends IIdentifiable {
-  product_name: string;
+export interface IMotorcycleList extends IIdentifiable {
+  motorcycle_type: string;
+  colors: string[];
 }
 
 export interface ISearchQuery {

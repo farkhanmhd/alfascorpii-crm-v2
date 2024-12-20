@@ -37,10 +37,44 @@ const TextInput = ({
         name={id}
         autoComplete="off"
         {...props}
-        className={cn({ 'ring-red-500': error })}
+        className={cn({
+          'border-destructive/80 text-destructive focus-visible:border-destructive/80 focus-visible:ring-destructive/20':
+            error?.length,
+        })}
       />
     </div>
   );
 };
 
 export default TextInput;
+
+export const InputDemo = () => {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor="input-06">Input with error</Label>
+      <Input
+        id="input-06"
+        className="border-destructive/80 text-destructive focus-visible:border-destructive/80 focus-visible:ring-destructive/20"
+        placeholder="Email"
+        type="email"
+        defaultValue="invalid@email.com"
+      />
+      <p
+        className="mt-2 text-xs text-destructive"
+        role="alert"
+        aria-live="polite"
+      >
+        Email is invalid
+      </p>
+    </div>
+  );
+};
+
+export const InputDemo2 = () => {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor="input-01">Simple input</Label>
+      <Input id="input-01" placeholder="Email" type="email" />
+    </div>
+  );
+};

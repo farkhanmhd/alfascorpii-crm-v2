@@ -8,7 +8,7 @@ import {
   useDeleteToast,
   useDeleteDialog,
 } from '@/hooks';
-import { IProductPreferences } from '@/types';
+import { IMotorcycleList } from '@/types';
 import {
   addProductPreferencesAction,
   updateProductPreferencesAction,
@@ -19,7 +19,7 @@ import DeleteDialog from '@/components/fragments/dialogs/DeleteDialog';
 import ProductPreferencesForm from './ProductPreferencesForm';
 
 export const CreateProductDialog = () => {
-  const { handleClose } = useActionDialog<IProductPreferences>();
+  const { handleClose } = useActionDialog<IMotorcycleList>();
   const { execute, result, isPending, reset } = useAction(async (formData) => {
     const data = {
       product_name: formData.get('product_name'),
@@ -30,7 +30,7 @@ export const CreateProductDialog = () => {
 
   useSubmitToast(result, handleClose, reset);
   return (
-    <ActionDialogContainer title="Tambah Product">
+    <ActionDialogContainer title="Tambah Sepeda Motor">
       <ProductPreferencesForm
         action={execute}
         validationErrors={result?.validationErrors}
@@ -41,7 +41,7 @@ export const CreateProductDialog = () => {
 };
 
 export const EditProductDialog = () => {
-  const { actionDialog, handleClose } = useActionDialog<IProductPreferences>();
+  const { actionDialog, handleClose } = useActionDialog<IMotorcycleList>();
   const { execute, result, isPending, reset } = useAction(async (formData) => {
     const data = {
       id: Number(actionDialog?.data?.id),
@@ -52,12 +52,12 @@ export const EditProductDialog = () => {
 
   useSubmitToast(result, handleClose, reset);
   return (
-    <ActionDialogContainer title="Edit Product">
+    <ActionDialogContainer title="Edit Sepeda Motor">
       <ProductPreferencesForm
         action={execute}
         validationErrors={result?.validationErrors}
         isPending={isPending}
-        initialProduct={actionDialog?.data?.product_name}
+        initialProduct={actionDialog?.data?.motorcycle_type}
       />
     </ActionDialogContainer>
   );
@@ -71,7 +71,7 @@ export const DeleteProductDialog = () => {
   useDeleteToast(result, reset);
   return (
     <DeleteDialog
-      title="Hapus Product?"
+      title="Hapus Sepeda Motor?"
       isPending={isPending}
       deleteAction={() => execute({ id: Number(deleteDialog?.id) })}
     />

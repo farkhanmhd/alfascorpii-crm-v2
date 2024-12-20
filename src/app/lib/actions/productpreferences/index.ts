@@ -23,7 +23,7 @@ export const addProductPreferencesAction = actionClient
   .action(async ({ parsedInput: { product_name } }) => {
     try {
       await postProductPreferences(product_name);
-      revalidatePath('/productpreferences');
+      revalidatePath('/motorcycles');
       return {
         status: 'success',
         message: 'Product Preferences added successfully',
@@ -41,7 +41,7 @@ export const updateProductPreferencesAction = actionClient
   .action(async ({ parsedInput: { id, product_name } }) => {
     try {
       await putProductPreferences(id, product_name);
-      revalidatePath('/productpreferences');
+      revalidatePath('/motorcycles');
       return {
         status: 'success',
         message: 'Product Preferences updated successfully',
@@ -63,7 +63,7 @@ export const deleteProductPreferencesAction = actionClient
   .action(async ({ parsedInput: { id } }) => {
     try {
       await deleteProductPreferences(id);
-      revalidatePath('/productpreferences');
+      revalidatePath('/motorcycles');
       return {
         status: 'success',
         message: 'Product Preferences deleted successfully',
