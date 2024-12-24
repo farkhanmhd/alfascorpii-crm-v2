@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
-import ProductPreferenceTable from './ProductPreferenceTable';
+import MotorcyclesTable from './MotorcyclesTable';
 
 export const metadata: Metadata = {
   title: 'Products',
@@ -22,7 +22,7 @@ const Page = async (props: {
 
   return (
     <Suspense fallback={<TableSkeleton />}>
-      <ProductPreferenceTable page={page} search={search} perPage={perPage} />
+      <MotorcyclesTable page={page} search={search} perPage={perPage} />
     </Suspense>
   );
 };

@@ -20,6 +20,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import MapItems from '@/utils/MapItems';
+import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 
 interface DataTableProps<TData extends { id: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -53,15 +54,18 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   });
 
   return (
-    <div className="hide-scrollbar overflow-auto">
+    <ScrollArea className="rounded-md">
       <Table>
-        <TableHeader className="sticky top-0 overflow-hidden bg-background">
+        <TableHeader className="sticky top-0 z-50 bg-primary">
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="hover:bg-primary">
               <MapItems
                 of={headerGroup.headers}
                 render={(header) => (
-                  <TableHead key={header.id} className="p-2 text-primary">
+                  <TableHead
+                    key={header.id}
+                    className="px-4 py-2 text-primary-foreground"
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -74,7 +78,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody className="overflow-hidden">
+        <TableBody className="bg-background">
           {table.getRowModel().rows?.length ? (
             <MapItems
               of={table.getRowModel().rows}
@@ -88,7 +92,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
                     render={(cell) => (
                       <TableCell
                         key={cell.id}
-                        className="h-12 p-2 text-xs sm:text-sm"
+                        className="h-12 px-4 py-2 text-xs sm:text-sm"
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
@@ -109,6 +113,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
           )}
         </TableBody>
       </Table>
-    </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 };

@@ -7,7 +7,7 @@ export const Table = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <div className="hide-scrollbar overflow-auto">
+  <div className="overflow-hidden rounded-md">
     <table className={`w-full text-sm ${className}`}>{children}</table>
   </div>
 );

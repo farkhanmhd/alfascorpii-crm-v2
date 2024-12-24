@@ -5,7 +5,7 @@ import { SearchParamsProps } from '@/types';
 import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
 
-const ProductPreferenceTable = async ({
+const MotorcyclesTable = async ({
   search,
   page,
   perPage,
@@ -30,4 +30,4 @@ const ProductPreferenceTable = async ({
   );
 };
 
-export default ProductPreferenceTable;
+export default MotorcyclesTable;

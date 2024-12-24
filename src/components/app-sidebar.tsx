@@ -2,21 +2,24 @@
 
 import React from 'react';
 import { JWTPayload } from 'jose';
+import Link from 'next/link';
 import {
   AudioWaveform,
   Command,
   GalleryVerticalEnd,
   Database,
   Users,
-  Phone,
   LayoutDashboard,
+  Import,
 } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
-import { TeamSwitcher } from '@/components/team-switcher';
 import {
   Sidebar,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
@@ -104,6 +107,14 @@ export const sidebarData = {
           url: '/houseownerships',
         },
         {
+          title: 'Sepeda Motor',
+          url: '/motorcycles',
+        },
+        {
+          title: 'Follow Up',
+          url: '/follow-up',
+        },
+        {
           title: 'Metode Follow Up',
           url: '/fumethod',
         },
@@ -119,28 +130,14 @@ export const sidebarData = {
           title: 'Detail Follow Up',
           url: '/detailfu',
         },
-        {
-          title: 'Sepeda Motor',
-          url: '/motorcycles',
-        },
       ],
     },
 
     {
-      title: 'Follow Up',
-      url: '#',
-      icon: Phone,
-      isParent: true,
-      items: [
-        {
-          title: 'List Follow Up',
-          url: '/follow-up',
-        },
-        {
-          title: 'Data Duplikat',
-          url: '/duplicatedata',
-        },
-      ],
+      title: 'Import Follow Up',
+      url: '/follow-up',
+      icon: Import,
+      isParent: false,
     },
     {
       title: 'Customers',
@@ -148,12 +145,6 @@ export const sidebarData = {
       icon: Users,
       isParent: false,
     },
-    // {
-    //   title: 'Products',
-    //   url: '/productpreferences',
-    //   icon: Bike,
-    //   isParent: false,
-    // },
   ],
 };
 
@@ -166,7 +157,21 @@ export const AppSidebar = ({ session, ...props }: AppSidebarProps) => {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={sidebarData.teams} />
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <Link href="/">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                  <Command className="size-4" />
+                </div>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-semibold">Alfa Scorpii</span>
+                  <span className="truncate text-xs">CRM</span>
+                </div>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <ScrollArea>

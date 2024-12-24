@@ -6,7 +6,7 @@ const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="relative w-full">
+  <div className="rounded-md" style={{ clipPath: 'inset(0 round 0.375rem)' }}>
     <table
       ref={ref}
       className={cn('w-full caption-bottom text-sm', className)}

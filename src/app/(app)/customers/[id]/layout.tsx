@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { ScrollArea } from '@/components/ui/scrollarea';
 import { SidebarNav } from './components/sidebar-nav';
+import CustomerFilter from '../filters';
 
 export const metadata: Metadata = {
   title: 'Customer',
@@ -31,6 +32,7 @@ const SettingsLayout = async ({ children, params }: SettingsLayoutProps) => {
           <SidebarNav items={sidebarNavItems} />
         </aside>
         <ScrollArea className="flex-1">
+          <CustomerFilter />
           <div className="h-full px-2 lg:max-w-4xl">{children}</div>
         </ScrollArea>
       </div>

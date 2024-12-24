@@ -84,7 +84,7 @@ export const columns: ColumnDef<ICustomer>[] = [
   // },
   {
     id: 'actions',
-    header: () => <div className="text-right">Aksi</div>,
+    header: () => <div className="text-center">Aksi</div>,
     cell: ({ row }) => {
       const customer = row.original;
       return (

@@ -18,6 +18,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
+import { Input } from '@/components/ui/input';
+
 type Option = {
   value: string;
   label: string;
@@ -45,48 +47,73 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
   const params = new URLSearchParams(searchParams);
   const initialPerPage = params.get('per_page') || '50';
   const [perPage, setperPage] = useState(initialPerPage);
+  const [pageState, setPageState] = useState<number>(currentPage || 1);
 
   const handleperPageChange = (value: string) => {
     setperPage(value);
-    if (value === '20') {
+    if (value === '50') {
       params.delete('per_page');
     } else {
       params.set('per_page', value);
     }
+    setPageState(1);
     params.delete('page');
     replace(`${pathname}?${params.toString()}`);
   };
 
   const handleFirstPage = () => {
+    setPageState(1);
     params.delete('page');
     push(`${pathname}?${params.toString()}`);
   };
 
   const handletotalPages = () => {
+    setPageState(totalPages);
     params.set('page', totalPages.toString());
     push(`${pathname}?${params.toString()}`);
   };
 
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      params.set('page', (currentPage + 1).toString());
-      push(`${pathname}?${params.toString()}`);
-    }
+    setPageState(pageState + 1);
+    params.set('page', (pageState + 1).toString());
+    push(`${pathname}?${params.toString()}`);
   };
 
   const handlePrevPage = () => {
-    if (currentPage > 1) {
-      params.set('page', (currentPage - 1).toString());
-      if (currentPage - 1 === 1) params.delete('page');
+    if (pageState > 1) {
+      setPageState(pageState - 1);
+      params.set('page', (pageState - 1).toString());
+      if (pageState - 1 === 1) {
+        params.delete('page');
+      }
       push(`${pathname}?${params.toString()}`);
     }
   };
 
+  const handlePageInput = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    let newPage = pageState;
+
+    if (pageState > totalPages) {
+      newPage = totalPages;
+      setPageState(newPage);
+    }
+
+    if (pageState < 1) {
+      newPage = 1;
+      setPageState(newPage);
+    }
+
+    params.set('page', newPage.toString());
+    push(`${pathname}?${params.toString()}`);
+  };
+
   return (
-    <div className="sticky bottom-0 flex items-center justify-end bg-background py-4">
-      <div className="flex gap-x-4">
-        <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows</p>
+    <div className="sticky bottom-0 py-4 sm:justify-end">
+      <div className="flex justify-between gap-x-4">
+        <div className="flex items-center gap-x-2">
+          <p className="hidden text-sm font-medium sm:block">Per Halaman</p>
           <Select value={perPage} onValueChange={handleperPageChange}>
             <SelectTrigger className="h-8 w-[70px]">
               <SelectValue placeholder={perPage} />
@@ -101,15 +128,31 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
           </Select>
         </div>
         <div className="flex items-center space-x-6 lg:space-x-8">
-          <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-            Page {currentPage} of {totalPages}
+          <div className="flex items-center justify-center gap-x-2 text-sm font-medium">
+            <span className="hidden sm:inline">Halaman</span>
+            <form onSubmit={handlePageInput}>
+              <Input
+                className="h-8 w-[60px] text-right"
+                inputMode="numeric"
+                name="page"
+                value={pageState}
+                autoComplete="off"
+                onChange={(e) => {
+                  const { value } = e.target;
+                  if (/^\d*$/.test(value)) {
+                    setPageState(Number(value));
+                  }
+                }}
+              />
+            </form>
+            <span>dari {totalPages}</span>
           </div>
           <div className="flex items-center space-x-2">
             <Button
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
               onClick={handleFirstPage}
-              disabled={currentPage === 1}
+              disabled={pageState === 1}
             >
               <span className="sr-only">Go to first page</span>
               <ChevronsLeft className="h-4 w-4" />
@@ -118,7 +161,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
               variant="outline"
               className="h-8 w-8 p-0"
               onClick={handlePrevPage}
-              disabled={currentPage === 1}
+              disabled={pageState === 1}
             >
               <span className="sr-only">Go to previous page</span>
               <ChevronLeft className="h-4 w-4" />
@@ -127,7 +170,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
               variant="outline"
               className="h-8 w-8 p-0"
               onClick={handleNextPage}
-              disabled={currentPage === totalPages}
+              disabled={pageState === totalPages}
             >
               <span className="sr-only">Go to next page</span>
               <ChevronRight className="h-4 w-4" />
@@ -136,7 +179,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
               onClick={handletotalPages}
-              disabled={currentPage === totalPages}
+              disabled={pageState === totalPages}
             >
               <span className="sr-only">Go to last page</span>
               <ChevronsRight className="h-4 w-4" />

@@ -26,7 +26,7 @@ const TableLayout = <T,>({
   const { deleteDialog } = useDeleteDialog();
 
   return (
-    <div className="grid h-full grid-rows-[auto_1fr_auto] overflow-auto">
+    <div className="grid h-full grid-rows-[auto_1fr_auto]">
       <header className="flex items-center justify-between gap-x-4 py-4">
         <Tablesearch placeholder={searchPlaceholder} />
         <AddButton>{addButtonLabel}</AddButton>

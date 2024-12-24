@@ -8,7 +8,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { actionDialog } = useActionDialog();
 
   return (
-    <div className="flex h-[calc(100dvh-48px)] flex-col overflow-hidden">
+    <div className="flex h-[calc(100dvh-48px)] flex-col">
       {children}
       {actionDialog?.create && <ExcelDropzoneDialog />}
     </div>
