@@ -2,8 +2,8 @@ import React from 'react';
 import { DataTable } from '@/components/fragments/table/DataTable';
 import { fetchCustomer } from '@/app/lib/data/customers';
 import { SearchParamsProps } from '@/types';
-import DataTablePagination from '@/components/fragments/table/pagination';
 import { columns } from './columns';
+import FollowUpFooter from '../follow-up/FollowUpFooter';
 
 export interface FlatCustomer {
   id: string;
@@ -24,10 +24,14 @@ const CustomerTable = async ({ search, page, perPage }: SearchParamsProps) => {
     total,
   } = await fetchCustomer(search, page, perPage);
   return (
-    <>
-      <DataTable columns={columns} data={customers} rows={total} />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={customers}
+      rows={total}
+      totalPages={totalPages}
+      currentPage={Number(page)}
+      withPagination
+    />
   );
 };
 

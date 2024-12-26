@@ -7,7 +7,7 @@ import ExcelDropzoneDialog from '@/components/ExcelDropzoneDialog';
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { actionDialog } = useActionDialog();
   return (
-    <div className="flex h-[calc(100dvh-48px)] flex-col">
+    <div className="flex h-[calc(100dvh-140px)] flex-col">
       {children}
       {actionDialog?.create && <ExcelDropzoneDialog />}
     </div>

@@ -4,6 +4,7 @@ import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
 // import { MoreHorizontal } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Button, buttonVariants } from '@/components/ui/button';
 // import {
 //   DropdownMenu,
@@ -19,6 +20,36 @@ import { Pencil, Trash } from 'lucide-react';
 import { useDeleteDialog } from '@/hooks';
 
 export const columns: ColumnDef<ICustomer>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    id: 'no',
+    header: 'No',
+    cell: ({ row }) => {
+      return <div>{row.index + 1}</div>;
+    },
+  },
   {
     accessorKey: 'customer_name',
     header: 'Name',

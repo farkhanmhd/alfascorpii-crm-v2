@@ -32,7 +32,7 @@ const Header = ({
     push('/login');
   };
   return (
-    <header className="ml-64 flex items-center justify-between gap-y-2 bg-sidebar px-6 py-3">
+    <header className="bg-header ml-64 flex items-center justify-between gap-y-2 px-6 py-3">
       <div className="flex flex-col gap-y-2">
         <h1 className="text-3xl font-bold uppercase text-primary">
           {headerTitle}
@@ -42,7 +42,9 @@ const Header = ({
             <Home />
           </Link>
           <span>/</span>
-          <Link href={`/${path}`}>{headerTitle || 'Dashboard'}</Link>
+          <Link className="font-medium uppercase" href={`/${path}`}>
+            {headerTitle || 'Dashboard'}
+          </Link>
         </div>
       </div>
       <DropdownMenu>

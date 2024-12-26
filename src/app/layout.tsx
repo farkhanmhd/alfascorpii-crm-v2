@@ -31,7 +31,7 @@ const RootLayout = ({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} w-screen overflow-x-hidden bg-background antialiased`}
+        className={`${poppins.className} w-screen overflow-x-hidden bg-white antialiased`}
       >
         <ClientOnly>
           <JotaiProvider>

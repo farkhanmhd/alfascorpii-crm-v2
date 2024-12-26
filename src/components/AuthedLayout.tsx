@@ -45,14 +45,14 @@ const AuthedLayout = ({
     .flatMap((group) => group.links)
     .find((link) => link.href === pathname)?.label;
   return (
-    <div className="bg-background">
+    <div className="">
       <Sidebar data={sidebarGroupData} />
       <Header
         headerTitle={headerTitle || 'Dashboard'}
         path={pathname}
         user={session}
       />
-      <main className="ml-64 p-6">{children}</main>
+      <main className="ml-64 rounded-md bg-background p-6">{children}</main>
     </div>
   );
 };

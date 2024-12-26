@@ -22,7 +22,7 @@ const Page = async (props: {
   const perPage = searchParams?.per_page;
   return (
     <div className="grid h-full grid-rows-[auto_1fr]">
-      <header className="flex items-center justify-between gap-x-4 py-4">
+      <header className="flex items-center justify-between gap-x-4 pb-6">
         <Tablesearch placeholder="Cari Customer" />
       </header>
       <Suspense fallback={<TableSkeleton />}>

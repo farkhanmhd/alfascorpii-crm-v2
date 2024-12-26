@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import TableSkeleton from '@/components/fragments/table/TableSkeleton';
-import HeaderLayout from './header-layout';
+import Tablesearch from '@/components/fragments/table/tablesearch';
 
-import CustomerTable from './CustomerTable';
+import FollowUpTable from './FollowUpTable';
 
 export const metadata: Metadata = {
   title: 'Follow Up',
@@ -22,11 +22,14 @@ const Page = async (props: {
   const page = searchParams?.page || '1';
   const perPage = searchParams?.per_page;
   return (
-    <HeaderLayout>
+    <div className="grid h-full grid-rows-[auto_1fr_auto]">
+      <header className="flex items-center justify-between gap-x-4 pb-6">
+        <Tablesearch placeholder="Cari Customer" />
+      </header>
       <Suspense fallback={<TableSkeleton />}>
-        <CustomerTable search={search} page={page} perPage={perPage} />
+        <FollowUpTable search={search} page={page} perPage={perPage} />
       </Suspense>
-    </HeaderLayout>
+    </div>
   );
 };
 

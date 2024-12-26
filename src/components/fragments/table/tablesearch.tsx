@@ -2,8 +2,10 @@
 
 import React from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { Search } from 'lucide-react';
 import { useDebouncedCallback } from 'use-debounce';
 import { Input } from '@/components/ui/input';
+import RowLimit from './row-limit';
 
 const Tablesearch = ({ placeholder }: { placeholder: string }) => {
   const pathname = usePathname();
@@ -23,12 +25,21 @@ const Tablesearch = ({ placeholder }: { placeholder: string }) => {
   }, 300);
 
   return (
-    <Input
-      placeholder={placeholder}
-      className="w-full md:max-w-sm"
-      onChange={(e) => handleSearch(e.target.value)}
-      defaultValue={searchParams.get('search')?.toString()}
-    />
+    <>
+      <RowLimit />
+      <div className="relative w-full md:max-w-sm">
+        <Input
+          className="peer w-full pe-9 ps-9"
+          placeholder={placeholder}
+          type="search"
+          onChange={(e) => handleSearch(e.target.value)}
+          defaultValue={searchParams.get('search')?.toString()}
+        />
+        <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+          <Search size={16} strokeWidth={2} />
+        </div>
+      </div>
+    </>
   );
 };
 
