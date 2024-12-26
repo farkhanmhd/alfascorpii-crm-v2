@@ -1,14 +1,19 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import './globals.css';
-import { GeistSans } from 'geist/font/sans';
 import JotaiProvider from '@/components/providers/jotai';
-import ThemeProvider from '@/components/providers/theme-provider';
-import SearchDialog from '@/components/fragments/searchDialog';
 import { Toaster } from '@/components/ui/toaster';
 import NextTopLoader from 'nextjs-toploader';
 import ClientOnly from '@/components/ClientOnly';
-// import { ViewTransitions } from 'next-view-transitions';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+  variable: '--font-poppins',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: {
@@ -24,29 +29,19 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    // <ViewTransitions>
     <html lang="en">
       <body
-        className={`${GeistSans.className} w-screen overflow-hidden bg-background antialiased backdrop-blur-md dark:bg-background`}
+        className={`${poppins.className} w-screen overflow-x-hidden bg-background antialiased`}
       >
-        <JotaiProvider>
-          <ClientOnly>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <NextTopLoader showSpinner={false} />
-              <SearchDialog />
-              {children}
-              <Toaster />
-            </ThemeProvider>
-          </ClientOnly>
-        </JotaiProvider>
+        <ClientOnly>
+          <JotaiProvider>
+            <NextTopLoader showSpinner={false} />
+            {children}
+            <Toaster />
+          </JotaiProvider>
+        </ClientOnly>
       </body>
     </html>
-    // </ViewTransitions>
   );
 };
 

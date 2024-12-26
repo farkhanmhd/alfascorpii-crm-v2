@@ -23,9 +23,6 @@ const Dashboard = () => {
     <ScrollArea className="h-full max-h-[calc(100dvh-48px)] overflow-hidden pb-6">
       <div className="grid grid-rows-[auto_1fr] gap-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-            Dashboard
-          </h2>
           <div className="flex items-center space-x-2">
             <DatePickerWithRange />
             <Button className="hidden sm:block">Download</Button>

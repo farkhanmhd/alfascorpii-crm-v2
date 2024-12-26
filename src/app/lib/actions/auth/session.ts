@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { ncrypt as Ncrypt } from 'ncrypt-js';
 
-type SessionPayload = {
+export type SessionPayload = {
   userId: string | number;
   name: string;
   username: string;
