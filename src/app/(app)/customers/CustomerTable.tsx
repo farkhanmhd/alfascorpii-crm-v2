@@ -3,7 +3,6 @@ import { DataTable } from '@/components/fragments/table/DataTable';
 import { fetchCustomer } from '@/app/lib/data/customers';
 import { SearchParamsProps } from '@/types';
 import { columns } from './columns';
-import FollowUpFooter from '../follow-up/FollowUpFooter';
 
 export interface FlatCustomer {
   id: string;

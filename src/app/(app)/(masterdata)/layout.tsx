@@ -15,7 +15,7 @@ const MasterDataLayout = ({ children }: { children: React.ReactNode }) => {
 
   type RouteType = typeof config.type;
   return (
-    <div className="flex h-full max-h-[calc(100dvh-48px)] flex-col gap-y-6">
+    <div className="flex h-[calc(100dvh-140px)] flex-col">
       <TableLayout<RouteType>
         CreateDialog={config.CreateDialog}
         EditDialog={config.EditDialog}

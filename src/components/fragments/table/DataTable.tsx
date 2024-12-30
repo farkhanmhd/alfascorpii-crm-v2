@@ -73,7 +73,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
     <>
       <ScrollArea className="rounded-md">
         <Table>
-          <TableHeader className="sticky top-0 z-50 bg-primary">
+          <TableHeader className="sticky top-0 z-50 bg-primary text-sm">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="hover:bg-primary">
                 <MapItems
@@ -95,7 +95,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="bg-sidebar">
+          <TableBody className="bg-white">
             {table.getRowModel().rows?.length ? (
               <MapItems
                 of={table.getRowModel().rows}

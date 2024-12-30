@@ -4,37 +4,37 @@ import React from 'react';
 import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
 import { cn } from '@/lib/utils';
-import { Checkbox } from '@/components/ui/checkbox';
+// import { Checkbox } from '@/components/ui/checkbox';
 import { buttonVariants } from '@/components/ui/button';
 import { ICustomer } from '@/types';
 import { Pencil } from 'lucide-react';
 
 export const columns: ColumnDef<ICustomer>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="border-blue-500 bg-background data-[state=checked]:bg-blue-500"
-      />
-    ),
+  // {
+  //   id: 'select',
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={
+  //         table.getIsAllPageRowsSelected() ||
+  //         (table.getIsSomePageRowsSelected() && 'indeterminate')
+  //       }
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //       className="border-blue-500 bg-background data-[state=checked]:bg-blue-500"
+  //     />
+  //   ),
 
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="border-blue-500 bg-background data-[state=checked]:bg-blue-500"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //       className="border-blue-500 bg-background data-[state=checked]:bg-blue-500"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     id: 'no',
     header: 'No',

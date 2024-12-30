@@ -1,21 +1,21 @@
 import React from 'react';
 import { DataTable } from '@/components/fragments/table/DataTable';
-import { getFollowUps } from '@/app/lib/data/follow-up';
+import { fetchCustomer } from '@/app/lib/data/customers';
 import { SearchParamsProps } from '@/types';
 import { columns } from './columns';
 import FollowUpFooter from './FollowUpFooter';
 
 const FollowUpTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const {
-    followupqueues,
+    customers,
     last_page: totalPages,
     total,
-  } = await getFollowUps(search, page, perPage);
+  } = await fetchCustomer(search, page, perPage);
 
   return (
     <DataTable
       columns={columns}
-      data={followupqueues}
+      data={customers}
       rows={total}
       totalPages={totalPages}
       currentPage={Number(page)}

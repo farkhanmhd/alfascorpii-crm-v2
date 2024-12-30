@@ -105,7 +105,8 @@ export interface ICustomer extends IIdentifiable {
   expense: string;
   holiday: string;
   motorcycles: IMotorcycle[];
-  family_card: any[];
+  family_card: { [key: string]: string }[];
+  follow_up_recipient: [];
 }
 
 export interface IRelation extends IIdentifiable {
@@ -286,6 +287,7 @@ export type DeleteDialog = {
 export type ActionDialog<T> = {
   create?: boolean;
   edit?: boolean;
+  open?: boolean;
   data?: T;
 };
 

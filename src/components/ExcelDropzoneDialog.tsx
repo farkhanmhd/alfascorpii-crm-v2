@@ -12,17 +12,41 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { useActionDialog, useSubmitToast } from '@/hooks';
+import { useActionDialog } from '@/hooks';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { FileSpreadsheet, Upload, Download, Loader2 } from 'lucide-react';
+import {
+  FileSpreadsheet,
+  Upload,
+  Download,
+  Loader2,
+  Trash,
+  CircleX,
+  CircleCheck,
+} from 'lucide-react';
 import { importFollowUpAction } from '@/app/lib/actions/customers';
+import { ScrollArea } from './ui/scrollarea';
 
 const ExcelDropzoneDialog = () => {
-  const { execute, result, isPending, reset } = useAction(importFollowUpAction);
+  const [responseMessage, setResponseMessage] = useState<string | null>(null);
+  const [submissionErrors, setSubmissionErrors] = useState<any[] | null>(null);
   const { actionDialog, handleClose } = useActionDialog();
+  const { execute, isPending } = useAction(importFollowUpAction, {
+    onSuccess: ({ data }) => {
+      if (data?.status === 'success') {
+        if (data.errors) {
+          setSubmissionErrors(data.errors);
+        }
+      } else {
+        setSubmissionErrors(null);
+      }
+      setResponseMessage(data?.message);
+    },
+  });
+
   const [file, setFile] = useState<File | null>(null);
   const [fileData, setFileData] = useState<File[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+
   const { push } = useRouter();
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
@@ -31,6 +55,7 @@ const ExcelDropzoneDialog = () => {
       setFile(droppedFile);
       setError(null);
       setFileData(null);
+      setSubmissionErrors(null);
     }
   }, []);
 
@@ -55,39 +80,59 @@ const ExcelDropzoneDialog = () => {
     formData.append('file', file);
     execute(formData);
   };
-  useSubmitToast(result, handleClose, reset);
+
+  const handleDelete = () => {
+    setFile(null);
+    setError(null);
+    setFileData(null);
+    setSubmissionErrors(null);
+    setResponseMessage(null);
+  };
 
   return (
     <Dialog open={actionDialog?.create} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Upload Excel File</DialogTitle>
+          <DialogTitle>Import Excel File</DialogTitle>
         </DialogHeader>
 
-        <div
-          {...getRootProps()}
-          className={`cursor-pointer rounded-lg border-2 border-dashed p-10 text-center ${
-            isDragActive ? 'border-primary bg-primary/10' : 'border-gray-300'
-          }`}
-        >
-          <input {...getInputProps()} />
-          {isDragActive ? (
-            <p>Drop the Excel file here...</p>
-          ) : (
-            <div className="space-y-2">
-              <Upload className="mx-auto h-12 w-12 text-gray-400" />
-              <p>Drag & drop an Excel file here, or click to select one</p>
-              <p className="text-xs text-gray-500">
-                Supports .xlsx and .xls files
-              </p>
+        {!file ? (
+          <div
+            {...getRootProps()}
+            className={`cursor-pointer rounded-lg border-2 border-dashed p-10 text-center ${
+              isDragActive ? 'border-primary bg-primary/10' : 'border-gray-300'
+            }`}
+          >
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <p>Drop the Excel file here...</p>
+            ) : (
+              <div className="space-y-2">
+                <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                <p>Drag & drop an Excel file here, or click to select one</p>
+                <p className="text-xs text-gray-500">
+                  Supports .xlsx and .xls files
+                </p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <Alert className="flex items-center justify-between">
+            <div className="flex items-center">
+              <FileSpreadsheet className="mr-2 h-4 w-4" />
+              <div>
+                <AlertTitle>File selected</AlertTitle>
+                <AlertDescription>{file.name}</AlertDescription>
+              </div>
             </div>
-          )}
-        </div>
-        {file && (
-          <Alert>
-            <FileSpreadsheet className="h-4 w-4" />
-            <AlertTitle>File selected</AlertTitle>
-            <AlertDescription>{file.name}</AlertDescription>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleDelete}
+              className="text-destructive hover:text-destructive/90"
+            >
+              <Trash className="h-4 w-4" />
+            </Button>
           </Alert>
         )}
         {error && (
@@ -95,6 +140,35 @@ const ExcelDropzoneDialog = () => {
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
+        )}
+        {responseMessage && (
+          <p className="flex items-center justify-between px-2 text-sm">
+            <span>{responseMessage}</span>
+            <span>
+              <CircleCheck className="text-green-500" />
+            </span>
+          </p>
+        )}
+        {submissionErrors && (
+          <>
+            <p className="flex items-center justify-between px-2 text-sm">
+              <span>{submissionErrors.length} data error</span>
+              <span>
+                <CircleX className="text-destructive" />
+              </span>
+            </p>
+            <Alert variant="destructive">
+              <ScrollArea className="max-h-40">
+                <AlertDescription>
+                  <ul className="list-inside list-disc">
+                    {submissionErrors.map((errorData, index) => (
+                      <li key={index}>{errorData}</li>
+                    ))}
+                  </ul>
+                </AlertDescription>
+              </ScrollArea>
+            </Alert>
+          </>
         )}
         {fileData && (
           <Alert>

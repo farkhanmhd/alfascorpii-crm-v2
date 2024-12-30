@@ -42,7 +42,7 @@ const RowLimit = () => {
         <SelectTrigger className="h-8 w-[70px]">
           <SelectValue placeholder={perPage} />
         </SelectTrigger>
-        <SelectContent side="top">
+        <SelectContent side="bottom">
           {options.map((option) => (
             <SelectItem key={option.label} value={option.value}>
               {option.label}

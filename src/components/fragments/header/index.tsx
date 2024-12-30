@@ -32,12 +32,12 @@ const Header = ({
     push('/login');
   };
   return (
-    <header className="bg-header ml-64 flex items-center justify-between gap-y-2 px-6 py-3">
+    <header className="ml-72 flex h-[84px] items-center justify-between gap-y-2 bg-header px-[21px] py-[14px]">
       <div className="flex flex-col gap-y-2">
-        <h1 className="text-3xl font-bold uppercase text-primary">
+        <h1 className="text-3xl font-bold uppercase leading-[20px] text-primary">
           {headerTitle}
         </h1>
-        <div className="flex gap-x-3">
+        <div className="flex items-center gap-x-3 text-sm leading-[20px]">
           <Link href="/">
             <Home />
           </Link>
@@ -52,7 +52,7 @@ const Header = ({
           asChild
           className={cn('cursor-pointer', buttonVariants({ variant: 'ghost' }))}
         >
-          <div className="flex items-center justify-between gap-x-4">
+          <div className="flex items-center justify-between gap-x-4 text-sm">
             <Avatar className="h-8 w-8 rounded-full">
               <AvatarImage src="/avatars/shadcn.jpg" alt="AD" />
               <AvatarFallback className="rounded-lg">CN</AvatarFallback>

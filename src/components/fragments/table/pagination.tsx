@@ -26,8 +26,8 @@ const DataTablePagination = ({
 }: PaginationProps) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { push } = useRouter();
   const params = new URLSearchParams(searchParams);
+  const { push } = useRouter();
   const perPage: number = Number(params.get('per_page')) || 50;
 
   const handleNextPage = () => {
@@ -173,7 +173,7 @@ const DataTablePagination = ({
 
   return (
     <div className="sticky bottom-0 flex items-center justify-between pt-6">
-      <p className="text-sm">
+      <p className="w-full text-sm">
         {selectedRows > 0 ? (
           <span>Selected {selectedRows} </span>
         ) : (
@@ -182,7 +182,7 @@ const DataTablePagination = ({
             {perPage * currentPage > total ? total : perPage * currentPage}{' '}
           </span>
         )}
-        of {total} entries
+        <span>of {total} entries</span>
       </p>
       <Pagination className="mx-0 justify-end">
         <PaginationContent>

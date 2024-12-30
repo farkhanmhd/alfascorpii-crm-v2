@@ -7,15 +7,20 @@ import { Button } from '@/components/ui/button';
 const FollowUpFooter = () => {
   const { setActionDialog } = useActionDialog();
 
-  const handleActionDialog = () => {
+  const handleImportDialog = () => {
     setActionDialog({ create: true });
   };
+
+  const handleSendToCRO = () => {
+    setActionDialog({ open: true });
+  };
+
   return (
     <footer className="flex gap-x-4 pt-6">
-      <Button onClick={handleActionDialog} variant="blue">
+      <Button onClick={handleImportDialog} variant="blue">
         Import Data
       </Button>
-      <Button>Send to CRO</Button>
+      <Button onClick={handleSendToCRO}>Send to CRO</Button>
     </footer>
   );
 };

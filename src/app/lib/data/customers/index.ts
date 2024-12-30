@@ -22,9 +22,9 @@ export const importFollowUp = async (file: File) => {
     body: formData,
   });
 
-  const { message } = await response.json();
+  const { message, errors } = await response.json();
   revalidatePath('/follow-up');
-  return message;
+  return { message, errors };
 };
 
 export const getCustomer = async (id: number | string) => {

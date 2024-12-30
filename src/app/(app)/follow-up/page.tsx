@@ -4,6 +4,7 @@ import TableSkeleton from '@/components/fragments/table/TableSkeleton';
 import Tablesearch from '@/components/fragments/table/tablesearch';
 
 import FollowUpTable from './FollowUpTable';
+import FollowUpFilters from './filters';
 
 export const metadata: Metadata = {
   title: 'Follow Up',
@@ -23,8 +24,11 @@ const Page = async (props: {
   const perPage = searchParams?.per_page;
   return (
     <div className="grid h-full grid-rows-[auto_1fr_auto]">
-      <header className="flex items-center justify-between gap-x-4 pb-6">
-        <Tablesearch placeholder="Cari Customer" />
+      <header className="flex flex-col gap-y-6 pb-6">
+        <FollowUpFilters />
+        <div className="flex items-center justify-between gap-x-4">
+          <Tablesearch placeholder="Cari Customer" />
+        </div>
       </header>
       <Suspense fallback={<TableSkeleton />}>
         <FollowUpTable search={search} page={page} perPage={perPage} />

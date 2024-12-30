@@ -28,9 +28,9 @@ const columns: Column<IStaff>[] = [
     GetCellContent: (staff: IStaff) => (
       <span
         className={clsx({
-          'text-green-500': staff.status === 'VALID',
+          'font-semibold text-green-500': staff.status === 'VALID',
           'text-yellow-500': staff.status === 'SUSPEND',
-          'text-red-500': staff.status === 'RESIGN',
+          'font-semibold text-red-500': staff.status === 'RESIGN',
         })}
       >
         {staff.status}

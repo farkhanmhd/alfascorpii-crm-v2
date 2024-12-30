@@ -1,5 +1,7 @@
-import React from 'react';
+'use client';
 
+import React from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import {
   Select,
   SelectContent,
@@ -19,7 +21,13 @@ interface Props {
   error?: string[];
 }
 
-const SelectBox = ({ options, label, error, id, placeholder }: Props) => {
+export const SelectBox = ({
+  options,
+  label,
+  error,
+  id,
+  placeholder,
+}: Props) => {
   return (
     <div className="flex flex-col gap-y-4">
       {label && (
@@ -51,4 +59,53 @@ const SelectBox = ({ options, label, error, id, placeholder }: Props) => {
   );
 };
 
-export default SelectBox;
+type SelectFilterProps = {
+  options: SelectOptions[];
+  label: string;
+  id: string;
+  placeholder: string;
+  queryParams: string;
+};
+
+export const SelectFilter = ({
+  options,
+  label,
+  id,
+  placeholder,
+  queryParams,
+}: SelectFilterProps) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const params = new URLSearchParams(searchParams);
+
+  const handleChange = (value: string) => {
+    params.set(queryParams, value);
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  return (
+    <div className="flex flex-col gap-y-4">
+      {label && (
+        <Label htmlFor={id} className="flex gap-x-2 font-semibold">
+          <span>{label}</span>
+        </Label>
+      )}
+      <Select onValueChange={handleChange}>
+        <SelectTrigger className="w-full bg-white" id={id}>
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>
+          <MapItems
+            of={options}
+            render={(item, index) => (
+              <SelectItem key={index} value={item.value}>
+                {item.label}
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>
+    </div>
+  );
+};

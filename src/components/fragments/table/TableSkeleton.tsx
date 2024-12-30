@@ -17,7 +17,7 @@ const TableSkeleton = () => {
   const rows = Array.from({ length: 10 });
 
   return (
-    <Table className="overflow-hidden rounded-md bg-background">
+    <Table className="overflow-hidden rounded-md bg-white">
       <TableHeader>
         <TableRow>
           <MapItems

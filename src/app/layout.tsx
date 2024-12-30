@@ -31,11 +31,11 @@ const RootLayout = ({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} w-screen overflow-x-hidden bg-white antialiased`}
+        className={`${poppins.className} w-screen overflow-x-hidden antialiased`}
       >
         <ClientOnly>
           <JotaiProvider>
-            <NextTopLoader showSpinner={false} />
+            <NextTopLoader showSpinner={false} color="#FF4A4A" />
             {children}
             <Toaster />
           </JotaiProvider>

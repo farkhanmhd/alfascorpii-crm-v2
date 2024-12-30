@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import TextInput from '@/components/fragments/form/TextInput';
 import DatePicker from '@/components/fragments/form/DatePicker';
 import ComboBox from '@/components/fragments/form/ComboBox';
-import SelectBox from '@/components/fragments/form/Select';
+import { SelectBox } from '@/components/fragments/form/Select';
 import TextField from '@/components/fragments/form/TextArea';
 import SubmitButton from '@/components/fragments/buttons/SubmitButton';
 import { Button } from '@/components/ui/button';

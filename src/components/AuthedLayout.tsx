@@ -25,10 +25,23 @@ const sidebarGroupData: SidebarGroupProps[] = [
     ],
   },
   {
-    group: 'SETTINGS',
+    group: 'Master Data',
     links: [
-      { href: '/master-data', label: 'MASTER DATA' },
-      { href: '/users', label: 'USER LIST' },
+      { href: '/dealers', label: 'Dealer' },
+      { href: '/leasing', label: 'Leasing' },
+      { href: '/customerjobs', label: 'Pekerjaan' },
+      { href: '/holidays', label: 'Hari Besar' },
+      { href: '/relations', label: 'Relasi' },
+      { href: '/degrees', label: 'Pendidikan' },
+      { href: '/expenses', label: 'Pengeluaran' },
+      { href: '/incomes', label: 'Pendapatan' },
+      { href: '/hobbies', label: 'Hobi' },
+      { href: '/houseownerships', label: 'Status Rumah' },
+      { href: '/motorcycles', label: 'Sepeda Motor' },
+      { href: '/follow-up', label: 'Follow Up' },
+      { href: '/fumethod', label: 'Metode Follow Up' },
+      { href: '/statusfus', label: 'Status Follow Up' },
+      { href: '/detailfu', label: 'Detail Follow Up' },
     ],
   },
 ];
@@ -45,14 +58,16 @@ const AuthedLayout = ({
     .flatMap((group) => group.links)
     .find((link) => link.href === pathname)?.label;
   return (
-    <div className="">
+    <div>
       <Sidebar data={sidebarGroupData} />
       <Header
         headerTitle={headerTitle || 'Dashboard'}
         path={pathname}
         user={session}
       />
-      <main className="ml-64 rounded-md bg-background p-6">{children}</main>
+      <main className="ml-72 min-h-[calc(100dvh-84px)] rounded-md bg-secondary p-6">
+        {children}
+      </main>
     </div>
   );
 };

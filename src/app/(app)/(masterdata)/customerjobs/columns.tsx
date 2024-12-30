@@ -23,8 +23,8 @@ const columns: ColumnDef<ICustomerJob>[] = [
     cell: ({ row }) => (
       <div
         className={clsx({
-          'text-green-500': row.getValue('status') === 'SHOW',
-          'text-red-500': row.getValue('status') === 'HIDE',
+          'font-semibold text-green-500': row.getValue('status') === 'SHOW',
+          'font-semibold text-red-500': row.getValue('status') === 'HIDE',
         })}
       >
         {row.getValue('status')}

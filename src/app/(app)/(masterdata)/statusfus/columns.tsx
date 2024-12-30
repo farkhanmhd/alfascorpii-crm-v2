@@ -18,8 +18,8 @@ const columns: ColumnDef<IStatusFU>[] = [
     cell: ({ row: { original: status } }) => (
       <span
         className={clsx({
-          'text-green-500': status.status === 'SHOW',
-          'text-red-500': status.status === 'HIDE',
+          'font-semibold text-green-500': status.status === 'SHOW',
+          'font-semibold text-red-500': status.status === 'HIDE',
         })}
       >
         {status.status}

@@ -12,8 +12,8 @@ export const importFollowUpAction = actionClient
   .schema(schema)
   .action(async ({ parsedInput }) => {
     try {
-      const message = await importFollowUp(parsedInput.file);
-      return { status: 'success', message };
+      const { message, errors } = await importFollowUp(parsedInput.file);
+      return { status: 'success', message, errors };
     } catch (error) {
       return {
         status: 'error',

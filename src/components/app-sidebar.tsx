@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { JWTPayload } from 'jose';
+// import { JWTPayload } from 'jose';
 import Link from 'next/link';
 import {
   AudioWaveform,
@@ -14,21 +14,22 @@ import {
 } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
-import { NavUser } from '@/components/nav-user';
+// import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
+  // SidebarMenu,
+  // SidebarMenuItem,
+  // SidebarMenuButton,
   SidebarContent,
-  SidebarFooter,
+  // SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
 import { ScrollArea } from '@/components/ui/scrollarea';
 
-import SearchButton from './fragments/buttons/SearchButton';
-import ThemeToggle from './fragments/toggle/ThemeToggle';
+// import SearchButton from './fragments/buttons/SearchButton';
+// import ThemeToggle from './fragments/toggle/ThemeToggle';
+import Logo from './logo';
 
 export const sidebarData = {
   user: {
@@ -148,41 +149,28 @@ export const sidebarData = {
   ],
 };
 
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  session: JWTPayload | null;
-}
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {}
 
-export const AppSidebar = ({ session, ...props }: AppSidebarProps) => {
-  const user = session;
+export const AppSidebar = ({ ...props }: AppSidebarProps) => {
+  // const user = session;
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <Link href="/">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Alfa Scorpii</span>
-                  <span className="truncate text-xs">CRM</span>
-                </div>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <Link
+          href="/"
+          className="m-2 flex flex-col items-center rounded-sm py-4 duration-200"
+        >
+          <Logo />
+          <p className="text-xl">
+            <span className="text-primary">CRM</span> Team
+          </p>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <ScrollArea>
           <NavMain items={sidebarData.navMain} />
         </ScrollArea>
       </SidebarContent>
-      <SidebarFooter>
-        <SearchButton />
-        <ThemeToggle />
-        <NavUser user={user} />
-      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import Link from 'next/link';
+// import Link from 'next/link';
 // import { MoreHorizontal } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Button, buttonVariants } from '@/components/ui/button';
+// import { Button, buttonVariants } from '@/components/ui/button';
 // import {
 //   DropdownMenu,
 //   DropdownMenuContent,
@@ -15,9 +15,9 @@ import { Button, buttonVariants } from '@/components/ui/button';
 //   DropdownMenuTrigger,
 // } from '@/components/ui/dropdown-menu';
 import { ICustomer } from '@/types';
-import { cn } from '@/lib/utils';
-import { Pencil, Trash } from 'lucide-react';
-import { useDeleteDialog } from '@/hooks';
+// import { cn } from '@/lib/utils';
+// import { Pencil, Trash } from 'lucide-react';
+// import { useDeleteDialog } from '@/hooks';
 
 export const columns: ColumnDef<ICustomer>[] = [
   {
@@ -51,21 +51,48 @@ export const columns: ColumnDef<ICustomer>[] = [
     },
   },
   {
+    accessorKey: 'nik',
+    header: 'NIK',
+  },
+  {
     accessorKey: 'customer_name',
-    header: 'Name',
+    header: 'Nama',
   },
   {
-    accessorKey: 'district',
-    header: 'District',
+    id: 'purchase_date',
+    header: () => <div className="line-clamp-1 min-w-max">Tanggal Beli</div>,
+    cell: ({ row }) => {
+      return <div>{row.original.motorcycles[0].purchase_date}</div>;
+    },
   },
   {
-    accessorKey: 'customer_address',
-    header: 'Address',
+    header: 'No. Rangka',
+    cell: ({ row }) => {
+      return <div>{row.original.motorcycles[0].frame_number}</div>;
+    },
+  },
+  {
+    id: 'motorcycle_type',
+    header: () => <div className="line-clamp-1 min-w-max">Tipe Motor</div>,
+    cell: ({ row }) => {
+      return <div>{row.original.motorcycles[0].name}</div>;
+    },
   },
   {
     accessorKey: 'mobile_phone',
-    header: 'Phone',
+    header: 'NO. HP',
   },
+  {
+    id: 'cro_name',
+    accessorKey: 'cro_name',
+    header: () => <div className="line-clamp-1 min-w-max">Nama CRO</div>,
+  },
+  {
+    id: 'fu_date',
+    accessorKey: 'fu_date',
+    header: () => <div className="line-clamp-1 min-w-max">Tanggal FU</div>,
+  },
+
   // {
   //   accessorKey: 'email',
   //   header: ({ column }) => (
@@ -91,67 +118,67 @@ export const columns: ColumnDef<ICustomer>[] = [
   //     return <div className="text-right font-medium">{formatted}</div>;
   //   },
   // },
-  {
-    id: 'actions',
-    header: () => <div className="text-right">Aksi</div>,
-    cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const followUp = row.original;
-      return (
-        // <div className="flex items-center justify-end space-x-2">
-        //   <DropdownMenu>
-        //     <DropdownMenuTrigger asChild>
-        //       <Button
-        //         variant="ghost"
-        //         className="ml-auto h-8 w-8 p-0"
-        //         data-name="actions"
-        //       >
-        //         <span className="sr-only">Open menu</span>
-        //         <MoreHorizontal className="h-4 w-4" />
-        //       </Button>
-        //     </DropdownMenuTrigger>
-        //     <DropdownMenuContent align="end">
-        //       <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-        //       {/* <DropdownMenuItem
-        //         className="cursor-pointer"
-        //         onClick={() =>
-        //           navigator.clipboard.writeText(String(followUp.id))
-        //         }
-        //       >
-        //         Follow Up
-        //       </DropdownMenuItem> */}
-        //       <DropdownMenuItem className="p-0">
-        //         <Link
-        //           className="block h-full w-full rounded-sm px-2 py-1.5"
-        //           href={`/followUps/${followUp.id}`}
-        //         >
-        //           View followUp
-        //         </Link>
-        //       </DropdownMenuItem>
-        //     </DropdownMenuContent>
-        //   </DropdownMenu>
-        // </div>
-        <div className="flex justify-end gap-x-4">
-          <Link
-            className={cn(
-              buttonVariants({
-                size: 'sm',
-                variant: 'outline',
-              })
-            )}
-            href={`/follow-up/${followUp.id}`}
-          >
-            <Pencil />
-          </Link>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
-        </div>
-      );
-    },
-  },
+  // {
+  //   id: 'actions',
+  //   header: () => <div className="text-right">Aksi</div>,
+  //   cell: ({ row }) => {
+  //     const { setDeleteDialog } = useDeleteDialog();
+  //     const followUp = row.original;
+  //     return (
+  //       // <div className="flex items-center justify-end space-x-2">
+  //       //   <DropdownMenu>
+  //       //     <DropdownMenuTrigger asChild>
+  //       //       <Button
+  //       //         variant="ghost"
+  //       //         className="ml-auto h-8 w-8 p-0"
+  //       //         data-name="actions"
+  //       //       >
+  //       //         <span className="sr-only">Open menu</span>
+  //       //         <MoreHorizontal className="h-4 w-4" />
+  //       //       </Button>
+  //       //     </DropdownMenuTrigger>
+  //       //     <DropdownMenuContent align="end">
+  //       //       <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+  //       //       {/* <DropdownMenuItem
+  //       //         className="cursor-pointer"
+  //       //         onClick={() =>
+  //       //           navigator.clipboard.writeText(String(followUp.id))
+  //       //         }
+  //       //       >
+  //       //         Follow Up
+  //       //       </DropdownMenuItem> */}
+  //       //       <DropdownMenuItem className="p-0">
+  //       //         <Link
+  //       //           className="block h-full w-full rounded-sm px-2 py-1.5"
+  //       //           href={`/followUps/${followUp.id}`}
+  //       //         >
+  //       //           View followUp
+  //       //         </Link>
+  //       //       </DropdownMenuItem>
+  //       //     </DropdownMenuContent>
+  //       //   </DropdownMenu>
+  //       // </div>
+  //       <div className="flex justify-end gap-x-4">
+  //         <Link
+  //           className={cn(
+  //             buttonVariants({
+  //               size: 'sm',
+  //               variant: 'outline',
+  //             })
+  //           )}
+  //           href={`/follow-up/${followUp.id}`}
+  //         >
+  //           <Pencil />
+  //         </Link>
+  //         <Button
+  //           variant="outline"
+  //           size="sm"
+  //           onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
+  //         >
+  //           <Trash />
+  //         </Button>
+  //       </div>
+  //     );
+  //   },
+  // },
 ];
