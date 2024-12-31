@@ -2,7 +2,6 @@ import React from 'react';
 import { fetchFuMethod } from '@/app/lib/data/fumethod';
 import { DataTable } from '@/components/fragments/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
 
 const FuMethodTable = async ({ search, page, perPage }: SearchParamsProps) => {
@@ -18,10 +17,14 @@ const FuMethodTable = async ({ search, page, perPage }: SearchParamsProps) => {
 
   const { fumethod, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable columns={columns} data={fumethod} rows={total} />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={fumethod}
+      rows={total}
+      totalPages={totalPages}
+      currentPage={Number(page)}
+      withPagination
+    />
   );
 };
 

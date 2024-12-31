@@ -3,11 +3,12 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import actionClient from '@/lib/safe-action';
+import { getAccessToken } from '../../data/auth';
 import {
   postProductPreferences,
   putProductPreferences,
   deleteProductPreferences,
-} from '../../data/productpreferences';
+} from '../../data/motorcycles';
 
 const addProductPreferencesSchema = z.object({
   id: z.number(),
@@ -18,7 +19,7 @@ const createProductPreferencesSchema = addProductPreferencesSchema.omit({
   id: true,
 });
 
-export const addProductPreferencesAction = actionClient
+export const addMotorcycleAction = actionClient
   .schema(createProductPreferencesSchema)
   .action(async ({ parsedInput: { product_name } }) => {
     try {
@@ -36,7 +37,7 @@ export const addProductPreferencesAction = actionClient
     }
   });
 
-export const updateProductPreferencesAction = actionClient
+export const updateMotorcycleAction = actionClient
   .schema(addProductPreferencesSchema)
   .action(async ({ parsedInput: { id, product_name } }) => {
     try {
@@ -58,7 +59,7 @@ const deleteProductPreferencesSchema = z.object({
   id: z.number(),
 });
 
-export const deleteProductPreferencesAction = actionClient
+export const deleteMotorcycleAction = actionClient
   .schema(deleteProductPreferencesSchema)
   .action(async ({ parsedInput: { id } }) => {
     try {
@@ -73,5 +74,38 @@ export const deleteProductPreferencesAction = actionClient
         status: 'error',
         message: 'Server Error: Failed to delete Product Preferences',
       };
+    }
+  });
+
+const motorcycleSearchSchema = z.object({
+  search: z.string(),
+});
+
+export const getMotorcycleList = actionClient
+  .schema(motorcycleSearchSchema)
+  .action(async ({ parsedInput: { search } }) => {
+    try {
+      const accessToken = await getAccessToken();
+      const response = await fetch(
+        `${process.env.BACKEND_URL}/motorcycles?search=${search}`,
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      const { data } = await response.json();
+      const { motorcycles } = data;
+      const motorcycleList = motorcycles.map((motorcycle: any) => ({
+        label: motorcycle.motorcycle_type,
+        value: motorcycle.motorcycle_type,
+      }));
+      return motorcycleList;
+    } catch (error) {
+      return [];
     }
   });

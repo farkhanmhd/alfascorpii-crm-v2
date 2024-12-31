@@ -1,8 +1,7 @@
 import React from 'react';
-import { fetchMotorcycles } from '@/app/lib/data/productpreferences';
+import { fetchMotorcycles } from '@/app/lib/data/motorcycles';
 import { DataTable } from '@/components/fragments/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
 
 const MotorcyclesTable = async ({
@@ -23,10 +22,14 @@ const MotorcyclesTable = async ({
   const { motorcycles, last_page: totalPages, total } = data;
 
   return (
-    <>
-      <DataTable columns={columns} data={motorcycles} rows={total} />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={motorcycles}
+      rows={total}
+      totalPages={totalPages}
+      currentPage={Number(page)}
+      withPagination
+    />
   );
 };
 

@@ -1,10 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAction } from 'next-safe-action/hooks';
+import { useDebouncedCallback } from 'use-debounce';
+import { getMotorcycleList } from '@/app/lib/actions/motorcycles';
+import { getDealerList } from '@/app/lib/actions/dealers';
 import { SelectFilter } from '@/components/fragments/form/Select';
 import DatePicker from '@/components/fragments/form/DatePicker';
 import ComboBox from '@/components/fragments/form/ComboBox';
-import { SelectOptions } from '@/types';
+import { ComboBoxOptions, SelectOptions } from '@/types';
+import { Button } from '@/components/ui/button';
 
 const dateOptions: SelectOptions[] = [
   { label: 'Tanggal Beli', value: 'purchase_date' },
@@ -43,29 +48,80 @@ const croNames: SelectOptions[] = [
   { label: 'CRO 8', value: 'CRO 8' },
 ];
 
-const motorcycles: SelectOptions[] = [
-  { label: 'Semua', value: 'all' },
-  { label: 'YZF R15', value: 'YZF R15' },
-  { label: 'MT 25', value: 'MT 25' },
-  { label: 'XSR 155', value: 'XSR 155' },
-  { label: 'YZR M1', value: 'YZR M1' },
-];
-
-const holidays: SelectOptions[] = [
-  { label: 'Semua', value: 'all' },
-  { label: 'Idul Fitri', value: 'Idul Fitri' },
-  { label: 'Natal', value: 'Natal' },
-];
-
 const FollowUpFilters = () => {
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [dateOption, setDateOption] = useState<string>('purchase_date');
+  const [fuOption, setFuOption] = useState<string>('all');
+  const [fuDetailValue, setFuDetailValue] = useState<string>('all');
+  const [croName, setCroName] = useState<string>('all');
+  const [motorcycleInput, setMotorcycleInput] = useState<string>('');
+  const [motorcycleOptions, setMotorcycleOptions] = useState<ComboBoxOptions[]>(
+    []
+  );
+  const [dealerOptions, setDealerOptions] = useState<ComboBoxOptions[]>([]);
+  const [dealerInput, setDealerInput] = useState<string>('');
+
+  const { execute, result, isPending } = useAction(() => {
+    return getMotorcycleList({ search: motorcycleInput });
+  });
+
+  const {
+    execute: executeDealer,
+    result: resultDealer,
+    isPending: isPendingDealer,
+  } = useAction(() => {
+    return getDealerList({ search: dealerInput });
+  });
+
+  const handleMotorcycleSearch = useDebouncedCallback((term: string) => {
+    execute({ search: term });
+    setIsTyping(false);
+  }, 300);
+
+  const handleDealerSearch = useDebouncedCallback((term: string) => {
+    executeDealer({ search: term });
+    setIsTyping(false);
+  }, 300);
+
+  const onMotorcycleChange = (term: string) => {
+    setIsTyping(true);
+    setMotorcycleInput(term);
+    handleMotorcycleSearch(term);
+  };
+
+  const onDealerChange = (term: string) => {
+    setIsTyping(true);
+    setDealerInput(term);
+    handleDealerSearch(term);
+  };
+
+  useEffect(() => {
+    handleMotorcycleSearch(motorcycleInput);
+    handleDealerSearch(dealerInput);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (result.data) {
+      setMotorcycleOptions(result.data);
+    }
+  }, [result.data]);
+
+  useEffect(() => {
+    if (resultDealer.data) {
+      setDealerOptions(resultDealer.data);
+    }
+  }, [resultDealer.data]);
+
   return (
-    <div className="grid grid-cols-4 gap-6">
+    <div className="grid grid-cols-5 gap-6">
       <SelectFilter
         label="Opsi Tanggal"
         id="date_option"
         placeholder="Pilih Opsi Tanggal"
-        queryParams="date_option"
         options={dateOptions}
+        value={dateOption}
+        setSelectedValue={setDateOption}
       />
       <DatePicker id="start_date" label="Tanggal Awal" />
       <DatePicker id="end_date" label="Tanggal Akhir" />
@@ -73,38 +129,49 @@ const FollowUpFilters = () => {
         label="Follow Up"
         id="fu_option"
         placeholder="Pilih Opsi FU"
-        queryParams="fu_option"
         options={fuOptions}
+        value={fuOption}
+        setSelectedValue={setFuOption}
       />
       <SelectFilter
         label="Keterangan Follow UP"
         id="fu_detail"
         placeholder="Pilih Keterangan FU"
-        queryParams="fu_detail"
         options={fuDetail}
+        value={fuDetailValue}
+        setSelectedValue={setFuDetailValue}
       />
       <SelectFilter
         label="Nama CRO"
         id="cro_name"
         placeholder="Pilih CRO"
-        queryParams="cro_name"
         options={croNames}
+        value={croName}
+        setSelectedValue={setCroName}
       />
       <ComboBox
-        options={motorcycles}
+        options={motorcycleOptions}
         label="Tipe Motor"
         id="motorcycle"
         placeholder="Pilih Tipe Motor"
-        onSelect={() => {}}
-        value="YZF R15"
+        value={motorcycleInput}
+        onSelect={setMotorcycleInput}
+        inputValue={motorcycleInput}
+        onValueChange={(search) => onMotorcycleChange(search)}
+        isPendingResult={isTyping || isPending}
       />
-      <SelectFilter
-        label="Hari Besar"
-        id="religious_holiday"
-        placeholder="Pilih Hari Besar"
-        queryParams="religious_holiday"
-        options={holidays}
+      <ComboBox
+        label="Dealer / Area"
+        id="dealer_area"
+        placeholder="Pilih Dealer/Area"
+        options={dealerOptions}
+        value={dealerInput}
+        onSelect={setDealerInput}
+        inputValue={dealerInput}
+        onValueChange={(search) => onDealerChange(search)}
+        isPendingResult={isTyping || isPendingDealer}
       />
+      <Button className="w-max self-end">Filter</Button>
     </div>
   );
 };

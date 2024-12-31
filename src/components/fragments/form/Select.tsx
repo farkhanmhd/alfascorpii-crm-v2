@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+// import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import {
   Select,
   SelectContent,
@@ -64,7 +64,9 @@ type SelectFilterProps = {
   label: string;
   id: string;
   placeholder: string;
-  queryParams: string;
+  value: string | undefined;
+  setSelectedValue: (value: string) => void;
+  // queryParams: string;
 };
 
 export const SelectFilter = ({
@@ -72,17 +74,19 @@ export const SelectFilter = ({
   label,
   id,
   placeholder,
-  queryParams,
+  value,
+  setSelectedValue,
+  // queryParams
 }: SelectFilterProps) => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const params = new URLSearchParams(searchParams);
+  // const searchParams = useSearchParams();
+  // const pathname = usePathname();
+  // const { replace } = useRouter();
+  // const params = new URLSearchParams(searchParams);
 
-  const handleChange = (value: string) => {
-    params.set(queryParams, value);
-    replace(`${pathname}?${params.toString()}`);
-  };
+  // const handleChange = (value: string) => {
+  //   params.set(queryParams, value);
+  //   replace(`${pathname}?${params.toString()}`);
+  // };
 
   return (
     <div className="flex flex-col gap-y-4">
@@ -91,8 +95,11 @@ export const SelectFilter = ({
           <span>{label}</span>
         </Label>
       )}
-      <Select onValueChange={handleChange}>
-        <SelectTrigger className="w-full bg-white" id={id}>
+      <Select value={value} onValueChange={setSelectedValue}>
+        <SelectTrigger
+          className="w-full bg-white text-xs font-semibold"
+          id={id}
+        >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

@@ -38,7 +38,6 @@ const sidebarGroupData: SidebarGroupProps[] = [
       { href: '/hobbies', label: 'Hobi' },
       { href: '/houseownerships', label: 'Status Rumah' },
       { href: '/motorcycles', label: 'Sepeda Motor' },
-      { href: '/follow-up', label: 'Follow Up' },
       { href: '/fumethod', label: 'Metode Follow Up' },
       { href: '/statusfus', label: 'Status Follow Up' },
       { href: '/detailfu', label: 'Detail Follow Up' },

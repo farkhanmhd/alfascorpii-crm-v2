@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronDown } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,8 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
+
+import { Skeleton } from '@/components/ui/skeleton';
 
 import {
   Popover,
@@ -31,16 +33,22 @@ interface ComboBoxProps {
   id: string;
   value: string | null | undefined;
   onSelect: (value: string) => void;
+  inputValue: string;
+  onValueChange: ((search: string) => void) | undefined;
+  isPendingResult: boolean;
   error?: string[];
 }
 
 const ComboBox = ({
-  options,
+  options = [],
   placeholder,
   label,
   id,
   value,
   onSelect,
+  inputValue,
+  onValueChange,
+  isPendingResult,
   error,
 }: ComboBoxProps) => {
   const [open, setOpen] = useState(false);
@@ -55,7 +63,7 @@ const ComboBox = ({
   return (
     <div className="flex flex-col gap-y-4">
       {label && (
-        <Label htmlFor={id} className="flex gap-x-2">
+        <Label htmlFor={id} className="flex gap-x-2 font-semibold">
           <span>{label}</span>
           {error && error.length > 0 && (
             <span className="text-red-500">
@@ -70,39 +78,50 @@ const ComboBox = ({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full justify-between"
+            className="w-full justify-between text-xs font-semibold"
             id={id}
             ref={elementRef as React.Ref<HTMLButtonElement>}
           >
-            {value
-              ? options.find((option) => option.value === value)?.label
-              : placeholder}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            {options.find((option) => option.value === value)?.label ||
+              placeholder}
+            <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="p-0" style={{ width: elementWidth }}>
           <Command>
-            <CommandInput placeholder="Search option..." />
+            <CommandInput
+              placeholder="Search option..."
+              value={inputValue}
+              onValueChange={onValueChange}
+            />
             <CommandList>
-              <CommandEmpty>No option found.</CommandEmpty>
-              <CommandGroup>
-                {options.map((option) => (
-                  <CommandItem
-                    key={option.value}
-                    value={option.value}
-                    onSelect={() => handleSelect(option.value)}
-                    style={{ pointerEvents: 'auto' }}
-                  >
-                    <Check
-                      className={cn(
-                        'mr-2 h-4 w-4',
-                        value === option.value ? 'opacity-100' : 'opacity-0'
-                      )}
-                    />
-                    {option.label}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
+              {isPendingResult ? (
+                <CommandEmpty>
+                  <Skeleton className="mx-2 h-8" />
+                </CommandEmpty>
+              ) : (
+                <>
+                  <CommandEmpty>Tidak ada Data</CommandEmpty>
+                  <CommandGroup>
+                    {options.map((option) => (
+                      <CommandItem
+                        key={option.value}
+                        value={option.value}
+                        onSelect={() => handleSelect(option.value)}
+                        style={{ pointerEvents: 'auto' }}
+                      >
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            value === option.value ? 'opacity-100' : 'opacity-0'
+                          )}
+                        />
+                        {option.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </>
+              )}
             </CommandList>
           </Command>
         </PopoverContent>

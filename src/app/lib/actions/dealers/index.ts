@@ -3,7 +3,9 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import actionClient from '@/lib/safe-action';
+import { getAccessToken } from '../../data/auth';
 import { postDealer, putDealer, deleteDealer } from '../../data/dealers';
+import { IDealer } from '@/types';
 
 const dealerSchema = z.object({
   id: z.number(),
@@ -68,5 +70,38 @@ export const removeDealerAction = actionClient
         status: 'error',
         message: 'Server Error: Failed to delete Dealer',
       };
+    }
+  });
+
+const dealerSearchSchema = z.object({
+  search: z.string(),
+});
+
+export const getDealerList = actionClient
+  .schema(dealerSearchSchema)
+  .action(async ({ parsedInput: { search } }) => {
+    try {
+      const accessToken = await getAccessToken();
+      const response = await fetch(
+        `${process.env.BACKEND_URL}/dealers?search=${search}`,
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      const { data } = await response.json();
+      const { dealers } = data;
+      const dealerList = dealers.map((dealer: IDealer) => ({
+        label: dealer.dealer_name,
+        value: dealer.dealer_name,
+      }));
+      return dealerList;
+    } catch (error) {
+      return [];
     }
   });

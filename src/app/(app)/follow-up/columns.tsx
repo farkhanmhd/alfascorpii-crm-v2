@@ -57,12 +57,27 @@ export const columns: ColumnDef<ICustomer>[] = [
   {
     accessorKey: 'customer_name',
     header: 'Nama',
+    cell: ({ row }) => {
+      return (
+        <div className="line-clamp-1 min-w-max">
+          {row.original.customer_name}
+        </div>
+      );
+    },
   },
   {
     id: 'purchase_date',
     header: () => <div className="line-clamp-1 min-w-max">Tanggal Beli</div>,
     cell: ({ row }) => {
       return <div>{row.original.motorcycles[0].purchase_date}</div>;
+    },
+  },
+  {
+    header: 'Dealer / Area',
+    cell: ({ row }) => {
+      return (
+        <div className="line-clamp-1 min-w-max">{row.original.dealer_name}</div>
+      );
     },
   },
   {
@@ -75,7 +90,11 @@ export const columns: ColumnDef<ICustomer>[] = [
     id: 'motorcycle_type',
     header: () => <div className="line-clamp-1 min-w-max">Tipe Motor</div>,
     cell: ({ row }) => {
-      return <div>{row.original.motorcycles[0].name}</div>;
+      return (
+        <div className="line-clamp-1 min-w-max">
+          {row.original.motorcycles[0].name}
+        </div>
+      );
     },
   },
   {
@@ -91,6 +110,18 @@ export const columns: ColumnDef<ICustomer>[] = [
     id: 'fu_date',
     accessorKey: 'fu_date',
     header: () => <div className="line-clamp-1 min-w-max">Tanggal FU</div>,
+  },
+  {
+    id: 'status_fu',
+    header: () => <div className="line-clamp-1 min-w-max">Status FU</div>,
+  },
+  {
+    id: 'fu_result',
+    header: () => <div className="line-clamp-1 min-w-max">Hasil FU</div>,
+  },
+  {
+    id: 'fu_detail',
+    header: () => <div className="line-clamp-1 min-w-max">Detail FU</div>,
   },
 
   // {

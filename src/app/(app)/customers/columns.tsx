@@ -50,22 +50,37 @@ export const columns: ColumnDef<ICustomer>[] = [
   //   accessorKey: 'dealer_code',
   //   header: 'Dealer Code',
   // },
-  {
-    accessorKey: 'dealer_name',
-    header: 'Dealer',
-  },
+
   {
     accessorKey: 'customer_name',
     header: 'Nama',
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.customer_name}</div>
+    ),
   },
   {
-    accessorKey: 'district',
-    header: 'Kecamatan',
+    accessorKey: 'date_of_birth',
+    header: 'Tanggal Lahir',
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.date_of_birth}</div>
+    ),
   },
   {
-    accessorKey: 'address',
-    header: 'Alamat',
+    accessorKey: 'job',
+    header: 'Pekerjaan',
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.job}</div>
+    ),
   },
+
+  {
+    accessorKey: 'sub_district',
+    header: 'Kelurahan',
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.sub_district}</div>
+    ),
+  },
+
   {
     accessorKey: 'mobile_phone',
     header: 'Nomor HP',

@@ -1,9 +1,8 @@
 import React from 'react';
-import { DataTable } from '@/components/fragments/table/DataTable';
 import { fetchCustomer } from '@/app/lib/data/customers';
 import { SearchParamsProps } from '@/types';
 import { columns } from './columns';
-import FollowUpFooter from './FollowUpFooter';
+import FollowUpTableData from './FollowUpTableData';
 
 const FollowUpTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const {
@@ -13,16 +12,14 @@ const FollowUpTable = async ({ search, page, perPage }: SearchParamsProps) => {
   } = await fetchCustomer(search, page, perPage);
 
   return (
-    <DataTable
+    <FollowUpTableData
       columns={columns}
       data={customers}
       rows={total}
       totalPages={totalPages}
       currentPage={Number(page)}
       withPagination
-    >
-      <FollowUpFooter />
-    </DataTable>
+    />
   );
 };
 

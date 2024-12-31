@@ -35,7 +35,7 @@ const RootLayout = ({
       >
         <ClientOnly>
           <JotaiProvider>
-            <NextTopLoader showSpinner={false} color="#FF4A4A" />
+            <NextTopLoader showSpinner={false} color="#ff4a4a" />
             {children}
             <Toaster />
           </JotaiProvider>

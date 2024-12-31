@@ -2,7 +2,6 @@ import React from 'react';
 import { fetchincome } from '@/app/lib/data/incomes';
 import { DataTable } from '@/components/fragments/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
 
 const IncomeTable = async ({ search, page, perPage }: SearchParamsProps) => {
@@ -18,10 +17,14 @@ const IncomeTable = async ({ search, page, perPage }: SearchParamsProps) => {
 
   const { incomes, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable columns={columns} data={incomes} rows={total} />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={incomes}
+      rows={total}
+      totalPages={totalPages}
+      currentPage={Number(page)}
+      withPagination
+    />
   );
 };
 

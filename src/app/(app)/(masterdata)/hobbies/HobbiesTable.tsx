@@ -2,7 +2,6 @@ import React from 'react';
 import { fetchHobi } from '@/app/lib/data/hobbies';
 import { DataTable } from '@/components/fragments/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
 
 const HobbiesTable = async ({ search, page, perPage }: SearchParamsProps) => {
@@ -18,10 +17,14 @@ const HobbiesTable = async ({ search, page, perPage }: SearchParamsProps) => {
 
   const { hobbies, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable columns={columns} data={hobbies} rows={total} />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={hobbies}
+      rows={total}
+      totalPages={totalPages}
+      currentPage={Number(page)}
+      withPagination
+    />
   );
 };
 

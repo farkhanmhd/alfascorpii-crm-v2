@@ -74,13 +74,15 @@ const DatePicker = ({
 
   return (
     <div className="flex flex-col gap-y-4">
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} className="font-semibold">
+        {label}
+      </Label>
       <Popover>
         <PopoverTrigger asChild id={id} name={id}>
           <Button
             variant="outline"
             className={cn(
-              'w-full justify-start text-left font-normal',
+              'w-full justify-start text-left text-xs font-semibold',
               !date && 'text-muted-foreground'
             )}
           >

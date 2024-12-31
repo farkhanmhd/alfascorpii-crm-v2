@@ -173,17 +173,19 @@ const DataTablePagination = ({
 
   return (
     <div className="sticky bottom-0 flex items-center justify-between pt-6">
-      <p className="w-full text-sm">
-        {selectedRows > 0 ? (
-          <span>Selected {selectedRows} </span>
-        ) : (
-          <span>
-            Showing {currentPage * perPage - perPage + 1} to{' '}
-            {perPage * currentPage > total ? total : perPage * currentPage}{' '}
-          </span>
-        )}
-        <span>of {total} entries</span>
-      </p>
+      {total > 0 && (
+        <p className="w-full text-sm">
+          {selectedRows > 0 ? (
+            <span>Selected {selectedRows} </span>
+          ) : (
+            <span>
+              Showing {currentPage * perPage - perPage + 1} to{' '}
+              {perPage * currentPage > total ? total : perPage * currentPage}{' '}
+            </span>
+          )}
+          <span>of {total} entries</span>
+        </p>
+      )}
       <Pagination className="mx-0 justify-end">
         <PaginationContent>
           <PaginationItem key="prev">

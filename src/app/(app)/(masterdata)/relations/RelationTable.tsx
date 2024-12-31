@@ -2,7 +2,6 @@ import React from 'react';
 import { fetchRelation } from '@/app/lib/data/relations';
 import { DataTable } from '@/components/fragments/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import DataTablePagination from '@/components/fragments/table/pagination';
 import columns from './columns';
 
 const RelationTable = async ({ search, page, perPage }: SearchParamsProps) => {
@@ -18,10 +17,14 @@ const RelationTable = async ({ search, page, perPage }: SearchParamsProps) => {
 
   const { relations, last_page: totalPages, total } = data;
   return (
-    <>
-      <DataTable columns={columns} data={relations} rows={total} />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
-    </>
+    <DataTable
+      columns={columns}
+      data={relations}
+      rows={total}
+      totalPages={totalPages}
+      currentPage={Number(page)}
+      withPagination
+    />
   );
 };
 

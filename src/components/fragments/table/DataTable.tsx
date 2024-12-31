@@ -33,6 +33,10 @@ interface DataTableProps<TData extends { id: string | number }, TValue> {
   currentPage: number;
   children?: React.ReactNode;
   withPagination?: boolean;
+  rowSelection?: Record<string, boolean>;
+  setRowSelection?: React.Dispatch<
+    React.SetStateAction<Record<string, boolean>>
+  >;
 }
 
 export const DataTable = <TData extends { id: string | number }, TValue>({
@@ -43,11 +47,12 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   currentPage,
   children,
   withPagination = false,
+  rowSelection = {},
+  setRowSelection,
 }: DataTableProps<TData, TValue>) => {
   const searchParams = useSearchParams();
   const perPage = Number(searchParams.get('per_page') || 50);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const table = useReactTable({
     data,
     columns,

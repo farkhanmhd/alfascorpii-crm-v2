@@ -10,10 +10,10 @@ import {
 } from '@/hooks';
 import { IMotorcycleList } from '@/types';
 import {
-  addProductPreferencesAction,
-  updateProductPreferencesAction,
-  deleteProductPreferencesAction,
-} from '@/app/lib/actions/productpreferences';
+  addMotorcycleAction,
+  updateMotorcycleAction,
+  deleteMotorcycleAction,
+} from '@/app/lib/actions/motorcycles';
 import ActionDialogContainer from '@/components/fragments/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/fragments/dialogs/DeleteDialog';
 import ProductPreferencesForm from './ProductPreferencesForm';
@@ -25,7 +25,7 @@ export const CreateProductDialog = () => {
       product_name: formData.get('product_name'),
     };
 
-    return addProductPreferencesAction(data);
+    return addMotorcycleAction(data);
   });
 
   useSubmitToast(result, handleClose, reset);
@@ -47,7 +47,7 @@ export const EditProductDialog = () => {
       id: Number(actionDialog?.data?.id),
       product_name: formData.get('product_name'),
     };
-    return updateProductPreferencesAction(data);
+    return updateMotorcycleAction(data);
   });
 
   useSubmitToast(result, handleClose, reset);
@@ -66,7 +66,7 @@ export const EditProductDialog = () => {
 export const DeleteProductDialog = () => {
   const { deleteDialog } = useDeleteDialog();
   const { execute, result, isPending, reset } = useAction(
-    deleteProductPreferencesAction
+    deleteMotorcycleAction
   );
   useDeleteToast(result, reset);
   return (
