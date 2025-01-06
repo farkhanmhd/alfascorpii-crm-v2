@@ -5,23 +5,27 @@ import { cn } from '@/lib/utils';
 
 interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  labelClass?: string;
   id: string;
   error?: string[];
   hideLabel?: boolean;
+  className?: string;
 }
 
 const TextInput = ({
+  labelClass,
   label,
   id,
   error,
   hideLabel,
+  className,
   ...props
 }: TextInputProps) => {
   return (
     <div className="flex flex-col gap-y-4">
       <Label
         htmlFor={id}
-        className={cn('flex gap-x-2', {
+        className={cn(`flex gap-x-2 font-semibold ${labelClass}`, {
           'sr-only': hideLabel,
         })}
       >
@@ -37,7 +41,7 @@ const TextInput = ({
         name={id}
         autoComplete="off"
         {...props}
-        className={cn({
+        className={cn(className, {
           'border-destructive/80 text-destructive focus-visible:border-destructive/80 focus-visible:ring-destructive/20':
             error?.length,
         })}

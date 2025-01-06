@@ -2,10 +2,11 @@ import React from 'react';
 import CustomTabs from '@/components/fragments/tabs';
 import { TabData, ICustomer } from '@/types';
 import { getCustomer } from '@/app/lib/data/customers';
-import { DataTable } from '@/components/fragments/table/DataTable';
-import ProfileForm from './profile-form';
-import columns from './motorcycle-column';
-import MotorcycleData from './motorcycle-data';
+import CustomerTab from './customer-tab';
+import FollowUpTab from './follow-up-tab';
+import PhoneReceiverTab from './phone-receiver-tab';
+import MotorcycleTab from './motorcycle-tab';
+import FamilyTab from './family-tab';
 
 const ProfileTab = async ({ id }: { id: string }) => {
   const data = await getCustomer(id);
@@ -13,32 +14,28 @@ const ProfileTab = async ({ id }: { id: string }) => {
   const tabData: TabData<React.ReactNode>[] = [
     {
       value: 'overview',
-      label: 'Overview',
-      content: <ProfileForm value="overview" customer={customer} />,
+      label: 'Data Customer',
+      content: <CustomerTab customer={customer} />,
     },
     {
       value: 'update',
-      label: 'Data Update',
-      content: <ProfileForm value="update" customer={customer} />,
+      label: 'Follow Up',
+      content: <FollowUpTab />,
     },
     {
       value: 'social',
-      label: 'Social',
-      content: <ProfileForm value="social" customer={customer} />,
+      label: 'Data Penerima Telepon',
+      content: <PhoneReceiverTab />,
     },
     {
       value: 'motorcycle',
-      label: 'Motor',
-      content:
-        customer.motorcycles.length > 1 ? (
-          <DataTable
-            columns={columns}
-            data={customer.motorcycles}
-            rows={customer.motorcycles.length}
-          />
-        ) : (
-          <MotorcycleData motorcycle={customer.motorcycles[0]} />
-        ),
+      label: 'Data Motor',
+      content: <MotorcycleTab />,
+    },
+    {
+      value: 'family',
+      label: 'Kartu Keluarga',
+      content: <FamilyTab />,
     },
   ];
 

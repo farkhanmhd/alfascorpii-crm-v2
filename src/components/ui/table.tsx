@@ -6,7 +6,10 @@ const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="rounded-md" style={{ clipPath: 'inset(0 round 0.375rem)' }}>
+  <div
+    className="rounded-md shadow-lg"
+    style={{ clipPath: 'inset(0 round 0.375rem)' }}
+  >
     <table
       ref={ref}
       className={cn('w-full caption-bottom text-sm', className)}
@@ -58,7 +61,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-black/20',
+      'transition-colors hover:bg-muted/50 data-[state=selected]:bg-black/20',
       className
     )}
     {...props}
@@ -87,7 +90,7 @@ const TableCell = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', className)}
+    className={cn('p-0 align-middle [&:has([role=checkbox])]:pr-0', className)}
     {...props}
   />
 ));

@@ -31,7 +31,7 @@ export const SelectBox = ({
   return (
     <div className="flex flex-col gap-y-4">
       {label && (
-        <Label htmlFor={id} className="flex gap-x-2">
+        <Label htmlFor={id} className="flex gap-x-2 font-semibold">
           <span>{label}</span>
           {error && (
             <span className="text-red-500">

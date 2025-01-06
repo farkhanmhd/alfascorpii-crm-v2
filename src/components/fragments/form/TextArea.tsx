@@ -21,7 +21,7 @@ const TextField = ({
   ...props
 }: TextFieldProps) => {
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex h-full flex-col gap-y-4">
       <Label
         htmlFor={id}
         className={cn('flex gap-x-2', {

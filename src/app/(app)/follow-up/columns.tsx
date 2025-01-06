@@ -1,11 +1,12 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
-// import Link from 'next/link';
+import { cn } from '@/lib/utils';
 // import { MoreHorizontal } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
-// import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 // import {
 //   DropdownMenu,
 //   DropdownMenuContent,
@@ -16,7 +17,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 // } from '@/components/ui/dropdown-menu';
 import { ICustomer } from '@/types';
 // import { cn } from '@/lib/utils';
-// import { Pencil, Trash } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 // import { useDeleteDialog } from '@/hooks';
 
 export const columns: ColumnDef<ICustomer>[] = [
@@ -46,9 +47,37 @@ export const columns: ColumnDef<ICustomer>[] = [
   {
     id: 'no',
     header: 'No',
-    cell: ({ row }) => {
-      return <div>{row.index + 1}</div>;
+    cell: ({ row, table }) => {
+      const startIndex =
+        table.getState().pagination.pageIndex *
+        table.getState().pagination.pageSize;
+      return <div>{startIndex + row.index + 1}</div>;
     },
+  },
+  {
+    id: 'actions',
+    header: () => <div className="text-center">Aksi</div>,
+    cell: ({ row }) => {
+      return (
+        <div className="flex justify-end gap-x-4">
+          <Link
+            href={`/customers/${row.original.id}`}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                size: 'icon',
+              })
+            )}
+          >
+            <Pencil />
+          </Link>
+        </div>
+      );
+    },
+  },
+  {
+    id: 'assign_date',
+    header: () => <div className="line-clamp-1 min-w-max">Tanggal Assign</div>,
   },
   {
     accessorKey: 'nik',

@@ -37,7 +37,7 @@ const Header = ({
         <h1 className="text-3xl font-bold uppercase leading-[20px] text-primary">
           {headerTitle}
         </h1>
-        <div className="flex items-center gap-x-3 text-sm leading-[20px]">
+        <div className="hidden items-center gap-x-3 text-sm leading-[20px] lg:flex">
           <Link href="/">
             <Home />
           </Link>

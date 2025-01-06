@@ -27,8 +27,16 @@ const columns: ColumnDef<IMotorcycle>[] = [
     header: 'Leasing',
   },
   {
+    id: 'production_year',
+    header: 'Tahun Produksi',
+  },
+  {
     accessorKey: 'purchase_date',
     header: 'Tanggal Beli',
+  },
+  {
+    id: 'dealer',
+    header: 'Dealer',
   },
 ];
 

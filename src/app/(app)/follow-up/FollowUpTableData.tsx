@@ -26,6 +26,7 @@ const FollowUpTableData = <TData extends { id: string | number }, TValue>({
 
   return (
     <DataTable
+      tableName="customers"
       columns={columns}
       data={data}
       rows={rows}
@@ -35,7 +36,7 @@ const FollowUpTableData = <TData extends { id: string | number }, TValue>({
       rowSelection={rowSelection}
       setRowSelection={setRowSelection}
     >
-      <FollowUpFooter />
+      <FollowUpFooter rowSelection={rowSelection} />
     </DataTable>
   );
 };

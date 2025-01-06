@@ -96,7 +96,6 @@ export interface ICustomer extends IIdentifiable {
   amount_of_family: number;
   family_under_12_yo: number;
   family_12_until_17_yo: number;
-  amount_of_motorcycle: number;
   whatsapp_number: string;
   facebook: string;
   instagram: string;
