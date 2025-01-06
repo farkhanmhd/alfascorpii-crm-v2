@@ -10,7 +10,7 @@ const CustomTabs: React.FC<{ tabData: TabData<React.ReactNode>[] }> = ({
 }) => {
   return (
     <Tabs defaultValue="overview" className="relative w-full">
-      <TabsList className="sticky top-0 z-50 h-auto w-full gap-2 rounded-none border-b border-border bg-background px-0 py-1 text-foreground">
+      <TabsList className="sticky top-0 z-50 h-auto w-full flex-wrap gap-2 rounded-none border-b border-border bg-background px-0 py-1 text-foreground">
         <MapItems
           of={tabData}
           render={(tab, index) => (

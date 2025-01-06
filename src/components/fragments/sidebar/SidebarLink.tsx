@@ -8,14 +8,21 @@ import { cn } from '@/lib/utils';
 interface Props {
   href: string;
   label: string;
+  onLinkClick: () => void;
 }
 
-const SidebarLink = ({ href, label }: Props) => {
+const SidebarLink = ({ href, label, onLinkClick }: Props) => {
   const pathname = usePathname();
   const active: boolean = pathname === href;
+  
+  const handleClick = () => {
+    onLinkClick();
+  };
+
   return (
     <Link
       href={href}
+      onClick={handleClick}
       className={cn(
         "before:content[''] group relative flex justify-center px-8 uppercase before:absolute before:left-0 before:top-0 before:-ml-1 before:h-full before:w-2 before:rounded-full before:duration-200",
         {
@@ -37,3 +44,4 @@ const SidebarLink = ({ href, label }: Props) => {
 };
 
 export default SidebarLink;
+

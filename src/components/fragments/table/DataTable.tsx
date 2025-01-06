@@ -241,18 +241,18 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
       )}
       {extensible && (
         <div className="mt-4 flex flex-row-reverse justify-between">
-          <div className="flex items-center gap-x-4">
-            {newRow !== null && (
-              <Button onClick={() => setNewRow(null)}>Cancel</Button>
-            )}
+          {newRow === null && (
             <Button onClick={handleAddRow} variant="orange" size="icon">
               <Plus className="h-4 w-4" />
             </Button>
-          </div>
+          )}
           {newRow !== null && (
             <Button variant="blue" onClick={handleSave}>
               Save
             </Button>
+          )}
+          {newRow !== null && (
+            <Button onClick={() => setNewRow(null)}>Cancel</Button>
           )}
         </div>
       )}

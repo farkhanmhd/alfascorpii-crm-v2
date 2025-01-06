@@ -9,7 +9,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { actionDialog } = useActionDialog();
 
   return (
-    <div className="flex h-[calc(100dvh-132px)] flex-col">
+    <div className="flex min-h-[calc(100dvh-132px)] flex-col lg:h-[calc(100dvh-132px)]">
       {children}
       {actionDialog?.create && <ExcelDropzoneDialog />}
       {actionDialog?.open && <SendCroDialog />}

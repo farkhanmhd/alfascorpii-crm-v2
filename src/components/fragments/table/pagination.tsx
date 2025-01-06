@@ -172,9 +172,9 @@ const DataTablePagination = ({
   };
 
   return (
-    <div className="sticky bottom-0 flex items-center justify-between pt-6">
+    <div className="bottom-0 flex items-center justify-between pt-6 lg:sticky">
       {total > 0 && (
-        <p className="w-full text-sm">
+        <p className="hidden w-full text-sm md:block">
           {selectedRows > 0 ? (
             <span>Selected {selectedRows} </span>
           ) : (

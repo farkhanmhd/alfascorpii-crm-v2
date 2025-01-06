@@ -23,7 +23,7 @@ const Header = ({
 }: {
   headerTitle: string;
   path: string;
-  user: SessionPayload | null;
+  user: SessionPayload;
 }) => {
   const { push } = useRouter();
   const handleLogout = async () => {
@@ -32,9 +32,9 @@ const Header = ({
     push('/login');
   };
   return (
-    <header className="ml-72 flex h-[84px] items-center justify-between gap-y-2 bg-header px-[21px] py-[14px]">
+    <header className="fixed left-0 top-0 z-50 flex h-[84px] w-full items-center justify-between gap-y-2 bg-header py-[14px] pl-16 shadow-lg lg:static lg:px-[21px] lg:shadow-none">
       <div className="flex flex-col gap-y-2">
-        <h1 className="text-3xl font-bold uppercase leading-[20px] text-primary">
+        <h1 className="text-xl font-bold uppercase leading-[20px] text-primary lg:text-3xl">
           {headerTitle}
         </h1>
         <div className="hidden items-center gap-x-3 text-sm leading-[20px] lg:flex">
@@ -70,11 +70,11 @@ const Header = ({
           align="end"
           sideOffset={4}
         >
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
             <User />
             Account
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
+          <DropdownMenuItem className="cursor-pointer">
             <LogOut />
             Log out
           </DropdownMenuItem>

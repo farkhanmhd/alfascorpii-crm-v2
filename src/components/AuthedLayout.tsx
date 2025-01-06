@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import Sidebar from '@/components/fragments/sidebar';
-import { SidebarGroupProps } from '@/components/fragments/sidebar/SidebarGroup';
 import Header from '@/components/fragments/header';
 import { SessionPayload } from '@/app/lib/actions/auth/session';
+import Sidebar from '@/components/fragments/sidebar';
+import { SidebarGroupProps } from '@/components/fragments/sidebar/SidebarGroup';
 
 const sidebarGroupData: SidebarGroupProps[] = [
   {
@@ -57,16 +57,18 @@ const AuthedLayout = ({
     .flatMap((group) => group.links)
     .find((link) => link.href === pathname)?.label;
   return (
-    <div>
+    <div className="flex min-h-screen flex-col pt-[84px] lg:flex-row lg:pt-0">
       <Sidebar data={sidebarGroupData} />
-      <Header
-        headerTitle={headerTitle || 'Dashboard'}
-        path={pathname}
-        user={session}
-      />
-      <main className="ml-72 min-h-[calc(100dvh-84px)] rounded-md bg-secondary p-6">
-        {children}
-      </main>
+      <div className="flex-1">
+        <Header
+          headerTitle={headerTitle || 'Dashboard'}
+          path={pathname}
+          user={session}
+        />
+        <main className="min-h-[calc(100dvh-84px)] rounded-md bg-secondary p-6 lg:ml-72 lg:w-[calc(100vw-288px)]">
+          {children}
+        </main>
+      </div>
     </div>
   );
 };

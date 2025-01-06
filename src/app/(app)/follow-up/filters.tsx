@@ -114,7 +114,10 @@ const FollowUpFilters = () => {
   }, [resultDealer.data]);
 
   return (
-    <div className="grid grid-cols-5 gap-6">
+    <div
+      className="grid gap-6"
+      style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(225px, 1fr))' }}
+    >
       <SelectFilter
         label="Opsi Tanggal"
         id="date_option"

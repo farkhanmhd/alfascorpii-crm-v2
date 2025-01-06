@@ -1,6 +1,5 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 
 export const metadata: Metadata = {
   title: 'Customer',
