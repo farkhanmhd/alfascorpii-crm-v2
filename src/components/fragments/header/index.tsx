@@ -70,11 +70,11 @@ const Header = ({
           align="end"
           sideOffset={4}
         >
-          <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
+          <DropdownMenuItem className="cursor-pointer">
             <User />
             Account
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
             <LogOut />
             Log out
           </DropdownMenuItem>
