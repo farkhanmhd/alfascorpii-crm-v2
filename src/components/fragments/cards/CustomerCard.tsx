@@ -26,12 +26,17 @@ type CustomerCardProps = {
 
 const CustomerCard = ({ title, data }: CustomerCardProps) => {
   return (
-    <Card className="h-full">
+    <Card className="h-full w-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <dl className="grid gap-4">
+        <dl
+          className="grid gap-4"
+          style={{
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          }}
+        >
           <MapItems
             of={data}
             render={(item, index) => (

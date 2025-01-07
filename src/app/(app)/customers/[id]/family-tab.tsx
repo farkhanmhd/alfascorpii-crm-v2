@@ -79,7 +79,7 @@ const FamilyTab = () => {
   return (
     <div className="mb-8 space-y-8">
       <div className="flex gap-x-4">
-        <div className="mt-4 w-[300px]">
+        <div className="w-[300px]">
           <TextInput
             id="family-card-number"
             label="NO. KARTU KELUARGA"

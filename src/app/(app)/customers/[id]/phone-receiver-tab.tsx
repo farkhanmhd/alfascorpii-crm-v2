@@ -94,10 +94,7 @@ const PhoneReceiverTab = () => {
 
   return (
     <div>
-      <div
-        className="grid gap-8"
-        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
-      >
+      <div className="flex flex-col gap-8">
         <MapItems
           of={items}
           render={(item, index) => (

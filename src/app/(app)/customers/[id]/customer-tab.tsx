@@ -119,14 +119,13 @@ const CustomerTab = ({ customer }: { customer: ICustomer }) => {
 
   return (
     <div>
-      <div
-        className="grid gap-8"
-        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
-      >
+      <div className="flex flex-wrap gap-8">
         <MapItems
           of={items}
           render={(item, index) => (
-            <CustomerCard key={index} title={item.title} data={item.data} />
+            <div className="flex-grow basis-[320px]">
+              <CustomerCard key={index} title={item.title} data={item.data} />
+            </div>
           )}
         />
       </div>
