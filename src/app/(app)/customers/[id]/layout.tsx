@@ -13,7 +13,9 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="h-full w-full">
       <div className="hide-scrollbar h-full overflow-auto rounded-lg">
-        <div className="min-h-full rounded-lg bg-background">{children}</div>
+        <div className="min-h-full rounded-lg bg-background shadow-md">
+          {children}
+        </div>
       </div>
     </div>
   );

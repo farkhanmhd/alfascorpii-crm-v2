@@ -14,7 +14,7 @@ import FollowUpHistory from './dialogs/follow-up-history';
 
 const FollowUpTab = () => {
   return (
-    <div className="flex flex-col gap-y-8 px-4">
+    <div className="mb-8 flex flex-col gap-y-6">
       <div className="rounded-md border">
         <Table>
           <TableHeader className="bg-primary text-sm">

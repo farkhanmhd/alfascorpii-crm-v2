@@ -28,7 +28,7 @@ const data: IMotorcycle[] | any[] = [
 
 const MotorcycleTab = () => {
   return (
-    <div className="mt-6 px-4">
+    <div className="mb-8">
       <div className="rounded-md border">
         <DataTable columns={columns} data={data} />
       </div>

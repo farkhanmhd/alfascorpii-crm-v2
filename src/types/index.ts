@@ -92,6 +92,7 @@ export interface ICustomer extends IIdentifiable {
   religion: string;
   degree: string;
   hobby: string;
+  user: string | null;
   hobby_description: string;
   amount_of_family: number;
   family_under_12_yo: number;

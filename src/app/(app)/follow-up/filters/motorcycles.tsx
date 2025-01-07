@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { useDebouncedCallback } from 'use-debounce';
+// import { useDebouncedCallback } from 'use-debounce';
 import ComboBox from '@/components/fragments/form/ComboBox';
 import { getMotorcycleList } from '@/app/lib/actions/motorcycles';
 
@@ -13,7 +13,11 @@ interface Props {
 
 export const MotorcyclesFilter = ({ motorcycle, setMotorcycle }: Props) => {
   const [inputValue, setInputValue] = useState('');
-  const { execute, result } = useAction(() => {
+  const {
+    // execute,
+    result,
+    isPending,
+  } = useAction(() => {
     return getMotorcycleList({ search: inputValue });
   });
 
@@ -34,7 +38,8 @@ export const MotorcyclesFilter = ({ motorcycle, setMotorcycle }: Props) => {
       value={motorcycle}
       onSelect={setMotorcycle}
       inputValue={inputValue}
-      setInputValue={setInputValue}
+      onValueChange={setInputValue}
+      isPendingResult={isPending}
     />
   );
 };

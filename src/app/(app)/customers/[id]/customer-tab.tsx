@@ -1,17 +1,22 @@
 import React from 'react';
 import { ICustomer, SelectOptions } from '@/types';
 import MapItems from '@/utils/MapItems';
+import CustomerCard from '@/components/fragments/cards/CustomerCard';
 import UpdateCustomerDialog from './dialogs/update-customer';
 
 const CustomerTab = ({ customer }: { customer: ICustomer }) => {
-  const filteredCustomer: SelectOptions[] = [
+  const personalInfo: SelectOptions[] = [
     {
       label: 'NIK',
       value: customer.nik,
     },
     {
-      label: 'NAMA',
+      label: 'Nama',
       value: customer.customer_name,
+    },
+    {
+      label: 'Tanggal Lahir',
+      value: customer.date_of_birth,
     },
     {
       label: 'ALAMAT',
@@ -37,78 +42,95 @@ const CustomerTab = ({ customer }: { customer: ICustomer }) => {
       label: 'KODE POS',
       value: String(customer.postal_code),
     },
+  ];
+
+  const socials: SelectOptions[] = [
     {
-      label: 'TELEPON',
+      label: 'Telepon',
       value: customer.telephone,
     },
     {
-      label: 'NO. HP',
+      label: 'No. HP',
       value: customer.mobile_phone,
     },
     {
-      label: 'STATUS RUMAH',
-      value: customer.house_ownership,
+      label: 'Whatsapp',
+      value: customer.whatsapp_number,
     },
     {
-      label: 'PEKERJAAN',
-      value: customer.job,
-    },
-    {
-      label: 'TANGGAL LAHIR',
-      value: customer.date_of_birth,
-    },
-    {
-      label: 'HARI BESAR KEAGAMAAN',
-      value: customer.holiday,
-    },
-    {
-      label: 'HOBI',
-      value: customer.hobby,
-    },
-    {
-      label: 'DESKRIPSI HOBI',
-      value: customer.hobby_description,
-    },
-    {
-      label: 'JUMLAH ORANG DALAM 1 RUMAH',
-      value: String(customer.amount_of_family),
-    },
-    {
-      label: 'JUMLAH SEPEDA MOTOR 1 RUMAH',
-      value: String(customer.motorcycles.length),
-    },
-    {
-      label: 'FACEBOOK',
+      label: 'Facebook',
       value: customer.facebook,
     },
     {
-      label: 'INSTAGRAM',
+      label: 'Instagram',
       value: customer.instagram,
     },
     {
-      label: 'PENGHASILAN/BULAN',
+      label: 'Email',
+      value: customer.email,
+    },
+  ];
+
+  const otherInfo: SelectOptions[] = [
+    {
+      label: 'Status Rumah',
+      value: customer.house_ownership,
+    },
+    {
+      label: 'Pekerjaan',
+      value: customer.job,
+    },
+    {
+      label: 'Hari Besar Keagamaan',
+      value: customer.holiday,
+    },
+    {
+      label: 'Hobi',
+      value: customer.hobby,
+    },
+    {
+      label: 'Deskripsi Hobi',
+      value: customer.hobby_description,
+    },
+    {
+      label: 'Jumlah Orang dalam 1 Rumah',
+      value: String(customer.amount_of_family),
+    },
+    {
+      label: 'Jumlah Sepeda Motor 1 Rumah',
+      value: String(customer.motorcycles.length),
+    },
+
+    {
+      label: 'Penghasilan / Bulan',
       value: customer.income,
     },
     {
-      label: 'PENGELUARAN/BULAN',
+      label: 'Pengeluaran / Bulan',
       value: customer.expense,
     },
   ];
+
+  const items = [
+    { title: 'Data Pribadi', data: personalInfo },
+    { title: 'Kontak dan Social Media', data: socials },
+    { title: 'Informasi Lainnya', data: otherInfo },
+  ];
+
   return (
-    <div className="p-8">
-      <div className="flex flex-col gap-y-6">
+    <div>
+      <div
+        className="grid gap-8"
+        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
+      >
         <MapItems
-          of={filteredCustomer}
+          of={items}
           render={(item, index) => (
-            <div key={index} className="flex gap-x-8">
-              <p className="w-64 font-bold">{item.label}</p>
-              <span>:</span>
-              <span>{item.value}</span>
-            </div>
+            <CustomerCard key={index} title={item.title} data={item.data} />
           )}
         />
       </div>
-      <div className="mt-12">
+      <div className="mb-8 mt-6">
         <UpdateCustomerDialog />
       </div>
     </div>

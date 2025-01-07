@@ -26,7 +26,6 @@ const FollowUpTableData = <TData extends { id: string | number }, TValue>({
 
   return (
     <DataTable
-      tableName="customers"
       columns={columns}
       data={data}
       rows={rows}

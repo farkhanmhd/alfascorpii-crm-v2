@@ -77,7 +77,7 @@ const nonHouseholdFamilyMembers: FamilyMember[] = [
 
 const FamilyTab = () => {
   return (
-    <div className="space-y-8 px-4">
+    <div className="mb-8 space-y-8">
       <div className="flex gap-x-4">
         <div className="mt-4 w-[300px]">
           <TextInput

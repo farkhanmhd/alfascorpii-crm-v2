@@ -5,15 +5,16 @@ import JotaiProvider from '@/components/providers/jotai';
 import { Toaster } from '@/components/ui/toaster';
 import NextTopLoader from 'nextjs-toploader';
 import ClientOnly from '@/components/ClientOnly';
-import { Poppins } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
+// import { Poppins } from 'next/font/google';
 
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  style: ['normal', 'italic'],
-  variable: '--font-poppins',
-  display: 'swap',
-});
+// const poppins = Poppins({
+//   subsets: ['latin'],
+//   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+//   style: ['normal', 'italic'],
+//   variable: '--font-poppins',
+//   display: 'swap',
+// });
 
 export const metadata: Metadata = {
   title: {
@@ -31,7 +32,7 @@ const RootLayout = ({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} w-screen overflow-x-hidden antialiased`}
+        className={`${GeistSans.className} w-screen overflow-x-hidden antialiased`}
       >
         <ClientOnly>
           <JotaiProvider>

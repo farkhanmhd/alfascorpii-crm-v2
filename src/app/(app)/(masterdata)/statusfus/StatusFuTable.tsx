@@ -20,7 +20,12 @@ const StatusFuTable = async ({ search, page, perPage }: SearchParamsProps) => {
   return (
     <>
       <DataTable columns={columns} data={statusfu} rows={total} />
-      <DataTablePagination currentPage={Number(page)} totalPages={totalPages} />
+      <DataTablePagination
+        currentPage={Number(page)}
+        totalPages={totalPages}
+        selectedRows={0}
+        total={0}
+      />
     </>
   );
 };

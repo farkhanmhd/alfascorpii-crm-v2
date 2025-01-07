@@ -26,6 +26,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { delay } from '@/lib/utils';
 import DataTablePagination from './pagination';
 
 // TODO: Import useOptimistic when implementing optimistic updates
@@ -51,7 +52,7 @@ async function addRowServerAction(
   newRow: Record<string, string>
 ): Promise<{ id: string }> {
   // Simulate server delay
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await delay(2000);
 
   // Simulate server-side ID generation
   const newId = Date.now().toString();
@@ -87,7 +88,8 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   // );
 
   const table = useReactTable({
-    data: tableData, // TODO: Replace with optimisticTableData when implementing optimistic updates
+    // TODO : Replace with optimisticTableData when implementing optimistic updates
+    data: tableData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),

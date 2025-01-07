@@ -32,8 +32,8 @@ const Header = ({
     push('/login');
   };
   return (
-    <header className="fixed left-0 top-0 z-50 flex h-[84px] w-full items-center justify-between gap-y-2 bg-header py-[14px] pl-16 shadow-lg lg:static lg:px-[21px] lg:shadow-none">
-      <div className="flex flex-col gap-y-2">
+    <header className="fixed left-0 top-0 z-40 flex h-[84px] w-full items-center justify-between gap-y-2 bg-header py-[14px] pl-16 pr-8 shadow-lg lg:static lg:px-[21px] lg:shadow-none">
+      <div className="flex flex-col gap-y-2 lg:ml-[300px]">
         <h1 className="text-xl font-bold uppercase leading-[20px] text-primary lg:text-3xl">
           {headerTitle}
         </h1>

@@ -127,7 +127,7 @@ export const UpdateTab: React.FC<TabProps> = ({ value, customer }) => {
         label="Jumlah Motor Serumah"
         id="amount_of_motorcycle"
         placeholder="Jumlah Motor Serumah"
-        defaultValue={customer.amount_of_motorcycle}
+        defaultValue={customer.motorcycles.length}
       />
     </TabLayout>
   );

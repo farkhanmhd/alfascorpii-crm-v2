@@ -1,116 +1,113 @@
 import React from 'react';
 import MapItems from '@/utils/MapItems';
 import { SelectOptions } from '@/types';
+import CustomerCard from '@/components/fragments/cards/CustomerCard';
 import PhoneReceiverDialog from './dialogs/phone-receiver-dialog';
 
 const PhoneReceiverTab = () => {
   const receiverData: SelectOptions[] = [
     {
-      label: 'PENERIMA TELEPON',
+      label: 'Penerima Telepon',
       value: 'Nama',
     },
     {
-      label: 'HUBUNGAN DENGAN CUSTOMER',
+      label: 'Hubungan dengan Customer',
       value: 'Konsumen Langsung',
     },
     {
-      label: 'KETERANGAN LAINNYA',
+      label: 'Keterangan Lainnya',
       value: '-',
     },
     {
-      label: 'NOMOR WHATSAPP',
+      label: 'Nomor Whatsapp',
       value: '08123456789',
     },
+  ];
+
+  const receiverDataUpdate: SelectOptions[] = [
     {
-      label: 'alamat',
+      label: 'Alamat',
       value: 'JL. H. Adam Malik',
     },
     {
-      label: 'kelurahan',
+      label: 'Kelurahan',
       value: 'Silalas',
     },
     {
-      label: 'status rumah',
+      label: 'Status Rumah',
       value: '-',
     },
     {
-      label: 'pekerjaan',
+      label: 'Pekerjaan',
       value: '-',
     },
     {
-      label: 'deskripsi pekerjaan',
+      label: 'Deskripsi Pekerjaan',
       value: '-',
     },
     {
-      label: 'tanggal lahir',
+      label: 'Tanggal Lahir',
       value: '-',
     },
     {
-      label: 'hari besar keagamaan',
+      label: 'Hari besar Keagamaan',
       value: '-',
     },
     {
-      label: 'hobi',
+      label: 'Hobi',
       value: '-',
     },
     {
-      label: 'deskripsi hobi',
+      label: 'Deskripsi Hobi',
       value: '-',
     },
     {
-      label: 'jumlah orang serumah',
+      label: 'Jumlah Orang Serumah',
       value: '-',
     },
     {
-      label: 'jumlah sepeda motor di rumah',
+      label: 'Jumlah Sepeda Motor di Rumah',
       value: '-',
     },
     {
-      label: 'facebook',
+      label: 'Facebook',
       value: '-',
     },
     {
-      label: 'instagram',
+      label: 'Instagram',
       value: '-',
     },
     {
-      label: 'penghasilan per bulan',
+      label: 'Penghasilan / Bulan',
       value: '-',
     },
     {
-      label: 'pengeluaran per bulan',
+      label: 'Pengeluaran / Bulan',
       value: '-',
     },
   ];
+
+  const items = [
+    { title: 'Data Penerima', data: receiverData },
+    { title: 'Data Update', data: receiverDataUpdate },
+  ];
+
   return (
-    <div className="p-8">
-      <div className="flex gap-x-24">
-        <div className="flex flex-col gap-y-6">
-          <MapItems
-            of={receiverData.slice(0, 4)}
-            render={(item, index) => (
-              <div className="flex gap-x-8" key={index}>
-                <p className="w-64 font-bold uppercase">{item.label}</p>
-                <span>:</span>
-                <span>{item.value}</span>
-              </div>
-            )}
-          />
-        </div>
-        <div className="flex flex-col gap-y-6">
-          <MapItems
-            of={receiverData.slice(4, receiverData.length)}
-            render={(item, index) => (
-              <div className="flex gap-x-8" key={index}>
-                <p className="w-64 font-bold uppercase">{item.label}</p>
-                <span>:</span>
-                <span>{item.value}</span>
-              </div>
-            )}
-          />
-        </div>
+    <div>
+      <div
+        className="grid gap-8"
+        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
+      >
+        <MapItems
+          of={items}
+          render={(item, index) => (
+            <CustomerCard key={index} title={item.title} data={item.data} />
+          )}
+        />
       </div>
-      <PhoneReceiverDialog />
+      <div className="mb-8 mt-6">
+        <PhoneReceiverDialog />
+      </div>
     </div>
   );
 };

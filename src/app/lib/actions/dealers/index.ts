@@ -3,9 +3,9 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import actionClient from '@/lib/safe-action';
+import { IDealer } from '@/types';
 import { getAccessToken } from '../../data/auth';
 import { postDealer, putDealer, deleteDealer } from '../../data/dealers';
-import { IDealer } from '@/types';
 
 const dealerSchema = z.object({
   id: z.number(),

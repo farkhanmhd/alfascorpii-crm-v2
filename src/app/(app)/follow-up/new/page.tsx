@@ -229,6 +229,9 @@ const Page = () => {
           error={[]}
           value={motorcycleValue}
           onSelect={handleMotorcycleChange}
+          inputValue={motorcycleValue}
+          onValueChange={handleMotorcycleChange}
+          isPendingResult={false}
         />
         <div className="lg:col-span-2">
           <TextField

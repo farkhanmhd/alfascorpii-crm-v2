@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import MapItems from '@/utils/MapItems';
 import { useMobile } from '@/hooks';
-import { useOutsideClick } from '@/hooks/use-outside-click';
+import useClickOutside from '@/hooks/useClickOutside';
 import SidebarLink from './SidebarLink';
 import SidebarHeader from './SidebarHeader';
 import SidebarGroup, { SidebarGroupProps } from './SidebarGroup';
@@ -15,31 +15,31 @@ const Sidebar = ({ data }: { data: SidebarGroupProps[] }) => {
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useMobile();
 
-  const toggleSidebar = () => setIsOpen(!isOpen);
+  const toggleSidebar = () => setIsOpen((prev) => !prev);
   const closeSidebar = () => setIsOpen(false);
 
-  const sidebarRef = useOutsideClick(() => {
-    if (isMobile && isOpen) {
-      closeSidebar();
-    }
-  });
+  const sidebarRef = useRef<HTMLElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
+
+  useClickOutside([sidebarRef, toggleButtonRef], closeSidebar);
 
   return (
     <>
       {isMobile && (
         <Button
+          ref={toggleButtonRef}
           variant="ghost"
           size="icon"
-          className="fixed left-4 top-5 z-[60] lg:hidden"
+          className="fixed left-4 top-[22px] z-[60] lg:hidden"
           onClick={toggleSidebar}
         >
-          <Menu className="h-4 w-4" />
+          {isOpen ? <X /> : <Menu />}
           <span className="sr-only">Toggle Sidebar</span>
         </Button>
       )}
       <aside
         ref={sidebarRef}
-        className={`fixed left-0 top-0 z-[60] flex h-dvh w-72 flex-col gap-y-4 bg-sidebar font-semibold shadow-md transition-transform duration-300 ease-in-out lg:shadow-none ${
+        className={`fixed left-0 top-0 z-50 flex h-dvh w-72 flex-col gap-y-4 bg-sidebar font-semibold shadow-md transition-transform duration-300 ease-in-out lg:shadow-none ${
           isMobile && !isOpen ? '-translate-x-full' : 'translate-x-0'
         } lg:translate-x-0`}
       >

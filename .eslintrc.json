@@ -20,6 +20,7 @@
     "arrow-body-style": 0,
     "prefer-arrow-callback": 1,
     "no-nested-ternary": "off",
+    "no-console": "off",
     "react/function-component-definition": [
       2,
       {
@@ -30,7 +31,7 @@
     "no-warning-comments": [
       "warn",
       {
-        "terms": ["todo", "fixme", "xxx", "note"],
+        "terms": ["fixme", "xxx", "note"],
         "location": "start"
       }
     ],

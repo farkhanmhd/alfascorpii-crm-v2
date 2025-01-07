@@ -113,6 +113,9 @@ const DealerForm: React.FC<DealerFormProps> = ({
         placeholder="Pilih Area Dealer"
         options={dealerAreaOptions}
         error={getErrorMessages(validationErrors?.dealer_area)}
+        inputValue=""
+        onValueChange={undefined}
+        isPendingResult={false}
       />
       <ComboBox
         id="dealer_type"
@@ -122,6 +125,9 @@ const DealerForm: React.FC<DealerFormProps> = ({
         placeholder="Pilih Jenis Dealer"
         options={dealerTypeOptions}
         error={getErrorMessages(validationErrors?.dealer_type)}
+        inputValue=""
+        onValueChange={handleDealerTypeChange}
+        isPendingResult={false}
       />
       <SubmitButton disabled={isPending}>Submit</SubmitButton>
     </form>

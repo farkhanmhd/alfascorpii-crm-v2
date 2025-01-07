@@ -10,7 +10,7 @@ import {
 
 const LogUpdate = () => {
   return (
-    <div className="px-4 py-8">
+    <div className="px-6 pb-6">
       <h2 className="font-bold">LOG UPDATE</h2>
       <div className="flex flex-col gap-y-8">
         <div className="mt-4 rounded-md border">
