@@ -51,6 +51,8 @@ const FollowUpDialog = () => {
                   label="Hubungan Dengan Customer"
                   placeholder="Hubungan Dengan Customer"
                   id="relationship"
+                  value=""
+                  setValue={() => ''}
                 />
                 <div className="row-span-2 h-full">
                   <TextField
@@ -82,30 +84,40 @@ const FollowUpDialog = () => {
                   label="Minat Product"
                   options={[]}
                   placeholder="Minat Product"
+                  value=""
+                  setValue={() => ''}
                 />
                 <SelectBox
                   id="fu-method"
                   label="Metode Follow Up"
                   options={[]}
                   placeholder="Metode Follow Up"
+                  value=""
+                  setValue={() => ''}
                 />
                 <SelectBox
                   id="fu-result"
                   label="Hasil"
                   options={[]}
                   placeholder="Hasil Follow Up"
+                  value=""
+                  setValue={() => ''}
                 />
                 <SelectBox
                   id="fu-status"
                   label="Status Follow Up"
                   options={[]}
                   placeholder="Status Follow Up"
+                  value=""
+                  setValue={() => ''}
                 />
                 <SelectBox
                   id="fu-detail"
                   label="Keterangan Follow Up"
                   options={[]}
                   placeholder="Keterangan Follow Up"
+                  value=""
+                  setValue={() => ''}
                 />
               </div>
             </div>
@@ -144,6 +156,8 @@ const FollowUpDialog = () => {
                   id="hari-besar"
                   options={[]}
                   placeholder="Hari Besar Keagamaan"
+                  value=""
+                  setValue={() => ''}
                 />
                 <TextInput
                   label="Kelurahan"
@@ -220,6 +234,8 @@ const FollowUpDialog = () => {
                   id="house-ownership"
                   options={[]}
                   placeholder="Status Rumah"
+                  value=""
+                  setValue={() => ''}
                 />
                 <TextInput
                   label="Instagram"
@@ -233,6 +249,8 @@ const FollowUpDialog = () => {
                   id="customer-job"
                   options={[]}
                   placeholder="Status Rumah"
+                  value=""
+                  setValue={() => ''}
                 />
                 <TextInput
                   label="Whatsapp"
@@ -246,18 +264,24 @@ const FollowUpDialog = () => {
                   id="income"
                   options={[]}
                   placeholder="Penghasilan / Bulan"
+                  value=""
+                  setValue={() => ''}
                 />
                 <SelectBox
                   label="Deskripsi Pekerjaan"
                   id="job-description"
                   options={[]}
                   placeholder="Deskripsi Pekerjaan"
+                  value=""
+                  setValue={() => ''}
                 />
                 <SelectBox
                   label="Pengeluaran / Bulan"
                   id="expense"
                   options={[]}
                   placeholder="Pengeluaran / Bulan"
+                  value=""
+                  setValue={() => ''}
                 />
               </div>
             </div>

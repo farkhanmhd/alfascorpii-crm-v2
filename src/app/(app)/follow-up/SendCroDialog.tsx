@@ -39,6 +39,8 @@ const SendCroDialog = () => {
           label="Pilih CRO"
           id="cro"
           placeholder="Select CRO"
+          value=""
+          setValue={() => ''}
         />
         <DialogFooter className="mt-8">
           <div className="flex w-full justify-between gap-x-4">

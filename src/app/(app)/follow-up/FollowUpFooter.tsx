@@ -73,6 +73,8 @@ const FollowUpFooter = ({ rowSelection }: Props) => {
               id="cro"
               placeholder="Select CRO"
               error={[]}
+              value=""
+              setValue={() => ''}
             />
             <DialogFooter>
               <DialogClose asChild>

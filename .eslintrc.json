@@ -13,6 +13,7 @@
     "react/require-default-props": 0,
     "react/react-in-jsx-scope": 1,
     "react/destructuring-assignment": 0,
+    "react-hooks/exhaustive-deps": 0,
     "no-underscore-dangle": "off",
     "react/no-array-index-key": 0,
     "react-hooks/rules-of-hooks": 0,

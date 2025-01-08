@@ -19,6 +19,8 @@ interface Props {
   label: string;
   placeholder: string;
   error?: string[];
+  value: string;
+  setValue: (value: string) => void;
 }
 
 export const SelectBox = ({
@@ -27,6 +29,8 @@ export const SelectBox = ({
   error,
   id,
   placeholder,
+  value,
+  setValue,
 }: Props) => {
   return (
     <div className="flex flex-col gap-y-4">
@@ -40,7 +44,7 @@ export const SelectBox = ({
           )}
         </Label>
       )}
-      <Select>
+      <Select onValueChange={setValue} value={value}>
         <SelectTrigger className="w-full" id={id}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>

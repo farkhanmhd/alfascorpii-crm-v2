@@ -50,6 +50,8 @@ const PhoneReceiverDialog = () => {
                   label="Hubungan Dengan Customer"
                   placeholder="Hubungan Dengan Customer"
                   id="relationship"
+                  value=""
+                  setValue={() => ''}
                 />
                 <TextInput
                   label="Whatsapp"
@@ -96,6 +98,8 @@ const PhoneReceiverDialog = () => {
                   id="hari-besar"
                   options={[]}
                   placeholder="Hari Besar Keagamaan"
+                  value=""
+                  setValue={() => ''}
                 />
                 <TextInput
                   label="Kelurahan"
@@ -172,6 +176,8 @@ const PhoneReceiverDialog = () => {
                   id="house-ownership"
                   options={[]}
                   placeholder="Status Rumah"
+                  value=""
+                  setValue={() => ''}
                 />
                 <TextInput
                   label="Instagram"
@@ -185,6 +191,8 @@ const PhoneReceiverDialog = () => {
                   id="customer-job"
                   options={[]}
                   placeholder="Status Rumah"
+                  value=""
+                  setValue={() => ''}
                 />
 
                 <SelectBox
@@ -192,18 +200,24 @@ const PhoneReceiverDialog = () => {
                   id="income"
                   options={[]}
                   placeholder="Penghasilan / Bulan"
+                  value=""
+                  setValue={() => ''}
                 />
                 <SelectBox
                   label="Deskripsi Pekerjaan"
                   id="job-description"
                   options={[]}
                   placeholder="Deskripsi Pekerjaan"
+                  value=""
+                  setValue={() => ''}
                 />
                 <SelectBox
                   label="Pengeluaran / Bulan"
                   id="expense"
                   options={[]}
                   placeholder="Pengeluaran / Bulan"
+                  value=""
+                  setValue={() => ''}
                 />
               </div>
             </div>

@@ -195,6 +195,8 @@ const Page = () => {
           id="relationship"
           placeholder="Hubungan Dengan Customer"
           options={relationship}
+          value=""
+          setValue={() => ''}
         />
       </div>
       <Separator />
@@ -208,18 +210,24 @@ const Page = () => {
           id="fu-method"
           placeholder="Pilih Metode Follow Up"
           options={fuMethod}
+          value=""
+          setValue={() => ''}
         />
         <SelectBox
           label="Status Follow Up"
           id="fu-status"
           placeholder="Pilih Status Follow Up"
           options={fuStatus}
+          value=""
+          setValue={() => ''}
         />
         <SelectBox
           label="Detail Follow Up"
           id="fu-detail"
           placeholder="Pilih Detail Follow Up"
           options={fuDetail}
+          value=""
+          setValue={() => ''}
         />
         <ComboBox
           id="motorcycle"
@@ -256,6 +264,8 @@ const Page = () => {
           id="house-ownership"
           placeholder="Status Rumah"
           options={houseOwnership}
+          value=""
+          setValue={() => ''}
         />
         <DatePicker id="date-of-birth" label="Tanggal Lahir" />
         <SelectBox
@@ -263,6 +273,8 @@ const Page = () => {
           id="holiday"
           placeholder="Hari Besar"
           options={holidays}
+          value=""
+          setValue={() => ''}
         />
         <div className="lg:col-span-2">
           <SelectBox
@@ -270,6 +282,8 @@ const Page = () => {
             id="job"
             placeholder="Pekerjaan"
             options={job}
+            value=""
+            setValue={() => ''}
           />
         </div>
         <div className="lg:col-span-2">
@@ -287,6 +301,8 @@ const Page = () => {
             id="hobby"
             placeholder="Hobi"
             options={hobby}
+            value=""
+            setValue={() => ''}
           />
         </div>
         <div className="lg:col-span-2">
@@ -339,12 +355,16 @@ const Page = () => {
           label="Penghasilan Perbulan"
           placeholder="Penghasilan Perbulan"
           options={finance}
+          value=""
+          setValue={() => ''}
         />
         <SelectBox
           id="expense"
           label="Pengeluaran Perbulan"
           placeholder="Pengeluaran Perbulan"
           options={finance}
+          value=""
+          setValue={() => ''}
         />
         <div className="lg:col-span-2">
           <TextField

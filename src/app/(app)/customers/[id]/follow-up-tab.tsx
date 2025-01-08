@@ -8,9 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
 import FollowUpDialog from './dialogs/follow-up-dialog';
 import FollowUpHistory from './dialogs/follow-up-history';
+import DealDialog from './dialogs/deal-dialog';
 
 const FollowUpTab = () => {
   return (
@@ -191,10 +191,10 @@ const FollowUpTab = () => {
           </TableBody>
         </Table>
       </div>
-      <div className="flex gap-x-4">
+      <div className="flex flex-col gap-4 md:flex-row">
         <FollowUpDialog />
         <FollowUpHistory />
-        <Button variant="blue">DEAL</Button>
+        <DealDialog />
       </div>
     </div>
   );

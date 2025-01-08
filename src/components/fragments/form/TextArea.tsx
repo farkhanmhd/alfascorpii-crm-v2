@@ -40,7 +40,7 @@ const TextField = ({
         name={id}
         autoComplete="off"
         {...props}
-        className={cn(className, { 'ring-red-500': error })}
+        className={cn({ 'ring-red-500': error }, className)}
       />
     </div>
   );

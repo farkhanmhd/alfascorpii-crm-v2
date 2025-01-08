@@ -73,6 +73,8 @@ const UpdateCustomerDialog = () => {
               id="hari-besar"
               options={[]}
               placeholder="Hari Besar Keagamaan"
+              value=""
+              setValue={() => ''}
             />
             <TextInput
               label="Kelurahan"
@@ -149,6 +151,8 @@ const UpdateCustomerDialog = () => {
               id="house-ownership"
               options={[]}
               placeholder="Status Rumah"
+              value=""
+              setValue={() => ''}
             />
             <TextInput
               label="Instagram"
@@ -162,6 +166,8 @@ const UpdateCustomerDialog = () => {
               id="customer-job"
               options={[]}
               placeholder="Status Rumah"
+              value=""
+              setValue={() => ''}
             />
             <TextInput
               label="Whatsapp"
@@ -175,18 +181,24 @@ const UpdateCustomerDialog = () => {
               id="income"
               options={[]}
               placeholder="Penghasilan / Bulan"
+              value=""
+              setValue={() => ''}
             />
             <SelectBox
               label="Deskripsi Pekerjaan"
               id="job-description"
               options={[]}
               placeholder="Deskripsi Pekerjaan"
+              value=""
+              setValue={() => ''}
             />
             <SelectBox
               label="Pengeluaran / Bulan"
               id="expense"
               options={[]}
               placeholder="Pengeluaran / Bulan"
+              value=""
+              setValue={() => ''}
             />
           </div>
         </ScrollArea>
