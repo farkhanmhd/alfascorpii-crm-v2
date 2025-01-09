@@ -100,10 +100,7 @@ export const SelectFilter = ({
         </Label>
       )}
       <Select value={value} onValueChange={setSelectedValue}>
-        <SelectTrigger
-          className="w-full bg-white text-xs font-semibold"
-          id={id}
-        >
+        <SelectTrigger className="bg-white text-xs font-semibold" id={id}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

@@ -26,7 +26,7 @@ const Page = async (props: {
     <div className="grid h-full grid-rows-[auto_1fr_auto]">
       <header className="flex flex-col gap-y-6 pb-6">
         <FollowUpFilters />
-        <div className="flex items-center justify-between gap-x-4">
+        <div className="flex flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
           <Tablesearch placeholder="Cari Customer" />
         </div>
       </header>

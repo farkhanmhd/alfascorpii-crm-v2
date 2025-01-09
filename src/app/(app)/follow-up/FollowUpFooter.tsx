@@ -47,7 +47,7 @@ const FollowUpFooter = ({ rowSelection }: Props) => {
   };
 
   return (
-    <footer className="flex gap-x-4 pt-6">
+    <footer className="flex flex-col gap-4 pt-6 sm:flex-row">
       <Button onClick={handleImportDialog} variant="blue">
         Import Data
       </Button>

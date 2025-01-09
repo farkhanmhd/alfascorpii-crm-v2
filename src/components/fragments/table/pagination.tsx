@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/pagination';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface PaginationProps {
   selectedRows: number;
@@ -29,6 +30,7 @@ const DataTablePagination = ({
   const params = new URLSearchParams(searchParams);
   const { push } = useRouter();
   const perPage: number = Number(params.get('per_page')) || 50;
+  const isMobile = useIsMobile();
 
   const handleNextPage = () => {
     params.set('page', (currentPage + 1).toString());
@@ -53,24 +55,128 @@ const DataTablePagination = ({
   const renderPageButtons = () => {
     const buttons = [];
 
-    if (currentPage <= 2) {
-      // First 5 pages
-      for (let i = 1; i <= Math.min(5, totalPages); i += 1) {
+    if (isMobile) {
+      // Mobile version: show only 5 buttons
+      const pageNumbers = [
+        currentPage - 1,
+        currentPage,
+        currentPage + 1,
+      ].filter((page) => page > 0 && page <= totalPages);
+
+      pageNumbers.forEach((page) => {
         buttons.push(
-          <PaginationItem key={`page-${i}`}>
+          <PaginationItem key={`page-${page}`}>
             <Button
-              variant={currentPage === i ? 'default' : 'outline'}
-              onClick={() => handlePageChange(i)}
+              variant={currentPage === page ? 'default' : 'outline'}
+              onClick={() => handlePageChange(page)}
               size="icon"
             >
-              {i}
+              {page}
             </Button>
           </PaginationItem>
         );
-      }
-      if (totalPages > 5) {
+      });
+    } else {
+      // Desktop version: keep the existing logic
+      if (currentPage <= 2) {
+        // First 5 pages
+        for (let i = 1; i <= Math.min(5, totalPages); i += 1) {
+          buttons.push(
+            <PaginationItem key={`page-${i}`}>
+              <Button
+                variant={currentPage === i ? 'default' : 'outline'}
+                onClick={() => handlePageChange(i)}
+                size="icon"
+              >
+                {i}
+              </Button>
+            </PaginationItem>
+          );
+        }
+        if (totalPages > 5) {
+          buttons.push(
+            <PaginationItem key="ellipsis1">
+              <PaginationEllipsis />
+            </PaginationItem>
+          );
+          buttons.push(
+            <PaginationItem key={`page-${totalPages}`}>
+              <Button
+                variant="outline"
+                onClick={() => handlePageChange(totalPages)}
+                size="icon"
+              >
+                {totalPages}
+              </Button>
+            </PaginationItem>
+          );
+        }
+      } else if (currentPage >= totalPages - 1) {
+        // Last 5 pages
         buttons.push(
-          <PaginationItem key="ellipsis1">
+          <PaginationItem key="page-1">
+            <Button
+              variant="outline"
+              onClick={() => handlePageChange(1)}
+              size="icon"
+            >
+              1
+            </Button>
+          </PaginationItem>
+        );
+        if (totalPages > 5) {
+          buttons.push(
+            <PaginationItem key="ellipsis2">
+              <PaginationEllipsis />
+            </PaginationItem>
+          );
+        }
+        for (let i = Math.max(totalPages - 4, 1); i <= totalPages; i += 1) {
+          buttons.push(
+            <PaginationItem key={`page-${i}`}>
+              <Button
+                variant={currentPage === i ? 'default' : 'outline'}
+                onClick={() => handlePageChange(i)}
+                size="icon"
+              >
+                {i}
+              </Button>
+            </PaginationItem>
+          );
+        }
+      } else {
+        // Middle pages
+        buttons.push(
+          <PaginationItem key="page-1">
+            <Button
+              variant="outline"
+              onClick={() => handlePageChange(1)}
+              size="icon"
+            >
+              1
+            </Button>
+          </PaginationItem>
+        );
+        buttons.push(
+          <PaginationItem key="ellipsis3">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+        for (let i = currentPage - 1; i <= currentPage + 1; i += 1) {
+          buttons.push(
+            <PaginationItem key={`page-${i}`}>
+              <Button
+                variant={currentPage === i ? 'default' : 'outline'}
+                onClick={() => handlePageChange(i)}
+                size="icon"
+              >
+                {i}
+              </Button>
+            </PaginationItem>
+          );
+        }
+        buttons.push(
+          <PaginationItem key="ellipsis4">
             <PaginationEllipsis />
           </PaginationItem>
         );
@@ -86,86 +192,6 @@ const DataTablePagination = ({
           </PaginationItem>
         );
       }
-    } else if (currentPage >= totalPages - 1) {
-      // Last 5 pages
-      buttons.push(
-        <PaginationItem key="page-1">
-          <Button
-            variant="outline"
-            onClick={() => handlePageChange(1)}
-            size="icon"
-          >
-            1
-          </Button>
-        </PaginationItem>
-      );
-      if (totalPages > 5) {
-        buttons.push(
-          <PaginationItem key="ellipsis2">
-            <PaginationEllipsis />
-          </PaginationItem>
-        );
-      }
-      for (let i = Math.max(totalPages - 4, 1); i <= totalPages; i += 1) {
-        buttons.push(
-          <PaginationItem key={`page-${i}`}>
-            <Button
-              variant={currentPage === i ? 'default' : 'outline'}
-              onClick={() => handlePageChange(i)}
-              size="icon"
-            >
-              {i}
-            </Button>
-          </PaginationItem>
-        );
-      }
-    } else {
-      // Middle pages
-      buttons.push(
-        <PaginationItem key="page-1">
-          <Button
-            variant="outline"
-            onClick={() => handlePageChange(1)}
-            size="icon"
-          >
-            1
-          </Button>
-        </PaginationItem>
-      );
-      buttons.push(
-        <PaginationItem key="ellipsis3">
-          <PaginationEllipsis />
-        </PaginationItem>
-      );
-      for (let i = currentPage - 1; i <= currentPage + 1; i += 1) {
-        buttons.push(
-          <PaginationItem key={`page-${i}`}>
-            <Button
-              variant={currentPage === i ? 'default' : 'outline'}
-              onClick={() => handlePageChange(i)}
-              size="icon"
-            >
-              {i}
-            </Button>
-          </PaginationItem>
-        );
-      }
-      buttons.push(
-        <PaginationItem key="ellipsis4">
-          <PaginationEllipsis />
-        </PaginationItem>
-      );
-      buttons.push(
-        <PaginationItem key={`page-${totalPages}`}>
-          <Button
-            variant="outline"
-            onClick={() => handlePageChange(totalPages)}
-            size="icon"
-          >
-            {totalPages}
-          </Button>
-        </PaginationItem>
-      );
     }
 
     return buttons;
@@ -186,8 +212,8 @@ const DataTablePagination = ({
           <span>of {total} entries</span>
         </p>
       )}
-      <Pagination className="mx-0 justify-end">
-        <PaginationContent>
+      <Pagination className="mx-0 sm:justify-end">
+        <PaginationContent className="w-full justify-end">
           <PaginationItem key="prev">
             <Button
               variant="outline"

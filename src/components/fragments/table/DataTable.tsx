@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import {
@@ -87,6 +87,10 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   //   (state, newRow: TData) => [...state, newRow]
   // );
 
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
+
   const table = useReactTable({
     // TODO : Replace with optimisticTableData when implementing optimistic updates
     data: tableData,
@@ -147,7 +151,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
 
   return (
     <>
-      <ScrollArea className="rounded-md">
+      <ScrollArea className="max-h-[75vh] rounded-md">
         <Table>
           <TableHeader className="sticky top-0 z-50 bg-primary text-sm">
             {table.getHeaderGroups().map((headerGroup) => (
