@@ -1,7 +1,7 @@
 import React from 'react';
 import { ICustomer, SelectOptions } from '@/types';
 import MapItems from '@/utils/MapItems';
-import CustomerCard from '@/components/fragments/cards/CustomerCard';
+import CustomerCard from '@/components/fragments/cards/InformationCard';
 import UpdateCustomerDialog from './dialogs/update-customer';
 
 const CustomerTab = ({ customer }: { customer: ICustomer }) => {

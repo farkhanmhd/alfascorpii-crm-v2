@@ -1,7 +1,7 @@
 import React from 'react';
 import MapItems from '@/utils/MapItems';
 import { SelectOptions } from '@/types';
-import CustomerCard from '@/components/fragments/cards/CustomerCard';
+import CustomerCard from '@/components/fragments/cards/InformationCard';
 import PhoneReceiverDialog from './dialogs/phone-receiver-dialog';
 
 const PhoneReceiverTab = () => {

@@ -21,7 +21,6 @@ const sidebarGroupData: SidebarGroupProps[] = [
     links: [
       { href: '/prospek-follow-up', label: 'Follow Up' },
       { href: '/prospek-customers', label: 'Customer' },
-      { href: '/deal', label: 'Deal' },
     ],
   },
   {
@@ -55,7 +54,7 @@ const AuthedLayout = ({
   const pathname = usePathname();
   const headerTitle = sidebarGroupData
     .flatMap((group) => group.links)
-    .find((link) => link.href === pathname)?.label;
+    .find((link) => pathname.startsWith(link.href))?.label;
   return (
     <div className="flex min-h-screen flex-col pt-[84px] lg:flex-row lg:pt-0">
       <Sidebar data={sidebarGroupData} />
@@ -65,7 +64,7 @@ const AuthedLayout = ({
           path={pathname}
           user={session}
         />
-        <main className="min-h-[calc(100dvh-84px)] rounded-md bg-secondary p-6 lg:ml-72 lg:w-[calc(100vw-288px)]">
+        <main className="min-h-[100dvh-84px] rounded-md bg-secondary p-6 lg:ml-72 lg:w-[calc(100vw-288px)]">
           {children}
         </main>
       </div>

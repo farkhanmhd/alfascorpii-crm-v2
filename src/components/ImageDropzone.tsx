@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 type Props = {
-  label: string;
+  label?: string;
   image: string | null;
   setImage: (image: string | null) => void;
 };
@@ -47,12 +47,14 @@ const ImageUploadDropzone: React.FC<Props> = ({ label, image, setImage }) => {
 
   return (
     <div className="mx-auto w-full px-4">
-      <Label
-        htmlFor="image-upload"
-        className="mb-2 block text-sm font-semibold text-gray-700"
-      >
-        {label}
-      </Label>
+      {label && (
+        <Label
+          htmlFor="image-upload"
+          className="mb-2 block text-sm font-semibold text-gray-700"
+        >
+          {label}
+        </Label>
+      )}
       <div
         {...getRootProps()}
         className={cn(

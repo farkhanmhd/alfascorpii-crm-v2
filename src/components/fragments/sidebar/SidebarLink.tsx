@@ -13,8 +13,10 @@ interface Props {
 
 const SidebarLink = ({ href, label, onLinkClick }: Props) => {
   const pathname = usePathname();
-  const active: boolean = pathname === href;
-  
+  const activePath = href.split('/')[1].toLowerCase();
+  const splittedPathame = pathname.split('/')[1];
+  const active: boolean = splittedPathame === activePath;
+
   const handleClick = () => {
     onLinkClick();
   };
@@ -44,4 +46,3 @@ const SidebarLink = ({ href, label, onLinkClick }: Props) => {
 };
 
 export default SidebarLink;
-

@@ -20,7 +20,7 @@ import Overview from './overview';
 
 const Dashboard = () => {
   return (
-    <ScrollArea className="h-full max-h-[calc(100dvh-48px)] overflow-hidden pb-6">
+    <ScrollArea className="h-full overflow-hidden">
       <div className="grid grid-rows-[auto_1fr] gap-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">

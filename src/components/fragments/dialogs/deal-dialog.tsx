@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAction } from 'next-safe-action/hooks';
+import { Plus } from 'lucide-react';
 import { useDebouncedCallback } from 'use-debounce';
 import { getDealerList } from '@/app/lib/actions/dealers';
 import { getMotorcycleList } from '@/app/lib/actions/motorcycles';
@@ -31,12 +32,16 @@ import ImageUploadDropzone from '@/components/ImageDropzone';
 
 const dealTypeOptions: SelectOptions[] = [
   {
-    label: 'Sales Unit RO',
-    value: 'Sales Unit RO',
+    label: 'Unit RO',
+    value: 'Unit RO',
   },
   {
-    label: 'Sales Unit Ref',
-    value: 'Sales Unit Ref',
+    label: 'Unit Ref',
+    value: 'Unit Ref',
+  },
+  {
+    label: 'Unit NC',
+    value: 'Unit NC',
   },
   {
     label: 'Service',
@@ -53,8 +58,9 @@ const dealTypeOptions: SelectOptions[] = [
 ];
 
 const imageLabel: { [key: string]: string } = {
-  'Sales Unit RO': 'Foto Serah Terima',
-  'Sales Unit Ref': 'Foto Pengantaran',
+  'Unit RO': 'Foto Pengantaran',
+  'Unit Ref': 'Foto Pengantaran',
+  'Unit NC': 'Foto Pengantaran',
   Service: 'Faktur Service',
   'Spare Part': 'Faktur Spare Part',
   'Syariah Dana': 'Foto Pengantaran',
@@ -307,7 +313,10 @@ const DealDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="blue">DEAL</Button>
+        <Button variant="blue" className="w-full">
+          <Plus />
+          <span>Deal</span>
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl">
         <DialogHeader className="px-2">
@@ -400,11 +409,16 @@ const DealDialog = () => {
                 />
               </div>
             </div>
-            {(dealType === 'Sales Unit RO' ||
-              dealType === 'Sales Unit Ref') && (
+            {(dealType === 'Unit RO' ||
+              dealType === 'Unit Ref' ||
+              dealType ||
+              'Unit NC') && (
               <div className="space-y-4 px-2">
                 <h2 className="font-semibold">
-                  Data Sales Unit {dealType === 'Sales Unit Ref' && 'Ref'}
+                  Data Sales Unit{' '}
+                  {dealType === 'Unit Ref'
+                    ? 'Ref'
+                    : dealType === 'Unit NC' && 'NC'}
                 </h2>
                 <Separator />
                 <div className="grid grid-cols-1 gap-6 p-2 md:grid-cols-2">
@@ -449,7 +463,7 @@ const DealDialog = () => {
                     value={motorcycleColor}
                     setValue={setMotorcycleColor}
                   />
-                  {dealType === 'Sales Unit Ref' && (
+                  {(dealType === 'Unit Ref' || dealType === 'Unit NC') && (
                     <ComboBox
                       options={leasingOptions}
                       label="Leasing"

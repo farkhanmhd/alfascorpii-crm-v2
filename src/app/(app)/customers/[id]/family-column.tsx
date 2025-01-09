@@ -21,7 +21,7 @@ const columns: ColumnDef<FamilyMember>[] = [
   {
     id: 'nik',
     accessorKey: 'nik',
-    header: () => <div className="line-clamp-1 min-w-max">Nomor Induk</div>,
+    header: () => <div className="line-clamp-1 min-w-max">NIK</div>,
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max">{row.original.nik}</div>
     ),

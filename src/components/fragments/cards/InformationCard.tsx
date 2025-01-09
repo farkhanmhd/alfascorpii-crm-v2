@@ -19,12 +19,12 @@ const DataItem = ({ label, value }: SelectOptions) => {
   );
 };
 
-type CustomerCardProps = {
+type InformationCardProps = {
   title: string;
   data: SelectOptions[];
 };
 
-const CustomerCard = ({ title, data }: CustomerCardProps) => {
+const InformationCard = ({ title, data }: InformationCardProps) => {
   return (
     <Card className="h-full w-full">
       <CardHeader>
@@ -49,4 +49,4 @@ const CustomerCard = ({ title, data }: CustomerCardProps) => {
   );
 };
 
-export default CustomerCard;
+export default InformationCard;
