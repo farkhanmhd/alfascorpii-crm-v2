@@ -98,7 +98,6 @@ const FollowUpFilters = () => {
   useEffect(() => {
     handleMotorcycleSearch(motorcycleInput);
     handleDealerSearch(dealerInput);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

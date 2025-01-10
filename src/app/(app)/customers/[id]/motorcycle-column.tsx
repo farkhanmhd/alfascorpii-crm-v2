@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { IMotorcycle } from '@/types';
+import { ICustomerMotorcycle } from '@/types';
 
-const columns: ColumnDef<IMotorcycle>[] = [
+const columns: ColumnDef<ICustomerMotorcycle>[] = [
   {
     accessorKey: 'name',
     header: 'Type',

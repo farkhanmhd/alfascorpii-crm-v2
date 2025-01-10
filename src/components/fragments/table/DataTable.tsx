@@ -26,6 +26,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Plus, Save, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { delay } from '@/lib/utils';
 import DataTablePagination from './pagination';
 
 // TODO: Import useOptimistic when implementing optimistic updates
@@ -51,7 +52,7 @@ async function addRowsServerAction(
   newRows: Record<string, string>[]
 ): Promise<{ ids: string[] }> {
   // Simulate server delay
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await delay(2000);
 
   // Simulate server-side ID generation
   const ids = newRows.map(() => Date.now().toString());
@@ -180,9 +181,9 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
               <TableRow key={headerGroup.id} className="hover:bg-primary">
                 <MapItems
                   of={headerGroup.headers}
-                  render={(header) => (
+                  render={(header, index) => (
                     <TableHead
-                      key={header.id}
+                      key={`header-row-${index}`}
                       className="px-4 py-2 font-bold uppercase text-primary-foreground"
                     >
                       {header.isPlaceholder
@@ -202,17 +203,17 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
             {table.getRowModel().rows?.length ? (
               <MapItems
                 of={table.getRowModel().rows}
-                render={(row) => (
+                render={(row, index) => (
                   <TableRow
-                    key={row.id}
+                    key={`body-row-${index}`}
                     data-state={row.getIsSelected() && 'selected'}
                   >
                     <MapItems
                       of={row.getVisibleCells()}
-                      render={(cell) => (
+                      render={(cell, key) => (
                         <TableCell
-                          key={cell.id}
-                          className="h-12 px-4 py-2 text-xs sm:text-sm"
+                          key={`cell-item-${key}`}
+                          className="h-12 px-4 py-2 text-xs font-medium sm:text-sm"
                         >
                           {flexRender(
                             cell.column.columnDef.cell,

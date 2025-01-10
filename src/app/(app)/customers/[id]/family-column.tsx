@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
+import type { IFamilyMember } from '@/types';
 
 export interface FamilyMember {
   id: string;
@@ -17,7 +18,7 @@ export interface FamilyMember {
   relationship: string;
 }
 
-const columns: ColumnDef<FamilyMember>[] = [
+const columns: ColumnDef<IFamilyMember>[] = [
   {
     id: 'nik',
     accessorKey: 'nik',
@@ -47,7 +48,7 @@ const columns: ColumnDef<FamilyMember>[] = [
     accessorKey: 'birthplace',
     header: () => <div className="line-clamp-1 min-w-max">Tempat Lahir</div>,
     cell: ({ row }) => (
-      <div className="line-clamp-1 min-w-max">{row.original.birthplace}</div>
+      <div className="line-clamp-1 min-w-max">{row.original.born_place}</div>
     ),
   },
   {
@@ -55,7 +56,7 @@ const columns: ColumnDef<FamilyMember>[] = [
     accessorKey: 'date_of_birth',
     header: () => <div className="line-clamp-1 min-w-max">Tanggal Lahir</div>,
     cell: ({ row }) => (
-      <div className="line-clamp-1 min-w-max">{row.original.date_of_birth}</div>
+      <div className="line-clamp-1 min-w-max">{row.original.born_date}</div>
     ),
   },
   {
@@ -71,7 +72,7 @@ const columns: ColumnDef<FamilyMember>[] = [
     accessorKey: 'job',
     header: () => <div className="line-clamp-1 min-w-max">Pekerjaan</div>,
     cell: ({ row }) => (
-      <div className="line-clamp-1 min-w-max">{row.original.job}</div>
+      <div className="line-clamp-1 min-w-max">{row.original.occupation}</div>
     ),
   },
   {
@@ -99,7 +100,9 @@ const columns: ColumnDef<FamilyMember>[] = [
       <div className="line-clamp-1 min-w-max">Hubungan Keluarga</div>
     ),
     cell: ({ row }) => (
-      <div className="line-clamp-1 min-w-max">{row.original.relationship}</div>
+      <div className="line-clamp-1 min-w-max">
+        {row.original.relation_status}
+      </div>
     ),
   },
 ];

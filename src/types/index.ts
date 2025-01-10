@@ -70,6 +70,88 @@ export interface IMotorcycle extends IIdentifiable {
   leasing_name: string;
 }
 
+export interface IFollowUpRecipient {
+  recipient_name: string;
+  relationship: string;
+  recipient_address: string;
+  house_ownership: string;
+  job: string;
+  holiday: string;
+  recipient_job_detail: string | null;
+  recipient_born_date: string;
+  recipient_religion: string | null;
+  hobby: string;
+  recipient_hobby_detail: string;
+  amount_of_family: number;
+  family_under_12_yo: number | null;
+  family_12_until_17_yo: number | null;
+  amount_of_motorcycle: number;
+  whatsapp_number: string;
+  facebook: string;
+  instagram: string;
+  email: string;
+  income: number | null;
+  expense: number | null;
+  additional_information: string | null;
+}
+
+export interface ICustomerFollowUp extends IIdentifiable {
+  user: string | null;
+  recipient: string;
+  relationship: string;
+  whatsapp_number: string;
+  additional_information: string | null;
+  follow_up_date: string;
+  imported_date: string | null;
+  assigned_date: string | null;
+  follow_up_method: string;
+  follow_up_status: string;
+  follow_up_detail: string | null;
+  follow_up_result: string | null;
+  follow_up_note: string | null;
+  product_preferences: string | null;
+  status: string;
+}
+
+export interface ICustomerMotorcycle extends IIdentifiable {
+  customer: string;
+  name: string;
+  dealer_name: string;
+  dealer_code: string;
+  color: string | null;
+  frame_number: string;
+  engine_number: string;
+  payment_method: string;
+  assembly_date: string | null;
+  purchase_date: string;
+  leasing_name: string;
+}
+
+export interface IIsCustomer extends IIdentifiable {
+  exists: boolean;
+  data: string | null;
+}
+
+export interface IFamilyMember extends IIdentifiable {
+  name: string;
+  nik: string;
+  born_place: string;
+  born_date: string;
+  gender: string;
+  religion: string;
+  occupation: string;
+  education: string;
+  marital_status: string;
+  relation_status: string;
+  is_customer: IIsCustomer;
+}
+
+export interface IFamilyCard extends IIdentifiable {
+  family_card_number: string;
+  family_list: IFamilyMember[];
+  related_person: any[]; // Adjust this type if specific details about `related_person` are known
+}
+
 export interface ICustomer extends IIdentifiable {
   customer_name: string;
   customer_address: string;
@@ -104,9 +186,10 @@ export interface ICustomer extends IIdentifiable {
   income: string;
   expense: string;
   holiday: string;
-  motorcycles: IMotorcycle[];
-  family_card: { [key: string]: string }[];
-  follow_up_recipient: [];
+  motorcycles: ICustomerMotorcycle[];
+  family_card: IFamilyCard;
+  follow_up_recipient: IFollowUpRecipient;
+  follow_up: ICustomerFollowUp[];
 }
 
 export interface IRelation extends IIdentifiable {

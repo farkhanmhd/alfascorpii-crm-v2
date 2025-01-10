@@ -2,88 +2,89 @@ import React from 'react';
 import MapItems from '@/utils/MapItems';
 import { SelectOptions } from '@/types';
 import CustomerCard from '@/components/fragments/cards/InformationCard';
+import type { IFollowUpRecipient } from '@/types';
 import PhoneReceiverDialog from './dialogs/phone-receiver-dialog';
 
-const PhoneReceiverTab = () => {
+type Props = {
+  recipient: IFollowUpRecipient;
+};
+
+const PhoneReceiverTab = ({ recipient }: Props) => {
   const receiverData: SelectOptions[] = [
     {
       label: 'Penerima Telepon',
-      value: 'Nama',
+      value: recipient.recipient_name,
     },
     {
       label: 'Hubungan dengan Customer',
-      value: 'Konsumen Langsung',
+      value: recipient.relationship,
     },
     {
       label: 'Keterangan Lainnya',
-      value: '-',
+      value: recipient.additional_information!,
     },
     {
       label: 'Nomor Whatsapp',
-      value: '08123456789',
+      value: recipient.whatsapp_number,
     },
   ];
 
   const receiverDataUpdate: SelectOptions[] = [
     {
       label: 'Alamat',
-      value: 'JL. H. Adam Malik',
-    },
-    {
-      label: 'Kelurahan',
-      value: 'Silalas',
+      value: recipient.recipient_address,
     },
     {
       label: 'Status Rumah',
-      value: '-',
+      value: recipient.house_ownership,
     },
     {
       label: 'Pekerjaan',
-      value: '-',
+      value: recipient.job,
     },
     {
       label: 'Deskripsi Pekerjaan',
-      value: '-',
+      value: recipient.recipient_job_detail!,
     },
     {
       label: 'Tanggal Lahir',
-      value: '-',
+      value: recipient.recipient_born_date,
     },
     {
       label: 'Hari besar Keagamaan',
-      value: '-',
+      value: recipient.holiday,
     },
     {
       label: 'Hobi',
-      value: '-',
+      value: recipient.hobby,
     },
     {
       label: 'Deskripsi Hobi',
-      value: '-',
+      value: recipient.recipient_hobby_detail,
     },
     {
       label: 'Jumlah Orang Serumah',
-      value: '-',
+      value: String(recipient.amount_of_family),
     },
     {
       label: 'Jumlah Sepeda Motor di Rumah',
-      value: '-',
+      value: String(recipient.amount_of_motorcycle),
     },
     {
       label: 'Facebook',
-      value: '-',
+      value: recipient.facebook,
     },
     {
       label: 'Instagram',
-      value: '-',
+      value: recipient.instagram,
     },
     {
       label: 'Penghasilan / Bulan',
-      value: '-',
+      value: String(recipient.income),
     },
     {
       label: 'Pengeluaran / Bulan',
-      value: '-',
+      value: String(recipient.expense),
     },
   ];
 

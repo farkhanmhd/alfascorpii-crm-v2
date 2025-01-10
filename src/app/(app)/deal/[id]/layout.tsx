@@ -1,5 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
+import { ScrollArea } from '@/components/ui/scrollarea';
 
 export const metadata: Metadata = {
   title: 'Customer',
@@ -12,11 +13,11 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="h-full w-full">
-      <div className="hide-scrollbar h-full overflow-auto rounded-lg">
+      <ScrollArea className="h-full rounded-lg">
         <div className="min-h-full rounded-lg bg-background shadow-md">
           {children}
         </div>
-      </div>
+      </ScrollArea>
     </div>
   );
 };

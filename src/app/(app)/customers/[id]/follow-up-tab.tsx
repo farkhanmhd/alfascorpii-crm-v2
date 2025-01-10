@@ -9,10 +9,23 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import DealDialog from '@/components/fragments/dialogs/deal-dialog';
+import type { ICustomerFollowUp } from '@/types';
 import FollowUpDialog from './dialogs/follow-up-dialog';
 import FollowUpHistory from './dialogs/follow-up-history';
 
-const FollowUpTab = () => {
+type Props = {
+  followUps: ICustomerFollowUp[];
+};
+
+const FollowUpTab = ({ followUps }: Props) => {
+  const getFieldOrDefault = (
+    index: number,
+    field: keyof ICustomerFollowUp,
+    defaultValue: string = '-'
+  ) => {
+    return followUps[index]?.[field] ?? defaultValue;
+  };
+
   return (
     <div className="mb-8 flex flex-col gap-y-6">
       <div className="rounded-md border">
@@ -33,19 +46,33 @@ const FollowUpTab = () => {
               </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody className="bg-white">
+          <TableBody className="bg-white font-medium">
+            <TableRow>
+              <TableCell className="h-12 px-4 py-2 text-xs font-bold sm:text-sm">
+                CRO
+              </TableCell>
+              <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
+                {getFieldOrDefault(0, 'user')}
+              </TableCell>
+              <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
+                {getFieldOrDefault(1, 'user')}
+              </TableCell>
+              <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
+                {getFieldOrDefault(followUps.length - 1, 'user')}
+              </TableCell>
+            </TableRow>
             <TableRow>
               <TableCell className="h-12 px-4 py-2 text-xs font-bold sm:text-sm">
                 PENERIMA TELEPON
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 1
+                {getFieldOrDefault(0, 'recipient')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 2
+                {getFieldOrDefault(1, 'recipient')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 3
+                {getFieldOrDefault(followUps.length - 1, 'recipient')}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -53,13 +80,13 @@ const FollowUpTab = () => {
                 HUBUNGAN DENGAN CUSTOMER
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 1
+                {getFieldOrDefault(0, 'relationship')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 2
+                {getFieldOrDefault(1, 'relationship')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 3
+                {getFieldOrDefault(followUps.length - 1, 'relationship')}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -67,13 +94,16 @@ const FollowUpTab = () => {
                 KETERANGAN LAINNYA
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 1
+                {getFieldOrDefault(0, 'additional_information')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 2
+                {getFieldOrDefault(1, 'additional_information')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 3
+                {getFieldOrDefault(
+                  followUps.length - 1,
+                  'additional_information'
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -81,13 +111,13 @@ const FollowUpTab = () => {
                 WHATSAPP
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 1
+                {getFieldOrDefault(0, 'whatsapp_number')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 2
+                {getFieldOrDefault(1, 'whatsapp_number')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 3
+                {getFieldOrDefault(followUps.length - 1, 'whatsapp_number')}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -95,13 +125,13 @@ const FollowUpTab = () => {
                 TANGGAL
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 1
+                {getFieldOrDefault(0, 'follow_up_date')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 2
+                {getFieldOrDefault(1, 'follow_up_date')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 3
+                {getFieldOrDefault(followUps.length - 1, 'follow_up_date')}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -109,13 +139,13 @@ const FollowUpTab = () => {
                 METODE FOLLOW UP
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 1
+                {getFieldOrDefault(0, 'follow_up_method')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 2
+                {getFieldOrDefault(1, 'follow_up_method')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 3
+                {getFieldOrDefault(followUps.length - 1, 'follow_up_method')}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -123,13 +153,13 @@ const FollowUpTab = () => {
                 STATUS FOLLOW UP
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 1
+                {getFieldOrDefault(0, 'follow_up_status')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 2
+                {getFieldOrDefault(1, 'follow_up_status')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 3
+                {getFieldOrDefault(followUps.length - 1, 'follow_up_status')}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -137,13 +167,13 @@ const FollowUpTab = () => {
                 KETERANGAN FOLLOW UP
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 1
+                {getFieldOrDefault(0, 'follow_up_detail')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 2
+                {getFieldOrDefault(1, 'follow_up_detail')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 3
+                {getFieldOrDefault(followUps.length - 1, 'follow_up_detail')}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -151,13 +181,13 @@ const FollowUpTab = () => {
                 MINAT PRODUCT
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 1
+                {getFieldOrDefault(0, 'product_preferences')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 2
+                {getFieldOrDefault(1, 'product_preferences')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 3
+                {getFieldOrDefault(followUps.length - 1, 'product_preferences')}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -165,35 +195,36 @@ const FollowUpTab = () => {
                 HASIL
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 1
+                {getFieldOrDefault(0, 'follow_up_result')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 2
+                {getFieldOrDefault(1, 'follow_up_result')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 3
+                {getFieldOrDefault(followUps.length - 1, 'follow_up_result')}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="h-12 px-4 py-2 text-xs font-bold sm:text-sm">
-                DESKRIPSI
+                CATATAN
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 1
+                {getFieldOrDefault(0, 'follow_up_note')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 2
+                {getFieldOrDefault(1, 'follow_up_note')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                FOLLOW UP 3
+                {getFieldOrDefault(followUps.length - 1, 'follow_up_note')}
               </TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </div>
+
       <div className="flex flex-col gap-4 md:flex-row">
         <FollowUpDialog />
-        <FollowUpHistory />
+        <FollowUpHistory followUps={followUps} />
         <div className="w-max">
           <DealDialog />
         </div>

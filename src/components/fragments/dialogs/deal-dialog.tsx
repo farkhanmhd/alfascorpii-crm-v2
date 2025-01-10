@@ -411,8 +411,7 @@ const DealDialog = () => {
             </div>
             {(dealType === 'Unit RO' ||
               dealType === 'Unit Ref' ||
-              dealType ||
-              'Unit NC') && (
+              dealType === 'Unit NC') && (
               <div className="space-y-4 px-2">
                 <h2 className="font-semibold">
                   Data Sales Unit{' '}
@@ -423,14 +422,16 @@ const DealDialog = () => {
                 <Separator />
                 <div className="grid grid-cols-1 gap-6 p-2 md:grid-cols-2">
                   <DatePicker id="purchase-date" label="Tanggal Pembelian" />
-                  <SelectBox
-                    options={dealResults}
-                    id="deal-result"
-                    label="Hasil Deal"
-                    placeholder="Hasil Deal"
-                    value={dealResult}
-                    setValue={setDealResult}
-                  />
+                  {dealType !== 'Unit NC' && (
+                    <SelectBox
+                      options={dealResults}
+                      id="deal-result"
+                      label="Hasil Deal"
+                      placeholder="Hasil Deal"
+                      value={dealResult}
+                      setValue={setDealResult}
+                    />
+                  )}
                   <SelectBox
                     options={purchaseTypes}
                     id="purchase-type"

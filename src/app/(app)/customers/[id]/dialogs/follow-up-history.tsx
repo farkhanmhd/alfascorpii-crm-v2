@@ -12,9 +12,14 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 
 import { DataTable } from '@/components/fragments/table/DataTable';
+import { ICustomerFollowUp } from '@/types';
 import columns from './fu-history-columns';
 
-const FollowUpHistory = () => {
+type Props = {
+  followUps: ICustomerFollowUp[];
+};
+
+const FollowUpHistory = ({ followUps }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -25,7 +30,7 @@ const FollowUpHistory = () => {
           <DialogTitle>History Follow Up</DialogTitle>
         </DialogHeader>
         <ScrollArea className="rounded-md border">
-          <DataTable columns={columns} data={[]} />
+          <DataTable columns={columns} data={followUps} />
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </DialogContent>

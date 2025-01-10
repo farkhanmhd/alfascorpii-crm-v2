@@ -9,7 +9,7 @@ import MotorcycleTab from './motorcycle-tab';
 import FamilyTab from './family-tab';
 
 const ProfileTab = async ({ id }: { id: string }) => {
-  const data = await getCustomer(id);
+  const { data } = await getCustomer(id);
   const customer: ICustomer = data.customers;
   const tabData: TabData<React.ReactNode>[] = [
     {
@@ -20,22 +20,22 @@ const ProfileTab = async ({ id }: { id: string }) => {
     {
       value: 'update',
       label: 'Follow Up',
-      content: <FollowUpTab />,
+      content: <FollowUpTab followUps={customer.follow_up} />,
     },
     {
       value: 'social',
       label: 'Data Penerima Telepon',
-      content: <PhoneReceiverTab />,
+      content: <PhoneReceiverTab recipient={customer.follow_up_recipient} />,
     },
     {
       value: 'motorcycle',
       label: 'Data Motor',
-      content: <MotorcycleTab />,
+      content: <MotorcycleTab motorcycles={customer.motorcycles} />,
     },
     {
       value: 'family',
       label: 'Kartu Keluarga',
-      content: <FamilyTab />,
+      content: <FamilyTab families={customer.family_card} />,
     },
   ];
 

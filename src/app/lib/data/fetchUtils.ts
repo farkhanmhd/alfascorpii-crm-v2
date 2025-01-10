@@ -110,13 +110,13 @@ export const fetchData = async ({
     );
   }
 
-  const { data } = await res.json();
+  const { meta, data } = await res.json();
 
   if (!data) {
     notFound();
   }
 
-  return data;
+  return { meta, data };
 };
 
 export const deleteData = async ({ endpoint }: FetchData) => {
