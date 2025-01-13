@@ -2,27 +2,13 @@
 
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import type { IFamilyMember } from '@/types';
+import type { FamilyMemberPayload } from '@/types';
 
-export interface FamilyMember {
-  id: string;
-  nik: string;
-  name: string;
-  gender: string;
-  birthplace: string;
-  date_of_birth: string;
-  religion: string;
-  job: string;
-  education: string;
-  marital_status: string;
-  relationship: string;
-}
-
-const columns: ColumnDef<IFamilyMember>[] = [
+const columns: ColumnDef<FamilyMemberPayload>[] = [
   {
     id: 'nik',
     accessorKey: 'nik',
-    header: () => <div className="line-clamp-1 min-w-max">NIK</div>,
+    header: () => <div className="line-clamp-1 min-w-[160px]">NIK</div>,
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max">{row.original.nik}</div>
     ),
@@ -30,33 +16,35 @@ const columns: ColumnDef<IFamilyMember>[] = [
   {
     id: 'name',
     accessorKey: 'name',
-    header: () => <div className="line-clamp-1 min-w-max">Nama</div>,
+    header: () => <div className="line-clamp-1 min-w-[160px]">Nama</div>,
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max">{row.original.name}</div>
     ),
   },
   {
-    id: 'gender',
-    accessorKey: 'gender',
-    header: () => <div className="line-clamp-1 min-w-max">Jenis Kelamin</div>,
-    cell: ({ row }) => (
-      <div className="line-clamp-1 min-w-max">{row.original.gender}</div>
-    ),
-  },
-  {
-    id: 'birthplace',
-    accessorKey: 'birthplace',
+    id: 'born_place',
+    accessorKey: 'born_place',
     header: () => <div className="line-clamp-1 min-w-max">Tempat Lahir</div>,
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max">{row.original.born_place}</div>
     ),
   },
   {
-    id: 'date_of_birth',
-    accessorKey: 'date_of_birth',
+    id: 'born_date',
+    accessorKey: 'born_date',
     header: () => <div className="line-clamp-1 min-w-max">Tanggal Lahir</div>,
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max">{row.original.born_date}</div>
+    ),
+  },
+  {
+    id: 'gender',
+    accessorKey: 'gender',
+    header: () => (
+      <div className="line-clamp-1 min-w-[140px]">Jenis Kelamin</div>
+    ),
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.gender}</div>
     ),
   },
   {
@@ -64,12 +52,12 @@ const columns: ColumnDef<IFamilyMember>[] = [
     accessorKey: 'religion',
     header: () => <div className="line-clamp-1 min-w-max">Agama</div>,
     cell: ({ row }) => (
-      <div className="line-clamp-1 min-w-max">{row.original.religion}</div>
+      <div className="line-clamp-1 min-w-[120px]">{row.original.religion}</div>
     ),
   },
   {
-    id: 'job',
-    accessorKey: 'job',
+    id: 'occupation',
+    accessorKey: 'occupation',
     header: () => <div className="line-clamp-1 min-w-max">Pekerjaan</div>,
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max">{row.original.occupation}</div>
@@ -86,7 +74,7 @@ const columns: ColumnDef<IFamilyMember>[] = [
   {
     id: 'marital_status',
     accessorKey: 'marital_status',
-    header: () => <div className="line-clamp-1 min-w-max">Status</div>,
+    header: () => <div className="line-clamp-1 min-w-[160px]">Status</div>,
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max">
         {row.original.marital_status}
@@ -94,8 +82,8 @@ const columns: ColumnDef<IFamilyMember>[] = [
     ),
   },
   {
-    id: 'relationship',
-    accessorKey: 'relationship',
+    id: 'relation_status',
+    accessorKey: 'relation_status',
     header: () => (
       <div className="line-clamp-1 min-w-max">Hubungan Keluarga</div>
     ),

@@ -127,7 +127,7 @@ export interface ICustomerMotorcycle extends IIdentifiable {
   leasing_name: string;
 }
 
-export interface IIsCustomer extends IIdentifiable {
+export interface IIsCustomer {
   exists: boolean;
   data: string | null;
 }
@@ -146,10 +146,10 @@ export interface IFamilyMember extends IIdentifiable {
   is_customer: IIsCustomer;
 }
 
-export interface IFamilyCard extends IIdentifiable {
+export interface IFamilyCard {
   family_card_number: string;
   family_list: IFamilyMember[];
-  related_person: any[]; // Adjust this type if specific details about `related_person` are known
+  related_person: IFamilyMember[];
 }
 
 export interface ICustomer extends IIdentifiable {
@@ -190,6 +190,19 @@ export interface ICustomer extends IIdentifiable {
   family_card: IFamilyCard;
   follow_up_recipient: IFollowUpRecipient;
   follow_up: ICustomerFollowUp[];
+}
+
+export interface FamilyMemberPayload extends IIdentifiable {
+  nik: string;
+  name: string;
+  born_place: string;
+  born_date: string;
+  gender: string;
+  religion: string;
+  occupation: string;
+  education: string;
+  marital_status: string;
+  relation_status: string;
 }
 
 export interface IRelation extends IIdentifiable {

@@ -22,21 +22,23 @@ import {
 } from '@/components/ui/select';
 
 interface DatePickerProps {
-  id: string;
+  id?: string;
   label?: string;
   startYear?: number;
   endYear?: number;
-  initialDate?: Date;
+  className?: string;
+  date?: Date;
+  setDate?: (date: Date) => void;
 }
 const DatePicker = ({
   id,
-  label = 'Date',
+  label,
   startYear = getYear(new Date()) - 100,
   endYear = getYear(new Date()) + 100,
-  initialDate = new Date(),
+  className,
+  date = new Date(),
+  setDate = () => {},
 }: DatePickerProps) => {
-  const [date, setDate] = React.useState<Date>(initialDate);
-
   const months = [
     'January',
     'February',
@@ -74,16 +76,19 @@ const DatePicker = ({
 
   return (
     <div className="flex flex-col gap-y-4">
-      <Label htmlFor={id} className="font-semibold">
-        {label}
-      </Label>
+      {label && (
+        <Label htmlFor={id} className="font-semibold">
+          {label}
+        </Label>
+      )}
       <Popover>
         <PopoverTrigger asChild id={id} name={id}>
           <Button
             variant="outline"
             className={cn(
               'justify-start text-left text-xs font-semibold',
-              !date && 'text-muted-foreground'
+              !date && 'text-muted-foreground',
+              className
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />

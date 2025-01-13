@@ -6,11 +6,10 @@ import { useAction } from 'next-safe-action/hooks';
 import { addFamilyCardAction } from '@/app/lib/actions/customers';
 import TextInput from '@/components/fragments/form/TextInput';
 import { Button } from '@/components/ui/button';
-import { DataTable } from '@/components/fragments/table/DataTable';
 import { IFamilyCard } from '@/types';
 import { toast } from '@/hooks/use-toast';
 import { getErrorMessages } from '@/lib/utils';
-import columns from './family-column';
+import FamilyData from './FamilyData';
 
 type Props = {
   families: IFamilyCard;
@@ -18,6 +17,7 @@ type Props = {
 
 const FamilyTab = ({ families }: Props) => {
   const [familyNumber, setFamilyNumber] = useState<string>('');
+  const [editable, setEditable] = useState<boolean>(false);
   const params = useParams();
   const { id } = params;
   const { execute, isPending, result } = useAction(
@@ -79,30 +79,11 @@ const FamilyTab = ({ families }: Props) => {
         </form>
       </div>
       {Object.keys(families).length > 0 && (
-        <>
-          <div className="w-full max-w-full space-y-4">
-            <h2 className="font-bold text-primary">ANGGOTA KELUARGA</h2>
-            <div>
-              <DataTable
-                data={families.family_list || []}
-                columns={columns}
-                extensible
-              />
-            </div>
-          </div>
-          <div className="space-y-4">
-            <h2 className="font-bold text-primary">
-              ANGGOTA KELUARGA TIDAK DALAM SATU KARTU KELUARGA
-            </h2>
-            <div>
-              <DataTable
-                data={families.related_person || []}
-                columns={columns}
-                extensible
-              />
-            </div>
-          </div>
-        </>
+        <FamilyData
+          editable={editable}
+          setEditable={setEditable}
+          families={families}
+        />
       )}
     </div>
   );

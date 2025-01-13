@@ -15,8 +15,9 @@ import { Label } from '@/components/ui/label';
 
 interface Props {
   options: SelectOptions[];
-  id: string;
-  label: string;
+  className?: string;
+  id?: string;
+  label?: string;
   placeholder: string;
   error?: string[];
   value: string;
@@ -25,6 +26,7 @@ interface Props {
 
 export const SelectBox = ({
   options,
+  className = '',
   label,
   error,
   id,
@@ -45,7 +47,7 @@ export const SelectBox = ({
         </Label>
       )}
       <Select onValueChange={setValue} value={value}>
-        <SelectTrigger className="w-full" id={id}>
+        <SelectTrigger className={`w-full ${className}`} id={id}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

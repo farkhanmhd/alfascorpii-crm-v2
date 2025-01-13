@@ -1,5 +1,6 @@
 import { fetchWithParams, fetchData } from '@/app/lib/data/fetchUtils';
 import { revalidatePath } from 'next/cache';
+import { FamilyMemberPayload } from '@/types';
 import { getAccessToken } from '../auth';
 
 export const fetchCustomer = (
@@ -39,13 +40,6 @@ export const addFamilyCardNumber = async (
   customerId: string | number,
   family_card_number: number | string
 ) => {
-  // return fetchData({
-  //   endpoint: `updatefcardnumber/${customerId}`,
-  //   method: 'POST',
-  //   body: {
-  //     family_card_number,
-  //   },
-  // });
   const accessToken = await getAccessToken();
   const fetchUrl = `${process.env.BACKEND_URL}/updatefcardnumber/${customerId}`;
   const response = await fetch(fetchUrl, {
@@ -55,7 +49,28 @@ export const addFamilyCardNumber = async (
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: JSON.stringify({ family_card_number: family_card_number }),
+    body: JSON.stringify({ family_card_number }),
+  });
+
+  const { meta, data } = await response.json();
+  return { meta, data };
+};
+
+export const updateFamilyMembers = async (
+  customerId: string | number,
+  family_members: FamilyMemberPayload[],
+  related_people: FamilyMemberPayload[]
+) => {
+  const accessToken = await getAccessToken();
+  const fetchUrl = `${process.env.BACKEND_URL}/updatefamilymembers/${customerId}`;
+  const response = await fetch(fetchUrl, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({ family_members, related_people }),
   });
 
   const { meta, data } = await response.json();
