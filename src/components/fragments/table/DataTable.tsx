@@ -11,7 +11,6 @@ import {
   getPaginationRowModel,
   useReactTable,
   VisibilityState,
-  Row,
 } from '@tanstack/react-table';
 
 import {
@@ -23,20 +22,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import MapItems from '@/utils/MapItems';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Button } from '@/components/ui/button';
-import { Plus, Trash2 } from 'lucide-react';
+import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 import DataTablePagination from './pagination';
 
-export type InputType = 'text' | 'number' | 'date' | 'select' | 'radio';
-
-export interface ColumnConfig {
-  inputType: InputType;
-  validate?: (value: string) => boolean;
-}
-
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { id: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
+  data: TData[];
   rows?: number;
   totalPages?: number;
   currentPage?: number;
@@ -46,21 +37,11 @@ interface DataTableProps<TData, TValue> {
   setRowSelection?: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
   >;
-  editable?: boolean;
-  columnConfig?: Record<string, ColumnConfig>;
-  renderInput?: (
-    columnId: string,
-    value: string,
-    onChange: (value: string) => void,
-    config: ColumnConfig
-  ) => React.ReactNode;
-  onRowsChange?: (rows: TData[]) => void;
-  data: TData[];
-  setData: React.Dispatch<React.SetStateAction<TData[]>>;
 }
 
 export const DataTable = <TData extends { id: string | number }, TValue>({
   columns,
+  data,
   rows,
   totalPages,
   currentPage = 1,
@@ -68,12 +49,6 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   withPagination = false,
   rowSelection = {},
   setRowSelection,
-  editable = false,
-  columnConfig = {},
-  renderInput = () => null,
-  onRowsChange,
-  data,
-  setData,
 }: DataTableProps<TData, TValue>) => {
   const searchParams = useSearchParams();
   const perPage = Number(searchParams.get('per_page') || 50);
@@ -100,73 +75,18 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
     },
   });
 
-  const handleAddRow = () => {
-    const newRow = columns.reduce(
-      (acc, column) => {
-        acc[column.id as keyof TData] = '' as any;
-        return acc;
-      },
-      { id: `new-${Date.now()}` } as TData
-    );
-
-    setData((prev: TData[]) => [...prev, newRow]);
-
-    if (onRowsChange) {
-      onRowsChange([...data, newRow]);
-    }
-  };
-
-  const handleInputChange = (
-    rowIndex: number,
-    columnId: string,
-    value: string
-  ) => {
-    setData((prev) => {
-      const updatedRows = [...prev];
-      updatedRows[rowIndex] = { ...updatedRows[rowIndex], [columnId]: value };
-      return updatedRows;
-    });
-    if (onRowsChange) {
-      onRowsChange(data);
-    }
-  };
-
-  const handleRemoveRow = (rowIndex: number) => {
-    setData((prev) => prev.filter((_, index) => index !== rowIndex));
-
-    if (onRowsChange) {
-      onRowsChange(data.filter((_, index) => index !== rowIndex));
-    }
-  };
-
-  const renderEmptyEditableRow = () => (
-    <TableRow>
-      {columns.map((column) => (
-        <TableCell key={column.id as string} className="h-12 px-4 py-2">
-          {renderInput(
-            column.id as string,
-            '',
-            (value) => handleInputChange(0, column.id as string, value),
-            columnConfig[column.id as string]
-          )}
-        </TableCell>
-      ))}
-      <TableCell className="w-[50px]" />
-    </TableRow>
-  );
-
   return (
     <>
-      <ScrollArea className="rounded-md">
+      <ScrollArea className="max-h-[75vh] rounded-md bg-white">
         <Table>
           <TableHeader className="sticky top-0 z-50 bg-primary text-sm">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="hover:bg-primary">
                 <MapItems
                   of={headerGroup.headers}
-                  render={(header, index) => (
+                  render={(header) => (
                     <TableHead
-                      key={`header-row-${index}`}
+                      key={header.id}
                       className="px-4 py-2 font-bold uppercase text-primary-foreground"
                     >
                       {header.isPlaceholder
@@ -178,66 +98,42 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
                     </TableHead>
                   )}
                 />
-                {editable && <TableHead className="w-[50px]" />}
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="bg-white">
-            {data.length ? (
-              data.map((rowData, rowIndex) => {
-                const row = table.getRowModel().rows[rowIndex] as Row<TData>;
-                return (
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              <MapItems
+                of={table.getRowModel().rows}
+                render={(row) => (
                   <TableRow
-                    key={`body-row-${rowIndex}`}
-                    data-state={rowSelection[String(rowData.id)] && 'selected'}
+                    key={row.id}
+                    data-state={row.getIsSelected() && 'selected'}
                   >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className="h-12 px-4 py-2 text-xs font-medium sm:text-sm"
-                      >
-                        {editable
-                          ? renderInput(
-                              cell.column.id,
-                              String(cell.getValue()),
-                              (value) =>
-                                handleInputChange(
-                                  rowIndex,
-                                  cell.column.id,
-                                  value
-                                ),
-                              columnConfig[cell.column.id]
-                            )
-                          : flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                      </TableCell>
-                    ))}
-                    {editable && (
-                      <TableCell className="w-[50px]">
-                        <Button
-                          onClick={() => handleRemoveRow(rowIndex)}
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8"
+                    <MapItems
+                      of={row.getVisibleCells()}
+                      render={(cell) => (
+                        <TableCell
+                          key={cell.id}
+                          className="h-12 px-4 py-2 text-xs sm:text-sm"
                         >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </TableCell>
-                    )}
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      )}
+                    />
                   </TableRow>
-                );
-              })
-            ) : editable && data.length > 0 ? (
-              renderEmptyEditableRow()
+                )}
+              />
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length + (editable ? 1 : 0)}
+                  colSpan={columns.length}
                   className="h-12 px-4 py-2 text-center text-xs sm:text-sm"
                 >
-                  No Data.
+                  No results.
                 </TableCell>
               </TableRow>
             )}
@@ -253,15 +149,6 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
           currentPage={currentPage as number}
           totalPages={totalPages as number}
         />
-      )}
-      {editable && (
-        <div className="mt-4 flex flex-row-reverse justify-between">
-          <div className="flex items-center gap-x-4">
-            <Button onClick={handleAddRow} variant="orange" size="icon">
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
       )}
     </>
   );

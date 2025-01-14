@@ -22,7 +22,7 @@ const FollowUpDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Update Data Follow Up</Button>
+        <Button>Tambah Follow Up</Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl">
         <DialogHeader className="px-2">
@@ -77,7 +77,7 @@ const FollowUpDialog = () => {
                 <DatePicker
                   label="Tanggal Follow Up"
                   id="follow-up-date"
-                  initialDate={new Date()}
+                  date={new Date()}
                 />
                 <SelectBox
                   id="minat-product"
@@ -128,7 +128,7 @@ const FollowUpDialog = () => {
                 <DatePicker
                   label="Tanggal Lahir"
                   id="date_of_birth"
-                  initialDate={new Date()}
+                  date={new Date()}
                 />
                 <TextInput
                   label="Nama"

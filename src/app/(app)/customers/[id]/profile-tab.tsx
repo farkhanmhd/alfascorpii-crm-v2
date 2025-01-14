@@ -11,6 +11,7 @@ import FamilyTab from './family-tab';
 const ProfileTab = async ({ id }: { id: string }) => {
   const { data } = await getCustomer(id);
   const customer: ICustomer = data.customers;
+  const { family_card: familyCard, related_person: relatedFamily } = customer;
   const tabData: TabData<React.ReactNode>[] = [
     {
       value: 'overview',
@@ -35,7 +36,12 @@ const ProfileTab = async ({ id }: { id: string }) => {
     {
       value: 'family',
       label: 'Kartu Keluarga',
-      content: <FamilyTab families={customer.family_card} />,
+      content: (
+        <FamilyTab
+          families={customer.family_card}
+          relatedPersons={relatedFamily}
+        />
+      ),
     },
   ];
 

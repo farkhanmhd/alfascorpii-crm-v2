@@ -28,7 +28,7 @@ export const OverviewTab: React.FC<TabProps> = ({ value, customer }) => {
       <DatePicker
         label="Tanggal Lahir"
         id="date_of_birth"
-        initialDate={new Date(customer.date_of_birth)}
+        date={new Date(customer.date_of_birth)}
       />
       <TextInput
         label="Alamat"

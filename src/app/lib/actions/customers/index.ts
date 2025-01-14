@@ -79,9 +79,7 @@ export const updateFamilyMembersAction = actionClient
       related_people
     );
     const { status, message } = meta;
-    if (status === 'success') {
-      revalidatePath(`/customers/${id}`);
-    }
+    revalidatePath(`/customers/${id}`);
     return {
       status,
       message,

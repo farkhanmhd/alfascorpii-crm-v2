@@ -28,7 +28,8 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
           <div className="relative z-20 mt-auto">
             <footer className="text-sm">
-              &copy; 2024 by Alfa Scorpii IT Division. All rights reserved.
+              &copy; {`${new Date().getFullYear()}`} by Alfa Scorpii IT
+              Division. All rights reserved.
             </footer>
           </div>
         </div>

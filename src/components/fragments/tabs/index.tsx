@@ -17,7 +17,7 @@ const CustomTabs: React.FC<{ tabData: TabData<React.ReactNode>[] }> = ({
             <TabsTrigger
               key={index}
               value={tab.value}
-              className="relative font-bold after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 hover:bg-accent hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent"
+              className="relative font-semibold after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 hover:bg-accent hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent"
             >
               {tab.label}
             </TabsTrigger>

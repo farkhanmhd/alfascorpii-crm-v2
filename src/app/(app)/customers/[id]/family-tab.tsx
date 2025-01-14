@@ -6,17 +6,21 @@ import { useAction } from 'next-safe-action/hooks';
 import { addFamilyCardAction } from '@/app/lib/actions/customers';
 import TextInput from '@/components/fragments/form/TextInput';
 import { Button } from '@/components/ui/button';
-import { IFamilyCard } from '@/types';
+import { IFamilyCard, IFamilyMember } from '@/types';
 import { toast } from '@/hooks/use-toast';
 import { getErrorMessages } from '@/lib/utils';
 import FamilyData from './FamilyData';
 
 type Props = {
   families: IFamilyCard;
+  relatedPersons: IFamilyMember[];
 };
 
-const FamilyTab = ({ families }: Props) => {
-  const [familyNumber, setFamilyNumber] = useState<string>('');
+const FamilyTab = ({ families, relatedPersons }: Props) => {
+  const [familyNumber, setFamilyNumber] = useState<string>(
+    families ? families.family_card_number : ''
+  );
+
   const [editable, setEditable] = useState<boolean>(false);
   const params = useParams();
   const { id } = params;
@@ -78,11 +82,12 @@ const FamilyTab = ({ families }: Props) => {
           </Button>
         </form>
       </div>
-      {Object.keys(families).length > 0 && (
+      {families && (
         <FamilyData
           editable={editable}
           setEditable={setEditable}
           families={families}
+          relatedPersons={relatedPersons}
         />
       )}
     </div>

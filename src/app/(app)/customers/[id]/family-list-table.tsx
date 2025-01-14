@@ -1,24 +1,29 @@
 'use client';
 
 import React from 'react';
-import {
-  DataTable,
-  ColumnConfig,
-} from '@/components/fragments/table/DataTable';
 import { Input } from '@/components/ui/input';
 import DatePicker from '@/components/fragments/form/DatePicker';
 import { FamilyMemberPayload } from '@/types';
 import { SelectBox } from '@/components/fragments/form/Select';
 import { format } from 'date-fns';
+import { DataTable, ColumnConfig } from './DataTable';
 import columns from './family-column';
 
 interface Props {
   data: FamilyMemberPayload[];
   setData: React.Dispatch<React.SetStateAction<FamilyMemberPayload[]>>;
   editable: boolean;
+  onMoveRow: (rowIndex: number) => void;
+  isTopTable: boolean;
 }
 
-const FamilyListTable = ({ data, setData, editable }: Props) => {
+const FamilyListTable = ({
+  data,
+  setData,
+  editable,
+  onMoveRow,
+  isTopTable,
+}: Props) => {
   const columnConfig: Record<string, ColumnConfig> = columns.reduce(
     (acc, column) => {
       acc[column.id as string] = {
@@ -42,9 +47,10 @@ const FamilyListTable = ({ data, setData, editable }: Props) => {
     config: ColumnConfig
   ) => {
     if (config.inputType === 'date') {
+      const initialDate = value ? new Date(value) : new Date();
       return (
         <DatePicker
-          date={new Date(value || new Date())}
+          date={initialDate}
           setDate={(date: Date) => onChange(format(date, 'yyyy-MM-dd'))}
           className="h-9"
         />
@@ -111,6 +117,8 @@ const FamilyListTable = ({ data, setData, editable }: Props) => {
       editable={editable}
       columnConfig={columnConfig}
       renderInput={renderInput}
+      onMoveRow={onMoveRow}
+      isTopTable={isTopTable}
     />
   );
 };

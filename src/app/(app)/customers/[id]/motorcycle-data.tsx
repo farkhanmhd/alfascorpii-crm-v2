@@ -51,7 +51,7 @@ const MotorcycleData = ({ motorcycle }: { motorcycle: IMotorcycle }) => {
       <DatePicker
         label="Tanggal Pembelian"
         id="purchase-date"
-        initialDate={new Date(motorcycle.purchase_date) || new Date()}
+        date={new Date(motorcycle.purchase_date) || new Date()}
       />
     </div>
   );

@@ -149,7 +149,6 @@ export interface IFamilyMember extends IIdentifiable {
 export interface IFamilyCard {
   family_card_number: string;
   family_list: IFamilyMember[];
-  related_person: IFamilyMember[];
 }
 
 export interface ICustomer extends IIdentifiable {
@@ -188,11 +187,12 @@ export interface ICustomer extends IIdentifiable {
   holiday: string;
   motorcycles: ICustomerMotorcycle[];
   family_card: IFamilyCard;
+  related_person: IFamilyMember[];
   follow_up_recipient: IFollowUpRecipient;
   follow_up: ICustomerFollowUp[];
 }
 
-export interface FamilyMemberPayload extends IIdentifiable {
+export interface FamilyMemberPayload {
   nik: string;
   name: string;
   born_place: string;

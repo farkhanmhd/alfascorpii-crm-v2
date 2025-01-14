@@ -70,7 +70,7 @@ const PhoneReceiverDialog = () => {
                 <DatePicker
                   label="Tanggal Lahir"
                   id="date_of_birth"
-                  initialDate={new Date()}
+                  date={new Date()}
                 />
                 <TextInput
                   label="Nama"

@@ -63,14 +63,16 @@ export const updateFamilyMembers = async (
 ) => {
   const accessToken = await getAccessToken();
   const fetchUrl = `${process.env.BACKEND_URL}/updatefamilymembers/${customerId}`;
+  const payload = JSON.stringify({ family_members, related_people });
   const response = await fetch(fetchUrl, {
     method: 'POST',
+    cache: 'no-cache',
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: JSON.stringify({ family_members, related_people }),
+    body: payload,
   });
 
   const { meta, data } = await response.json();

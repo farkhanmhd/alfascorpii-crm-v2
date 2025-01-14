@@ -52,6 +52,13 @@ export const columns: ColumnDef<ICustomer>[] = [
   // },
 
   {
+    accessorKey: 'nik',
+    header: 'nik',
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.nik}</div>
+    ),
+  },
+  {
     accessorKey: 'customer_name',
     header: 'Nama',
     cell: ({ row }) => (
@@ -59,8 +66,44 @@ export const columns: ColumnDef<ICustomer>[] = [
     ),
   },
   {
+    accessorKey: 'customer_address',
+    header: 'Alamat',
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">
+        {row.original.customer_address}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'sub_district',
+    header: 'Kelurahan',
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.sub_district}</div>
+    ),
+  },
+  {
+    accessorKey: 'district',
+    header: 'Kecamatan',
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.district}</div>
+    ),
+  },
+  {
+    accessorKey: 'regency_or_city',
+    header: 'Kota / Kabupaten',
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">
+        {row.original.regency_or_city}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'mobile_phone',
+    header: 'Nomor HP',
+  },
+  {
     accessorKey: 'date_of_birth',
-    header: 'Tanggal Lahir',
+    header: () => <div className="line-clamp-1 min-w-max">Tanggal Lahir</div>,
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max">{row.original.date_of_birth}</div>
     ),
@@ -73,18 +116,6 @@ export const columns: ColumnDef<ICustomer>[] = [
     ),
   },
 
-  {
-    accessorKey: 'sub_district',
-    header: 'Kelurahan',
-    cell: ({ row }) => (
-      <div className="line-clamp-1 min-w-max">{row.original.sub_district}</div>
-    ),
-  },
-
-  {
-    accessorKey: 'mobile_phone',
-    header: 'Nomor HP',
-  },
   // {
   //   accessorKey: 'email',
   //   header: ({ column }) => (
