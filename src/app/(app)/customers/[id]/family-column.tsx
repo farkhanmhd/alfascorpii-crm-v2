@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import { format, parseISO } from 'date-fns';
+import { id } from 'date-fns/locale';
 import { ColumnDef } from '@tanstack/react-table';
 import type { FamilyMemberPayload } from '@/types';
 
@@ -33,9 +35,12 @@ const columns: ColumnDef<FamilyMemberPayload>[] = [
     id: 'born_date',
     accessorKey: 'born_date',
     header: () => <div className="line-clamp-1 min-w-max">Tanggal Lahir</div>,
-    cell: ({ row }) => (
-      <div className="line-clamp-1 min-w-max">{row.original.born_date}</div>
-    ),
+    cell: ({ row }) => {
+      const date = format(parseISO(row.original.born_date), 'd MMMM yyyy', {
+        locale: id,
+      });
+      return <div className="line-clamp-1 min-w-max">{date}</div>;
+    },
   },
   {
     id: 'gender',

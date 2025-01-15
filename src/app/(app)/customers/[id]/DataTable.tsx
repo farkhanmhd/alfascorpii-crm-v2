@@ -169,7 +169,7 @@ export const DataTable = <TData, TValue>({
 
   return (
     <>
-      <ScrollArea className="rounded-md">
+      <ScrollArea className="rounded-md shadow-md">
         <Table>
           <TableHeader className="sticky top-0 z-50 bg-primary text-sm">
             {table.getHeaderGroups().map((headerGroup) => (

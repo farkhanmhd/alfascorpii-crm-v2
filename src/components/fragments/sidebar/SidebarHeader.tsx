@@ -6,12 +6,10 @@ const SidebarHeader = () => {
   return (
     <Link
       href="/"
-      className="m-2 flex flex-col items-center rounded-sm py-4 duration-200"
+      className="m-2 flex flex-col items-center gap-x-2 rounded-sm py-4 font-light duration-200"
     >
       <Logo />
-      <p className="text-xl">
-        <span className="text-primary">CRM</span> Team
-      </p>
+      <p className="text-xl font-normal text-primary">CRM</p>
     </Link>
   );
 };

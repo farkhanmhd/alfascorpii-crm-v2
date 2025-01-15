@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LayoutDashboard } from 'lucide-react';
 import MapItems from '@/utils/MapItems';
 import { useMobile } from '@/hooks';
 import useClickOutside from '@/hooks/useClickOutside';
@@ -39,18 +39,21 @@ const Sidebar = ({ data }: { data: SidebarGroupProps[] }) => {
       )}
       <aside
         ref={sidebarRef}
-        className={`fixed left-0 top-0 z-50 flex h-dvh w-72 flex-col gap-y-4 bg-sidebar font-semibold shadow-md transition-transform duration-300 ease-in-out lg:shadow-none ${
+        className={`fixed left-0 top-0 z-50 flex h-dvh w-72 flex-col gap-y-4 bg-white shadow-md transition-transform duration-300 ease-in-out lg:shadow-none ${
           isMobile && !isOpen ? '-translate-x-full' : 'translate-x-0'
         } lg:translate-x-0`}
       >
         <SidebarHeader />
         <ScrollArea className="h-[calc(100dvh-109px)] pb-6">
-          <div className="flex flex-col gap-y-4">
-            <SidebarLink
-              href="/"
-              label="Dashboard"
-              onLinkClick={closeSidebar}
-            />
+          <div className="flex flex-col gap-y-2">
+            <div className="mb-2">
+              <SidebarLink
+                href="/"
+                label="Dashboard"
+                onLinkClick={closeSidebar}
+                icon={<LayoutDashboard />}
+              />
+            </div>
             <MapItems
               of={data}
               render={(item) => (
@@ -58,6 +61,7 @@ const Sidebar = ({ data }: { data: SidebarGroupProps[] }) => {
                   key={item.group}
                   {...item}
                   onLinkClick={closeSidebar}
+                  icon={item.icon}
                 />
               )}
             />

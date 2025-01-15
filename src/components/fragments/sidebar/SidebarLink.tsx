@@ -4,14 +4,17 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
 
 interface Props {
   href: string;
   label: string;
   onLinkClick: () => void;
+  icon?: React.ReactNode;
+  asChild?: boolean;
 }
 
-const SidebarLink = ({ href, label, onLinkClick }: Props) => {
+const SidebarLink = ({ href, label, onLinkClick, asChild, icon }: Props) => {
   const pathname = usePathname();
   const activePath = href.split('/')[1].toLowerCase();
   const splittedPathame = pathname.split('/')[1];
@@ -26,21 +29,24 @@ const SidebarLink = ({ href, label, onLinkClick }: Props) => {
       href={href}
       onClick={handleClick}
       className={cn(
-        "before:content[''] group relative flex justify-center px-8 uppercase before:absolute before:left-0 before:top-0 before:-ml-1 before:h-full before:w-2 before:rounded-full before:duration-200",
+        buttonVariants({
+          variant:
+            active && asChild
+              ? 'ghost'
+              : active && !asChild
+                ? 'default'
+                : 'ghost',
+        }),
+        'relative mx-4 flex h-12 justify-start gap-x-4',
         {
-          'before:bg-primary': active,
-          'hover:before:bg-primary': !active,
+          'px-16 hover:text-primary': asChild,
+          'px-8': !asChild,
+          'text-primary': active && asChild,
         }
       )}
     >
-      <div
-        className={cn('flex w-full rounded-md py-3 pl-12 duration-200', {
-          'bg-primary text-primary-foreground': active,
-          'group-hover:text-primary': !active,
-        })}
-      >
-        {label}
-      </div>
+      {icon && icon}
+      {label}
     </Link>
   );
 };

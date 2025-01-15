@@ -6,14 +6,13 @@ import { useAction } from 'next-safe-action/hooks';
 import { useDropzone } from 'react-dropzone';
 import {
   AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogFooter,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { useActionDialog } from '@/hooks';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import {
   FileSpreadsheet,
@@ -30,6 +29,7 @@ import { ScrollArea } from './ui/scrollarea';
 const ExcelDropzoneDialog = () => {
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const [submissionErrors, setSubmissionErrors] = useState<any[] | null>(null);
+  const { actionDialog, handleClose } = useActionDialog();
   const { execute, isPending } = useAction(importFollowUpAction, {
     onSuccess: ({ data }) => {
       if (data?.status === 'success') {
@@ -90,10 +90,7 @@ const ExcelDropzoneDialog = () => {
   };
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="blue">Import Data</Button>
-      </AlertDialogTrigger>
+    <AlertDialog open={actionDialog?.create} onOpenChange={handleClose}>
       <AlertDialogContent className="sm:max-w-[500px]">
         <AlertDialogHeader>
           <AlertDialogTitle>Import Excel File</AlertDialogTitle>
@@ -188,25 +185,20 @@ const ExcelDropzoneDialog = () => {
               <Download className="mr-2 h-4 w-4" />
               Download Template
             </Button>
-            <div className="flex flex-col gap-x-4 gap-y-2 sm:flex-row">
-              <AlertDialogCancel asChild>
-                <Button variant="outline">Cancel</Button>
-              </AlertDialogCancel>
-              <Button
-                onClick={handleSubmit}
-                className="w-full sm:w-auto"
-                disabled={!file || isPending}
-              >
-                {isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    <span>Importing...</span>
-                  </>
-                ) : (
-                  <span>Import</span>
-                )}
-              </Button>
-            </div>
+            <Button
+              onClick={handleSubmit}
+              className="w-full sm:w-auto"
+              disabled={!file || isPending}
+            >
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <span>Importing...</span>
+                </>
+              ) : (
+                <span>Import</span>
+              )}
+            </Button>
           </div>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -50,16 +50,16 @@ export const addFamilyCardAction = actionClient
   });
 
 const familyMemberSchema = z.object({
-  nik: z.string(),
-  name: z.string(),
-  born_place: z.string(),
-  born_date: z.string(),
-  gender: z.string(),
-  religion: z.string(),
-  occupation: z.string(),
-  education: z.string(),
-  marital_status: z.string(),
-  relation_status: z.string(),
+  nik: z.string().min(1, { message: 'NIK must be 1 characters' }),
+  name: z.string().min(1, { message: 'Name is required' }),
+  born_place: z.string().min(1, { message: 'Born place is required' }),
+  born_date: z.string().min(1, { message: 'Born date is required' }),
+  gender: z.string().min(1, { message: 'Gender Required' }),
+  religion: z.string().min(1, { message: 'Religion Required' }),
+  occupation: z.string().min(1, { message: 'Occupation Required' }),
+  education: z.string().min(1, { message: 'Education Required' }),
+  marital_status: z.string().min(1, { message: 'Marital Status Required' }),
+  relation_status: z.string().min(1, { message: 'Relation Status Required' }),
 });
 
 const familyMembersSchema = z.array(familyMemberSchema);

@@ -33,10 +33,10 @@ const LogUpdate = () => {
                 <TableCell className="h-12 px-4 py-2 text-xs font-semibold sm:text-sm">
                   Update Data Customer
                 </TableCell>
-                <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
+                <TableCell className="h-12 px-4 py-2 text-xs font-medium sm:text-sm">
                   FOLLOW UP 1
                 </TableCell>
-                <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
+                <TableCell className="h-12 px-4 py-2 text-xs font-medium sm:text-sm">
                   FOLLOW UP 2
                 </TableCell>
               </TableRow>
@@ -44,10 +44,10 @@ const LogUpdate = () => {
                 <TableCell className="h-12 px-4 py-2 text-xs font-semibold sm:text-sm">
                   Update Data Follow Up
                 </TableCell>
-                <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
+                <TableCell className="h-12 px-4 py-2 text-xs font-medium sm:text-sm">
                   FOLLOW UP 1
                 </TableCell>
-                <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
+                <TableCell className="h-12 px-4 py-2 text-xs font-medium sm:text-sm">
                   FOLLOW UP 2
                 </TableCell>
               </TableRow>
@@ -55,10 +55,10 @@ const LogUpdate = () => {
                 <TableCell className="h-12 px-4 py-2 text-xs font-semibold sm:text-sm">
                   Update Data Penerima Telepon
                 </TableCell>
-                <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
+                <TableCell className="h-12 px-4 py-2 text-xs font-medium sm:text-sm">
                   FOLLOW UP 1
                 </TableCell>
-                <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
+                <TableCell className="h-12 px-4 py-2 text-xs font-medium sm:text-sm">
                   FOLLOW UP 2
                 </TableCell>
               </TableRow>
@@ -66,10 +66,10 @@ const LogUpdate = () => {
                 <TableCell className="h-12 px-4 py-2 text-xs font-semibold sm:text-sm">
                   Update Data Kartu Keluarga
                 </TableCell>
-                <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
+                <TableCell className="h-12 px-4 py-2 text-xs font-medium sm:text-sm">
                   FOLLOW UP 1
                 </TableCell>
-                <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
+                <TableCell className="h-12 px-4 py-2 text-xs font-medium sm:text-sm">
                   FOLLOW UP 2
                 </TableCell>
               </TableRow>

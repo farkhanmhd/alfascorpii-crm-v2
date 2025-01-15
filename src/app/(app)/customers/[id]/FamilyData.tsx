@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { useOptimisticAction } from 'next-safe-action/hooks';
 import { updateFamilyMembersAction } from '@/app/lib/actions/customers';
@@ -24,16 +24,34 @@ const FamilyData = ({
 }: Props) => {
   const params = useParams();
   const { id } = params;
-  const [familyList, setFamilyList] = useState<FamilyMemberPayload[]>(
-    families.family_list
-  );
-  const [relatedPersonsState, setRelatedPersons] =
-    useState<FamilyMemberPayload[]>(relatedPersons);
+  const [familyList, setFamilyList] = useState<FamilyMemberPayload[]>([]);
+  const [relatedPersonsState, setRelatedPersons] = useState<
+    FamilyMemberPayload[]
+  >([]);
+  const [originalFamilyList, setOriginalFamilyList] = useState<
+    FamilyMemberPayload[]
+  >([]);
+  const [originalRelatedPersons, setOriginalRelatedPersons] = useState<
+    FamilyMemberPayload[]
+  >([]);
 
+  // Deep copy function to prevent unintended mutations
+  const deepCopy = <T,>(obj: T): T => JSON.parse(JSON.stringify(obj));
+
+  // Initialize the state with the original data
   useEffect(() => {
-    setFamilyList(families.family_list);
-    setRelatedPersons(relatedPersons);
-  }, [families, relatedPersons]);
+    const initialFamilyList = deepCopy(families.family_list);
+    const initialRelatedPersons = deepCopy(relatedPersons);
+    setFamilyList(initialFamilyList);
+    setRelatedPersons(initialRelatedPersons);
+    setOriginalFamilyList(initialFamilyList);
+    setOriginalRelatedPersons(initialRelatedPersons);
+  }, [families.family_list, relatedPersons]);
+
+  const resetToOriginalState = useCallback(() => {
+    setFamilyList(deepCopy(originalFamilyList));
+    setRelatedPersons(deepCopy(originalRelatedPersons));
+  }, [originalFamilyList, originalRelatedPersons]);
 
   const { execute, isPending, optimisticState } = useOptimisticAction(
     updateFamilyMembersAction,
@@ -66,13 +84,15 @@ const FamilyData = ({
           },
         };
       },
-
       onSuccess: ({ data: result }) => {
         if (result?.status === 'success') {
           toast({
             title: 'Success',
             description: result?.message,
           });
+          // Update the original state after a successful save
+          setOriginalFamilyList(deepCopy(familyList));
+          setOriginalRelatedPersons(deepCopy(relatedPersonsState));
         } else {
           toast({
             title: 'Error',
@@ -82,14 +102,20 @@ const FamilyData = ({
         }
         setEditable(false);
       },
+      onError: ({ error }) => {
+        if (error.validationErrors) {
+          toast({
+            title: 'Validation Error',
+            description: 'Tidak boleh ada data yang kosong',
+            variant: 'destructive',
+          });
+        }
+      },
     }
   );
 
-  console.log(optimisticState.data);
-
   const handleCancel = () => {
-    setFamilyList(families.family_list);
-    setRelatedPersons(relatedPersons);
+    resetToOriginalState();
     setEditable(false);
   };
 
@@ -115,12 +141,11 @@ const FamilyData = ({
       (direction === 'bottom' && tableIndex === 0) ||
       (direction === 'top' && tableIndex === 1)
     ) {
-      // Move to the other table
-      const [movedRow] = sourceTable.splice(rowIndex, 1);
-      setSourceTable([...sourceTable]);
+      const updatedSourceTable = [...sourceTable];
+      const [movedRow] = updatedSourceTable.splice(rowIndex, 1);
+      setSourceTable(updatedSourceTable);
       setTargetTable([...targetTable, movedRow]);
     } else {
-      // This case should not happen, but we'll keep it for safety
       console.warn('Invalid move direction for this table');
     }
   };
@@ -128,10 +153,10 @@ const FamilyData = ({
   return (
     <>
       <div className="w-full max-w-full space-y-4">
-        <h2 className="font-bold text-primary">ANGGOTA KE LUARGA</h2>
+        <h2 className="font-bold text-primary">ANGGOTA KELUARGA</h2>
         <div>
           <FamilyListTable
-            data={optimisticState?.data?.family_members}
+            data={optimisticState?.data?.family_members || []}
             setData={setFamilyList}
             editable={editable}
             onMoveRow={(rowIndex) => handleMoveRow(0, rowIndex, 'bottom')}
@@ -145,7 +170,7 @@ const FamilyData = ({
         </h2>
         <div>
           <FamilyListTable
-            data={optimisticState?.data?.related_people}
+            data={optimisticState?.data?.related_people || []}
             setData={setRelatedPersons}
             editable={editable}
             onMoveRow={(rowIndex) => handleMoveRow(1, rowIndex, 'top')}
@@ -158,14 +183,7 @@ const FamilyData = ({
           <Button onClick={handleCancel} disabled={isPending}>
             Cancel
           </Button>
-          <Button
-            variant="blue"
-            onClick={() => {
-              handleSave();
-              setEditable(false);
-            }}
-            disabled={isPending}
-          >
+          <Button variant="blue" onClick={handleSave} disabled={isPending}>
             Save
           </Button>
         </div>

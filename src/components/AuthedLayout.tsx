@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
+import { FileText, Layers, Phone } from 'lucide-react';
 import Header from '@/components/fragments/header';
 import { SessionPayload } from '@/app/lib/actions/auth/session';
 import Sidebar from '@/components/fragments/sidebar';
@@ -9,7 +10,8 @@ import { SidebarGroupProps } from '@/components/fragments/sidebar/SidebarGroup';
 
 const sidebarGroupData: SidebarGroupProps[] = [
   {
-    group: 'MENU',
+    group: 'Sales',
+    icon: <FileText />,
     links: [
       { href: '/follow-up', label: 'Follow Up' },
       { href: '/customers', label: 'Customer' },
@@ -17,7 +19,8 @@ const sidebarGroupData: SidebarGroupProps[] = [
     ],
   },
   {
-    group: 'PROSPEK',
+    group: 'Prospek',
+    icon: <Phone />,
     links: [
       { href: '/prospek-follow-up', label: 'Follow Up' },
       { href: '/prospek-customers', label: 'Customer' },
@@ -25,6 +28,7 @@ const sidebarGroupData: SidebarGroupProps[] = [
   },
   {
     group: 'Master Data',
+    icon: <Layers />,
     links: [
       { href: '/dealers', label: 'Dealer' },
       { href: '/leasing', label: 'Leasing' },
