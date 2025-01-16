@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import TabSkeleton from '@/components/fragments/tabs/TabSkeleton';
+import TabSkeleton from '@/components/elements/tabs/TabSkeleton';
 import ProfileTab from './profile-tab';
 import LogUpdate from './LogUpdate';
 

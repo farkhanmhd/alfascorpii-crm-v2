@@ -1,7 +1,7 @@
 import React from 'react';
-import TabLayout from '@/components/fragments/tabs/TabLayout';
-import TextInput from '@/components/fragments/form/TextInput';
-import DatePicker from '@/components/fragments/form/DatePicker';
+import TabLayout from '@/components/elements/tabs/TabLayout';
+import TextInput from '@/components/elements/form/TextInput';
+import DatePicker from '@/components/elements/form/DatePicker';
 import { ICustomer } from '@/types';
 
 interface TabProps {

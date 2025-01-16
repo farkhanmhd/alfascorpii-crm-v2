@@ -14,8 +14,8 @@ import {
   updateMotorcycleAction,
   deleteMotorcycleAction,
 } from '@/app/lib/actions/motorcycles';
-import ActionDialogContainer from '@/components/fragments/dialogs/ActionDialogContainer';
-import DeleteDialog from '@/components/fragments/dialogs/DeleteDialog';
+import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
+import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import ProductPreferencesForm from './ProductPreferencesForm';
 
 export const CreateProductDialog = () => {

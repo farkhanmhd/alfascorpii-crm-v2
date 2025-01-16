@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { getAllUsersAction } from '@/app/lib/actions/staff';
-import { randomAssignFollowUpAction } from '@/app/lib/actions/follow-up';
+import React, { useState } from 'react';
+import {
+  randomAssignFollowUpAction,
+  manualAssignFollowUpAction,
+} from '@/app/lib/actions/follow-up';
 import { useAction } from 'next-safe-action/hooks';
 import { toast } from '@/hooks/use-toast';
 
@@ -15,13 +17,12 @@ import {
   AlertDialogTrigger,
   AlertDialogCancel,
 } from '@/components/ui/alert-dialog';
-import { SelectOptions } from '@/types';
 import { Button } from '@/components/ui/button';
-import { SelectBox } from '@/components/fragments/form/Select';
 import NumericInput from '@/components/NumericInput';
+import SelectCro from '@/components/fragments/SelectCro';
 
 export const RandomAssignDialog = () => {
-  const { execute, isPending, result } = useAction(getAllUsersAction);
+  const [open, setOpen] = useState<boolean>(false);
   const { execute: randomAssign, isPending: isRandomPending } = useAction(
     randomAssignFollowUpAction,
     {
@@ -31,6 +32,7 @@ export const RandomAssignDialog = () => {
             title: 'Success',
             description: data?.message,
           });
+          setOpen(false);
         } else {
           toast({
             title: 'Error',
@@ -42,31 +44,13 @@ export const RandomAssignDialog = () => {
     }
   );
 
-  const [users, setUsers] = useState<SelectOptions[]>([]);
   const [selectedUser, setSelectedUser] = useState<string>('');
   const [amount, setAmount] = useState<number>(1);
 
-  useEffect(() => {
-    if (result?.data) {
-      setUsers(result.data);
-      if (result.data.length > 0 && !selectedUser) {
-        setSelectedUser(result.data[0].value);
-      }
-    }
-  }, [result?.data]);
-
-  const handleFetchUsers = () => {
-    execute();
-  };
-
-  useEffect(() => {
-    handleFetchUsers();
-  }, []);
-
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button onClick={handleFetchUsers}>Random Assign</Button>
+        <Button>Random Assign</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <form
@@ -84,15 +68,9 @@ export const RandomAssignDialog = () => {
               id="amount"
               error={[]}
             />
-            <SelectBox
-              options={users}
-              label="Pilih CRO"
-              id="cro"
-              placeholder="Select CRO"
-              error={[]}
-              value={selectedUser}
-              setValue={setSelectedUser}
-              isPendingResult={isPending}
+            <SelectCro
+              selectedUser={selectedUser}
+              setSelectedUser={setSelectedUser}
             />
           </div>
           <AlertDialogFooter className="mt-4">
@@ -111,50 +89,65 @@ export const RandomAssignDialog = () => {
   );
 };
 
-const croOptions: SelectOptions[] = [
-  {
-    label: 'CRO 1',
-    value: 'cro1',
-  },
-  {
-    label: 'CRO 2',
-    value: 'cro2',
-  },
-  {
-    label: 'CRO 3',
-    value: 'cro3',
-  },
-];
+type Props = {
+  selectedRows: Record<string, boolean>;
+};
 
-export const SendCroDialog = () => {
+export const SendCroDialog = ({ selectedRows }: Props) => {
+  const [selectedUser, setSelectedUser] = useState<string>('');
+  const [open, setOpen] = useState<boolean>(false);
+  const selectedCustomers = Object.keys(selectedRows).map((id) => Number(id));
+
+  const { execute, isPending } = useAction(manualAssignFollowUpAction, {
+    onSuccess: ({ data }) => {
+      if (data?.status === 'success') {
+        toast({
+          title: 'Success',
+          description: data?.message,
+        });
+        setOpen(false);
+      } else {
+        toast({
+          title: 'Error',
+          description: data?.message,
+          variant: 'destructive',
+        });
+      }
+    },
+  });
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button>Send to CRO</Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="flex flex-col gap-y-4">
         <AlertDialogHeader>
-          <AlertDialogTitle>Send Follow UP To CRO</AlertDialogTitle>
+          <AlertDialogTitle>
+            Assign {selectedCustomers.length} Customers To CRO
+          </AlertDialogTitle>
         </AlertDialogHeader>
-        <div className="mt-2">
-          <SelectBox
-            options={croOptions}
-            label="Pilih CRO"
-            id="cro"
-            placeholder="Select CRO"
-            value=""
-            setValue={() => ''}
-            isPendingResult
-          />
-        </div>
-        <AlertDialogFooter className="mt-4">
-          <div className="flex w-full flex-col justify-between gap-y-4 sm:flex-row">
-            <AlertDialogCancel asChild>
-              <Button variant="outline">Cancel</Button>
-            </AlertDialogCancel>
-            <Button>Send</Button>
+        <form
+          action={() =>
+            execute({ customerIds: selectedCustomers, user_id: selectedUser })
+          }
+        >
+          <div className="mt-2">
+            <SelectCro
+              selectedUser={selectedUser}
+              setSelectedUser={setSelectedUser}
+            />
           </div>
-        </AlertDialogFooter>
+          <AlertDialogFooter className="mt-6">
+            <div className="flex w-full flex-col justify-between gap-y-4 sm:flex-row">
+              <AlertDialogCancel asChild>
+                <Button variant="outline">Cancel</Button>
+              </AlertDialogCancel>
+              <Button type="submit" disabled={isPending}>
+                Send
+              </Button>
+            </div>
+          </AlertDialogFooter>
+        </form>
       </AlertDialogContent>
     </AlertDialog>
   );

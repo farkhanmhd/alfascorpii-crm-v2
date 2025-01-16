@@ -13,7 +13,7 @@ import {
   // TabsTrigger,
   TabsContent,
 } from '@/components/ui/tabs';
-import DatePickerWithRange from '@/components/fragments/form/DatePickerWithRange';
+import DatePickerWithRange from '@/components/elements/form/DatePickerWithRange';
 import { ScrollArea } from '@/components/ui/scrollarea';
 import RecentSales from './recent-sales';
 import Overview from './overview';

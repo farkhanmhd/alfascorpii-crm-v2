@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import TableSkeleton from '@/components/fragments/table/TableSkeleton';
+import TableSkeleton from '@/components/elements/table/TableSkeleton';
 import CustomerJobTable from './CustomerJobTable';
 
 const Page = async (props: {

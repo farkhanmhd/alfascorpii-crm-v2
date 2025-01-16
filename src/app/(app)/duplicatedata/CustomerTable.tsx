@@ -1,8 +1,8 @@
 import React from 'react';
-import { DataTable } from '@/components/fragments/table/DataTable';
+import { DataTable } from '@/components/elements/table/DataTable';
 import { getDuplicatedData } from '@/app/lib/data/follow-up';
 import { SearchParamsProps } from '@/types';
-import DataTablePagination from '@/components/fragments/table/pagination';
+import DataTablePagination from '@/components/elements/table/pagination';
 import { columns } from './columns';
 
 const CustomerTable = async ({ search, page, perPage }: SearchParamsProps) => {

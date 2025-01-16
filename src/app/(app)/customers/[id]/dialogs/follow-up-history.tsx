@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 
 import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 
-import { DataTable } from '@/components/fragments/table/DataTable';
+import { DataTable } from '@/components/elements/table/DataTable';
 import { ICustomerFollowUp } from '@/types';
 import columns from './fu-history-columns';
 

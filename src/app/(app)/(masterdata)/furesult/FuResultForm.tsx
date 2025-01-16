@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import TextInput from '@/components/fragments/form/TextInput';
-import StatusRadio from '@/components/fragments/form/StatusRadio';
-import SubmitButton from '@/components/fragments/buttons/SubmitButton';
+import TextInput from '@/components/elements/form/TextInput';
+import StatusRadio from '@/components/elements/form/StatusRadio';
+import SubmitButton from '@/components/elements/buttons/SubmitButton';
 import { getErrorMessages } from '@/lib/utils';
 
 interface FuResultFormProps {

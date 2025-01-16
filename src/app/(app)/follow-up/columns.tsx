@@ -29,17 +29,21 @@ export const columns: ColumnDef<ICustomer>[] = [
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
         aria-label="Select all"
       />
     ),
 
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <div>
+        {!row.original.user && (
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+        )}
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -132,8 +136,8 @@ export const columns: ColumnDef<ICustomer>[] = [
     header: 'NO. HP',
   },
   {
-    id: 'cro_name',
-    accessorKey: 'cro_name',
+    id: 'user',
+    accessorKey: 'user',
     header: () => <div className="line-clamp-1 min-w-max">Nama CRO</div>,
   },
   {

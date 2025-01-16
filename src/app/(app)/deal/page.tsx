@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import TableSkeleton from '@/components/fragments/table/TableSkeleton';
-import Tablesearch from '@/components/fragments/table/tablesearch';
+import TableSkeleton from '@/components/elements/table/TableSkeleton';
+import Tablesearch from '@/components/elements/table/tablesearch';
 
 import FollowUpTable from './FollowUpTable';
 import DealFilters from './filters';

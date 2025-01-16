@@ -4,7 +4,7 @@ import actionClient from '@/lib/safe-action';
 import type { User } from '@/types';
 import { getAccessToken } from '../../data/auth';
 
-export const getAllUsersAction = actionClient.action(async () => {
+export const getAllUsers = actionClient.action(async () => {
   try {
     const accessToken = await getAccessToken();
     const response = await fetch(`${process.env.BACKEND_URL}/getallusers`, {

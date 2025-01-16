@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataTable } from '@/components/fragments/table/DataTable';
+import { DataTable } from '@/components/elements/table/DataTable';
 import { fetchDegree } from '@/app/lib/data/degrees';
 import { SearchParamsProps } from '@/types';
 import columns from './columns';

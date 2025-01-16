@@ -8,7 +8,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from '@/components/fragments/table/table';
+} from '@/components/elements/table/table';
 import { Skeleton } from '@/components/ui/skeleton';
 import MapItems from '@/utils/MapItems';
 

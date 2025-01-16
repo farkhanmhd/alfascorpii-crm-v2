@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
 // import { useDebouncedCallback } from 'use-debounce';
-import ComboBox from '@/components/fragments/form/ComboBox';
+import ComboBox from '@/components/elements/form/ComboBox';
 import { getMotorcycleList } from '@/app/lib/actions/motorcycles';
 
 interface Props {

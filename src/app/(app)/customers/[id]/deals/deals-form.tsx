@@ -20,7 +20,7 @@
 // } from '@/components/ui/form';
 // import { Input } from '@/components/ui/input';
 // // import { Switch } from '@/components/ui/switch';
-// import DatePicker from '@/components/fragments/form/DatePicker';
+// import DatePicker from '@/components/elements/form/DatePicker';
 
 // import {
 //   Select,

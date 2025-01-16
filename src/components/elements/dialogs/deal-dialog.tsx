@@ -17,17 +17,17 @@ import {
   DialogContent,
   DialogClose,
 } from '@/components/ui/dialog';
-import { SelectBox } from '@/components/fragments/form/Select';
+import { SelectBox } from '@/components/elements/form/Select';
 import { Separator } from '@/components/ui/separator';
-import DatePicker from '@/components/fragments/form/DatePicker';
+import DatePicker from '@/components/elements/form/DatePicker';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scrollarea';
-import TextInput from '@/components/fragments/form/TextInput';
-import TextField from '@/components/fragments/form/TextArea';
+import TextInput from '@/components/elements/form/TextInput';
+import TextField from '@/components/elements/form/TextArea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ComboBoxOptions, SelectOptions } from '@/types';
 import { Label } from '@/components/ui/label';
-import ComboBox from '@/components/fragments/form/ComboBox';
+import ComboBox from '@/components/elements/form/ComboBox';
 import ImageUploadDropzone from '@/components/ImageDropzone';
 
 const dealTypeOptions: SelectOptions[] = [

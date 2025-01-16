@@ -10,12 +10,12 @@ import {
   DialogContent,
   DialogClose,
 } from '@/components/ui/dialog';
-import { SelectBox } from '@/components/fragments/form/Select';
+import { SelectBox } from '@/components/elements/form/Select';
 import { Separator } from '@/components/ui/separator';
-import DatePicker from '@/components/fragments/form/DatePicker';
+import DatePicker from '@/components/elements/form/DatePicker';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scrollarea';
-import TextInput from '@/components/fragments/form/TextInput';
+import TextInput from '@/components/elements/form/TextInput';
 
 const PhoneReceiverDialog = () => {
   return (

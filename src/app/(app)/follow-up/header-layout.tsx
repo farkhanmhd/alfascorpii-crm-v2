@@ -1,5 +1,5 @@
 import React from 'react';
-import Tablesearch from '@/components/fragments/table/tablesearch';
+import Tablesearch from '@/components/elements/table/tablesearch';
 
 interface Props {
   children: React.ReactNode;

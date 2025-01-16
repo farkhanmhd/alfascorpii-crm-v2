@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { searchQuerySchema } from '@/validation/schemas';
 import { SearchQueryParams } from '@/types';
 import { getAccessToken } from './auth';
@@ -45,6 +45,10 @@ export const fetchSearch = async ({
   const queryParams = createQueryParams(validatedParams) || '';
   const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}${queryParams ? `?${queryParams.toString()}` : ''}`;
   const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    redirect('/login');
+  }
 
   const res = await fetch(fetchUrl, {
     cache: 'force-cache',
@@ -93,6 +97,11 @@ export const fetchData = async ({
 }: FetchData) => {
   const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
   const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    redirect('/login');
+  }
+
   const res = await fetch(fetchUrl, {
     cache,
     method,
@@ -122,6 +131,11 @@ export const fetchData = async ({
 export const deleteData = async ({ endpoint }: FetchData) => {
   const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
   const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    redirect('/login');
+  }
+
   const res = await fetch(fetchUrl, {
     method: 'DELETE',
     headers: {

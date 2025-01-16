@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import TextInput from '@/components/fragments/form/TextInput';
-import ComboBox from '@/components/fragments/form/ComboBox';
-import SubmitButton from '@/components/fragments/buttons/SubmitButton';
+import TextInput from '@/components/elements/form/TextInput';
+import ComboBox from '@/components/elements/form/ComboBox';
+import SubmitButton from '@/components/elements/buttons/SubmitButton';
 import { getErrorMessages } from '@/lib/utils';
 import { ComboBoxOptions, IDealer } from '@/types';
 import { useActionDialog } from '@/hooks';

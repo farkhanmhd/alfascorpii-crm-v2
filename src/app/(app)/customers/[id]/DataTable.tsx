@@ -27,7 +27,7 @@ import MapItems from '@/utils/MapItems';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Plus, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
-import DataTablePagination from '@/components/fragments/table/pagination';
+import DataTablePagination from '@/components/elements/table/pagination';
 
 export type InputType = 'text' | 'number' | 'date' | 'select' | 'radio';
 

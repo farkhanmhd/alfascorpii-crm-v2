@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import DealDialog from '@/components/fragments/dialogs/deal-dialog';
+import DealDialog from '@/components/elements/dialogs/deal-dialog';
 import type { ICustomerFollowUp } from '@/types';
 import FollowUpDialog from './dialogs/follow-up-dialog';
 import FollowUpHistory from './dialogs/follow-up-history';

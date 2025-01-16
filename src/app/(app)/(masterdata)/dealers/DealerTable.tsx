@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchDealer } from '@/app/lib/data/dealers';
-import { DataTable } from '@/components/fragments/table/DataTable';
+import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
 import columns from './columns';
 

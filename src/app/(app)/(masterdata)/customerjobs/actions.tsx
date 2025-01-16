@@ -8,8 +8,8 @@ import {
   useDeleteToast,
   useDeleteDialog,
 } from '@/hooks';
-import ActionDialogContainer from '@/components/fragments/dialogs/ActionDialogContainer';
-import DeleteDialog from '@/components/fragments/dialogs/DeleteDialog';
+import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
+import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import { addJob, updateJob, removeJob } from '@/app/lib/actions/customerjobs';
 import { ICustomerJob } from '@/types';
 import CustomerJobForm from './CustomerJobForm';

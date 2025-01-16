@@ -1,8 +1,8 @@
 import React from 'react';
 import { fetchKeteranganFU } from '@/app/lib/data/statusfus';
-import { DataTable } from '@/components/fragments/table/DataTable';
+import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import DataTablePagination from '@/components/fragments/table/pagination';
+import DataTablePagination from '@/components/elements/table/pagination';
 import columns from './columns';
 
 const StatusFuTable = async ({ search, page, perPage }: SearchParamsProps) => {

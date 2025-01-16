@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useAction } from 'next-safe-action/hooks';
 import { addFamilyCardAction } from '@/app/lib/actions/customers';
-import TextInput from '@/components/fragments/form/TextInput';
+import TextInput from '@/components/elements/form/TextInput';
 import { Button } from '@/components/ui/button';
 import { IFamilyCard, IFamilyMember } from '@/types';
 import { toast } from '@/hooks/use-toast';

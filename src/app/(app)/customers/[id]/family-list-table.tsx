@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { Input } from '@/components/ui/input';
-import DatePicker from '@/components/fragments/form/DatePicker';
+import DatePicker from '@/components/elements/form/DatePicker';
 import { FamilyMemberPayload } from '@/types';
-import { SelectBox } from '@/components/fragments/form/Select';
+import { SelectBox } from '@/components/elements/form/Select';
 import { format } from 'date-fns';
 import { DataTable, ColumnConfig } from './DataTable';
 import columns from './family-column';

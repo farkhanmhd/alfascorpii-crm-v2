@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/fragments/table/DataTable';
+import { DataTable } from '@/components/elements/table/DataTable';
 
 interface DataTableProps<TData extends { id: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[];

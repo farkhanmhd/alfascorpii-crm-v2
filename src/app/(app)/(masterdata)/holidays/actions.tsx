@@ -9,9 +9,9 @@ import {
   useDeleteDialog,
   useSelectedDate,
 } from '@/hooks';
-import DeleteDialog from '@/components/fragments/dialogs/DeleteDialog';
+import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import { IHolidays } from '@/types';
-import ActionDialogContainer from '@/components/fragments/dialogs/ActionDialogContainer';
+import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import {
   addHolidayAction,
   editHolidayAction,

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import TableLayout from '@/components/fragments/table/TableLayout';
+import TableLayout from '@/components/elements/table/TableLayout';
 import TableLayoutConfig from '../table-layout-config';
 
 const MasterDataLayout = ({ children }: { children: React.ReactNode }) => {

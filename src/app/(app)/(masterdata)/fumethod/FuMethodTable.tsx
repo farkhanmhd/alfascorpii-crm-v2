@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchFuMethod } from '@/app/lib/data/fumethod';
-import { DataTable } from '@/components/fragments/table/DataTable';
+import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
 import columns from './columns';
 

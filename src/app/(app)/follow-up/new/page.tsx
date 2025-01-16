@@ -2,12 +2,12 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import TextInput from '@/components/fragments/form/TextInput';
-import DatePicker from '@/components/fragments/form/DatePicker';
-import ComboBox from '@/components/fragments/form/ComboBox';
-import { SelectBox } from '@/components/fragments/form/Select';
-import TextField from '@/components/fragments/form/TextArea';
-import SubmitButton from '@/components/fragments/buttons/SubmitButton';
+import TextInput from '@/components/elements/form/TextInput';
+import DatePicker from '@/components/elements/form/DatePicker';
+import ComboBox from '@/components/elements/form/ComboBox';
+import { SelectBox } from '@/components/elements/form/Select';
+import TextField from '@/components/elements/form/TextArea';
+import SubmitButton from '@/components/elements/buttons/SubmitButton';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ComboBoxOptions, SelectOptions } from '@/types';

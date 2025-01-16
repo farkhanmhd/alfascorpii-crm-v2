@@ -148,7 +148,12 @@ const ExcelDropzoneDialog = () => {
           <p className="flex items-center justify-between px-2 text-sm">
             <span>{responseMessage}</span>
             <span>
-              <CircleCheck className="text-green-500" />
+              {responseMessage ===
+              'Server Error: Failed to import customers' ? (
+                <CircleX className="text-destructive" />
+              ) : (
+                <CircleCheck className="text-green-500" />
+              )}
             </span>
           </p>
         )}

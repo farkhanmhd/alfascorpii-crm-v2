@@ -2,7 +2,7 @@
 
 import React from 'react';
 // import { z } from 'zod';
-import SubmitButton from '@/components/fragments/buttons/SubmitButton';
+import SubmitButton from '@/components/elements/buttons/SubmitButton';
 import { ICustomer } from '@/types';
 import { OverviewTab, UpdateTab, SocialTab } from './tabs';
 

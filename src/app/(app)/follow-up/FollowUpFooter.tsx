@@ -15,7 +15,7 @@ const FollowUpFooter = ({ rowSelection }: Props) => {
       {Object.keys(rowSelection).length === 0 ? (
         <RandomAssignDialog />
       ) : (
-        <SendCroDialog />
+        <SendCroDialog selectedRows={rowSelection} />
       )}
     </footer>
   );

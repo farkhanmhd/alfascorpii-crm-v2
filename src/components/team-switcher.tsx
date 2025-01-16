@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar';
-import SidebarHeader from './fragments/sidebar/SidebarHeader';
+import SidebarHeader from './elements/sidebar/SidebarHeader';
 
 export const HeaderIcon = () => {
   return (

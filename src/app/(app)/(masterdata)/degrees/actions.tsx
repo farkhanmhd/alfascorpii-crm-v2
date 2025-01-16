@@ -14,8 +14,8 @@ import {
   updateDegreeAction,
   removeDegreeAction,
 } from '@/app/lib/actions/degree';
-import ActionDialogContainer from '@/components/fragments/dialogs/ActionDialogContainer';
-import DeleteDialog from '@/components/fragments/dialogs/DeleteDialog';
+import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
+import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import DegreeForm from './DegreeForm';
 
 export const CreateDegreeDialog = () => {

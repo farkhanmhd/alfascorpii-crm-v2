@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomTabs from '@/components/fragments/tabs';
+import CustomTabs from '@/components/elements/tabs';
 import { TabData, ICustomer } from '@/types';
 import { getCustomer } from '@/app/lib/data/customers';
 import CustomerTab from './customer-tab';

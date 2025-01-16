@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataTable } from '@/components/fragments/table/DataTable';
+import { DataTable } from '@/components/elements/table/DataTable';
 import { IFollowUp } from '@/types';
 import getFollowUpList from './data';
 import columns from './columns';

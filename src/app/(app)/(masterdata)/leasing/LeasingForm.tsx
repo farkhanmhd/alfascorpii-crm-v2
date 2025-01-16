@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import TextInput from '@/components/fragments/form/TextInput';
-import SubmitButton from '@/components/fragments/buttons/SubmitButton';
+import TextInput from '@/components/elements/form/TextInput';
+import SubmitButton from '@/components/elements/buttons/SubmitButton';
 import { getErrorMessages } from '@/lib/utils';
 
 interface LeasingFormProps {

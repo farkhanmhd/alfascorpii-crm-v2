@@ -13,8 +13,8 @@ import {
   DialogClose,
 } from '@/components/ui/dialog';
 import { SelectOptions } from '@/types';
-import { SelectBox } from '@/components/fragments/form/Select';
-import TextInput from '@/components/fragments/form/TextInput';
+import { SelectBox } from '@/components/elements/form/Select';
+import TextInput from '@/components/elements/form/TextInput';
 
 type Props = {
   rowSelection: Record<string, boolean>;

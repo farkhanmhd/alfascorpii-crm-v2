@@ -1,6 +1,6 @@
 import React from 'react';
-import TextInput from '@/components/fragments/form/TextInput';
-import DatePicker from '@/components/fragments/form/DatePicker';
+import TextInput from '@/components/elements/form/TextInput';
+import DatePicker from '@/components/elements/form/DatePicker';
 import { IMotorcycle } from '@/types';
 
 const MotorcycleData = ({ motorcycle }: { motorcycle: IMotorcycle }) => {

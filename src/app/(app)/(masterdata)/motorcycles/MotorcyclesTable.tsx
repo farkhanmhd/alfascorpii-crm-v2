@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchMotorcycles } from '@/app/lib/data/motorcycles';
-import { DataTable } from '@/components/fragments/table/DataTable';
+import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
 import columns from './columns';
 

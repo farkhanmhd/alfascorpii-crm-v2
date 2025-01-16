@@ -1,6 +1,7 @@
 import { fetchWithParams, fetchData } from '@/app/lib/data/fetchUtils';
 import { revalidatePath } from 'next/cache';
 import { FamilyMemberPayload } from '@/types';
+import { redirect } from 'next/navigation';
 import { getAccessToken } from '../auth';
 
 export const fetchCustomer = (
@@ -11,6 +12,9 @@ export const fetchCustomer = (
 
 export const importFollowUp = async (file: File) => {
   const accessToken = await getAccessToken();
+  if (!accessToken) {
+    redirect('/login');
+  }
   const formData = new FormData();
   formData.append('file', file);
 
@@ -41,6 +45,9 @@ export const addFamilyCardNumber = async (
   family_card_number: number | string
 ) => {
   const accessToken = await getAccessToken();
+  if (!accessToken) {
+    redirect('/login');
+  }
   const fetchUrl = `${process.env.BACKEND_URL}/updatefcardnumber/${customerId}`;
   const response = await fetch(fetchUrl, {
     method: 'POST',
@@ -62,6 +69,9 @@ export const updateFamilyMembers = async (
   related_people: FamilyMemberPayload[]
 ) => {
   const accessToken = await getAccessToken();
+  if (!accessToken) {
+    redirect('/login');
+  }
   const fetchUrl = `${process.env.BACKEND_URL}/updatefamilymembers/${customerId}`;
   const payload = JSON.stringify({ family_members, related_people });
   const response = await fetch(fetchUrl, {

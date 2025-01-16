@@ -14,8 +14,8 @@ import {
   updateLeasingAction,
   removeLeasingAction,
 } from '@/app/lib/actions/leasing';
-import ActionDialogContainer from '@/components/fragments/dialogs/ActionDialogContainer';
-import DeleteDialog from '@/components/fragments/dialogs/DeleteDialog';
+import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
+import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import LeasingForm from './LeasingForm';
 
 export const CreateLeasingDialog = () => {

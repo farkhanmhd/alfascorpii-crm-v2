@@ -3,8 +3,8 @@
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { useActionDialog, useSubmitToast, useDeleteToast } from '@/hooks';
-import DeleteDialog from '@/components/fragments/dialogs/DeleteDialog';
-import ActionDialogContainer from '@/components/fragments/dialogs/ActionDialogContainer';
+import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
+import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import { IDetailFU } from '@/types';
 import {
   addDetailFuAction,

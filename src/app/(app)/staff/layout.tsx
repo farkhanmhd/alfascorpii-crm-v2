@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import TableContainerHeader from '@/components/fragments/table/TableContainerHeader';
-import Tablesearch from '@/components/fragments/table/tablesearch';
+import TableContainerHeader from '@/components/elements/table/TableContainerHeader';
+import Tablesearch from '@/components/elements/table/tablesearch';
 import { Button } from '@/components/ui/button';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {

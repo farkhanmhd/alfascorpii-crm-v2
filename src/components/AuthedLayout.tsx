@@ -3,10 +3,10 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import { FileText, Layers, Phone } from 'lucide-react';
-import Header from '@/components/fragments/header';
+import Header from '@/components/elements/header';
 import { SessionPayload } from '@/app/lib/actions/auth/session';
-import Sidebar from '@/components/fragments/sidebar';
-import { SidebarGroupProps } from '@/components/fragments/sidebar/SidebarGroup';
+import Sidebar from '@/components/elements/sidebar';
+import { SidebarGroupProps } from '@/components/elements/sidebar/SidebarGroup';
 
 const sidebarGroupData: SidebarGroupProps[] = [
   {
