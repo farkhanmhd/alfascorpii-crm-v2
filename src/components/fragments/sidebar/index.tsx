@@ -44,9 +44,9 @@ const Sidebar = ({ data }: { data: SidebarGroupProps[] }) => {
         } lg:translate-x-0`}
       >
         <SidebarHeader />
-        <ScrollArea className="h-[calc(100dvh-109px)] pb-6">
+        <ScrollArea className="h-[calc(100dvh-109px)] w-full overflow-auto pb-6">
           <div className="flex flex-col gap-y-2">
-            <div className="mb-2">
+            <div>
               <SidebarLink
                 href="/"
                 label="Dashboard"

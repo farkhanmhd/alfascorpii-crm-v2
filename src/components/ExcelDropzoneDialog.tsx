@@ -25,7 +25,7 @@ import {
   CircleCheck,
 } from 'lucide-react';
 import { importFollowUpAction } from '@/app/lib/actions/customers';
-import { ScrollArea } from './ui/scrollarea';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const ExcelDropzoneDialog = () => {
   const [responseMessage, setResponseMessage] = useState<string | null>(null);

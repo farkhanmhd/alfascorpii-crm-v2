@@ -43,6 +43,7 @@
     {
       "files": ["src/components/ui/**/*.tsx"],
       "rules": {
+        "prefer-destructuring": "off",
         "react/prop-types": "off",
         "react/no-unknown-property": "off",
         "@typescript-eslint/no-use-before-define": "off",
@@ -53,7 +54,9 @@
         "react/no-unstable-nested-components": "off",
         "@typescript-eslint/no-shadow": "off",
         "react/jsx-no-constructed-context-values": "off",
+        "react/react-in-jsx-scope": "off",
         "react/no-danger": "off",
+        "react/function-component-definition": "off",
         "@typescript-eslint/no-redeclare": "off",
         "@typescript-eslint/naming-convention": [
           "off",

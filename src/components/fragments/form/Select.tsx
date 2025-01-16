@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-// import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import {
   Select,
   SelectContent,
@@ -22,10 +21,11 @@ interface Props {
   error?: string[];
   value: string;
   setValue: (value: string) => void;
+  isPendingResult?: boolean;
 }
 
 export const SelectBox = ({
-  options,
+  options = [],
   className = '',
   label,
   error,
@@ -33,15 +33,16 @@ export const SelectBox = ({
   placeholder,
   value,
   setValue,
+  isPendingResult,
 }: Props) => {
   return (
     <div className="flex flex-col gap-y-4">
       {label && (
         <Label htmlFor={id} className="flex gap-x-2 font-semibold">
           <span>{label}</span>
-          {error && (
+          {error && error.length > 0 && (
             <span className="text-red-500">
-              {error.map((errMsg) => `* ${errMsg}`).join(', ') || '*'}
+              {error.map((errMsg) => `* ${errMsg}`).join(', ')}
             </span>
           )}
         </Label>
@@ -51,14 +52,20 @@ export const SelectBox = ({
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-          <MapItems
-            of={options}
-            render={(item, index) => (
-              <SelectItem key={index} value={item.value}>
-                {item.label}
-              </SelectItem>
-            )}
-          />
+          {isPendingResult ? (
+            <SelectItem value="loading">Loading...</SelectItem>
+          ) : options.length === 0 ? (
+            <SelectItem value="no-options">No options available</SelectItem>
+          ) : (
+            <MapItems
+              of={options}
+              render={(item, index) => (
+                <SelectItem key={index} value={item.value}>
+                  {item.label}
+                </SelectItem>
+              )}
+            />
+          )}
         </SelectContent>
       </Select>
     </div>

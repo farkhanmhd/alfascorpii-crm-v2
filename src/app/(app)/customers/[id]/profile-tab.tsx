@@ -37,10 +37,7 @@ const ProfileTab = async ({ id }: { id: string }) => {
       value: 'family',
       label: 'Kartu Keluarga',
       content: (
-        <FamilyTab
-          families={customer.family_card}
-          relatedPersons={relatedFamily}
-        />
+        <FamilyTab families={familyCard} relatedPersons={relatedFamily} />
       ),
     },
   ];

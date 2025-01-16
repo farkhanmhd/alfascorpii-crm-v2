@@ -433,3 +433,13 @@ export interface TableConfig<T> {
   DeleteDialog: React.ComponentType;
   type: T;
 }
+
+export interface User {
+  uuid: string; // UUID as a string
+  username: string; // User's username
+  name: string; // User's full name
+  created_at: string; // ISO 8601 date-time string
+  updated_at: string; // ISO 8601 date-time string
+  status: 'active' | 'inactive'; // Status with specific possible values
+  password_changed_at: string | null; // Nullable ISO 8601 date-time string
+}

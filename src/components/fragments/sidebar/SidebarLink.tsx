@@ -30,17 +30,12 @@ const SidebarLink = ({ href, label, onLinkClick, asChild, icon }: Props) => {
       onClick={handleClick}
       className={cn(
         buttonVariants({
-          variant:
-            active && asChild
-              ? 'ghost'
-              : active && !asChild
-                ? 'default'
-                : 'ghost',
+          variant: 'ghost',
         }),
-        'relative mx-4 flex h-12 justify-start gap-x-4',
+        'relative flex h-12 justify-start gap-x-4',
         {
-          'px-16 hover:text-primary': asChild,
-          'px-8': !asChild,
+          'pl-[78px] hover:text-primary': asChild,
+          'mx-4 px-8 hover:text-primary': !asChild,
           'text-primary': active && asChild,
         }
       )}
