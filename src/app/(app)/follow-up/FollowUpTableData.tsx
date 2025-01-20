@@ -1,9 +1,36 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { atom, useAtom } from 'jotai';
 import { ColumnDef } from '@tanstack/react-table';
+import { SelectOptions } from '@/types';
 import { DataTable } from './table';
-import FollowUpFooter from './FollowUpFooter';
+
+const fuRowSelectionAtom = atom<Record<string, boolean>>({});
+const fuUsersAtom = atom<SelectOptions[]>([]);
+
+export const useFuSelection = () => {
+  const [fuSelection, setFuSelection] = useAtom(fuRowSelectionAtom);
+
+  return { fuSelection, setFuSelection };
+};
+
+export const useFuUsers = () => {
+  const [fuUsers, setFuUsers] = useAtom(fuUsersAtom);
+
+  return { fuUsers, setFuUsers };
+};
+
+const totalPageAtom = atom<{ totalData: number; total: number }>({
+  totalData: 0,
+  total: 0,
+});
+
+export const useFuTotalPage = () => {
+  const [totalData, setTotalData] = useAtom(totalPageAtom);
+
+  return { totalData, setTotalData };
+};
 
 interface DataTableProps<TData extends { id: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -11,7 +38,7 @@ interface DataTableProps<TData extends { id: string | number }, TValue> {
   rows: number;
   totalPages: number;
   currentPage: number;
-  withPagination?: boolean;
+  users: SelectOptions[];
 }
 
 const FollowUpTableData = <TData extends { id: string | number }, TValue>({
@@ -20,23 +47,29 @@ const FollowUpTableData = <TData extends { id: string | number }, TValue>({
   rows,
   totalPages,
   currentPage,
-  withPagination = false,
+  users,
 }: DataTableProps<TData, TValue>) => {
-  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const { fuSelection, setFuSelection } = useFuSelection();
+  const { setFuUsers } = useFuUsers();
+  const { setTotalData } = useFuTotalPage();
+
+  useEffect(() => {
+    setFuUsers(users);
+  }, [users]);
+
+  useEffect(() => {
+    setTotalData({ totalData: totalPages, total: rows });
+  }, [totalPages]);
 
   return (
     <DataTable
       columns={columns}
       data={data}
       rows={rows}
-      totalPages={totalPages}
       currentPage={currentPage}
-      withPagination={withPagination}
-      rowSelection={rowSelection}
-      setRowSelection={setRowSelection}
-    >
-      <FollowUpFooter rowSelection={rowSelection} />
-    </DataTable>
+      rowSelection={fuSelection}
+      setRowSelection={setFuSelection}
+    />
   );
 };
 

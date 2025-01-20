@@ -16,7 +16,6 @@ export interface FlatCustomer {
 }
 
 const CustomerTable = async ({ search, page, perPage }: SearchParamsProps) => {
-  // await delay(2000);
   const {
     customers,
     last_page: totalPages,

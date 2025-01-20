@@ -1,6 +1,7 @@
 import React from 'react';
-import { fetchCustomer } from '@/app/lib/data/customers';
-import { SearchParamsProps } from '@/types';
+import { getFollowUps } from '@/app/lib/data/follow-up';
+import { SearchParamsProps, SelectOptions } from '@/types';
+import { getAllUsers } from '@/app/lib/actions/staff';
 import { columns } from './columns';
 import FollowUpTableData from './FollowUpTableData';
 
@@ -9,7 +10,9 @@ const FollowUpTable = async ({ search, page, perPage }: SearchParamsProps) => {
     customers,
     last_page: totalPages,
     total,
-  } = await fetchCustomer(search, page, perPage);
+  } = await getFollowUps(search, page, perPage);
+
+  const users = (await getAllUsers()) as SelectOptions[];
 
   return (
     <FollowUpTableData
@@ -18,7 +21,7 @@ const FollowUpTable = async ({ search, page, perPage }: SearchParamsProps) => {
       rows={total}
       totalPages={totalPages}
       currentPage={Number(page)}
-      withPagination
+      users={users}
     />
   );
 };

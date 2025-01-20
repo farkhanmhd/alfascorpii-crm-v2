@@ -23,16 +23,12 @@ import {
 } from '@/components/ui/table';
 import MapItems from '@/utils/MapItems';
 import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
-import DataTablePagination from '@/components/elements/table/pagination';
 
 interface DataTableProps<TData extends { id: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   rows?: number;
-  totalPages?: number;
   currentPage?: number;
-  children?: React.ReactNode;
-  withPagination?: boolean;
   rowSelection?: Record<string, boolean>;
   setRowSelection?: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
@@ -43,10 +39,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   columns,
   data,
   rows,
-  totalPages,
   currentPage = 1,
-  children,
-  withPagination = false,
   rowSelection = {},
   setRowSelection,
 }: DataTableProps<TData, TValue>) => {
@@ -77,80 +70,69 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   });
 
   return (
-    <>
-      <ScrollArea className="max-h-[75vh] rounded-md bg-white shadow-sm">
-        <Table>
-          <TableHeader className="sticky top-0 z-50 bg-primary text-sm">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="hover:bg-primary">
-                <MapItems
-                  of={headerGroup.headers}
-                  render={(header) => (
-                    <TableHead
-                      key={header.id}
-                      className="px-4 py-2 font-bold uppercase text-primary-foreground"
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  )}
-                />
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
+    <ScrollArea className="max-h-[75vh] rounded-md bg-white shadow-sm">
+      <Table>
+        <TableHeader className="sticky top-0 z-50 bg-primary text-sm">
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id} className="hover:bg-primary">
               <MapItems
-                of={table.getRowModel().rows}
-                render={(row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
+                of={headerGroup.headers}
+                render={(header) => (
+                  <TableHead
+                    key={header.id}
+                    className="px-4 py-2 font-bold uppercase text-primary-foreground"
                   >
-                    <MapItems
-                      of={row.getVisibleCells()}
-                      render={(cell) => (
-                        <TableCell
-                          key={cell.id}
-                          className="h-12 px-4 py-2 text-xs font-medium sm:text-sm"
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      )}
-                    />
-                  </TableRow>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
                 )}
               />
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-12 px-4 py-2 text-center text-xs sm:text-sm"
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            <MapItems
+              of={table.getRowModel().rows}
+              render={(row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
-      {children}
-      {withPagination && (
-        <DataTablePagination
-          selectedRows={Object.keys(rowSelection).length}
-          total={rows as number}
-          currentPage={currentPage as number}
-          totalPages={totalPages as number}
-        />
-      )}
-    </>
+                  <MapItems
+                    of={row.getVisibleCells()}
+                    render={(cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className="h-12 px-4 py-2 text-xs font-medium sm:text-sm"
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    )}
+                  />
+                </TableRow>
+              )}
+            />
+          ) : (
+            <TableRow>
+              <TableCell
+                colSpan={columns.length}
+                className="h-12 px-4 py-2 text-center text-xs sm:text-sm"
+              >
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 };

@@ -80,8 +80,12 @@ export const columns: ColumnDef<ICustomer>[] = [
     },
   },
   {
-    id: 'assign_date',
+    id: 'assign-date',
     header: () => <div className="line-clamp-1 min-w-max">Tanggal Assign</div>,
+    cell: ({ row }) => {
+      const assignedDate = row.original.assigned_date;
+      return <div className="line-clamp-1 min-w-max">{assignedDate}</div>;
+    },
   },
   {
     accessorKey: 'nik',
@@ -136,26 +140,48 @@ export const columns: ColumnDef<ICustomer>[] = [
     header: 'NO. HP',
   },
   {
-    id: 'user',
     accessorKey: 'user',
     header: () => <div className="line-clamp-1 min-w-max">Nama CRO</div>,
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.user}</div>
+    ),
   },
   {
-    id: 'fu_date',
-    accessorKey: 'fu_date',
+    id: 'fu-date',
     header: () => <div className="line-clamp-1 min-w-max">Tanggal FU</div>,
+    cell: ({ row }) => {
+      const followUpRow = row.original.follow_up;
+      const followUpDate =
+        followUpRow.length > 0
+          ? followUpRow[followUpRow.length - 1].follow_up_date
+          : '';
+      return <div className="line-clamp-1 min-w-max">{followUpDate}</div>;
+    },
   },
   {
-    id: 'status_fu',
+    id: 'fu-status',
     header: () => <div className="line-clamp-1 min-w-max">Status FU</div>,
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">
+        {row.original.follow_up_status}
+      </div>
+    ),
   },
   {
     id: 'fu_result',
     header: () => <div className="line-clamp-1 min-w-max">Hasil FU</div>,
   },
   {
-    id: 'fu_detail',
-    header: () => <div className="line-clamp-1 min-w-max">Detail FU</div>,
+    id: 'fu-detail',
+    header: () => <div className="line-clamp-1 min-w-max">Keterangan FU</div>,
+    cell: ({ row }) => {
+      const followUpRow = row.original.follow_up;
+      const followUpDetail =
+        followUpRow.length > 0
+          ? followUpRow[followUpRow.length - 1].follow_up_detail
+          : '';
+      return <div className="line-clamp-1 min-w-max">{followUpDetail}</div>;
+    },
   },
 
   // {

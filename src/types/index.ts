@@ -164,8 +164,7 @@ export interface ICustomer extends IIdentifiable {
   nik: string;
   dealer_name: string;
   data_source: string;
-  latest_update_date: string; // Assuming this is a date in string format
-  customer_status: string;
+  latest_update_date: string;
   address: string;
   house_ownership: string;
   job: string;
@@ -185,6 +184,10 @@ export interface ICustomer extends IIdentifiable {
   income: string;
   expense: string;
   holiday: string;
+  customer_status: string;
+  follow_up_status: string;
+  imported_date: string | null;
+  assigned_date: string | null;
   motorcycles: ICustomerMotorcycle[];
   family_card: IFamilyCard;
   related_person: IFamilyMember[];

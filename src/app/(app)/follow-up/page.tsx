@@ -1,7 +1,9 @@
 import React, { Suspense } from 'react';
+import { randomUUID } from 'crypto';
 import { Metadata } from 'next';
 import TableSkeleton from '@/components/elements/table/TableSkeleton';
 import Tablesearch from '@/components/elements/table/tablesearch';
+import FollowUpFooter from './FollowUpFooter';
 
 import FollowUpTable from './FollowUpTable';
 import FollowUpFilters from './filters';
@@ -30,9 +32,10 @@ const Page = async (props: {
           <Tablesearch placeholder="Cari Customer" />
         </div>
       </header>
-      <Suspense fallback={<TableSkeleton />}>
+      <Suspense fallback={<TableSkeleton />} key={randomUUID()}>
         <FollowUpTable search={search} page={page} perPage={perPage} />
       </Suspense>
+      <FollowUpFooter />
     </div>
   );
 };

@@ -1,10 +1,9 @@
 'use server';
 
-import actionClient from '@/lib/safe-action';
 import type { User } from '@/types';
 import { getAccessToken } from '../../data/auth';
 
-export const getAllUsers = actionClient.action(async () => {
+export const getAllUsers = async () => {
   try {
     const accessToken = await getAccessToken();
     const response = await fetch(`${process.env.BACKEND_URL}/getallusers`, {
@@ -30,4 +29,24 @@ export const getAllUsers = actionClient.action(async () => {
   } catch (error) {
     return [];
   }
-});
+};
+
+export const getUserPermissions = async () => {
+  try {
+    const accessToken = await getAccessToken();
+    const response = await fetch(`${process.env.BACKEND_URL}/user`, {
+      cache: 'force-cache',
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const { permissions } = await response.json();
+    return permissions;
+  } catch (error) {
+    return [];
+  }
+};

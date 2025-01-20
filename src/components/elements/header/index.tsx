@@ -12,9 +12,9 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { buttonVariants } from '@/components/ui/button';
+import { type User as SessionUser } from 'next-auth';
 import { cn } from '@/lib/utils';
 import { logout } from '@/app/lib/actions/auth';
-import { SessionPayload } from '@/app/lib/actions/auth/session';
 
 const Header = ({
   headerTitle,
@@ -23,12 +23,12 @@ const Header = ({
 }: {
   headerTitle: string;
   path: string;
-  user: SessionPayload;
+  user: SessionUser;
 }) => {
   const { push } = useRouter();
   const handleLogout = async () => {
-    await logout();
     localStorage.setItem('userLogout', 'true');
+    await logout();
     push('/login');
   };
   return (

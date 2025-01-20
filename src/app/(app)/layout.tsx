@@ -1,12 +1,12 @@
 import React from 'react';
+import { auth } from '@/auth';
 import AuthedLayout from '@/components/AuthedLayout';
-import { getSession, SessionPayload } from '../lib/actions/auth/session';
+import { Session } from 'next-auth';
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  const session = await getSession();
-  return (
-    <AuthedLayout session={session as SessionPayload}>{children}</AuthedLayout>
-  );
+  const session = await auth();
+
+  return <AuthedLayout session={session as Session}>{children}</AuthedLayout>;
 };
 
 export default Layout;

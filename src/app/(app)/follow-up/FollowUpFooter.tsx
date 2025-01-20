@@ -1,23 +1,31 @@
 'use client';
 
 import React from 'react';
-import ExcelDropzoneDialog from '@/components/ExcelDropzoneDialog';
-import { RandomAssignDialog, SendCroDialog } from './dialogs';
+import { useSearchParams } from 'next/navigation';
+import DataTablePagination from '@/components/elements/table/pagination';
+import FollowUpDialogs from './FollowUpDialogs';
+import {
+  useFuUsers,
+  useFuSelection,
+  useFuTotalPage,
+} from './FollowUpTableData';
 
-type Props = {
-  rowSelection: Record<string, boolean>;
-};
-
-const FollowUpFooter = ({ rowSelection }: Props) => {
+const FollowUpFooter = () => {
+  const searchParams = useSearchParams();
+  const currentPage = searchParams.get('page') || '1';
+  const { fuSelection } = useFuSelection();
+  const { fuUsers } = useFuUsers();
+  const { totalData } = useFuTotalPage();
   return (
-    <footer className="flex flex-col gap-4 pt-6 sm:flex-row">
-      <ExcelDropzoneDialog />
-      {Object.keys(rowSelection).length === 0 ? (
-        <RandomAssignDialog />
-      ) : (
-        <SendCroDialog selectedRows={rowSelection} />
-      )}
-    </footer>
+    <>
+      <FollowUpDialogs rowSelection={fuSelection} users={fuUsers} />
+      <DataTablePagination
+        selectedRows={Object.keys(fuSelection).length}
+        currentPage={Number(currentPage)}
+        totalPages={totalData.totalData}
+        total={totalData.total}
+      />
+    </>
   );
 };
 

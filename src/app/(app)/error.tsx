@@ -20,7 +20,7 @@ const ErrorPage = ({
         <Badge variant="destructive" className="text-xs font-medium sm:text-sm">
           {error.message}
         </Badge>
-        <Button className="w-max" variant="secondary" onClick={() => reset()}>
+        <Button className="w-max" variant="outline" onClick={() => reset()}>
           Try again
         </Button>
       </div>

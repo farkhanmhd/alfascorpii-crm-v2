@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import NextTopLoader from 'nextjs-toploader';
 import ClientOnly from '@/components/ClientOnly';
 import { GeistSans } from 'geist/font/sans';
+import NextAuthProvider from '@/components/providers/next-auth';
 // import { Poppins } from 'next/font/google';
 
 // const poppins = Poppins({
@@ -32,14 +33,16 @@ const RootLayout = ({
   return (
     <html lang="en">
       <body
-        className={`${GeistSans.className} w-screen overflow-x-hidden antialiased`}
+        className={`${GeistSans.className} w-screen overflow-x-hidden bg-secondary antialiased`}
       >
         <ClientOnly>
-          <JotaiProvider>
-            <NextTopLoader showSpinner={false} color="#ff4a4a" />
-            {children}
-            <Toaster />
-          </JotaiProvider>
+          <NextAuthProvider>
+            <JotaiProvider>
+              <NextTopLoader showSpinner={false} color="#ff4a4a" />
+              {children}
+              <Toaster />
+            </JotaiProvider>
+          </NextAuthProvider>
         </ClientOnly>
       </body>
     </html>

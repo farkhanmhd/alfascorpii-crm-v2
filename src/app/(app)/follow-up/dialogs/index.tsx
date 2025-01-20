@@ -20,8 +20,13 @@ import {
 import { Button } from '@/components/ui/button';
 import NumericInput from '@/components/NumericInput';
 import SelectCro from '@/components/fragments/SelectCro';
+import { SelectOptions } from '@/types';
 
-export const RandomAssignDialog = () => {
+type RandomProps = {
+  users: SelectOptions[];
+};
+
+export const RandomAssignDialog = ({ users }: RandomProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const { execute: randomAssign, isPending: isRandomPending } = useAction(
     randomAssignFollowUpAction,
@@ -71,6 +76,7 @@ export const RandomAssignDialog = () => {
             <SelectCro
               selectedUser={selectedUser}
               setSelectedUser={setSelectedUser}
+              users={users}
             />
           </div>
           <AlertDialogFooter className="mt-4">
@@ -91,9 +97,10 @@ export const RandomAssignDialog = () => {
 
 type Props = {
   selectedRows: Record<string, boolean>;
+  users: SelectOptions[];
 };
 
-export const SendCroDialog = ({ selectedRows }: Props) => {
+export const SendCroDialog = ({ selectedRows, users }: Props) => {
   const [selectedUser, setSelectedUser] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
   const selectedCustomers = Object.keys(selectedRows).map((id) => Number(id));
@@ -135,6 +142,7 @@ export const SendCroDialog = ({ selectedRows }: Props) => {
             <SelectCro
               selectedUser={selectedUser}
               setSelectedUser={setSelectedUser}
+              users={users}
             />
           </div>
           <AlertDialogFooter className="mt-6">

@@ -90,7 +90,9 @@ export const columns: ColumnDef<ICustomer>[] = [
   },
   {
     accessorKey: 'regency_or_city',
-    header: 'Kota / Kabupaten',
+    header: () => (
+      <div className="line-clamp-1 min-w-max">Kota / Kabupaten</div>
+    ),
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max">
         {row.original.regency_or_city}
@@ -108,12 +110,56 @@ export const columns: ColumnDef<ICustomer>[] = [
       <div className="line-clamp-1 min-w-max">{row.original.date_of_birth}</div>
     ),
   },
+
   {
-    accessorKey: 'job',
-    header: 'Pekerjaan',
+    accessorKey: 'user',
+    header: () => <div className="line-clamp-1 min-w-max">Nama CRO</div>,
     cell: ({ row }) => (
-      <div className="line-clamp-1 min-w-max">{row.original.job}</div>
+      <div className="line-clamp-1 min-w-max">{row.original.user}</div>
     ),
+  },
+
+  {
+    id: 'assign-date',
+    header: () => <div className="line-clamp-1 min-w-max">Tanggal Assign</div>,
+    cell: ({ row }) => {
+      const assignedDate = row.original.assigned_date;
+      return <div className="line-clamp-1 min-w-max">{assignedDate}</div>;
+    },
+  },
+
+  {
+    id: 'fu-date',
+    header: () => <div className="line-clamp-1 min-w-max">Tanggal FU</div>,
+    cell: ({ row }) => {
+      const followUpRow = row.original.follow_up;
+      const followUpDate =
+        followUpRow.length > 0
+          ? followUpRow[followUpRow.length - 1].follow_up_date
+          : '';
+      return <div className="line-clamp-1 min-w-max">{followUpDate}</div>;
+    },
+  },
+  {
+    id: 'fu-status',
+    header: () => <div className="line-clamp-1 min-w-max">Status FU</div>,
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">
+        {row.original.follow_up_status}
+      </div>
+    ),
+  },
+  {
+    id: 'fu-detail',
+    header: () => <div className="line-clamp-1 min-w-max">Keterangan FU</div>,
+    cell: ({ row }) => {
+      const followUpRow = row.original.follow_up;
+      const followUpDetail =
+        followUpRow.length > 0
+          ? followUpRow[followUpRow.length - 1].follow_up_detail
+          : '';
+      return <div className="line-clamp-1 min-w-max">{followUpDetail}</div>;
+    },
   },
 
   // {

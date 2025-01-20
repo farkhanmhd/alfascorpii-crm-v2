@@ -5,7 +5,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Pencil, Trash } from 'lucide-react';
 import { IDealer } from '@/types';
 import { Button } from '@/components/ui/button';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
+import { useDeleteDialog, useActionDialog, usePermissions } from '@/hooks';
 
 const columns: ColumnDef<IDealer>[] = [
   {
@@ -26,10 +26,22 @@ const columns: ColumnDef<IDealer>[] = [
   },
   {
     id: 'action',
-    header: () => <div className="text-right">Aksi</div>,
+    header: () => {
+      const { permissions } = usePermissions();
+
+      if (
+        !permissions.includes('edit_dealers') &&
+        !permissions.includes('delete_dealers')
+      ) {
+        return null;
+      }
+
+      return <div className="text-right">Aksi</div>;
+    },
     cell: ({ row }) => {
       const { setDeleteDialog } = useDeleteDialog();
       const { setActionDialog } = useActionDialog<IDealer>();
+      const { permissions } = usePermissions();
 
       const handleEdit = () => {
         setActionDialog({ edit: true, data: row.original });
@@ -37,16 +49,22 @@ const columns: ColumnDef<IDealer>[] = [
 
       return (
         <div className="flex justify-end gap-x-4">
-          <Button variant="outline" size="sm" onClick={handleEdit}>
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          {permissions.includes('edit_dealers') && (
+            <Button variant="outline" size="sm" onClick={handleEdit}>
+              <Pencil />
+            </Button>
+          )}
+          {permissions.includes('delete_dealers') && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                setDeleteDialog({ open: true, id: row.original.id })
+              }
+            >
+              <Trash />
+            </Button>
+          )}
         </div>
       );
     },

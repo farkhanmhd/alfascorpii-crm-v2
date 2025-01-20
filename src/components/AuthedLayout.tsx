@@ -1,12 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { FileText, Layers, Phone } from 'lucide-react';
 import Header from '@/components/elements/header';
-import { SessionPayload } from '@/app/lib/actions/auth/session';
 import Sidebar from '@/components/elements/sidebar';
 import { SidebarGroupProps } from '@/components/elements/sidebar/SidebarGroup';
+import { usePermissions } from '@/hooks';
+import { Session } from 'next-auth';
 
 const sidebarGroupData: SidebarGroupProps[] = [
   {
@@ -53,8 +54,13 @@ const AuthedLayout = ({
   session,
 }: {
   children: React.ReactNode;
-  session: SessionPayload;
+  session: Session;
 }) => {
+  const { setPermissions } = usePermissions();
+  useEffect(() => {
+    setPermissions(session?.user?.permissions);
+  }, [session?.user?.permissions]);
+
   const pathname = usePathname();
   const headerTitle = sidebarGroupData
     .flatMap((group) => group.links)
@@ -66,7 +72,7 @@ const AuthedLayout = ({
         <Header
           headerTitle={headerTitle || 'Dashboard'}
           path={pathname}
-          user={session}
+          user={session?.user}
         />
         <main className="min-h-[100dvh-84px] rounded-md bg-secondary p-6 lg:ml-72 lg:w-[calc(100vw-288px)]">
           {children}
