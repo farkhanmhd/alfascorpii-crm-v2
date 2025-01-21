@@ -119,7 +119,8 @@ export const columns: ColumnDef<ICustomer>[] = [
     },
   },
   {
-    header: 'No. Rangka',
+    id: 'frame_number',
+    header: () => <div className="line-clamp-1 min-w-max">Nomor Rangka</div>,
     cell: ({ row }) => {
       return <div>{row.original.motorcycles[0].frame_number}</div>;
     },

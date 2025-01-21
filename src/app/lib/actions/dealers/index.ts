@@ -98,7 +98,7 @@ export const getDealerList = actionClient
       const { dealers } = data;
       const dealerList = dealers.map((dealer: IDealer) => ({
         label: dealer.dealer_name,
-        value: dealer.dealer_name,
+        value: String(dealer.id),
       }));
       return dealerList;
     } catch (error) {

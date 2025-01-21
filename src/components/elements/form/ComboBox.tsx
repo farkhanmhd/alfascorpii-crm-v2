@@ -26,6 +26,7 @@ import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useElementWidth } from '@/hooks';
 import { ComboBoxOptions } from '@/types';
+import MapItems from '@/utils/MapItems';
 
 interface ComboBoxProps {
   options: ComboBoxOptions[];
@@ -41,7 +42,7 @@ interface ComboBoxProps {
 }
 
 const ComboBox = ({
-  options = [],
+  options,
   placeholder,
   label,
   id,
@@ -89,7 +90,7 @@ const ComboBox = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="p-0" style={{ width: elementWidth }}>
-          <Command>
+          <Command shouldFilter={false}>
             <CommandInput
               placeholder="Search option..."
               value={inputValue}
@@ -105,24 +106,27 @@ const ComboBox = ({
                   <div className="max-h-[300px]">
                     <CommandEmpty>Tidak ada Data</CommandEmpty>
                     <CommandGroup>
-                      {options.map((option) => (
-                        <CommandItem
-                          key={option.value}
-                          value={option.value}
-                          onSelect={() => handleSelect(option.value)}
-                          className="cursor-pointer"
-                        >
-                          <Check
-                            className={cn(
-                              'mr-2 h-4 w-4',
-                              value === option.value
-                                ? 'opacity-100'
-                                : 'opacity-0'
-                            )}
-                          />
-                          {option.label}
-                        </CommandItem>
-                      ))}
+                      <MapItems
+                        of={options}
+                        render={(option) => (
+                          <CommandItem
+                            key={option.value}
+                            value={option.value}
+                            onSelect={() => handleSelect(option.value)}
+                            className="cursor-pointer"
+                          >
+                            <Check
+                              className={cn(
+                                'mr-2 h-4 w-4',
+                                value === option.value
+                                  ? 'opacity-100'
+                                  : 'opacity-0'
+                              )}
+                            />
+                            {option.label}
+                          </CommandItem>
+                        )}
+                      />
                     </CommandGroup>
                   </div>
                 </ScrollArea>

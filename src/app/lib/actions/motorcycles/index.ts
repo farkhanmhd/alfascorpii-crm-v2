@@ -102,7 +102,7 @@ export const getMotorcycleList = actionClient
       const { motorcycles } = data;
       const motorcycleList = motorcycles.map((motorcycle: any) => ({
         label: motorcycle.motorcycle_type,
-        value: motorcycle.motorcycle_type,
+        value: String(motorcycle.id),
       }));
       return motorcycleList;
     } catch (error) {

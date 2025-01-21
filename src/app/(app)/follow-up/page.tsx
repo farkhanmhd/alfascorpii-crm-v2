@@ -1,8 +1,10 @@
 import React, { Suspense } from 'react';
 import { randomUUID } from 'crypto';
 import { Metadata } from 'next';
-import TableSkeleton from '@/components/elements/table/TableSkeleton';
 import Tablesearch from '@/components/elements/table/tablesearch';
+import TableSkeleton from '@/components/elements/table/TableSkeleton';
+import { getAllUsers } from '@/app/lib/actions/staff';
+import { IFUFilters } from '@/app/lib/data/follow-up';
 import FollowUpFooter from './FollowUpFooter';
 
 import FollowUpTable from './FollowUpTable';
@@ -13,27 +15,53 @@ export const metadata: Metadata = {
   description: 'List Follow Up',
 };
 
-const Page = async (props: {
-  searchParams?: Promise<{
-    page?: string;
-    per_page?: string;
-    search?: string;
-  }>;
-}) => {
+type Props = {
+  searchParams?: Promise<IFUFilters>;
+};
+
+const Page = async (props: Props) => {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const perPage = searchParams?.per_page;
+  const perPage = searchParams?.per_page || '50';
+  const userId = searchParams?.user_id;
+  const fuDetailId = searchParams?.follow_up_detail_id;
+  const fuResultId = searchParams?.follow_up_result_id;
+  const dealerId = searchParams?.dealer_id;
+  const dateField = searchParams?.date_field;
+  const dateFrom = searchParams?.date_from;
+  const dateTo = searchParams?.date_to;
+  const motorcycleId = searchParams?.motorcycle_id;
+
+  const filters: IFUFilters = {
+    search,
+    page,
+    per_page: perPage,
+    user_id: userId,
+    follow_up_detail_id: fuDetailId,
+    follow_up_result_id: fuResultId,
+    dealer_id: dealerId,
+    date_field: dateField,
+    date_from: dateFrom,
+    date_to: dateTo,
+    motorcycle_id: motorcycleId,
+  };
+
+  const users = await getAllUsers();
+  users.unshift({
+    label: 'All',
+    value: 'all',
+  });
   return (
     <div className="grid h-full grid-rows-[auto_1fr_auto]">
       <header className="flex flex-col gap-y-6 pb-6">
-        <FollowUpFilters />
+        <FollowUpFilters users={users} />
         <div className="flex flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
           <Tablesearch placeholder="Cari Customer" />
         </div>
       </header>
       <Suspense fallback={<TableSkeleton />} key={randomUUID()}>
-        <FollowUpTable search={search} page={page} perPage={perPage} />
+        <FollowUpTable {...filters} />
       </Suspense>
       <FollowUpFooter />
     </div>
