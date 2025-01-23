@@ -19,8 +19,8 @@ interface Props {
   label?: string;
   placeholder: string;
   error?: string[];
-  value: string;
-  setValue: (value: string) => void;
+  value?: string;
+  setValue?: (value: string) => void;
   isPendingResult?: boolean;
 }
 
@@ -47,8 +47,11 @@ export const SelectBox = ({
           )}
         </Label>
       )}
-      <Select onValueChange={setValue} value={value}>
-        <SelectTrigger className={`w-full ${className}`} id={id}>
+      <Select onValueChange={setValue} value={value} name={id}>
+        <SelectTrigger
+          className={`w-full border-black/30 ${className}`}
+          id={id}
+        >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
@@ -91,16 +94,6 @@ export const SelectFilter = ({
   setSelectedValue,
   // queryParams
 }: SelectFilterProps) => {
-  // const searchParams = useSearchParams();
-  // const pathname = usePathname();
-  // const { replace } = useRouter();
-  // const params = new URLSearchParams(searchParams);
-
-  // const handleChange = (value: string) => {
-  //   params.set(queryParams, value);
-  //   replace(`${pathname}?${params.toString()}`);
-  // };
-
   return (
     <div className="flex flex-col gap-y-4">
       {label && (
@@ -109,7 +102,10 @@ export const SelectFilter = ({
         </Label>
       )}
       <Select value={value} onValueChange={setSelectedValue}>
-        <SelectTrigger className="bg-white text-xs font-semibold" id={id}>
+        <SelectTrigger
+          className="border-black/30 bg-white text-xs font-semibold"
+          id={id}
+        >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

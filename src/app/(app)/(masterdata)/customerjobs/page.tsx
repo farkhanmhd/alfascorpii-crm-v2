@@ -1,6 +1,8 @@
 import React, { Suspense } from 'react';
 import TableSkeleton from '@/components/elements/table/TableSkeleton';
+import MasterHeader from '@/components/fragments/MasterHeader';
 import CustomerJobTable from './CustomerJobTable';
+import { CreateCustomerJobDialog } from './actions';
 
 const Page = async (props: {
   searchParams?: Promise<{
@@ -15,9 +17,14 @@ const Page = async (props: {
   const perPage = searchParams?.per_page;
 
   return (
-    <Suspense fallback={<TableSkeleton />}>
-      <CustomerJobTable page={page} search={search} perPage={perPage} />
-    </Suspense>
+    <>
+      <MasterHeader searchPlaceholder="Cari Pekerjaan">
+        <CreateCustomerJobDialog />
+      </MasterHeader>
+      <Suspense fallback={<TableSkeleton />}>
+        <CustomerJobTable page={page} search={search} perPage={perPage} />
+      </Suspense>
+    </>
   );
 };
 export default Page;

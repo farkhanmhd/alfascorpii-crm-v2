@@ -4,9 +4,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
 import { IResultFU } from '@/types';
-import { Pencil, Trash } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
+import { EditFuResultDialog, DeleteFuResultDialog } from './actions';
 
 const columns: ColumnDef<IResultFU>[] = [
   {
@@ -31,27 +29,14 @@ const columns: ColumnDef<IResultFU>[] = [
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IResultFU>();
-
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setActionDialog({ edit: true, data: row.original })}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          <EditFuResultDialog
+            id={Number(row.original.id)}
+            status={row.original.status}
+            furesult={row.original.fu_result_name}
+          />
+          <DeleteFuResultDialog id={Number(row.original.id)} />
         </div>
       );
     },

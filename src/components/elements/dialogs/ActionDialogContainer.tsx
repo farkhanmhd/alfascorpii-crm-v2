@@ -2,36 +2,52 @@
 
 import React from 'react';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { useActionDialog } from '@/hooks';
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogCancel,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
 
 interface ActionDialogContainerProps {
   title: string;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
+  trigger: React.ReactNode;
 }
 
 const ActionDialogContainer = ({
   title,
   children,
+  open,
+  setOpen,
+  trigger,
 }: ActionDialogContainerProps) => {
-  const { actionDialog, handleClose } = useActionDialog<unknown>();
-
   return (
-    <Dialog
-      open={actionDialog?.create || actionDialog?.edit}
-      onOpenChange={handleClose}
-    >
-      <DialogContent className="w-[90vw] rounded-md">
-        <DialogHeader className="mb-4">
-          <DialogTitle className="text-left">{title}</DialogTitle>
-        </DialogHeader>
-        {children}
-      </DialogContent>
-    </Dialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
+      <AlertDialogContent className="w-[90vw] rounded-md">
+        <div className="relative">
+          <AlertDialogHeader className="mb-4">
+            <AlertDialogTitle className="text-left">{title}</AlertDialogTitle>
+          </AlertDialogHeader>
+          {children}
+          <AlertDialogCancel asChild className="border-none">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="absolute -right-2 -top-2"
+            >
+              <X />
+            </Button>
+          </AlertDialogCancel>
+        </div>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

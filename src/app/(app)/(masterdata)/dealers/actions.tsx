@@ -2,13 +2,8 @@
 
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import {
-  useActionDialog,
-  useSubmitToast,
-  useDeleteToast,
-  useDeleteDialog,
-} from '@/hooks';
-import { IDealer, DealerArea, DealerType } from '@/types';
+import { Button } from '@/components/ui/button';
+import { useDialog } from '@/hooks';
 import {
   addDealerAction,
   editDealerAction,
@@ -16,22 +11,36 @@ import {
 } from '@/app/lib/actions/dealers';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
+import { actionResponseToast } from '@/lib/utils';
+import { Pencil, Trash } from 'lucide-react';
 import DealerForm from './DealerForm';
 
 export const CreateDealerDialog = () => {
-  const { actionDialog, handleClose } = useActionDialog<IDealer>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      dealer_code: formData.get('dealer_code'),
-      dealer_name: formData.get('dealer_name'),
-      dealer_area: actionDialog?.data?.dealer_area as DealerArea,
-      dealer_type: actionDialog?.data?.dealer_type as DealerType,
-    };
-    return addDealerAction(data);
-  });
-  useSubmitToast(result, handleClose, reset);
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        dealer_code: formData.get('dealer_code'),
+        dealer_name: formData.get('dealer_name'),
+        dealer_area: formData.get('dealer_area'),
+        dealer_type: formData.get('dealer_type'),
+      };
+      return addDealerAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
   return (
-    <ActionDialogContainer title="Tambah Dealer">
+    <ActionDialogContainer
+      title="Tambah Dealer"
+      open={open}
+      setOpen={setOpen}
+      trigger={<Button>Tambah Dealer</Button>}
+    >
       <DealerForm
         action={execute}
         validationErrors={result?.validationErrors}
@@ -40,43 +49,82 @@ export const CreateDealerDialog = () => {
     </ActionDialogContainer>
   );
 };
-export const EditDealerDialog = () => {
-  const { actionDialog, handleClose } = useActionDialog<IDealer>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      id: Number(actionDialog?.data?.id),
-      dealer_code: formData.get('dealer_code'),
-      dealer_name: formData.get('dealer_name'),
-      dealer_area: actionDialog?.data?.dealer_area as DealerArea,
-      dealer_type: actionDialog?.data?.dealer_type as DealerType,
-    };
-    return editDealerAction(data);
-  });
-  useSubmitToast(result, handleClose, reset);
+export const EditDealerDialog = ({
+  id,
+  dealerCode,
+  dealerName,
+  dealerArea,
+  dealerType,
+}: {
+  id: number;
+  dealerCode: string;
+  dealerName: string;
+  dealerArea: string;
+  dealerType: string;
+}) => {
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        id,
+        dealer_code: formData.get('dealer_code'),
+        dealer_name: formData.get('dealer_name'),
+        dealer_area: formData.get('dealer_area'),
+        dealer_type: formData.get('dealer_type'),
+      };
+      return editDealerAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
   return (
-    <ActionDialogContainer title="Edit Dealer">
+    <ActionDialogContainer
+      title="Edit Dealer"
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button size="icon" variant="outline">
+          <Pencil />
+        </Button>
+      }
+    >
       <DealerForm
         action={execute}
         validationErrors={result?.validationErrors}
         isPending={isPending}
-        initialCode={actionDialog?.data?.dealer_code}
-        initialName={actionDialog?.data?.dealer_name}
-        initialArea={actionDialog?.data?.dealer_area}
-        initialType={actionDialog?.data?.dealer_type}
+        initialCode={dealerCode}
+        initialName={dealerName}
+        initialArea={dealerArea}
+        initialType={dealerType}
       />
     </ActionDialogContainer>
   );
 };
 
-export const DeleteDealerDialog = () => {
-  const { deleteDialog } = useDeleteDialog();
-  const { execute, result, isPending, reset } = useAction(removeDealerAction);
-  useDeleteToast(result, reset);
+export const DeleteDealerDialog = ({ id }: { id: number }) => {
+  const { open, setOpen } = useDialog();
+  const { execute, isPending } = useAction(removeDealerAction, {
+    onSettled: (actionResult) => {
+      actionResponseToast(actionResult);
+      setOpen(false);
+    },
+  });
   return (
     <DeleteDialog
       title="Hapus Dealer"
-      deleteAction={() => execute({ id: Number(deleteDialog?.id) })}
+      deleteAction={() => execute({ id })}
       isPending={isPending}
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button size="icon" variant="outline">
+          <Trash />
+        </Button>
+      }
     />
   );
 };

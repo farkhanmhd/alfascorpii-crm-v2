@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+import { getAccessToken } from '../auth';
 import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchCustomerJobs = (
@@ -33,4 +35,45 @@ export const deletePekerjaan = async (id: number) => {
   return deleteData({
     endpoint: `customerjobs/${id}`,
   });
+};
+
+export const getJobOptions = async () => {
+  try {
+    const accessToken = await getAccessToken();
+
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const response = await fetch(`${process.env.BACKEND_URL}/customerjobs`, {
+      cache: 'force-cache',
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const {
+      data: { jobs },
+    } = await response.json();
+
+    const options = jobs.map((option: any) => {
+      return {
+        label: option.job_name,
+        value: String(option.id),
+      };
+    });
+
+    options.unshift({
+      label: 'Semua',
+      value: 'all',
+    });
+
+    return options;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };

@@ -4,9 +4,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
 import { IHobby } from '@/types';
-import { Pencil, Trash } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
+import { EditHobbyDialog, DeleteHobbyDialog } from './actions';
 
 const columns: ColumnDef<IHobby>[] = [
   {
@@ -31,26 +29,14 @@ const columns: ColumnDef<IHobby>[] = [
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IHobby>();
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setActionDialog({ edit: true, data: row.original })}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          <EditHobbyDialog
+            id={Number(row.original.id)}
+            name={row.original.hobby_name}
+            status={row.original.status}
+          />
+          <DeleteHobbyDialog id={Number(row.original.id)} />
         </div>
       );
     },

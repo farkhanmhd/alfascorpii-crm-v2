@@ -5,6 +5,8 @@ import TextInput from '@/components/elements/form/TextInput';
 import StatusRadio from '@/components/elements/form/StatusRadio';
 import SubmitButton from '@/components/elements/buttons/SubmitButton';
 import { getErrorMessages } from '@/lib/utils';
+import SelectStatusFu from '@/components/fragments/SelectStatusFu';
+import { SelectOptions } from '@/types';
 
 interface FuDetailFormProps {
   initialDetail?: string;
@@ -15,23 +17,35 @@ interface FuDetailFormProps {
     status?: { _errors?: string[] };
   };
   isPending: boolean;
+  selectedStatus: string;
+  setSelectedStatus: React.Dispatch<React.SetStateAction<string>>;
+  statuses: SelectOptions[];
 }
 
 const FuDetailForm: React.FC<FuDetailFormProps> = ({
-  initialDetail = '',
+  initialDetail,
   initialStatus = 'SHOW',
   action,
   validationErrors = {},
   isPending,
+  selectedStatus,
+  setSelectedStatus,
+  statuses = [],
 }) => {
-  const [detail, setDetail] = useState(initialDetail);
+  const [detail, setDetail] = useState(initialDetail || '');
   const [status, setStatus] = useState(initialStatus);
 
   const handleStatusChange = (value: 'SHOW' | 'HIDE') => {
     setStatus(value);
   };
+
   return (
     <form className="flex flex-col gap-y-8" action={action}>
+      <SelectStatusFu
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
+        statuses={statuses}
+      />
       <TextInput
         id="detail_fu_name"
         label="Detail Follow Up"

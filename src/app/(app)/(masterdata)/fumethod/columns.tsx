@@ -4,9 +4,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
 import { IFUMethod } from '@/types';
-import { Pencil, Trash } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
+import { DeleteFuMethodDialog, EditFuMethodDialog } from './actions';
 
 const columns: ColumnDef<IFUMethod>[] = [
   {
@@ -31,27 +29,14 @@ const columns: ColumnDef<IFUMethod>[] = [
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IFUMethod>();
-
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setActionDialog({ edit: true, data: row.original })}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          <EditFuMethodDialog
+            id={Number(row.original.id)}
+            method={row.original.fu_method_name}
+            status={row.original.status}
+          />
+          <DeleteFuMethodDialog id={Number(row.original.id)} />
         </div>
       );
     },

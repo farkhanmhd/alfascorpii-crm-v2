@@ -7,6 +7,7 @@ import { postFuResult, putFuResult, deleteFuResult } from '../../data/furesult';
 
 const furesultSchema = z.object({
   id: z.number(),
+  status_fu_id: z.string(),
   fu_result_name: z.string().min(1, { message: 'Fu result name is required' }),
   status: z.enum(['SHOW', 'HIDE']),
 });
@@ -15,9 +16,9 @@ const createFuResultSchema = furesultSchema.omit({ id: true });
 
 export const addFuResultAction = actionClient
   .schema(createFuResultSchema)
-  .action(async ({ parsedInput: { fu_result_name, status } }) => {
+  .action(async ({ parsedInput: { status_fu_id, fu_result_name, status } }) => {
     try {
-      await postFuResult(fu_result_name, status);
+      await postFuResult(status_fu_id, fu_result_name, status);
       revalidatePath('/furesult');
       return { status: 'success', message: 'Fu result added successfully' };
     } catch (error) {
@@ -30,18 +31,20 @@ export const addFuResultAction = actionClient
 
 export const editFuResultAction = actionClient
   .schema(furesultSchema)
-  .action(async ({ parsedInput: { id, fu_result_name, status } }) => {
-    try {
-      await putFuResult(id, fu_result_name, status);
-      revalidatePath('/furesult');
-      return { status: 'success', message: 'Fu result updated successfully' };
-    } catch (error) {
-      return {
-        status: 'error',
-        message: 'Server Error: Failed to update Fu result',
-      };
+  .action(
+    async ({ parsedInput: { id, status_fu_id, fu_result_name, status } }) => {
+      try {
+        await putFuResult(id, status_fu_id, fu_result_name, status);
+        revalidatePath('/furesult');
+        return { status: 'success', message: 'Fu result updated successfully' };
+      } catch (error) {
+        return {
+          status: 'error',
+          message: 'Server Error: Failed to update Fu result',
+        };
+      }
     }
-  });
+  );
 
 const deleteFuResultSchema = z.object({
   id: z.number(),

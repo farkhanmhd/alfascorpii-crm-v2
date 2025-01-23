@@ -3,10 +3,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { Pencil, Trash } from 'lucide-react';
 import { IDetailFU } from '@/types';
-import { Button } from '@/components/ui/button';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
+import { EditDetailFuDialog, DeleteDetailFuDialog } from './actions';
 
 const columns: ColumnDef<IDetailFU>[] = [
   {
@@ -31,27 +29,15 @@ const columns: ColumnDef<IDetailFU>[] = [
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IDetailFU>();
-
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setActionDialog({ edit: true, data: row.original })}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          <EditDetailFuDialog
+            detailId={row.original.id}
+            statusFuId={String(row.original.status_fu_id)}
+            detail={row.original.detail_fu_name}
+            status={row.original.status}
+          />
+          <DeleteDetailFuDialog id={row.original.id} />
         </div>
       );
     },

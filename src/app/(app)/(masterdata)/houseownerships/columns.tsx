@@ -3,10 +3,11 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { Pencil, Trash } from 'lucide-react';
 import { IHouseOwnership } from '@/types';
-import { Button } from '@/components/ui/button';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
+import {
+  EditHouseOwnershipDialog,
+  RemoveHouseOwnershipDialog,
+} from './actions';
 
 const columns: ColumnDef<IHouseOwnership>[] = [
   {
@@ -31,27 +32,14 @@ const columns: ColumnDef<IHouseOwnership>[] = [
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IHouseOwnership>();
-
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setActionDialog({ edit: true, data: row.original })}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          <EditHouseOwnershipDialog
+            id={Number(row.original.id)}
+            ownership={row.original.house_ownership_status}
+            status={row.original.status}
+          />
+          <RemoveHouseOwnershipDialog id={Number(row.original.id)} />
         </div>
       );
     },

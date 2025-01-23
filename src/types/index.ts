@@ -33,15 +33,10 @@ export interface NavItem {
 }
 
 export interface IStaff extends IIdentifiable {
+  uuid: string;
   username: string;
   name: string;
-  email: string;
-  nip: string;
   status: string;
-  role: string;
-  password: string;
-  created_at: string;
-  updated_at: string;
 }
 
 export type DealerArea =
@@ -60,7 +55,7 @@ export interface IDealer extends IIdentifiable {
 }
 
 export interface IMotorcycle extends IIdentifiable {
-  name: string;
+  motorcycle_type: string;
   color: string;
   frame_number: string;
   engine_number: string;
@@ -283,7 +278,7 @@ export interface IHolidays extends IIdentifiable {
 
 export interface IStatusFU extends IIdentifiable {
   fu_method_id: number;
-  detail_fu_name: string | null;
+  status_fu_name: string | null;
   status: Status;
 }
 

@@ -7,7 +7,7 @@ import { getMotorcycleList } from '@/app/lib/actions/motorcycles';
 import { getDealerList } from '@/app/lib/actions/dealers';
 import { SelectFilter } from '@/components/elements/form/Select';
 import DatePicker from '@/components/elements/form/DatePicker';
-import ComboBox from '@/components/elements/form/ComboBox';
+import ComboBox from '@/components/elements/form/AsyncComboBox';
 import { ComboBoxOptions, SelectOptions } from '@/types';
 import { Button } from '@/components/ui/button';
 import DealDialog from '@/components/elements/dialogs/deal-dialog';

@@ -3,6 +3,8 @@ import {
   fetchData,
   deleteData,
 } from '@/app/lib/data/fetchUtils';
+import { redirect } from 'next/navigation';
+import { getAccessToken } from '../auth';
 
 export const fetchMotorcycles = (
   search?: string,
@@ -34,4 +36,37 @@ export const deleteProductPreferences = async (id: number) => {
     endpoint: `motorcycles/${id}`,
     method: 'DELETE',
   });
+};
+
+export const getAllMotorcyclesList = async () => {
+  try {
+    const accessToken = await getAccessToken();
+
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const response = await fetch(
+      `${process.env.BACKEND_URL}/motorcycles?per_page=9999`,
+      {
+        method: 'GET',
+        cache: 'force-cache',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const { data } = await response.json();
+    const { motorcycles } = data;
+    const motorcycleList = motorcycles.map((motorcycle: any) => ({
+      label: motorcycle.motorcycle_type,
+      value: String(motorcycle.id),
+    }));
+    return motorcycleList;
+  } catch (error) {
+    return [];
+  }
 };

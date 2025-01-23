@@ -4,9 +4,7 @@ import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { IDegree } from '@/types';
-import { Button } from '@/components/ui/button';
-import { Pencil, Trash } from 'lucide-react';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
+import { EditDegreeDialog, DeleteDegreeDialog } from './actions';
 
 const columns: ColumnDef<IDegree>[] = [
   {
@@ -35,26 +33,15 @@ const columns: ColumnDef<IDegree>[] = [
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IDegree>();
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setActionDialog({ edit: true, data: row.original })}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          <EditDegreeDialog
+            id={Number(row.original.id)}
+            degree={row.original.degree_name}
+            code={row.original.degree_code}
+            status={row.original.status}
+          />
+          <DeleteDegreeDialog id={Number(row.original.id)} />
         </div>
       );
     },

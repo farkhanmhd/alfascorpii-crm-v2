@@ -4,9 +4,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
 import { IRelation } from '@/types';
-import { Pencil, Trash } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
+import { DeleteRelationDialog, EditRelationDialog } from './actions';
 
 const columns: ColumnDef<IRelation>[] = [
   {
@@ -31,27 +29,14 @@ const columns: ColumnDef<IRelation>[] = [
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IRelation>();
-
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setActionDialog({ edit: true, data: row.original })}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          <EditRelationDialog
+            id={Number(row.original.id)}
+            relation={row.original.relation_name}
+            status={row.original.status}
+          />
+          <DeleteRelationDialog id={Number(row.original.id)} />
         </div>
       );
     },

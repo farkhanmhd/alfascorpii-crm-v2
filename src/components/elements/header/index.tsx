@@ -12,7 +12,6 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { buttonVariants } from '@/components/ui/button';
-import { type User as SessionUser } from 'next-auth';
 import { cn } from '@/lib/utils';
 import { logout } from '@/app/lib/actions/auth';
 
@@ -23,7 +22,7 @@ const Header = ({
 }: {
   headerTitle: string;
   path: string;
-  user: SessionUser;
+  user: any;
 }) => {
   const { push } = useRouter();
   const handleLogout = async () => {

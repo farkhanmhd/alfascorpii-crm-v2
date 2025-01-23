@@ -7,6 +7,7 @@ import { postDetailFu, putDetailFu, deleteDetailFu } from '../../data/detailfu';
 
 const detailfuSchema = z.object({
   id: z.number(),
+  status_fu_id: z.string(),
   detail_fu_name: z.string().min(1, { message: 'Detail fu name is required' }),
   status: z.enum(['SHOW', 'HIDE']),
 });
@@ -15,9 +16,9 @@ const createDetailFuSchema = detailfuSchema.omit({ id: true });
 
 export const addDetailFuAction = actionClient
   .schema(createDetailFuSchema)
-  .action(async ({ parsedInput: { detail_fu_name, status } }) => {
+  .action(async ({ parsedInput: { status_fu_id, detail_fu_name, status } }) => {
     try {
-      await postDetailFu(detail_fu_name, status);
+      await postDetailFu(status_fu_id, detail_fu_name, status);
       revalidatePath('/detailfu');
       return { status: 'success', message: 'Detail fu added successfully' };
     } catch (error) {
@@ -31,18 +32,20 @@ export const addDetailFuAction = actionClient
 
 export const updateDetailFuAction = actionClient
   .schema(detailfuSchema)
-  .action(async ({ parsedInput: { id, detail_fu_name, status } }) => {
-    try {
-      await putDetailFu(id, detail_fu_name, status);
-      revalidatePath('/detailfu');
-      return { status: 'success', message: 'Detail fu updated successfully' };
-    } catch (error) {
-      return {
-        status: 'error',
-        message: 'Server Error: Failed to update Detail fu',
-      };
+  .action(
+    async ({ parsedInput: { id, status_fu_id, detail_fu_name, status } }) => {
+      try {
+        await putDetailFu(id, status_fu_id, detail_fu_name, status);
+        revalidatePath('/detailfu');
+        return { status: 'success', message: 'Detail fu updated successfully' };
+      } catch (error) {
+        return {
+          status: 'error',
+          message: 'Server Error: Failed to update Detail fu',
+        };
+      }
     }
-  });
+  );
 
 const deleteDetailFuSchema = z.object({
   id: z.number(),

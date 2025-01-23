@@ -1,57 +1,24 @@
 'use client';
 
 import React from 'react';
-import clsx from 'clsx';
-import Link from 'next/link';
-import { IStaff, Column } from '@/types';
+import { ColumnDef } from '@tanstack/react-table';
+import { IStaff } from '@/types';
 
-const columns: Column<IStaff>[] = [
-  { header: 'NIP', key: 'nip', GetCellContent: (staff: IStaff) => staff.nip },
+const columns: ColumnDef<IStaff>[] = [
   {
+    accessorKey: 'username',
     header: 'Username',
-    key: 'username',
-    GetCellContent: (staff: IStaff) => staff.username,
+    cell: ({ row }) => <span>{row.getValue('username')}</span>,
   },
   {
+    accessorKey: 'name',
     header: 'Name',
-    key: 'name',
-    GetCellContent: (staff: IStaff) => staff.name,
+    cell: ({ row }) => <span>{row.getValue('name')}</span>,
   },
   {
-    header: 'Email',
-    key: 'email',
-    GetCellContent: (staff: IStaff) => staff.email,
-  },
-  {
+    accessorKey: 'status',
     header: 'Status',
-    key: 'status',
-    GetCellContent: (staff: IStaff) => (
-      <span
-        className={clsx({
-          'font-semibold text-green-500': staff.status === 'VALID',
-          'text-yellow-500': staff.status === 'SUSPEND',
-          'font-semibold text-red-500': staff.status === 'RESIGN',
-        })}
-      >
-        {staff.status}
-      </span>
-    ),
-  },
-  {
-    header: 'Role',
-    key: 'role',
-    GetCellContent: (staff: IStaff) => staff.role,
-  },
-  {
-    header: 'Action',
-    GetCellContent: (staff: IStaff) => (
-      <Link
-        className="text-primary hover:underline"
-        href={`/staff/${staff.id}`}
-      >
-        Edit
-      </Link>
-    ),
+    cell: ({ row }) => <span>{row.getValue('status')}</span>,
   },
 ];
 

@@ -1,72 +1,147 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Pencil, Trash } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
-import { useActionDialog, useSubmitToast, useDeleteToast } from '@/hooks';
+import { useDialog, useStatusFu } from '@/hooks';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
-import { IDetailFU } from '@/types';
+import { SelectOptions } from '@/types';
+import { Button } from '@/components/ui/button';
 import {
   addDetailFuAction,
   updateDetailFuAction,
   removeDetailFuAction,
 } from '@/app/lib/actions/detailfu';
+import { actionResponseToast } from '@/lib/utils';
 import FuDetailForm from './FuDetailForm';
 
-export const CreateDetailFuDialog = () => {
-  const { handleClose } = useActionDialog<IDetailFU>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      detail_fu_name: formData.get('detail_fu_name'),
-      status: formData.get('status'),
-    };
-    return addDetailFuAction(data);
-  });
-  useSubmitToast(result, handleClose, reset);
+export const CreateDetailFuDialog = ({
+  statuses,
+}: {
+  statuses: SelectOptions[];
+}) => {
+  const [selectedStatus, setSelectedStatus] = useState<string>('');
+  const { setStatusFus } = useStatusFu();
+
+  useEffect(() => {
+    if (statuses) {
+      setStatusFus(statuses);
+    }
+  }, [statuses]);
+
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        status_fu_id: selectedStatus,
+        detail_fu_name: formData.get('detail_fu_name'),
+        status: formData.get('status'),
+      };
+      return addDetailFuAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
   return (
-    <ActionDialogContainer title="Tambah Detail Follow Up">
+    <ActionDialogContainer
+      title="Tambah Detail Follow Up"
+      trigger={<Button> Tambah Detail </Button>}
+      open={open}
+      setOpen={setOpen}
+    >
       <FuDetailForm
         action={execute}
         validationErrors={result?.validationErrors}
         isPending={isPending}
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
+        statuses={statuses}
       />
     </ActionDialogContainer>
   );
 };
 
-export const EditDetailFuDialog = () => {
-  const { actionDialog, handleClose } = useActionDialog<IDetailFU>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      id: Number(actionDialog?.data?.id),
-      detail_fu_name: formData.get('detail_fu_name'),
-      status: formData.get('status'),
-    };
-    return updateDetailFuAction(data);
-  });
-  useSubmitToast(result, handleClose, reset);
+export const EditDetailFuDialog = ({
+  detailId,
+  statusFuId,
+  detail,
+  status,
+}: {
+  detailId: string | number;
+  statusFuId: string;
+  detail: string;
+  status: 'SHOW' | 'HIDE';
+}) => {
+  const { open, setOpen } = useDialog();
+  const { statusFus } = useStatusFu();
+  const [selectedStatus, setSelectedStatus] = useState<string>(statusFuId);
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        id: Number(detailId),
+        status_fu_id: selectedStatus,
+        detail_fu_name: formData.get('detail_fu_name'),
+        status: formData.get('status'),
+      };
+      return updateDetailFuAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
   return (
-    <ActionDialogContainer title="Edit Detail Follow Up">
+    <ActionDialogContainer
+      title="Edit Detail Follow Up"
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button variant="outline" size="icon">
+          <Pencil />
+        </Button>
+      }
+    >
       <FuDetailForm
         action={execute}
         validationErrors={result?.validationErrors}
         isPending={isPending}
-        initialDetail={actionDialog?.data?.detail_fu_name}
-        initialStatus={actionDialog?.data?.status}
+        initialDetail={detail}
+        initialStatus={status}
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
+        statuses={statusFus}
       />
     </ActionDialogContainer>
   );
 };
 
-export const DeleteDetailFuDialog = () => {
-  const { actionDialog } = useActionDialog<IDetailFU>();
-  const { execute, result, isPending, reset } = useAction(removeDetailFuAction);
-  useDeleteToast(result, reset);
+export const DeleteDetailFuDialog = ({ id }: { id: string | number }) => {
+  const { open, setOpen } = useDialog();
+  const { execute, isPending } = useAction(removeDetailFuAction, {
+    onSettled: (actionResult) => {
+      actionResponseToast(actionResult);
+      setOpen(false);
+    },
+  });
   return (
     <DeleteDialog
       title="Hapus Detail Follow Up"
       isPending={isPending}
-      deleteAction={() => execute({ id: Number(actionDialog?.data?.id) })}
+      deleteAction={() => execute({ id: Number(id) })}
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button variant="outline" size="icon">
+          <Trash />
+        </Button>
+      }
     />
   );
 };

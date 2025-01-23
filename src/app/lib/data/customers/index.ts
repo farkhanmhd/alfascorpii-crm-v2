@@ -2,6 +2,7 @@ import { fetchWithParams, fetchData } from '@/app/lib/data/fetchUtils';
 import { revalidatePath } from 'next/cache';
 import { FamilyMemberPayload } from '@/types';
 import { redirect } from 'next/navigation';
+import { paramsGenerator } from '@/lib/utils';
 import { getAccessToken } from '../auth';
 
 export const fetchCustomer = (
@@ -9,6 +10,36 @@ export const fetchCustomer = (
   page?: string,
   per_page?: string
 ) => fetchWithParams('customers', search, page, per_page);
+
+export const getFilteredCustomers = async (payload: any) => {
+  try {
+    const accessToken = await getAccessToken();
+
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const params = paramsGenerator(payload);
+    const url = `${process.env.BACKEND_URL}/customers?${params}`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      cache: 'force-cache',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const { data } = await response.json();
+    const { customers, last_page: lastPage, total } = data;
+    return { customers, lastPage, total };
+  } catch (error) {
+    console.error(error);
+    return { customers: [], lastPage: 0, total: 0 };
+  }
+};
 
 export const importFollowUp = async (file: File) => {
   const accessToken = await getAccessToken();

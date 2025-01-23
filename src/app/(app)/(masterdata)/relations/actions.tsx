@@ -2,34 +2,43 @@
 
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import {
-  useActionDialog,
-  useSubmitToast,
-  useDeleteToast,
-  useDeleteDialog,
-} from '@/hooks';
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useDialog } from '@/hooks';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
-import { IRelation } from '@/types';
 import {
   addRelationAction,
   editRelationAction,
   removeRelationAction,
 } from '@/app/lib/actions/relation';
+import { actionResponseToast } from '@/lib/utils';
 import RelationForm from './RelationForm';
 
 export const CreateRelationDialog = () => {
-  const { handleClose } = useActionDialog<IRelation>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      relation: formData.get('relation'),
-      status: formData.get('status'),
-    };
-    return addRelationAction(data);
-  });
-  useSubmitToast(result, handleClose, reset);
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        relation: formData.get('relation'),
+        status: formData.get('status'),
+      };
+      return addRelationAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
   return (
-    <ActionDialogContainer title="Tambah Kerabat">
+    <ActionDialogContainer
+      title="Tambah Kerabat"
+      open={open}
+      setOpen={setOpen}
+      trigger={<Button>Tambah Pekerjaan</Button>}
+    >
       <RelationForm
         action={execute}
         validationErrors={result?.validationErrors}
@@ -39,40 +48,75 @@ export const CreateRelationDialog = () => {
   );
 };
 
-export const EditRelationDialog = () => {
-  const { actionDialog, handleClose } = useActionDialog<IRelation>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      id: Number(actionDialog?.data?.id),
-      relation: formData.get('relation'),
-      status: formData.get('status'),
-    };
-    return editRelationAction(data);
-  });
-  useSubmitToast(result, handleClose, reset);
+export const EditRelationDialog = ({
+  id,
+  relation,
+  status,
+}: {
+  id: number;
+  relation: string;
+  status: 'SHOW' | 'HIDE';
+}) => {
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        id,
+        relation: formData.get('relation'),
+        status: formData.get('status'),
+      };
+      return editRelationAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
   return (
-    <ActionDialogContainer title="Edit Kerabat">
+    <ActionDialogContainer
+      title="Edit Kerabat"
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button variant="outline" size="icon">
+          <Pencil />
+        </Button>
+      }
+    >
       <RelationForm
         action={execute}
         validationErrors={result?.validationErrors}
         isPending={isPending}
-        initialRelation={actionDialog?.data?.relation_name}
-        initialStatus={actionDialog?.data?.status}
+        initialRelation={relation}
+        initialStatus={status}
       />
     </ActionDialogContainer>
   );
 };
 
-export const DeleteRelationDialog = () => {
-  const { deleteDialog } = useDeleteDialog();
-  const { execute, isPending, result, reset } = useAction(removeRelationAction);
+export const DeleteRelationDialog = ({ id }: { id: number }) => {
+  const { open, setOpen } = useDialog();
+  const { execute, isPending } = useAction(removeRelationAction, {
+    onSettled: (actionResult) => {
+      actionResponseToast(actionResult);
+      setOpen(false);
+    },
+  });
 
-  useDeleteToast(result, reset);
   return (
     <DeleteDialog
-      title="Hapus Kerabat?"
+      title="Hapus Pekerjaan?"
       isPending={isPending}
-      deleteAction={() => execute({ id: Number(deleteDialog?.id) })}
+      deleteAction={() => execute({ id })}
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button size="icon" variant="outline">
+          <Trash />
+        </Button>
+      }
     />
   );
 };

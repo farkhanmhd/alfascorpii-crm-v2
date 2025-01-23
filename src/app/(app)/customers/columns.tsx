@@ -101,7 +101,7 @@ export const columns: ColumnDef<ICustomer>[] = [
   },
   {
     accessorKey: 'mobile_phone',
-    header: 'Nomor HP',
+    header: () => <div className="line-clamp-1 min-w-max">No. HP</div>,
   },
   {
     accessorKey: 'date_of_birth',
@@ -110,7 +110,20 @@ export const columns: ColumnDef<ICustomer>[] = [
       <div className="line-clamp-1 min-w-max">{row.original.date_of_birth}</div>
     ),
   },
-
+  {
+    accessorKey: 'job',
+    header: () => <div className="line-clamp-1 min-w-max">Pekerjaan</div>,
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.job}</div>
+    ),
+  },
+  {
+    accessorKey: 'holiday',
+    header: () => <div className="line-clamp-1 min-w-max">Hari Besar</div>,
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.holiday}</div>
+    ),
+  },
   {
     accessorKey: 'user',
     header: () => <div className="line-clamp-1 min-w-max">Nama CRO</div>,

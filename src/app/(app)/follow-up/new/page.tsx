@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import TextInput from '@/components/elements/form/TextInput';
 import DatePicker from '@/components/elements/form/DatePicker';
-import ComboBox from '@/components/elements/form/ComboBox';
+import ComboBox from '@/components/elements/form/AsyncComboBox';
 import { SelectBox } from '@/components/elements/form/Select';
 import TextField from '@/components/elements/form/TextArea';
 import SubmitButton from '@/components/elements/buttons/SubmitButton';

@@ -27,7 +27,7 @@ import TextField from '@/components/elements/form/TextArea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ComboBoxOptions, SelectOptions } from '@/types';
 import { Label } from '@/components/ui/label';
-import ComboBox from '@/components/elements/form/ComboBox';
+import ComboBox from '@/components/elements/form/AsyncComboBox';
 import ImageUploadDropzone from '@/components/ImageDropzone';
 
 const dealTypeOptions: SelectOptions[] = [

@@ -1,8 +1,7 @@
 import React from 'react';
-import { DataTable } from '@/components/elements/table/DataTable';
-import { fetchCustomer } from '@/app/lib/data/customers';
-import { SearchParamsProps } from '@/types';
+import { getFilteredCustomers } from '@/app/lib/data/customers';
 import { columns } from './columns';
+import CustomerTableData from './CustomerTableData';
 
 export interface FlatCustomer {
   id: string;
@@ -15,20 +14,19 @@ export interface FlatCustomer {
   dealerName: string;
 }
 
-const CustomerTable = async ({ search, page, perPage }: SearchParamsProps) => {
+const CustomerTable = async (params: any) => {
   const {
     customers,
-    last_page: totalPages,
+    lastPage: totalPages,
     total,
-  } = await fetchCustomer(search, page, perPage);
+  } = await getFilteredCustomers(params);
   return (
-    <DataTable
+    <CustomerTableData
       columns={columns}
       data={customers}
-      rows={total}
+      currentPage={Number(params.page)}
       totalPages={totalPages}
-      currentPage={Number(page)}
-      withPagination
+      rows={total}
     />
   );
 };

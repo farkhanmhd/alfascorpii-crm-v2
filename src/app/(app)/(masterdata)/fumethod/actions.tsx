@@ -2,34 +2,43 @@
 
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import {
-  useActionDialog,
-  useSubmitToast,
-  useDeleteToast,
-  useDeleteDialog,
-} from '@/hooks';
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useDialog } from '@/hooks';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
-import { IFUMethod } from '@/types';
 import {
   addFuMethodAction,
   editFuMethodAction,
   removeFuMethodAction,
 } from '@/app/lib/actions/fumethod';
+import { actionResponseToast } from '@/lib/utils';
 import FuMethodForm from './FuMethodForm';
 
 export const CreateFuMethodDialog = () => {
-  const { handleClose } = useActionDialog<IFUMethod>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      fu_method_name: formData.get('fu_method_name'),
-      status: formData.get('status'),
-    };
-    return addFuMethodAction(data);
-  });
-  useSubmitToast(result, handleClose, reset);
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        fu_method_name: formData.get('fu_method_name'),
+        status: formData.get('status'),
+      };
+      return addFuMethodAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
   return (
-    <ActionDialogContainer title="Tambah Metode Follow Up">
+    <ActionDialogContainer
+      title="Tambah Metode Follow Up"
+      open={open}
+      setOpen={setOpen}
+      trigger={<Button>Tambah Metode Follow Up</Button>}
+    >
       <FuMethodForm
         action={execute}
         validationErrors={result?.validationErrors}
@@ -39,39 +48,74 @@ export const CreateFuMethodDialog = () => {
   );
 };
 
-export const EditFuMethodDialog = () => {
-  const { actionDialog, handleClose } = useActionDialog<IFUMethod>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      id: Number(actionDialog?.data?.id),
-      fu_method_name: formData.get('fu_method_name'),
-      status: formData.get('status'),
-    };
-    return editFuMethodAction(data);
-  });
-  useSubmitToast(result, handleClose, reset);
+export const EditFuMethodDialog = ({
+  id,
+  method,
+  status,
+}: {
+  id: number;
+  method: string;
+  status: 'SHOW' | 'HIDE';
+}) => {
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        id,
+        fu_method_name: formData.get('fu_method_name'),
+        status: formData.get('status'),
+      };
+      return editFuMethodAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
   return (
-    <ActionDialogContainer title="Edit Metode Follow Up">
+    <ActionDialogContainer
+      title="Edit Metode Follow Up"
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button variant="outline" size="icon">
+          <Pencil />
+        </Button>
+      }
+    >
       <FuMethodForm
         action={execute}
         validationErrors={result?.validationErrors}
         isPending={isPending}
-        initialMethod={actionDialog?.data?.fu_method_name}
-        initialStatus={actionDialog?.data?.status}
+        initialMethod={method}
+        initialStatus={status}
       />
     </ActionDialogContainer>
   );
 };
 
-export const DeleteFuMethodDialog = () => {
-  const { deleteDialog } = useDeleteDialog();
-  const { execute, result, isPending, reset } = useAction(removeFuMethodAction);
-  useDeleteToast(result, reset);
+export const DeleteFuMethodDialog = ({ id }: { id: number }) => {
+  const { open, setOpen } = useDialog();
+  const { execute, isPending } = useAction(removeFuMethodAction, {
+    onSettled: (actionResult) => {
+      actionResponseToast(actionResult);
+      setOpen(false);
+    },
+  });
   return (
     <DeleteDialog
-      title="Hapus Metode Follow Up?"
+      title="Hapus Pekerjaan?"
       isPending={isPending}
-      deleteAction={() => execute({ id: Number(deleteDialog?.id) })}
+      deleteAction={() => execute({ id })}
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button size="icon" variant="outline">
+          <Trash />
+        </Button>
+      }
     />
   );
 };

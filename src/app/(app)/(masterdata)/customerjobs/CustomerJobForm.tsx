@@ -5,6 +5,8 @@ import TextInput from '@/components/elements/form/TextInput';
 import StatusRadio from '@/components/elements/form/StatusRadio';
 import SubmitButton from '@/components/elements/buttons/SubmitButton';
 import { getErrorMessages } from '@/lib/utils';
+import { AlertDialogCancel } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 
 interface CustomerJobFormProps {
   initialJob?: string;
@@ -53,9 +55,16 @@ const CustomerJobForm = ({
         error={getErrorMessages(validationErrors.code)}
       />
       <StatusRadio statusValue={status} onValueChange={handleStatusChange} />
-      <SubmitButton className="self-end" disabled={isPending}>
-        Submit
-      </SubmitButton>
+      <div className="flex justify-between">
+        <AlertDialogCancel asChild>
+          <Button variant="outline" size="icon" className="min-w-max">
+            Cancel
+          </Button>
+        </AlertDialogCancel>
+        <SubmitButton className="self-end" disabled={isPending}>
+          Submit
+        </SubmitButton>
+      </div>
     </form>
   );
 };

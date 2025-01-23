@@ -14,8 +14,6 @@ import {
   CommandList,
 } from '@/components/ui/command';
 
-import { Skeleton } from '@/components/ui/skeleton';
-
 import {
   Popover,
   PopoverContent,
@@ -35,9 +33,6 @@ interface ComboBoxProps {
   id: string;
   value: string | null | undefined;
   onSelect: (value: string) => void;
-  inputValue: string;
-  onValueChange: ((search: string) => void) | undefined;
-  isPendingResult: boolean;
   error?: string[];
 }
 
@@ -48,9 +43,6 @@ const ComboBox = ({
   id,
   value,
   onSelect,
-  inputValue,
-  onValueChange,
-  isPendingResult,
   error,
 }: ComboBoxProps) => {
   const [open, setOpen] = useState(false);
@@ -90,47 +82,44 @@ const ComboBox = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="p-0" style={{ width: elementWidth }}>
-          <Command shouldFilter={false}>
-            <CommandInput
-              placeholder="Search option..."
-              value={inputValue}
-              onValueChange={onValueChange}
-            />
+          <Command
+            filter={(data, search, keywords) => {
+              const extendValue = `${data} ${keywords?.join()}`;
+              if (extendValue.toLowerCase().includes(search)) return 1;
+              return 0;
+            }}
+          >
+            <CommandInput placeholder="Search option..." />
             <CommandList>
-              {isPendingResult ? (
-                <CommandEmpty>
-                  <Skeleton className="mx-2 h-8" />
-                </CommandEmpty>
-              ) : (
-                <ScrollArea>
-                  <div className="max-h-[300px]">
-                    <CommandEmpty>Tidak ada Data</CommandEmpty>
-                    <CommandGroup>
-                      <MapItems
-                        of={options}
-                        render={(option) => (
-                          <CommandItem
-                            key={option.value}
-                            value={option.value}
-                            onSelect={() => handleSelect(option.value)}
-                            className="cursor-pointer"
-                          >
-                            <Check
-                              className={cn(
-                                'mr-2 h-4 w-4',
-                                value === option.value
-                                  ? 'opacity-100'
-                                  : 'opacity-0'
-                              )}
-                            />
-                            {option.label}
-                          </CommandItem>
-                        )}
-                      />
-                    </CommandGroup>
-                  </div>
-                </ScrollArea>
-              )}
+              <ScrollArea>
+                <div className="max-h-[300px]">
+                  <CommandEmpty>Tidak ada Data</CommandEmpty>
+                  <CommandGroup>
+                    <MapItems
+                      of={options}
+                      render={(option) => (
+                        <CommandItem
+                          key={option.value}
+                          value={option.value}
+                          keywords={[option.label]}
+                          onSelect={() => handleSelect(option.value)}
+                          className="cursor-pointer"
+                        >
+                          <Check
+                            className={cn(
+                              'mr-2 h-4 w-4',
+                              value === option.value
+                                ? 'opacity-100'
+                                : 'opacity-0'
+                            )}
+                          />
+                          {option.label}
+                        </CommandItem>
+                      )}
+                    />
+                  </CommandGroup>
+                </div>
+              </ScrollArea>
             </CommandList>
           </Command>
         </PopoverContent>

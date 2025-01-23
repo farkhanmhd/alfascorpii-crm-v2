@@ -3,10 +3,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
 import { ICustomerJob } from '@/types';
-import { Button } from '@/components/ui/button';
-import { Pencil, Trash } from 'lucide-react';
+import { DeleteJobDialog, EditCustomerJobDialog } from './actions';
 
 const columns: ColumnDef<ICustomerJob>[] = [
   {
@@ -35,26 +33,15 @@ const columns: ColumnDef<ICustomerJob>[] = [
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<ICustomerJob>();
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setActionDialog({ edit: true, data: row.original })}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          <EditCustomerJobDialog
+            id={Number(row.original.id)}
+            job={row.original.job_name}
+            status={row.original.status}
+            code={row.original.job_code}
+          />
+          <DeleteJobDialog id={Number(row.original.id)} />
         </div>
       );
     },

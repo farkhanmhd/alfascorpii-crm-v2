@@ -1,16 +1,7 @@
 import { redirect } from 'next/navigation';
+import { paramsGenerator } from '@/lib/utils';
 import { fetchWithParams } from '../fetchUtils';
 import { getAccessToken } from '../auth';
-
-const paramsGenerator = (params: any) => {
-  const queryParams = new URLSearchParams();
-  Object.keys(params).forEach((key) => {
-    if (params[key]) {
-      queryParams.set(key, params[key]);
-    }
-  });
-  return queryParams.toString();
-};
 
 export interface IFUFilters {
   page?: string;
@@ -37,22 +28,32 @@ export interface IFUFilters {
 // ) => fetchWithParams('followups', search, page, per_page);
 
 export const getFollowUps = async (payload: IFUFilters) => {
-  const params = paramsGenerator(payload);
-  const url = `${process.env.BACKEND_URL}/followups?${params}`;
-  const accessToken = await getAccessToken();
-  const response = await fetch(url, {
-    method: 'GET',
-    cache: 'force-cache',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  try {
+    const params = paramsGenerator(payload);
+    const url = `${process.env.BACKEND_URL}/followups?${params}`;
+    const accessToken = await getAccessToken();
 
-  const { data } = await response.json();
-  const { customers, last_page: lastPage, total } = data;
-  return { customers, lastPage, total };
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const response = await fetch(url, {
+      method: 'GET',
+      cache: 'force-cache',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const { data } = await response.json();
+    const { customers, last_page: lastPage, total } = data;
+    return { customers, lastPage, total };
+  } catch (error) {
+    console.error(error);
+    return { customers: [], lastPage: 0, total: 0 };
+  }
 };
 
 export const getDuplicatedData = async (
@@ -65,44 +66,54 @@ export const randomAssignFollowUp = async (payload: {
   amount: number;
   user_id: string;
 }) => {
-  const token = await getAccessToken();
-  if (!token) {
-    redirect('/login');
-  }
-  const requestUrl = `${process.env.BACKEND_URL}/customers/randomassign`;
-  const response = await fetch(requestUrl, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
+  try {
+    const token = await getAccessToken();
+    if (!token) {
+      redirect('/login');
+    }
+    const requestUrl = `${process.env.BACKEND_URL}/customers/randomassign`;
+    const response = await fetch(requestUrl, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
 
-  const { meta } = await response.json();
-  return meta;
+    const { meta } = await response.json();
+    return meta;
+  } catch (error) {
+    console.error(error);
+    return { meta: { message: 'Internal Server Error' } };
+  }
 };
 
 export const manualAssignFollowUp = async (payload: {
   customerIds: number[];
   user_id: string;
 }) => {
-  const token = await getAccessToken();
-  if (!token) {
-    redirect('/login');
-  }
-  const requestUrl = `${process.env.BACKEND_URL}/customers/manualassign`;
-  const response = await fetch(requestUrl, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
+  try {
+    const token = await getAccessToken();
+    if (!token) {
+      redirect('/login');
+    }
+    const requestUrl = `${process.env.BACKEND_URL}/customers/manualassign`;
+    const response = await fetch(requestUrl, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
 
-  const { meta } = await response.json();
-  return meta;
+    const { meta } = await response.json();
+    return meta;
+  } catch (error) {
+    console.error(error);
+    return { meta: { message: 'Internal Server Error' } };
+  }
 };

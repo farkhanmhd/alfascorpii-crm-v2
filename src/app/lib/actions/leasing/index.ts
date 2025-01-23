@@ -1,6 +1,7 @@
 'use server';
 
 import { z } from 'zod';
+import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import { getAccessToken } from '../../data/auth';
@@ -81,6 +82,11 @@ export const getLeasingList = actionClient
   .action(async ({ parsedInput: { search } }) => {
     try {
       const accessToken = await getAccessToken();
+
+      if (!accessToken) {
+        redirect('/login');
+      }
+
       const response = await fetch(
         `${process.env.BACKEND_URL}/leasing?search=${search}`,
         {

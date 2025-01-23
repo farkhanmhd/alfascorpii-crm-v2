@@ -2,15 +2,13 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { Pencil, Trash } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { IStatusFU } from '@/types';
-import { Button } from '@/components/ui/button';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
+import { DeleteStatusFuDialog, EditStatusFuDialog } from './actions';
 
 const columns: ColumnDef<IStatusFU>[] = [
   {
-    accessorKey: 'detail_fu_name',
+    accessorKey: 'status_fu_name',
     header: 'Keterangan',
   },
   {
@@ -29,28 +27,16 @@ const columns: ColumnDef<IStatusFU>[] = [
   {
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
-    cell: ({ row: { original: item } }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IStatusFU>();
-
+    cell: ({ row }) => {
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setActionDialog({ edit: true, data: item })}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: item.id })}
-          >
-            <Trash />
-          </Button>
+          <EditStatusFuDialog
+            id={Number(row.original.id)}
+            status={row.original.status}
+            method={String(row.original.fu_method_id)}
+            name={row.original.status_fu_name as string}
+          />
+          <DeleteStatusFuDialog id={Number(row.original.id)} />
         </div>
       );
     },

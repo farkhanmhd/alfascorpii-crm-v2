@@ -113,9 +113,9 @@ export const columns: ColumnDef<ICustomer>[] = [
     id: 'dealer_area',
     header: () => <div className="line-clamp-1 min-w-max">Dealer / Area</div>,
     cell: ({ row }) => {
-      return (
-        <div className="line-clamp-1 min-w-max">{row.original.dealer_name}</div>
-      );
+      const motorcycle = row.original.motorcycles;
+      const dealer = motorcycle[motorcycle.length - 1].dealer_name;
+      return <div className="line-clamp-1 min-w-max">{dealer}</div>;
     },
   },
   {

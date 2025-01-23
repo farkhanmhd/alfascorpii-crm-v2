@@ -3,9 +3,7 @@
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { ILeasing } from '@/types';
-import { Button } from '@/components/ui/button';
-import { Pencil, Trash } from 'lucide-react';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
+import { EditLeasingDialog, DeleteLeasingDialog } from './actions';
 
 const columns: ColumnDef<ILeasing>[] = [
   {
@@ -16,26 +14,13 @@ const columns: ColumnDef<ILeasing>[] = [
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<ILeasing>();
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setActionDialog({ edit: true, data: row.original })}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          <EditLeasingDialog
+            id={Number(row.original.id)}
+            leasing={row.original.leasing_name}
+          />
+          <DeleteLeasingDialog id={Number(row.original.id)} />
         </div>
       );
     },

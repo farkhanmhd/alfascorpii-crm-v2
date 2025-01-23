@@ -25,7 +25,7 @@ import MapItems from '@/utils/MapItems';
 import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 import DataTablePagination from './pagination';
 
-interface DataTableProps<TData extends { id: string | number }, TValue> {
+interface DataTableProps<TData extends { id?: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   rows?: number;
@@ -39,7 +39,7 @@ interface DataTableProps<TData extends { id: string | number }, TValue> {
   >;
 }
 
-export const DataTable = <TData extends { id: string | number }, TValue>({
+export const DataTable = <TData extends { id?: string | number }, TValue>({
   columns,
   data,
   rows,
@@ -77,16 +77,16 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
 
   return (
     <>
-      <ScrollArea className="max-h-[75vh] rounded-md bg-white shadow-sm">
+      <ScrollArea className="max-h-[75vh] min-h-[600px] rounded-md bg-white shadow-sm">
         <Table>
           <TableHeader className="sticky top-0 z-50 bg-primary text-sm">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="hover:bg-primary">
                 <MapItems
                   of={headerGroup.headers}
-                  render={(header) => (
+                  render={(header, key) => (
                     <TableHead
-                      key={header.id}
+                      key={key}
                       className="px-4 py-2 font-bold uppercase text-primary-foreground"
                     >
                       {header.isPlaceholder
@@ -105,16 +105,16 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
             {table.getRowModel().rows?.length ? (
               <MapItems
                 of={table.getRowModel().rows}
-                render={(row) => (
+                render={(row, key) => (
                   <TableRow
-                    key={row.id}
+                    key={key}
                     data-state={row.getIsSelected() && 'selected'}
                   >
                     <MapItems
                       of={row.getVisibleCells()}
-                      render={(cell) => (
+                      render={(cell, cellkey) => (
                         <TableCell
-                          key={cell.id}
+                          key={cellkey}
                           className="h-12 px-4 py-2 text-xs font-medium sm:text-sm"
                         >
                           {flexRender(

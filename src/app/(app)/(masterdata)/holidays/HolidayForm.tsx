@@ -11,6 +11,8 @@ interface HolidayFormProps {
   initialHoliday?: string;
   initialMessage?: string;
   initialStatus?: 'SHOW' | 'HIDE';
+  date?: Date;
+  setDate: (date: Date) => void;
   action: (formData: FormData) => void | Promise<void> | undefined;
   validationErrors?: {
     holiday?: { _errors?: string[] };
@@ -25,6 +27,8 @@ const HolidayForm: React.FC<HolidayFormProps> = ({
   initialHoliday = '',
   initialMessage = '',
   initialStatus = 'SHOW',
+  date = new Date(),
+  setDate,
   action,
   validationErrors = {},
   isPending,
@@ -54,7 +58,7 @@ const HolidayForm: React.FC<HolidayFormProps> = ({
         onChange={(e) => setMessage(e.target.value)}
         error={getErrorMessages(validationErrors.message)}
       />
-      <DatePicker id="date" />
+      <DatePicker id="date" date={date} setDate={setDate} />
       <StatusRadio statusValue={status} onValueChange={handleStatusChange} />
       <SubmitButton disabled={isPending}>Submit</SubmitButton>
     </form>

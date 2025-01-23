@@ -4,6 +4,10 @@ import {
   deleteData,
 } from '@/app/lib/data/fetchUtils';
 
+import type { IDealer } from '@/types';
+import { redirect } from 'next/navigation';
+import { getAccessToken } from '../auth';
+
 export const fetchDealer = async (
   search?: string,
   page?: string,
@@ -51,4 +55,37 @@ export const deleteDealer = (id: number) => {
   return deleteData({
     endpoint: `dealers/${id}`,
   });
+};
+
+export const getAllDealersList = async () => {
+  try {
+    const accessToken = await getAccessToken();
+
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const response = await fetch(
+      `${process.env.BACKEND_URL}/dealers?per_page=9999`,
+      {
+        method: 'GET',
+        cache: 'force-cache',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const { data } = await response.json();
+    const { dealers } = data;
+    const dealerList = dealers.map((dealer: IDealer) => ({
+      label: dealer.dealer_name,
+      value: String(dealer.id),
+    }));
+    return dealerList;
+  } catch (error) {
+    return [];
+  }
 };

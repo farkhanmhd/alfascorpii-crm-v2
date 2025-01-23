@@ -41,39 +41,44 @@ export const fetchSearch = async ({
   method = 'GET',
   body = null,
 }: FetchSearchParams) => {
-  const validatedParams = validateSearchQuery(searchQuerySchema, params);
-  const queryParams = createQueryParams(validatedParams) || '';
-  const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}${queryParams ? `?${queryParams.toString()}` : ''}`;
-  const accessToken = await getAccessToken();
+  try {
+    const validatedParams = validateSearchQuery(searchQuerySchema, params);
+    const queryParams = createQueryParams(validatedParams) || '';
+    const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}${queryParams ? `?${queryParams.toString()}` : ''}`;
+    const accessToken = await getAccessToken();
 
-  if (!accessToken) {
-    redirect('/login');
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const res = await fetch(fetchUrl, {
+      cache: 'force-cache',
+      method,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: body ? JSON.stringify(body) : null,
+    });
+
+    if (!res.ok) {
+      throw new Error(
+        `Internal Server Error : ${res.status} - ${res.statusText}`
+      );
+    }
+
+    const { data } = await res.json();
+
+    if (!data) {
+      notFound();
+    }
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    return [];
   }
-
-  const res = await fetch(fetchUrl, {
-    cache: 'force-cache',
-    method,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: body ? JSON.stringify(body) : null,
-  });
-
-  if (!res.ok) {
-    throw new Error(
-      `Internal Server Error : ${res.status} - ${res.statusText}`
-    );
-  }
-
-  const { data } = await res.json();
-
-  if (!data) {
-    notFound();
-  }
-
-  return data;
 };
 
 interface FetchData {
@@ -95,65 +100,75 @@ export const fetchData = async ({
   body = null,
   cache = 'force-cache',
 }: FetchData) => {
-  const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
-  const accessToken = await getAccessToken();
+  try {
+    const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
+    const accessToken = await getAccessToken();
 
-  if (!accessToken) {
-    redirect('/login');
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const res = await fetch(fetchUrl, {
+      cache,
+      method,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: body ? JSON.stringify(body) : null,
+    });
+
+    if (!res.ok) {
+      throw new Error(
+        `Internal Server Error : ${res.status} - ${res.statusText}`
+      );
+    }
+
+    const { meta, data } = await res.json();
+
+    if (!data) {
+      notFound();
+    }
+
+    return { meta, data };
+  } catch (error) {
+    console.error(error);
+    return { meta: { status: 'error', message: 'Server Error' }, data: [] };
   }
-
-  const res = await fetch(fetchUrl, {
-    cache,
-    method,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: body ? JSON.stringify(body) : null,
-  });
-
-  if (!res.ok) {
-    throw new Error(
-      `Internal Server Error : ${res.status} - ${res.statusText}`
-    );
-  }
-
-  const { meta, data } = await res.json();
-
-  if (!data) {
-    notFound();
-  }
-
-  return { meta, data };
 };
 
 export const deleteData = async ({ endpoint }: FetchData) => {
-  const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
-  const accessToken = await getAccessToken();
+  try {
+    const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
+    const accessToken = await getAccessToken();
 
-  if (!accessToken) {
-    redirect('/login');
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const res = await fetch(fetchUrl, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(
+        `Internal Server Error : ${res.status} - ${res.statusText}`
+      );
+    }
+
+    const { data } = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    return [];
   }
-
-  const res = await fetch(fetchUrl, {
-    method: 'DELETE',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  if (!res.ok) {
-    throw new Error(
-      `Internal Server Error : ${res.status} - ${res.statusText}`
-    );
-  }
-
-  const { data } = await res.json();
-
-  return data;
 };
 
 export const fetchWithParams = async (

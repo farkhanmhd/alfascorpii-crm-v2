@@ -1,33 +1,96 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
+import { randomUUID } from 'crypto';
 import TableSkeleton from '@/components/elements/table/TableSkeleton';
 import Tablesearch from '@/components/elements/table/tablesearch';
+import { getAllUsers } from '@/app/lib/actions/staff';
+import { getAllDealersList } from '@/app/lib/data/dealers';
+import { getFuDetailOptions } from '@/app/lib/data/detailfu';
+import { getFuResultOptions } from '@/app/lib/data/furesult';
+import { getAllMotorcyclesList } from '@/app/lib/data/motorcycles';
+import { getHolidayOptions } from '@/app/lib/data/holidays';
+import { getJobOptions } from '@/app/lib/data/customerjobs';
 import CustomerTable from './CustomerTable';
+import CustomerFilters from './filters';
+import Footer from './footer';
 
 export const metadata: Metadata = {
   title: 'Customers',
   description: 'List of Customers',
 };
 
-const Page = async (props: {
-  searchParams?: Promise<{
-    page?: string;
-    per_page?: string;
-    search?: string;
-  }>;
-}) => {
+const Page = async (props: { searchParams?: Promise<any> }) => {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const perPage = searchParams?.per_page;
+  const perPage = searchParams?.per_page || '50';
+  const userId = searchParams?.user_id;
+  const fuDetailId = searchParams?.follow_up_detail_id;
+  const fuResultId = searchParams?.follow_up_result_id;
+  const dealerId = searchParams?.dealer_id;
+  const dateField = searchParams?.date_field;
+  const dateFrom = searchParams?.date_from;
+  const dateTo = searchParams?.date_to;
+  const motorcycleId = searchParams?.motorcycle_id;
+
+  const filters: any = {
+    search,
+    page,
+    per_page: perPage,
+    user_id: userId,
+    follow_up_detail_id: fuDetailId,
+    follow_up_result_id: fuResultId,
+    dealer_id: dealerId,
+    date_field: dateField,
+    date_from: dateFrom,
+    date_to: dateTo,
+    motorcycle_id: motorcycleId,
+  };
+
+  const users = await getAllUsers();
+  users.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
+  const motorcycles = await getAllMotorcyclesList();
+  const dealers = await getAllDealersList();
+
+  const fuDetails = await getFuDetailOptions();
+  fuDetails.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
+  const fuResults = await getFuResultOptions();
+  fuResults.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
+  const holidayOptions = await getHolidayOptions();
+  const jobOptions = await getJobOptions();
+
   return (
     <div className="grid h-full grid-rows-[auto_1fr]">
-      <header className="flex items-center justify-between gap-x-4 pb-6">
-        <Tablesearch placeholder="Cari Customer" />
+      <header className="flex flex-col gap-y-6 pb-6">
+        <CustomerFilters
+          users={users}
+          motorcycles={motorcycles}
+          dealers={dealers}
+          fuDetails={fuDetails}
+          fuResults={fuResults}
+          holidays={holidayOptions}
+          jobs={jobOptions}
+        />
+        <div className="flex flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
+          <Tablesearch placeholder="Cari Customer" />
+        </div>
       </header>
-      <Suspense fallback={<TableSkeleton />}>
-        <CustomerTable search={search} page={page} perPage={perPage} />
+      <Suspense fallback={<TableSkeleton />} key={randomUUID()}>
+        <CustomerTable {...filters} />
       </Suspense>
+      <Footer />
     </div>
   );
 };

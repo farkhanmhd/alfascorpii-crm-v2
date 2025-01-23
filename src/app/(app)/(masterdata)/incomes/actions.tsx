@@ -2,12 +2,9 @@
 
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import {
-  useActionDialog,
-  useSubmitToast,
-  useDeleteToast,
-  useDeleteDialog,
-} from '@/hooks';
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useDialog } from '@/hooks';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import {
@@ -15,24 +12,36 @@ import {
   editIncomeAction,
   removeIncomeAction,
 } from '@/app/lib/actions/incomes';
-import { IIncome } from '@/types';
+import { actionResponseToast } from '@/lib/utils';
 import IncomeForm from './IncomeForm';
 
 export const CreateIncomeDialog = () => {
-  const { handleClose } = useActionDialog<IIncome>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      income_upper_limit: Number(formData.get('income_upper_limit')),
-      income_lower_limit: Number(formData.get('income_lower_limit')),
-      income_detail: formData.get('income_detail'),
-      income_code: formData.get('income_code'),
-      status: formData.get('status'),
-    };
-    return addIncomeAction(data);
-  });
-  useSubmitToast(result, handleClose, reset);
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        income_upper_limit: Number(formData.get('income_upper_limit')),
+        income_lower_limit: Number(formData.get('income_lower_limit')),
+        income_detail: formData.get('income_detail'),
+        income_code: formData.get('income_code'),
+        status: formData.get('status'),
+      };
+      return addIncomeAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
   return (
-    <ActionDialogContainer title="Tambah Pendapatan">
+    <ActionDialogContainer
+      title="Tambah Pendapatan"
+      open={open}
+      setOpen={setOpen}
+      trigger={<Button>Tambah Pendapatan</Button>}
+    >
       <IncomeForm
         action={execute}
         validationErrors={result?.validationErrors}
@@ -42,47 +51,86 @@ export const CreateIncomeDialog = () => {
   );
 };
 
-export const EditIncomeDialog = () => {
-  const { actionDialog, handleClose } = useActionDialog<IIncome>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      id: Number(actionDialog?.data?.id),
-      income_upper_limit: Number(formData.get('income_upper_limit')),
-      income_lower_limit: Number(formData.get('income_lower_limit')),
-      income_detail: formData.get('income_detail'),
-      income_code: formData.get('income_code'),
-      status: formData.get('status'),
-    };
-    return editIncomeAction(data);
-  });
-  useSubmitToast(result, handleClose, reset);
+export const EditIncomeDialog = ({
+  id,
+  upper,
+  lower,
+  detail,
+  code,
+  status,
+}: {
+  id: number;
+  upper: number;
+  lower: number;
+  detail: string;
+  code: string;
+  status: 'SHOW' | 'HIDE';
+}) => {
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        id,
+        income_upper_limit: Number(formData.get('income_upper_limit')),
+        income_lower_limit: Number(formData.get('income_lower_limit')),
+        income_detail: formData.get('income_detail'),
+        income_code: formData.get('income_code'),
+        status: formData.get('status'),
+      };
+      return editIncomeAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
   return (
-    <ActionDialogContainer title="Edit Pendapatan">
+    <ActionDialogContainer
+      title="Edit Pendapatan"
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button variant="outline" size="icon">
+          <Pencil />
+        </Button>
+      }
+    >
       <IncomeForm
         action={execute}
         validationErrors={result?.validationErrors}
         isPending={isPending}
-        initialUpperLimit={Number(actionDialog?.data?.income_upper_limit)}
-        initialLowerLimit={Number(actionDialog?.data?.income_lower_limit)}
-        initialDetail={actionDialog?.data?.income_detail}
-        initialCode={actionDialog?.data?.income_code}
-        initialStatus={actionDialog?.data?.status}
+        initialUpperLimit={upper}
+        initialLowerLimit={lower}
+        initialDetail={detail}
+        initialCode={code}
+        initialStatus={status}
       />
     </ActionDialogContainer>
   );
 };
 
-export const DeleteIncomeDialog = () => {
-  const { deleteDialog } = useDeleteDialog();
-  const { execute, result, isPending, reset } = useAction(removeIncomeAction);
-
-  useDeleteToast(result, reset);
-
+export const DeleteIncomeDialog = ({ id }: { id: number }) => {
+  const { open, setOpen } = useDialog();
+  const { execute: deleteJob, isPending } = useAction(removeIncomeAction, {
+    onSettled: (actionResult) => {
+      actionResponseToast(actionResult);
+      setOpen(false);
+    },
+  });
   return (
     <DeleteDialog
-      title="Hapus Biaya?"
+      title="Hapus Pendapatan?"
       isPending={isPending}
-      deleteAction={() => execute({ id: Number(deleteDialog?.id) })}
+      deleteAction={() => deleteJob({ id })}
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button size="icon" variant="outline">
+          <Trash />
+        </Button>
+      }
     />
   );
 };

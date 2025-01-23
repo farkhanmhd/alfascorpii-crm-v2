@@ -1,14 +1,9 @@
-'use cleint';
+'use client';
 
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import {
-  useActionDialog,
-  useSubmitToast,
-  useDeleteToast,
-  useDeleteDialog,
-} from '@/hooks';
-import { IMotorcycleList } from '@/types';
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   addMotorcycleAction,
   updateMotorcycleAction,
@@ -16,21 +11,35 @@ import {
 } from '@/app/lib/actions/motorcycles';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
+import { useDialog } from '@/hooks';
+import { actionResponseToast } from '@/lib/utils';
 import ProductPreferencesForm from './ProductPreferencesForm';
 
 export const CreateProductDialog = () => {
-  const { handleClose } = useActionDialog<IMotorcycleList>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      product_name: formData.get('product_name'),
-    };
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        product_name: formData.get('product_name'),
+      };
 
-    return addMotorcycleAction(data);
-  });
+      return addMotorcycleAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
 
-  useSubmitToast(result, handleClose, reset);
   return (
-    <ActionDialogContainer title="Tambah Sepeda Motor">
+    <ActionDialogContainer
+      title="Tambah Sepeda Motor"
+      open={open}
+      setOpen={setOpen}
+      trigger={<Button>Tambah Pekerjaan</Button>}
+    >
       <ProductPreferencesForm
         action={execute}
         validationErrors={result?.validationErrors}
@@ -40,40 +49,71 @@ export const CreateProductDialog = () => {
   );
 };
 
-export const EditProductDialog = () => {
-  const { actionDialog, handleClose } = useActionDialog<IMotorcycleList>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      id: Number(actionDialog?.data?.id),
-      product_name: formData.get('product_name'),
-    };
-    return updateMotorcycleAction(data);
-  });
+export const EditProductDialog = ({
+  id,
+  product,
+}: {
+  id: number;
+  product: string;
+}) => {
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        id,
+        product_name: formData.get('product_name'),
+      };
+      return updateMotorcycleAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
 
-  useSubmitToast(result, handleClose, reset);
   return (
-    <ActionDialogContainer title="Edit Sepeda Motor">
+    <ActionDialogContainer
+      title="Edit Sepeda Motor"
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button variant="outline" size="icon">
+          <Pencil />
+        </Button>
+      }
+    >
       <ProductPreferencesForm
         action={execute}
         validationErrors={result?.validationErrors}
         isPending={isPending}
-        initialProduct={actionDialog?.data?.motorcycle_type}
+        initialProduct={product}
       />
     </ActionDialogContainer>
   );
 };
 
-export const DeleteProductDialog = () => {
-  const { deleteDialog } = useDeleteDialog();
-  const { execute, result, isPending, reset } = useAction(
-    deleteMotorcycleAction
-  );
-  useDeleteToast(result, reset);
+export const DeleteProductDialog = ({ id }: { id: number }) => {
+  const { open, setOpen } = useDialog();
+  const { execute, isPending } = useAction(deleteMotorcycleAction, {
+    onSettled: (actionResult) => {
+      actionResponseToast(actionResult);
+      setOpen(false);
+    },
+  });
   return (
     <DeleteDialog
       title="Hapus Sepeda Motor?"
       isPending={isPending}
-      deleteAction={() => execute({ id: Number(deleteDialog?.id) })}
+      deleteAction={() => execute({ id })}
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button size="icon" variant="outline">
+          <Trash />
+        </Button>
+      }
     />
   );
 };

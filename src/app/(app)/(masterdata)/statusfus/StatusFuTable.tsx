@@ -1,12 +1,12 @@
 import React from 'react';
-import { fetchKeteranganFU } from '@/app/lib/data/statusfus';
+import { fetchStatusFU } from '@/app/lib/data/statusfus';
 import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
 import DataTablePagination from '@/components/elements/table/pagination';
 import columns from './columns';
 
 const StatusFuTable = async ({ search, page, perPage }: SearchParamsProps) => {
-  const data = await fetchKeteranganFU(search, page, perPage);
+  const data = await fetchStatusFU(search, page, perPage);
 
   if (!data) {
     return (

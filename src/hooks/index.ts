@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { useAtom } from 'jotai';
+import { atom, useAtom } from 'jotai';
 import {
   activeButtonAtom,
   isMobileAtom,
@@ -16,7 +16,7 @@ import {
   customerFilterSheetAtom,
   permissionsAtom,
 } from '@/store';
-import { ActionDialog, CustomerFilters } from '@/types';
+import { ActionDialog, CustomerFilters, SelectOptions } from '@/types';
 import { useDebouncedCallback } from 'use-debounce';
 import { useToast } from './use-toast';
 
@@ -201,4 +201,24 @@ export const usePermissions = () => {
   const [permissions, setPermissions] = useAtom(permissionsAtom);
 
   return { permissions, setPermissions };
+};
+
+export const useDialog = () => {
+  const [open, setOpen] = useState<boolean>(false);
+
+  return { open, setOpen };
+};
+
+const selectOptionsAtom = atom<SelectOptions[]>([]);
+
+export const useStatusFu = () => {
+  const [statusFus, setStatusFus] = useAtom(selectOptionsAtom);
+
+  return { statusFus, setStatusFus };
+};
+
+export const useMethodFu = () => {
+  const [methodFu, setMethodFu] = useAtom(selectOptionsAtom);
+
+  return { methodFu, setMethodFu };
 };

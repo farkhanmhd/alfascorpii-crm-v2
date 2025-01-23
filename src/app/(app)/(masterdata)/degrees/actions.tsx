@@ -2,13 +2,7 @@
 
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import {
-  useActionDialog,
-  useSubmitToast,
-  useDeleteToast,
-  useDeleteDialog,
-} from '@/hooks';
-import { IDegree } from '@/types';
+import { useDialog } from '@/hooks';
 import {
   addDegreeAction,
   updateDegreeAction,
@@ -16,21 +10,36 @@ import {
 } from '@/app/lib/actions/degree';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
+import { actionResponseToast } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Pencil, Trash } from 'lucide-react';
 import DegreeForm from './DegreeForm';
 
 export const CreateDegreeDialog = () => {
-  const { handleClose } = useActionDialog<IDegree>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      degree: formData.get('degree'),
-      code: formData.get('code'),
-      status: formData.get('status'),
-    };
-    return addDegreeAction(data);
-  });
-  useSubmitToast(result, handleClose, reset);
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        degree: formData.get('degree'),
+        code: formData.get('code'),
+        status: formData.get('status'),
+      };
+      return addDegreeAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
   return (
-    <ActionDialogContainer title="Tambah Pendidikan">
+    <ActionDialogContainer
+      title="Tambah Pendidikan"
+      open={open}
+      setOpen={setOpen}
+      trigger={<Button>Tambah Pendidikan</Button>}
+    >
       <DegreeForm
         action={execute}
         validationErrors={result?.validationErrors}
@@ -40,41 +49,78 @@ export const CreateDegreeDialog = () => {
   );
 };
 
-export const EditDegreeDialog = () => {
-  const { actionDialog, handleClose } = useActionDialog<IDegree>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      id: Number(actionDialog?.data?.id),
-      degree: formData.get('degree'),
-      code: formData.get('code'),
-      status: formData.get('status'),
-    };
-    return updateDegreeAction(data);
-  });
-  useSubmitToast(result, handleClose, reset);
+export const EditDegreeDialog = ({
+  id,
+  degree,
+  code,
+  status,
+}: {
+  id: number;
+  degree: string;
+  code: string;
+  status: 'SHOW' | 'HIDE';
+}) => {
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        id,
+        degree: formData.get('degree'),
+        code: formData.get('code'),
+        status: formData.get('status'),
+      };
+      return updateDegreeAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
   return (
-    <ActionDialogContainer title="Edit Pendidikan">
+    <ActionDialogContainer
+      title="Edit Pendidikan"
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button size="icon" variant="outline">
+          <Pencil />
+        </Button>
+      }
+    >
       <DegreeForm
         action={execute}
         validationErrors={result?.validationErrors}
         isPending={isPending}
-        initialDegree={actionDialog?.data?.degree_name}
-        initialCode={actionDialog?.data?.degree_code}
-        initialStatus={actionDialog?.data?.status}
+        initialDegree={degree}
+        initialCode={code}
+        initialStatus={status}
       />
     </ActionDialogContainer>
   );
 };
 
-export const DeleteDegreeDialog = () => {
-  const { deleteDialog } = useDeleteDialog();
-  const { execute, result, isPending, reset } = useAction(removeDegreeAction);
-  useDeleteToast(result, reset);
+export const DeleteDegreeDialog = ({ id }: { id: number }) => {
+  const { open, setOpen } = useDialog();
+  const { execute, isPending } = useAction(removeDegreeAction, {
+    onSettled: (actionResult) => {
+      actionResponseToast(actionResult);
+      setOpen(false);
+    },
+  });
   return (
     <DeleteDialog
       title="Hapus Pendidikan"
-      deleteAction={() => execute({ id: Number(deleteDialog?.id) })}
+      deleteAction={() => execute({ id })}
       isPending={isPending}
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button size="icon" variant="outline">
+          <Trash />
+        </Button>
+      }
     />
   );
 };

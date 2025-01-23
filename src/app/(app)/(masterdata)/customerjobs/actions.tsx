@@ -2,34 +2,43 @@
 
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import {
-  useActionDialog,
-  useSubmitToast,
-  useDeleteToast,
-  useDeleteDialog,
-} from '@/hooks';
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useDialog } from '@/hooks';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import { addJob, updateJob, removeJob } from '@/app/lib/actions/customerjobs';
-import { ICustomerJob } from '@/types';
+import { actionResponseToast } from '@/lib/utils';
+
 import CustomerJobForm from './CustomerJobForm';
 
 export const CreateCustomerJobDialog = () => {
-  const { handleClose } = useActionDialog();
+  const { open, setOpen } = useDialog();
 
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      job: formData.get('job'),
-      code: formData.get('code'),
-      status: formData.get('status'),
-    };
-    return addJob(data);
-  });
-
-  useSubmitToast(result, handleClose, reset);
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        job: formData.get('job'),
+        code: formData.get('code'),
+        status: formData.get('status'),
+      };
+      return addJob(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
 
   return (
-    <ActionDialogContainer title="Tambah Pekerjaan">
+    <ActionDialogContainer
+      title="Tambah Pekerjaan"
+      open={open}
+      setOpen={setOpen}
+      trigger={<Button>Tambah Pekerjaan</Button>}
+    >
       <CustomerJobForm
         action={execute}
         validationErrors={result?.validationErrors}
@@ -39,49 +48,81 @@ export const CreateCustomerJobDialog = () => {
   );
 };
 
-export const EditCustomerJobDialog = () => {
-  const { actionDialog, handleClose } = useActionDialog<ICustomerJob>();
+export const EditCustomerJobDialog = ({
+  id,
+  job,
+  code,
+  status,
+}: {
+  id: number;
+  job: string;
+  code: string;
+  status: 'SHOW' | 'HIDE';
+}) => {
+  const { open, setOpen } = useDialog();
 
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      id: Number(actionDialog?.data?.id),
-      job: formData.get('job'),
-      code: formData.get('code'),
-      status: formData.get('status'),
-    };
-    return updateJob(data);
-  });
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        id,
+        job: formData.get('job'),
+        code: formData.get('code'),
+        status: formData.get('status'),
+      };
+      return updateJob(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
 
-  useSubmitToast(result, handleClose, reset);
   return (
-    <ActionDialogContainer title="Tambah Pekerjaan">
+    <ActionDialogContainer
+      title="Edit Pekerjaan"
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button variant="outline" size="icon">
+          <Pencil />
+        </Button>
+      }
+    >
       <CustomerJobForm
         action={execute}
         validationErrors={result?.validationErrors}
         isPending={isPending}
-        initialJob={actionDialog?.data?.job_name}
-        initialCode={actionDialog?.data?.job_code}
-        initialStatus={actionDialog?.data?.status}
+        initialJob={job}
+        initialCode={code}
+        initialStatus={status}
       />
     </ActionDialogContainer>
   );
 };
 
-export const DeleteJobDialog = () => {
-  const { deleteDialog } = useDeleteDialog();
-  const {
-    execute: deleteLeasing,
-    isPending,
-    result,
-    reset,
-  } = useAction(removeJob);
+export const DeleteJobDialog = ({ id }: { id: number }) => {
+  const { open, setOpen } = useDialog();
+  const { execute: deleteJob, isPending } = useAction(removeJob, {
+    onSettled: (actionResult) => {
+      actionResponseToast(actionResult);
+      setOpen(false);
+    },
+  });
 
-  useDeleteToast(result, reset);
   return (
     <DeleteDialog
       title="Hapus Pekerjaan?"
       isPending={isPending}
-      deleteAction={() => deleteLeasing({ id: Number(deleteDialog?.id) })}
+      deleteAction={() => deleteJob({ id })}
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button size="icon" variant="outline">
+          <Trash />
+        </Button>
+      }
     />
   );
 };

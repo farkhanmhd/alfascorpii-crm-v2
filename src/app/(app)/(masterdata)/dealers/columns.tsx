@@ -5,7 +5,8 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Pencil, Trash } from 'lucide-react';
 import { IDealer } from '@/types';
 import { Button } from '@/components/ui/button';
-import { useDeleteDialog, useActionDialog, usePermissions } from '@/hooks';
+import { usePermissions } from '@/hooks';
+import { EditDealerDialog, DeleteDealerDialog } from './actions';
 
 const columns: ColumnDef<IDealer>[] = [
   {
@@ -39,31 +40,21 @@ const columns: ColumnDef<IDealer>[] = [
       return <div className="text-right">Aksi</div>;
     },
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IDealer>();
       const { permissions } = usePermissions();
-
-      const handleEdit = () => {
-        setActionDialog({ edit: true, data: row.original });
-      };
 
       return (
         <div className="flex justify-end gap-x-4">
           {permissions.includes('edit_dealers') && (
-            <Button variant="outline" size="sm" onClick={handleEdit}>
-              <Pencil />
-            </Button>
+            <EditDealerDialog
+              id={Number(row.original.id)}
+              dealerArea={row.original.dealer_area}
+              dealerCode={row.original.dealer_code}
+              dealerName={row.original.dealer_name}
+              dealerType={row.original.dealer_type}
+            />
           )}
           {permissions.includes('delete_dealers') && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                setDeleteDialog({ open: true, id: row.original.id })
-              }
-            >
-              <Trash />
-            </Button>
+            <DeleteDealerDialog id={Number(row.original.id)} />
           )}
         </div>
       );

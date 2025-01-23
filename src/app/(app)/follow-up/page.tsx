@@ -5,6 +5,10 @@ import Tablesearch from '@/components/elements/table/tablesearch';
 import TableSkeleton from '@/components/elements/table/TableSkeleton';
 import { getAllUsers } from '@/app/lib/actions/staff';
 import { IFUFilters } from '@/app/lib/data/follow-up';
+import { getAllMotorcyclesList } from '@/app/lib/data/motorcycles';
+import { getAllDealersList } from '@/app/lib/data/dealers';
+import { getFuDetailOptions } from '@/app/lib/data/detailfu';
+import { getFuResultOptions } from '@/app/lib/data/furesult';
 import FollowUpFooter from './FollowUpFooter';
 
 import FollowUpTable from './FollowUpTable';
@@ -49,13 +53,35 @@ const Page = async (props: Props) => {
 
   const users = await getAllUsers();
   users.unshift({
-    label: 'All',
+    label: 'Semua',
     value: 'all',
   });
+
+  const motorcycles = await getAllMotorcyclesList();
+  const dealers = await getAllDealersList();
+
+  const fuDetails = await getFuDetailOptions();
+  fuDetails.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
+  const fuResults = await getFuResultOptions();
+  fuResults.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
   return (
     <div className="grid h-full grid-rows-[auto_1fr_auto]">
       <header className="flex flex-col gap-y-6 pb-6">
-        <FollowUpFilters users={users} />
+        <FollowUpFilters
+          users={users}
+          motorcycles={motorcycles}
+          dealers={dealers}
+          fuDetails={fuDetails}
+          fuResults={fuResults}
+        />
         <div className="flex flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
           <Tablesearch placeholder="Cari Customer" />
         </div>

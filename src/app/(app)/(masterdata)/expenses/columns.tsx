@@ -3,10 +3,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
 import { IExpense } from '@/types';
-import { Pencil, Trash } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { EditExpenseDialog, DeleteExpenseDialog } from './actions';
 
 const columns: ColumnDef<IExpense>[] = [
   {
@@ -42,27 +40,19 @@ const columns: ColumnDef<IExpense>[] = [
   {
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
+
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IExpense>();
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setActionDialog({ edit: true, data: row.original })}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          <EditExpenseDialog
+            id={Number(row.original.id)}
+            upper={Number(row.original.expense_upper_limit)}
+            lower={Number(row.original.expense_lower_limit)}
+            detail={row.original.expense_detail}
+            code={row.original.expense_code}
+            status={row.original.status}
+          />
+          <DeleteExpenseDialog id={Number(row.original.id)} />
         </div>
       );
     },

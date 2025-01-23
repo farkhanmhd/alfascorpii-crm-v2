@@ -3,10 +3,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { useDeleteDialog, useActionDialog } from '@/hooks';
 import { IIncome } from '@/types';
-import { Pencil, Trash } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { DeleteIncomeDialog, EditIncomeDialog } from './actions';
 
 const columns: ColumnDef<IIncome>[] = [
   {
@@ -43,26 +41,17 @@ const columns: ColumnDef<IIncome>[] = [
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IIncome>();
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setActionDialog({ edit: true, data: row.original })}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          <EditIncomeDialog
+            id={Number(row.original.id)}
+            code={row.original.income_code}
+            status={row.original.status}
+            upper={Number(row.original.income_upper_limit)}
+            lower={Number(row.original.income_lower_limit)}
+            detail={row.original.income_detail}
+          />
+          <DeleteIncomeDialog id={Number(row.original.id)} />
         </div>
       );
     },

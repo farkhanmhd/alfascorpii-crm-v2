@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import TextInput from '@/components/elements/form/TextInput';
-import ComboBox from '@/components/elements/form/ComboBox';
+import { SelectBox } from '@/components/elements/form/Select';
 import SubmitButton from '@/components/elements/buttons/SubmitButton';
 import { getErrorMessages } from '@/lib/utils';
 import { ComboBoxOptions, IDealer } from '@/types';
@@ -105,28 +105,24 @@ const DealerForm: React.FC<DealerFormProps> = ({
         name="dealer_name"
         error={getErrorMessages(validationErrors?.dealer_name)}
       />
-      <ComboBox
+      <SelectBox
         id="dealer_area"
         label="Area Dealer"
         value={actionDialog?.data?.dealer_area || initialArea}
-        onSelect={handleDealerAreaChange}
+        setValue={handleDealerAreaChange}
         placeholder="Pilih Area Dealer"
         options={dealerAreaOptions}
         error={getErrorMessages(validationErrors?.dealer_area)}
-        inputValue=""
-        onValueChange={undefined}
         isPendingResult={false}
       />
-      <ComboBox
+      <SelectBox
         id="dealer_type"
         label="Jenis Dealer"
         value={actionDialog?.data?.dealer_type || initialType}
-        onSelect={handleDealerTypeChange}
+        setValue={handleDealerTypeChange}
         placeholder="Pilih Jenis Dealer"
         options={dealerTypeOptions}
         error={getErrorMessages(validationErrors?.dealer_type)}
-        inputValue=""
-        onValueChange={handleDealerTypeChange}
         isPendingResult={false}
       />
       <SubmitButton disabled={isPending}>Submit</SubmitButton>

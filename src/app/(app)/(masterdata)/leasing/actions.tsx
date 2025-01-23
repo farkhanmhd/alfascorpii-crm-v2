@@ -2,13 +2,9 @@
 
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import {
-  useActionDialog,
-  useSubmitToast,
-  useDeleteToast,
-  useDeleteDialog,
-} from '@/hooks';
-import { ILeasing } from '@/types';
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useDialog } from '@/hooks';
 import {
   addLeasingAction,
   updateLeasingAction,
@@ -16,22 +12,34 @@ import {
 } from '@/app/lib/actions/leasing';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
+import { actionResponseToast } from '@/lib/utils';
 import LeasingForm from './LeasingForm';
 
 export const CreateLeasingDialog = () => {
-  const { handleClose } = useActionDialog<ILeasing>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      leasing: formData.get('leasing'),
-    };
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        leasing: formData.get('leasing'),
+      };
 
-    return addLeasingAction(data);
-  });
-
-  useSubmitToast(result, handleClose, reset);
+      return addLeasingAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
 
   return (
-    <ActionDialogContainer title="Tambah Leasing">
+    <ActionDialogContainer
+      title="Tambah Leasing"
+      open={open}
+      setOpen={setOpen}
+      trigger={<Button>Tambah Leasing</Button>}
+    >
       <LeasingForm
         action={execute}
         isPending={isPending}
@@ -41,24 +49,45 @@ export const CreateLeasingDialog = () => {
   );
 };
 
-export const EditLeasingDialog = () => {
-  const { actionDialog, handleClose } = useActionDialog<ILeasing>();
-  const { execute, result, isPending, reset } = useAction(async (formData) => {
-    const data = {
-      id: Number(actionDialog?.data?.id),
-      leasing: formData.get('leasing'),
-    };
+export const EditLeasingDialog = ({
+  id,
+  leasing,
+}: {
+  id: number;
+  leasing: string;
+}) => {
+  const { open, setOpen } = useDialog();
+  const { execute, result, isPending } = useAction(
+    async (formData) => {
+      const data = {
+        id,
+        leasing: formData.get('leasing'),
+      };
 
-    return updateLeasingAction(data);
-  });
-
-  useSubmitToast(result, handleClose, reset);
+      return updateLeasingAction(data);
+    },
+    {
+      onSettled: (actionResult) => {
+        actionResponseToast(actionResult);
+        setOpen(false);
+      },
+    }
+  );
 
   return (
-    <ActionDialogContainer title="Update Leasing">
+    <ActionDialogContainer
+      title="Edit Leasing"
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button variant="outline" size="icon">
+          <Pencil />
+        </Button>
+      }
+    >
       <LeasingForm
         action={execute}
-        initialLeasing={actionDialog?.data?.leasing_name}
+        initialLeasing={leasing}
         isPending={isPending}
         validationErrors={result?.validationErrors}
       />
@@ -66,21 +95,27 @@ export const EditLeasingDialog = () => {
   );
 };
 
-export const DeleteLeasingDialog = () => {
-  const { deleteDialog } = useDeleteDialog();
-  const {
-    execute: deleteLeasing,
-    isPending,
-    result,
-    reset,
-  } = useAction(removeLeasingAction);
+export const DeleteLeasingDialog = ({ id }: { id: number }) => {
+  const { open, setOpen } = useDialog();
+  const { execute: deleteLeasing, isPending } = useAction(removeLeasingAction, {
+    onSettled: (actionResult) => {
+      actionResponseToast(actionResult);
+      setOpen(false);
+    },
+  });
 
-  useDeleteToast(result, reset);
   return (
     <DeleteDialog
-      title="Hapus Leasing?"
+      title="Hapus Pekerjaan?"
       isPending={isPending}
-      deleteAction={() => deleteLeasing({ id: Number(deleteDialog?.id) })}
+      deleteAction={() => deleteLeasing({ id })}
+      open={open}
+      setOpen={setOpen}
+      trigger={
+        <Button size="icon" variant="outline">
+          <Trash />
+        </Button>
+      }
     />
   );
 };

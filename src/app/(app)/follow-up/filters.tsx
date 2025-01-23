@@ -1,11 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { useAction } from 'next-safe-action/hooks';
-import { useDebouncedCallback } from 'use-debounce';
-import { getMotorcycleList } from '@/app/lib/actions/motorcycles';
-import { getDealerList } from '@/app/lib/actions/dealers';
+import { format } from 'date-fns';
 import { SelectFilter } from '@/components/elements/form/Select';
 import DatePicker from '@/components/elements/form/DatePicker';
 import { ComboBoxOptions, SelectOptions } from '@/types';
@@ -21,92 +18,36 @@ const dateOptions: SelectOptions[] = [
   { label: 'Tanggal Lahir', value: 'date_of_birth' },
 ];
 
-const fuOptions: SelectOptions[] = [
-  { label: 'Semua', value: 'all' },
-  { label: 'Follow Up 1', value: 'fu_1' },
-  { label: 'Follow Up 2', value: 'fu_2' },
-  { label: 'Follow Up 3', value: 'fu_3' },
-  { label: 'Deal', value: 'deal' },
-  { label: 'Reject', value: 'reject' },
-];
-
-const fuDetail: SelectOptions[] = [
-  { label: 'Semua', value: 'all' },
-  { label: 'Tidak Berminat', value: 'tidak berminat' },
-  { label: 'Belum Berminat', value: 'belum berminat' },
-  { label: 'Sedang Sibuk', value: 'sedang sibuk' },
-  { label: 'Cold', value: 'cold' },
-  { label: 'Warm', value: 'warm' },
-  { label: 'Hot', value: 'hot' },
-];
-
 type Props = {
   users: SelectOptions[];
+  motorcycles: ComboBoxOptions[];
+  dealers: ComboBoxOptions[];
+  fuDetails: SelectOptions[];
+  fuResults: SelectOptions[];
 };
 
-const FollowUpFilters = ({ users }: Props) => {
+const FollowUpFilters = ({
+  users,
+  motorcycles = [],
+  dealers = [],
+  fuDetails = [],
+  fuResults = [],
+}: Props) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  const [isTyping, setIsTyping] = useState<boolean>(false);
   const [dateOption, setDateOption] = useState<string>('');
   const [fuOption, setFuOption] = useState<string>('all');
   const [fuDetailValue, setFuDetailValue] = useState<string>('all');
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [croName, setCroName] = useState<string>(users[0].value);
-  const [motorcycleInput, setMotorcycleInput] = useState<string>('');
-  const [motorcycleId, setMotorcycleId] = useState<string>('');
-  const [motorcycleOptions, setMotorcycleOptions] = useState<ComboBoxOptions[]>(
-    []
+  const [motorcycleId, setMotorcycleId] = useState<string>(
+    searchParams.get('motorcycle_id') || ''
   );
-  const [dealerOptions, setDealerOptions] = useState<ComboBoxOptions[]>([]);
-  const [dealerId, setDealerId] = useState<string>('');
-  const [dealerInput, setDealerInput] = useState<string>('');
-
-  const { execute, isPending } = useAction(getMotorcycleList, {
-    onSuccess: (data) => {
-      if (data.data) {
-        setMotorcycleOptions(data.data);
-      }
-    },
-  });
-
-  const { execute: executeDealer, isPending: isPendingDealer } = useAction(
-    getDealerList,
-    {
-      onSuccess: (data) => {
-        if (data.data) {
-          setDealerOptions(data.data);
-        }
-      },
-    }
+  const [dealerId, setDealerId] = useState<string>(
+    searchParams.get('dealer_id') || ''
   );
-
-  const handleMotorcycleSearch = useDebouncedCallback((term: string) => {
-    execute({ search: term });
-    setIsTyping(false);
-  }, 300);
-
-  const handleDealerSearch = useDebouncedCallback((term: string) => {
-    executeDealer({ search: term });
-    setIsTyping(false);
-  }, 300);
-
-  const onMotorcycleChange = (term: string) => {
-    setIsTyping(true);
-    setMotorcycleInput(term);
-    handleMotorcycleSearch(term);
-  };
-
-  const onDealerChange = (term: string) => {
-    setIsTyping(true);
-    setDealerInput(term);
-    handleDealerSearch(term);
-  };
-
-  useEffect(() => {
-    execute({ search: motorcycleInput });
-    executeDealer({ search: dealerInput });
-  }, []);
 
   const handleFilter = () => {
     const params = new URLSearchParams(searchParams);
@@ -116,10 +57,46 @@ const FollowUpFilters = ({ users }: Props) => {
       params.set('user_id', croName);
     }
 
-    if (motorcycleId !== '') {
+    if (motorcycleId) {
       params.set('motorcycle_id', motorcycleId);
     } else {
       params.delete('motorcycle_id');
+    }
+
+    if (dealerId) {
+      params.set('dealer_id', dealerId);
+    } else {
+      params.delete('dealer_id');
+    }
+
+    if (dateOption !== 'all') {
+      params.set('date_field', dateOption);
+
+      if (startDate) {
+        params.set('date_from', format(startDate, 'yyyy-MM-dd'));
+      } else {
+        params.delete('date_from');
+      }
+
+      if (endDate) {
+        params.set('date_to', format(endDate, 'yyyy-MM-dd'));
+      } else {
+        params.delete('date_to');
+      }
+    } else {
+      params.delete('date_field');
+    }
+
+    if (fuOption !== 'all') {
+      params.set('follow_up_result_id', fuOption);
+    } else {
+      params.delete('follow_up_result_id');
+    }
+
+    if (fuDetailValue !== 'all') {
+      params.set('follow_up_detail_id', fuDetailValue);
+    } else {
+      params.delete('follow_up_detail_id');
     }
 
     replace(`${pathname}?${params.toString()}`);
@@ -135,21 +112,31 @@ const FollowUpFilters = ({ users }: Props) => {
         value={dateOption}
         setSelectedValue={setDateOption}
       />
-      <DatePicker id="start_date" label="Tanggal Awal" />
-      <DatePicker id="end_date" label="Tanggal Akhir" />
+      <DatePicker
+        id="start_date"
+        label="Tanggal Awal"
+        date={startDate}
+        setDate={setStartDate}
+      />
+      <DatePicker
+        id="end_date"
+        label="Tanggal Akhir"
+        date={endDate}
+        setDate={setEndDate}
+      />
       <SelectFilter
-        label="Follow Up"
+        label="Hasil FU"
         id="fu_option"
         placeholder="Pilih Opsi FU"
-        options={fuOptions}
+        options={fuResults}
         value={fuOption}
         setSelectedValue={setFuOption}
       />
       <SelectFilter
-        label="Keterangan Follow UP"
+        label="Keterangan FU"
         id="fu_detail"
         placeholder="Pilih Keterangan FU"
-        options={fuDetail}
+        options={fuDetails}
         value={fuDetailValue}
         setSelectedValue={setFuDetailValue}
       />
@@ -159,26 +146,20 @@ const FollowUpFilters = ({ users }: Props) => {
         setSelectedUser={setCroName}
       />
       <ComboBox
-        options={motorcycleOptions}
+        options={motorcycles}
         label="Tipe Motor"
         id="motorcycle"
         placeholder="Pilih Tipe Motor"
         value={motorcycleId}
         onSelect={setMotorcycleId}
-        inputValue={motorcycleInput}
-        onValueChange={(search: string) => onMotorcycleChange(search)}
-        isPendingResult={isTyping || isPending}
       />
       <ComboBox
         label="Dealer / Area"
         id="dealer_area"
         placeholder="Pilih Dealer/Area"
-        options={dealerOptions}
+        options={dealers}
         value={dealerId}
         onSelect={setDealerId}
-        inputValue={dealerInput}
-        onValueChange={(search: string) => onDealerChange(search)}
-        isPendingResult={isTyping || isPendingDealer}
       />
       <Button className="w-max self-end" onClick={handleFilter}>
         Filter

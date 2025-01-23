@@ -13,14 +13,14 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface PaginationProps {
-  selectedRows: number;
+  selectedRows?: number;
   total: number;
   currentPage: number;
   totalPages: number;
 }
 
 const DataTablePagination = ({
-  selectedRows,
+  selectedRows = 0,
   total,
   currentPage,
   totalPages,
@@ -198,7 +198,7 @@ const DataTablePagination = ({
   };
 
   return (
-    <div className="bottom-0 flex items-center justify-between pt-6 lg:sticky">
+    <div className="flex items-center justify-between pt-6">
       {total > 0 && (
         <p className="hidden w-full text-sm md:block">
           {selectedRows > 0 ? (
@@ -212,33 +212,35 @@ const DataTablePagination = ({
           <span>of {total} entries</span>
         </p>
       )}
-      <Pagination className="mx-0 sm:justify-end">
-        <PaginationContent className="w-full justify-end">
-          <PaginationItem key="prev">
-            <Button
-              variant="outline"
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-              size="icon"
-            >
-              <ChevronLeft className="h-4 w-4" />
-              <span className="sr-only">Previous page</span>
-            </Button>
-          </PaginationItem>
-          {renderPageButtons()}
-          <PaginationItem key="next">
-            <Button
-              variant="outline"
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              size="icon"
-            >
-              <ChevronRight className="h-4 w-4" />
-              <span className="sr-only">Next page</span>
-            </Button>
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      {totalPages > 1 && (
+        <Pagination className="mx-0 sm:justify-end">
+          <PaginationContent className="w-full justify-end">
+            <PaginationItem key="prev">
+              <Button
+                variant="outline"
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+                size="icon"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                <span className="sr-only">Previous page</span>
+              </Button>
+            </PaginationItem>
+            {renderPageButtons()}
+            <PaginationItem key="next">
+              <Button
+                variant="outline"
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                size="icon"
+              >
+                <ChevronRight className="h-4 w-4" />
+                <span className="sr-only">Next page</span>
+              </Button>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 };

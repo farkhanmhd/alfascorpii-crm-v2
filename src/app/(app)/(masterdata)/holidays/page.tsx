@@ -1,7 +1,9 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import TableSkeleton from '@/components/elements/table/TableSkeleton';
+import MasterHeader from '@/components/fragments/MasterHeader';
 import HolidayTable from './HolidayTable';
+import { CreateHolidayDialog } from './actions';
 
 export const metadata: Metadata = {
   title: 'Holidays',
@@ -21,9 +23,14 @@ const Page = async (props: {
   const perPage = searchParams?.per_page;
 
   return (
-    <Suspense fallback={<TableSkeleton />}>
-      <HolidayTable page={page} search={search} perPage={perPage} />
-    </Suspense>
+    <>
+      <MasterHeader searchPlaceholder="Cari Hari Besar">
+        <CreateHolidayDialog />
+      </MasterHeader>
+      <Suspense fallback={<TableSkeleton />}>
+        <HolidayTable page={page} search={search} perPage={perPage} />
+      </Suspense>
+    </>
   );
 };
 export default Page;

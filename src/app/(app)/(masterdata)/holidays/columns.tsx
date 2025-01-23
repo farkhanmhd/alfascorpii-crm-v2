@@ -2,11 +2,9 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { Pencil, Trash } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { IHolidays } from '@/types';
-import { Button } from '@/components/ui/button';
-import { useDeleteDialog, useActionDialog, useSelectedDate } from '@/hooks';
+import { DeleteHolidayDialog, EditHolidayDialog } from './actions';
 
 const columns: ColumnDef<IHolidays>[] = [
   {
@@ -36,33 +34,16 @@ const columns: ColumnDef<IHolidays>[] = [
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
-      const { setDeleteDialog } = useDeleteDialog();
-      const { setActionDialog } = useActionDialog<IHolidays>();
-      const { setSelectedDate } = useSelectedDate();
-
-      const handleEdit = () => {
-        setActionDialog({ edit: true, data: row.original });
-        setSelectedDate(new Date(row.original.holiday_date).toString());
-      };
-
       return (
         <div className="flex justify-end gap-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={handleEdit}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            onClick={() => setDeleteDialog({ open: true, id: row.original.id })}
-          >
-            <Trash />
-          </Button>
+          <EditHolidayDialog
+            id={Number(row.original.id)}
+            holiday={row.original.holiday_name}
+            date={row.original.holiday_date}
+            message={row.original.message}
+            status={row.original.status}
+          />
+          <DeleteHolidayDialog id={Number(row.original.id)} />
         </div>
       );
     },

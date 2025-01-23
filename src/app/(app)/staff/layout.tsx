@@ -1,18 +1,12 @@
 'use client';
 
 import React from 'react';
-import TableContainerHeader from '@/components/elements/table/TableContainerHeader';
-import Tablesearch from '@/components/elements/table/tablesearch';
-import { Button } from '@/components/ui/button';
+import TableLayout from '@/components/elements/table/TableLayout';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex h-full flex-1 flex-col">
-      <TableContainerHeader>
-        <Tablesearch placeholder="Search Staff" />
-        <Button className="w-fit">Add Staff</Button>
-      </TableContainerHeader>
-      {children}
+    <div className="flex h-[calc(100dvh-132px)] flex-col">
+      <TableLayout>{children}</TableLayout>
     </div>
   );
 };

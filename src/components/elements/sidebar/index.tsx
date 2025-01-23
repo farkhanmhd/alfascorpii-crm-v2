@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Menu, X, LayoutDashboard } from 'lucide-react';
+import { Menu, X, LayoutDashboard, Users } from 'lucide-react';
 import MapItems from '@/utils/MapItems';
 import { useMobile } from '@/hooks';
 import useClickOutside from '@/hooks/useClickOutside';
@@ -65,6 +65,14 @@ const Sidebar = ({ data }: { data: SidebarGroupProps[] }) => {
                 />
               )}
             />
+            <div>
+              <SidebarLink
+                href="/staff"
+                label="Staff"
+                onLinkClick={closeSidebar}
+                icon={<Users />}
+              />
+            </div>
           </div>
         </ScrollArea>
       </aside>

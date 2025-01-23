@@ -1,7 +1,9 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import TableSkeleton from '@/components/elements/table/TableSkeleton';
+import MasterHeader from '@/components/fragments/MasterHeader';
 import DealerTable from './DealerTable';
+import { CreateDealerDialog } from './actions';
 
 export const metadata: Metadata = {
   title: 'Dealers',
@@ -21,9 +23,15 @@ const Page = async (props: {
   const perPage = searchParams?.per_page;
 
   return (
-    <Suspense fallback={<TableSkeleton />}>
-      <DealerTable page={page} search={search} perPage={perPage} />
-    </Suspense>
+    <>
+      <MasterHeader searchPlaceholder="Cari Dealer">
+        <CreateDealerDialog />
+      </MasterHeader>
+
+      <Suspense fallback={<TableSkeleton />}>
+        <DealerTable page={page} search={search} perPage={perPage} />
+      </Suspense>
+    </>
   );
 };
 export default Page;

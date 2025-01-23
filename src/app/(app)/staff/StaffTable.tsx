@@ -16,13 +16,12 @@ const StaffTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { staffs, last_page: totalPages, total } = data;
   return (
     <>
-      <DataTable columns={columns} data={staffs} rows={total} />
+      <DataTable columns={columns} data={data} rows={100} />
       <DataTablePagination
         currentPage={Number(page)}
-        totalPages={totalPages}
+        totalPages={1}
         selectedRows={0}
         total={0}
       />

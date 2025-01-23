@@ -102,7 +102,7 @@ const DatePicker = ({
               onValueChange={handleMonthChange}
               value={months[getMonth(date)]}
             >
-              <SelectTrigger>
+              <SelectTrigger className="pointer-events-auto">
                 <SelectValue placeholder="Month" />
               </SelectTrigger>
               <SelectContent>
@@ -117,7 +117,7 @@ const DatePicker = ({
               onValueChange={handleYearChange}
               value={getYear(date).toString()}
             >
-              <SelectTrigger>
+              <SelectTrigger className="pointer-events-auto">
                 <SelectValue placeholder="Year" />
               </SelectTrigger>
               <SelectContent>
