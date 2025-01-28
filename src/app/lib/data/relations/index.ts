@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+import { getAccessToken } from '../auth';
 import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchRelation = (
@@ -30,4 +32,38 @@ export const deleteRelation = (id: number) => {
     endpoint: `relations/${id}`,
     method: 'DELETE',
   });
+};
+
+export const getRelationOptions = async () => {
+  try {
+    const accessToken = await getAccessToken();
+
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const response = await fetch(
+      `${process.env.BACKEND_URL}/relations?per_page=9999`,
+      {
+        method: 'GET',
+        cache: 'force-cache',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const { data } = await response.json();
+    const { relations } = data;
+    const motorcycleList = relations.map((relation: any) => ({
+      label: relation.relation_name,
+      value: String(relation.id),
+    }));
+
+    return motorcycleList;
+  } catch (error) {
+    return [];
+  }
 };

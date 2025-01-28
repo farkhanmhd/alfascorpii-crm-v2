@@ -1,19 +1,15 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useAction } from 'next-safe-action/hooks';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { loginAction } from '@/app/lib/actions/auth';
 import { UserAuthForm } from './UserAuthForm';
 
 const LoginPage = () => {
-  const { data: session } = useSession();
   const { toast } = useToast();
   const { push } = useRouter();
-  const callbackUrl =
-    new URLSearchParams(window.location.search).get('redirectUrl') || '/';
 
   const { execute, result, isPending } = useAction((formData) => {
     const data = {
@@ -21,48 +17,52 @@ const LoginPage = () => {
       password: formData.get('password'),
     };
 
-    localStorage.removeItem('loggedOut');
     return loginAction(data);
   });
 
-  const manualLogOut = localStorage.getItem('userLogout') === 'true';
+  const searchParams = useSearchParams();
+
+  const redirectUrl = searchParams.get('redirectUrl') || '/';
+
+  const userLogout = localStorage.getItem('userLogout');
 
   useEffect(() => {
-    if (manualLogOut) {
+    if (userLogout === 'true') {
       toast({
         title: 'Logged out',
         description: 'Please login again',
         duration: 3000,
       });
-
-      setTimeout(() => {
-        localStorage.removeItem('userLogout');
-      }, 3000);
+    } else {
+      toast({
+        title: 'Session Expired',
+        description: 'Please login again',
+        duration: 3000,
+        variant: 'destructive',
+      });
     }
-  }, [session, toast, manualLogOut]);
+    setTimeout(() => {
+      localStorage.removeItem('userLogout');
+    }, 3000);
+  }, [toast, userLogout]);
 
   useEffect(() => {
-    if (result.serverError) {
+    if (result?.data?.status === 'success') {
       toast({
-        title: 'Login Failed',
-        description: 'Wrong Username or Password',
+        title: 'Success',
+        description: result.data.message,
+        duration: 3000,
+      });
+      push(redirectUrl);
+    } else if (result?.data?.status === 'error') {
+      toast({
+        title: 'Error',
+        description: result.data.message,
         variant: 'destructive',
         duration: 3000,
       });
     }
-  }, [result.serverError, toast]);
-
-  useEffect(() => {
-    if (result?.data?.user) {
-      toast({
-        title: 'Success',
-        description: 'Logged in successfully',
-        duration: 3000,
-      });
-
-      push(callbackUrl);
-    }
-  }, [result?.data?.user, toast, push, callbackUrl]);
+  }, [result, toast, push, redirectUrl]);
   return (
     <UserAuthForm
       action={execute}

@@ -7,7 +7,9 @@ import {
   DialogContent,
 } from '@/components/ui/dialog';
 
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
+
+import { cn } from '@/lib/utils';
 
 import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 
@@ -22,8 +24,8 @@ type Props = {
 const FollowUpHistory = ({ followUps }: Props) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="orange">History Follow Up</Button>
+      <DialogTrigger className={cn(buttonVariants({ variant: 'orange' }))}>
+        History Follow Up
       </DialogTrigger>
       <DialogContent className="max-w-4xl">
         <DialogHeader className="px-2">

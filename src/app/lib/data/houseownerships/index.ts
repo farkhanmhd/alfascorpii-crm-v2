@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+import { getAccessToken } from '../auth';
 import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchHouseOwnerships = (
@@ -33,4 +35,41 @@ export const deleteHouseOwnership = (id: number) => {
   return deleteData({
     endpoint: `houseownerships/${id}`,
   });
+};
+
+export const getHouseOwnershipOptions = async () => {
+  try {
+    const accessToken = await getAccessToken();
+
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const response = await fetch(
+      `${process.env.BACKEND_URL}/houseownerships?per_page=50`,
+      {
+        method: 'GET',
+        cache: 'force-cache',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const { data } = await response.json();
+    const { houseownerships } = data;
+    const houseOwnershipOptions = houseownerships.map(
+      (houseownership: any) => ({
+        label: houseownership.house_ownership_status,
+        value: String(houseownership.id),
+      })
+    );
+
+    return houseOwnershipOptions;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };

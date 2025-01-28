@@ -29,7 +29,7 @@ const Tablesearch = ({ placeholder }: { placeholder: string }) => {
       <RowLimit />
       <div className="relative w-full md:max-w-sm">
         <Input
-          className="peer w-full pe-9 ps-9"
+          className="peer h-10 w-full pe-9 ps-9"
           placeholder={placeholder}
           type="search"
           onChange={(e) => handleSearch(e.target.value)}

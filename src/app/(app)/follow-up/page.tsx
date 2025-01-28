@@ -52,28 +52,23 @@ const Page = async (props: Props) => {
   };
 
   const users = await getAllUsers();
-  users.unshift({
-    label: 'Semua',
-    value: 'all',
-  });
-
   const motorcycles = await getAllMotorcyclesList();
   const dealers = await getAllDealersList();
-
   const fuDetails = await getFuDetailOptions();
-  fuDetails.unshift({
-    label: 'Semua',
-    value: 'all',
-  });
-
   const fuResults = await getFuResultOptions();
+
   fuResults.unshift({
     label: 'Semua',
     value: 'all',
   });
 
+  fuDetails.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
   return (
-    <div className="grid h-full grid-rows-[auto_1fr_auto]">
+    <div className="grid grid-rows-[auto_1fr_auto]">
       <header className="flex flex-col gap-y-6 pb-6">
         <FollowUpFilters
           users={users}

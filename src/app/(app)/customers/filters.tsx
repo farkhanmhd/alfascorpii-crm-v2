@@ -29,7 +29,7 @@ type Props = {
 };
 
 const CustomerFilters = ({
-  users,
+  users = [],
   motorcycles = [],
   dealers = [],
   fuDetails = [],
@@ -47,7 +47,7 @@ const CustomerFilters = ({
   const [jobValue, setJobValue] = useState<string>('all');
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
-  const [croName, setCroName] = useState<string>(users[0].value);
+  const [croName, setCroName] = useState<string>(users[0].value || '');
   const [motorcycleId, setMotorcycleId] = useState<string>(
     searchParams.get('motorcycle_id') || ''
   );

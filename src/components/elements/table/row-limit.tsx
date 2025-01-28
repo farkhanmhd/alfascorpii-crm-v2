@@ -39,7 +39,7 @@ const RowLimit = () => {
     <div className="flex items-center gap-x-2">
       <span className="hidden text-sm font-medium sm:block">Show</span>
       <Select value={perPage} onValueChange={handleperPageChange}>
-        <SelectTrigger className="h-8 w-[70px]">
+        <SelectTrigger className="h-11 w-[70px]">
           <SelectValue placeholder={perPage} />
         </SelectTrigger>
         <SelectContent side="bottom">

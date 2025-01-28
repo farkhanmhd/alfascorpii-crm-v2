@@ -10,20 +10,33 @@ import {
 } from '@/components/ui/table';
 import DealDialog from '@/components/elements/dialogs/deal-dialog';
 import type { ICustomerFollowUp } from '@/types';
+import { SelectOptions } from '@/types';
 import FollowUpDialog from './dialogs/follow-up-dialog';
 import FollowUpHistory from './dialogs/follow-up-history';
 
 type Props = {
   followUps: ICustomerFollowUp[];
+  motorcyclesOpts: SelectOptions[];
+  holidayOpts: SelectOptions[];
+  jobOpts: SelectOptions[];
+  relationOpts: SelectOptions[];
+  fuDetailOpts: SelectOptions[];
+  fuResultOpts: SelectOptions[];
+  fuMethodOpts: SelectOptions[];
+  fuStatusOpts: SelectOptions[];
+  incomeOpts: SelectOptions[];
+  expenseOpts: SelectOptions[];
+  hobbyOpts: SelectOptions[];
+  houseOwnershipOpts: SelectOptions[];
 };
 
-const FollowUpTab = ({ followUps }: Props) => {
+const FollowUpTab = ({ ...props }: Props) => {
   const getFieldOrDefault = (
     index: number,
     field: keyof ICustomerFollowUp,
     defaultValue: string = '-'
   ) => {
-    return followUps[index]?.[field] ?? defaultValue;
+    return props.followUps[index]?.[field] ?? defaultValue;
   };
 
   return (
@@ -58,7 +71,7 @@ const FollowUpTab = ({ followUps }: Props) => {
                 {getFieldOrDefault(1, 'user')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                {getFieldOrDefault(followUps.length - 1, 'user')}
+                {getFieldOrDefault(props.followUps.length - 1, 'user')}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -72,7 +85,7 @@ const FollowUpTab = ({ followUps }: Props) => {
                 {getFieldOrDefault(1, 'recipient')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                {getFieldOrDefault(followUps.length - 1, 'recipient')}
+                {getFieldOrDefault(props.followUps.length - 1, 'recipient')}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -86,7 +99,7 @@ const FollowUpTab = ({ followUps }: Props) => {
                 {getFieldOrDefault(1, 'relationship')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                {getFieldOrDefault(followUps.length - 1, 'relationship')}
+                {getFieldOrDefault(props.followUps.length - 1, 'relationship')}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -101,7 +114,7 @@ const FollowUpTab = ({ followUps }: Props) => {
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
                 {getFieldOrDefault(
-                  followUps.length - 1,
+                  props.followUps.length - 1,
                   'additional_information'
                 )}
               </TableCell>
@@ -117,7 +130,10 @@ const FollowUpTab = ({ followUps }: Props) => {
                 {getFieldOrDefault(1, 'whatsapp_number')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                {getFieldOrDefault(followUps.length - 1, 'whatsapp_number')}
+                {getFieldOrDefault(
+                  props.followUps.length - 1,
+                  'whatsapp_number'
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -131,7 +147,10 @@ const FollowUpTab = ({ followUps }: Props) => {
                 {getFieldOrDefault(1, 'follow_up_date')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                {getFieldOrDefault(followUps.length - 1, 'follow_up_date')}
+                {getFieldOrDefault(
+                  props.followUps.length - 1,
+                  'follow_up_date'
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -145,7 +164,10 @@ const FollowUpTab = ({ followUps }: Props) => {
                 {getFieldOrDefault(1, 'follow_up_method')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                {getFieldOrDefault(followUps.length - 1, 'follow_up_method')}
+                {getFieldOrDefault(
+                  props.followUps.length - 1,
+                  'follow_up_method'
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -159,7 +181,10 @@ const FollowUpTab = ({ followUps }: Props) => {
                 {getFieldOrDefault(1, 'follow_up_status')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                {getFieldOrDefault(followUps.length - 1, 'follow_up_status')}
+                {getFieldOrDefault(
+                  props.followUps.length - 1,
+                  'follow_up_status'
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -173,7 +198,10 @@ const FollowUpTab = ({ followUps }: Props) => {
                 {getFieldOrDefault(1, 'follow_up_detail')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                {getFieldOrDefault(followUps.length - 1, 'follow_up_detail')}
+                {getFieldOrDefault(
+                  props.followUps.length - 1,
+                  'follow_up_detail'
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -187,7 +215,10 @@ const FollowUpTab = ({ followUps }: Props) => {
                 {getFieldOrDefault(1, 'product_preferences')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                {getFieldOrDefault(followUps.length - 1, 'product_preferences')}
+                {getFieldOrDefault(
+                  props.followUps.length - 1,
+                  'product_preferences'
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -201,7 +232,10 @@ const FollowUpTab = ({ followUps }: Props) => {
                 {getFieldOrDefault(1, 'follow_up_result')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                {getFieldOrDefault(followUps.length - 1, 'follow_up_result')}
+                {getFieldOrDefault(
+                  props.followUps.length - 1,
+                  'follow_up_result'
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -215,7 +249,10 @@ const FollowUpTab = ({ followUps }: Props) => {
                 {getFieldOrDefault(1, 'follow_up_note')}
               </TableCell>
               <TableCell className="h-12 px-4 py-2 text-xs sm:text-sm">
-                {getFieldOrDefault(followUps.length - 1, 'follow_up_note')}
+                {getFieldOrDefault(
+                  props.followUps.length - 1,
+                  'follow_up_note'
+                )}
               </TableCell>
             </TableRow>
           </TableBody>
@@ -223,8 +260,8 @@ const FollowUpTab = ({ followUps }: Props) => {
       </div>
 
       <div className="flex flex-col gap-4 md:flex-row">
-        <FollowUpDialog />
-        <FollowUpHistory followUps={followUps} />
+        <FollowUpDialog {...(props as Omit<Props, 'followUps'>)} />
+        <FollowUpHistory followUps={props.followUps} />
         <div className="w-max">
           <DealDialog />
         </div>

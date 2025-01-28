@@ -117,3 +117,69 @@ export const manualAssignFollowUp = async (payload: {
     return { meta: { message: 'Internal Server Error' } };
   }
 };
+
+type FollowUpData = {
+  customer_id: number;
+  recipient_name: string;
+  relation_id: number;
+  whatsapp_number: string;
+  additional_information: string;
+  follow_up_date: string;
+  follow_up_method_id: number;
+  follow_up_status_id: number;
+  follow_up_detail_id: number;
+  follow_up_result_id: number;
+  follow_up_note: string;
+  product_preferences_id: number;
+  update_data?: {
+    recipient_address: string;
+    sub_district: string;
+    house_ownership_id: number;
+    job_id: number;
+    recipient_job_detail: string;
+    recipient_born_date: string;
+    recipient_religion: string;
+    hobby_id: number;
+    recipient_hobby_detail: string;
+    amount_of_family: number;
+    amount_of_motorcycle: number;
+    facebook: string;
+    instagram: string;
+    email: string;
+    income_id: number;
+    expense_id: number;
+    holiday_id: number;
+  };
+};
+
+type FollowUpDataWithoutCustomerId = Omit<FollowUpData, 'customer_id'>;
+
+export const addFollowUp = async (payload: FollowUpData) => {
+  try {
+    const token = await getAccessToken();
+    if (!token) {
+      redirect('/login');
+    }
+    const requestUrl = `${process.env.BACKEND_URL}/customers/${payload.customer_id}/followup`;
+
+    const bodyPayload: FollowUpDataWithoutCustomerId = {
+      ...payload,
+    };
+
+    const response = await fetch(requestUrl, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(bodyPayload),
+    });
+
+    const { meta } = await response.json();
+    return meta;
+  } catch (error) {
+    console.error(error);
+    return { meta: { message: 'Internal Server Error' } };
+  }
+};

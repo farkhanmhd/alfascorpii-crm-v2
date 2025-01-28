@@ -1,8 +1,8 @@
 import 'server-only';
 
-import { redirect } from 'next/navigation';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { ncrypt as Ncrypt } from 'ncrypt-js';
 
 export type SessionPayload = {
@@ -31,6 +31,10 @@ export const encryptToken = async (token: string): Promise<string> => {
 };
 
 export const decryptToken = async (encryptedToken: string): Promise<string> => {
+  if (!encryptToken) {
+    redirect('/login');
+  }
+
   const ncryptObj = new Ncrypt(secretKey as string);
   const decryptedToken = ncryptObj.decrypt(encryptedToken as string);
 

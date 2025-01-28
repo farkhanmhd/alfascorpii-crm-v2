@@ -5,13 +5,12 @@ import type { User } from '@/types';
 import { redirect } from 'next/navigation';
 import actionClient from '@/lib/safe-action';
 import { revalidatePath } from 'next/cache';
-import { getAccessToken } from '../../data/auth';
 import { postNewStaff } from '../../data/staff';
+import { getAccessToken } from '../../data/auth';
 
 export const getAllUsers = async () => {
   try {
     const accessToken = await getAccessToken();
-
     if (!accessToken) {
       redirect('/login');
     }
@@ -34,6 +33,11 @@ export const getAllUsers = async () => {
         label: cro.name,
         value: cro.uuid,
       }));
+
+    users.unshift({
+      label: 'Semua',
+      value: 'all',
+    });
 
     return users;
   } catch (error) {

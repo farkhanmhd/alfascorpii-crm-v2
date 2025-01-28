@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+import { getAccessToken } from '../auth';
 import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
 export const fetchExpenses = (
@@ -51,4 +53,38 @@ export const deleteExpense = (id: number) => {
   return deleteData({
     endpoint: `expenses/${id}`,
   });
+};
+
+export const getExpenseOptions = async () => {
+  try {
+    const accessToken = await getAccessToken();
+
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const response = await fetch(
+      `${process.env.BACKEND_URL}/expenses?per_page=50`,
+      {
+        method: 'GET',
+        cache: 'force-cache',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const { data } = await response.json();
+    const { expenses } = data;
+    const expenseOptions = expenses.map((expense: any) => ({
+      label: expense.expense_detail,
+      value: String(expense.id),
+    }));
+
+    return expenseOptions;
+  } catch (error) {
+    return [];
+  }
 };

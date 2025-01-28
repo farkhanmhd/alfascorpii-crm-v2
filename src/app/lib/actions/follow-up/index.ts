@@ -6,6 +6,7 @@ import actionClient from '@/lib/safe-action';
 import {
   randomAssignFollowUp,
   manualAssignFollowUp,
+  addFollowUp,
 } from '../../data/follow-up';
 
 const randomAssignSchema = z.object({
@@ -53,6 +54,64 @@ export const manualAssignFollowUpAction = actionClient
       return {
         status: 'error',
         message: 'Server Error: Failed to assign Follow-up',
+        error,
+      };
+    }
+  });
+
+const followUpSchema = z.object({
+  customer_id: z.number(),
+  recipient_name: z.string(),
+  relation_id: z.number(),
+  whatsapp_number: z.string(),
+  additional_information: z.string(),
+  follow_up_date: z.string(),
+  follow_up_method_id: z.number(),
+  follow_up_status_id: z.number(),
+  follow_up_detail_id: z.number(),
+  follow_up_result_id: z.number(),
+  follow_up_note: z.string(),
+  product_preferences_id: z.number(),
+});
+
+const updateDataSchema = z.object({
+  recipient_address: z.string(),
+  sub_district: z.string(),
+  house_ownership_id: z.number(),
+  job_id: z.number(),
+  recipient_job_detail: z.string(),
+  recipient_born_date: z.string(),
+  recipient_religion: z.string(),
+  hobby_id: z.number(),
+  recipient_hobby_detail: z.string(),
+  amount_of_family: z.number(),
+  amount_of_motorcycle: z.number(),
+  facebook: z.string(),
+  instagram: z.string(),
+  email: z.string(),
+  income_id: z.number(),
+  expense_id: z.number(),
+  holiday_id: z.number(),
+});
+
+const schema = z.object({
+  ...followUpSchema.shape,
+  update_data: updateDataSchema.optional(),
+});
+
+export const addFollowUpAction = actionClient
+  .schema(schema)
+  .action(async ({ parsedInput }) => {
+    try {
+      const meta: { status: string; message: string } =
+        await addFollowUp(parsedInput);
+
+      revalidatePath('/follow-up');
+      return { status: meta.status, message: meta.message };
+    } catch (error) {
+      return {
+        status: 'error',
+        message: 'Server Error: Failed to add Follow-up',
         error,
       };
     }
