@@ -25,7 +25,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { SelectOptions } from '@/types';
 import ComboBox from '@/components/elements/form/ComboBox';
-import { actionResponseToast } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 
 type Props = {
@@ -181,7 +180,7 @@ const FollowUpDialog = ({ ...props }: Props) => {
                   <ComboBox
                     id="product_preferences_id"
                     label="Minat Product"
-                    options={props.motorcyclesOpts}
+                    options={props.motorcyclesOpts!}
                     placeholder="Minat Product"
                     value={motorcycle}
                     onSelect={setMotorcycle}

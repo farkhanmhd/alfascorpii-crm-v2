@@ -1,113 +1,117 @@
 import React from 'react';
-import { ICustomer, SelectOptions } from '@/types';
+import { ICustomer, OptionsProps, SelectOptions } from '@/types';
 import MapItems from '@/utils/MapItems';
 import CustomerCard from '@/components/elements/cards/InformationCard';
 import UpdateCustomerDialog from './dialogs/update-customer';
 
-const CustomerTab = ({ customer }: { customer: ICustomer }) => {
+interface Props extends OptionsProps {
+  customer: ICustomer;
+}
+
+const CustomerTab = ({ ...props }: Props) => {
   const personalInfo: SelectOptions[] = [
     {
       label: 'NIK',
-      value: customer.nik,
+      value: props.customer.nik,
     },
     {
       label: 'Nama',
-      value: customer.customer_name,
+      value: props.customer.customer_name,
     },
     {
       label: 'Tanggal Lahir',
-      value: customer.date_of_birth,
+      value: props.customer.date_of_birth,
     },
     {
       label: 'ALAMAT',
-      value: customer.address,
+      value: props.customer.customer_address,
     },
     {
       label: 'KELURAHAN',
-      value: customer.sub_district,
+      value: props.customer.sub_district,
     },
     {
       label: 'KECAMATAN',
-      value: customer.district,
+      value: props.customer.district,
     },
     {
       label: 'KABUPATEN/KOTA',
-      value: customer.regency_or_city,
+      value: props.customer.regency_or_city,
     },
     {
       label: 'PROVINSI',
-      value: customer.province,
+      value: props.customer.province,
     },
     {
       label: 'KODE POS',
-      value: String(customer.postal_code),
+      value: String(props.customer.postal_code),
     },
   ];
 
   const socials: SelectOptions[] = [
     {
       label: 'Telepon',
-      value: customer.telephone,
+      value: props.customer.telephone,
     },
     {
       label: 'No. HP',
-      value: customer.mobile_phone,
+      value: props.customer.mobile_phone,
     },
     {
       label: 'Whatsapp',
-      value: customer.whatsapp_number,
+      value: props.customer.whatsapp_number,
     },
     {
       label: 'Facebook',
-      value: customer.facebook,
+      value: props.customer.facebook,
     },
     {
       label: 'Instagram',
-      value: customer.instagram,
+      value: props.customer.instagram,
     },
     {
       label: 'Email',
-      value: customer.email,
+      value: props.customer.email,
     },
   ];
 
   const otherInfo: SelectOptions[] = [
     {
       label: 'Status Rumah',
-      value: customer.house_ownership,
+      value: props.customer.house_ownership,
     },
     {
       label: 'Pekerjaan',
-      value: customer.job,
+      value: props.customer.job,
     },
     {
       label: 'Hari Besar Keagamaan',
-      value: customer.holiday,
+      value: props.customer.holiday,
     },
     {
       label: 'Hobi',
-      value: customer.hobby,
+      value: props.customer.hobby,
     },
     {
       label: 'Deskripsi Hobi',
-      value: customer.hobby_description,
+      value: props.customer.hobby_description,
     },
     {
       label: 'Jumlah Orang dalam 1 Rumah',
-      value: String(customer.amount_of_family),
+      value: String(props.customer.amount_of_family),
     },
     {
       label: 'Jumlah Sepeda Motor 1 Rumah',
-      value: String(customer.motorcycles.length),
+      value: String(props.customer.amount_of_motorcycle),
     },
 
     {
       label: 'Penghasilan / Bulan',
-      value: customer.income,
+      value: props.customer.income,
     },
     {
       label: 'Pengeluaran / Bulan',
-      value: customer.expense,
+      value: props.customer.expense,
     },
   ];
 
@@ -130,7 +134,7 @@ const CustomerTab = ({ customer }: { customer: ICustomer }) => {
         />
       </div>
       <div className="mb-8 mt-6">
-        <UpdateCustomerDialog />
+        <UpdateCustomerDialog {...props} />
       </div>
     </div>
   );

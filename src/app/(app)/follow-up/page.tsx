@@ -68,8 +68,8 @@ const Page = async (props: Props) => {
   });
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto]">
-      <header className="flex flex-col gap-y-6 pb-6">
+    <div className="grid grid-rows-[auto_1fr_auto] gap-y-6">
+      <header className="flex flex-col gap-y-6">
         <FollowUpFilters
           users={users}
           motorcycles={motorcycles}

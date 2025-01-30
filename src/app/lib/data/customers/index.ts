@@ -119,3 +119,73 @@ export const updateFamilyMembers = async (
   const { meta, data } = await response.json();
   return { meta, data };
 };
+
+type CustomerData = {
+  id: string;
+  customer_name?: string;
+  customer_address?: string;
+  province?: string;
+  district?: string;
+  sub_district?: string;
+  regency_or_city?: string;
+  postal_code?: string;
+  telephone?: string;
+  mobile_phone?: string;
+  nik?: string;
+  dealer_id?: number;
+  data_source?: string;
+  customer_status?: string;
+  house_ownership_id?: number;
+  job_id?: number;
+  job_description?: string;
+  date_of_birth?: string;
+  religion?: string;
+  degree_id?: number | null;
+  hobby_id?: number;
+  hobby_description?: string;
+  amount_of_family?: number;
+  family_under_12_yo?: number;
+  family_12_until_17_yo?: number;
+  amount_of_motorcycle?: number;
+  whatsapp_number?: string;
+  facebook?: string;
+  instagram?: string;
+  email?: string;
+  income_id?: number;
+  expense_id?: number;
+  holiday_id?: number;
+};
+
+type CustomerPayload = Omit<CustomerData, 'id'>;
+
+export const updateCustomerData = async (payload: CustomerData) => {
+  try {
+    const accessToken = await getAccessToken();
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const fetchUrl = `${process.env.BACKEND_URL}/customers/${payload.id}`;
+
+    const bodyPayload: CustomerPayload = {
+      ...Object.fromEntries(
+        Object.entries(payload).filter(([key]) => key !== 'id')
+      ),
+    };
+
+    const response = await fetch(fetchUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(bodyPayload),
+    });
+
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    return { meta: { message: 'Internal Server Error' } };
+  }
+};

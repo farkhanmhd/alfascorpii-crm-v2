@@ -47,7 +47,7 @@ const ProfileTab = async ({ id }: { id: string }) => {
     {
       value: 'overview',
       label: 'Data Customer',
-      content: <CustomerTab customer={customer} />,
+      content: <CustomerTab customer={customer} {...options} />,
     },
     {
       value: 'update',

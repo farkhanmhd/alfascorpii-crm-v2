@@ -170,6 +170,7 @@ export interface ICustomer extends IIdentifiable {
   user: string | null;
   hobby_description: string;
   amount_of_family: number;
+  amount_of_motorcycle: number;
   family_under_12_yo: number;
   family_12_until_17_yo: number;
   whatsapp_number: string;
@@ -441,3 +442,18 @@ export interface User {
   status: 'active' | 'inactive'; // Status with specific possible values
   password_changed_at: string | null; // Nullable ISO 8601 date-time string
 }
+
+export type OptionsProps = {
+  motorcyclesOpts: SelectOptions[];
+  holidayOpts: SelectOptions[];
+  jobOpts: SelectOptions[];
+  relationOpts: SelectOptions[];
+  fuDetailOpts: SelectOptions[];
+  fuResultOpts: SelectOptions[];
+  fuMethodOpts: SelectOptions[];
+  fuStatusOpts: SelectOptions[];
+  incomeOpts: SelectOptions[];
+  expenseOpts: SelectOptions[];
+  hobbyOpts: SelectOptions[];
+  houseOwnershipOpts: SelectOptions[];
+};

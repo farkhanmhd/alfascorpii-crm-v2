@@ -8,6 +8,7 @@ import {
   importFollowUp,
   addFamilyCardNumber,
   updateFamilyMembers,
+  updateCustomerData,
 } from '../../data/customers';
 
 const schema = zfd.formData({
@@ -80,6 +81,55 @@ export const updateFamilyMembersAction = actionClient
     );
     const { status, message } = meta;
     revalidatePath(`/customers/${id}`);
+    return {
+      status,
+      message,
+    };
+  });
+
+const updateCustomerSchema = z.object({
+  id: z.string(),
+  customer_name: z.string().optional(),
+  customer_address: z.string().optional(),
+  province: z.string().optional(),
+  district: z.string().optional(),
+  sub_district: z.string().optional(),
+  regency_or_city: z.string().optional(),
+  postal_code: z.string().optional(),
+  telephone: z.string().optional(),
+  mobile_phone: z.string().optional(),
+  nik: z.string().optional(),
+  dealer_id: z.number().optional(),
+  data_source: z.string().optional(),
+  customer_status: z.string().optional(),
+  house_ownership_id: z.number().optional(),
+  job_id: z.number().optional(),
+  job_description: z.string().optional(),
+  date_of_birth: z.string().optional(),
+  religion: z.string().optional(),
+  degree_id: z.number().nullable().optional(),
+  hobby_id: z.number().optional(),
+  hobby_description: z.string().optional(),
+  amount_of_family: z.number().optional(),
+  family_under_12_yo: z.number().optional(),
+  family_12_until_17_yo: z.number().optional(),
+  amount_of_motorcycle: z.number().optional(),
+  whatsapp_number: z.string().optional(),
+  facebook: z.string().optional(),
+  instagram: z.string().optional(),
+  email: z.string().optional(),
+  income_id: z.number().optional(),
+  expense_id: z.number().optional(),
+  holiday_id: z.number().optional(),
+});
+
+export const updateCustomerAction = actionClient
+  .schema(updateCustomerSchema)
+  .action(async ({ parsedInput }) => {
+    const json = await updateCustomerData(parsedInput);
+    const { meta } = json;
+    const { status, message } = meta;
+    revalidatePath(`/customers/${parsedInput.id}`);
     return {
       status,
       message,

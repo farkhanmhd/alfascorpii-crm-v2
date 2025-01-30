@@ -10,25 +10,13 @@ import {
 } from '@/components/ui/table';
 import DealDialog from '@/components/elements/dialogs/deal-dialog';
 import type { ICustomerFollowUp } from '@/types';
-import { SelectOptions } from '@/types';
+import { OptionsProps } from '@/types';
 import FollowUpDialog from './dialogs/follow-up-dialog';
 import FollowUpHistory from './dialogs/follow-up-history';
 
-type Props = {
+interface Props extends OptionsProps {
   followUps: ICustomerFollowUp[];
-  motorcyclesOpts: SelectOptions[];
-  holidayOpts: SelectOptions[];
-  jobOpts: SelectOptions[];
-  relationOpts: SelectOptions[];
-  fuDetailOpts: SelectOptions[];
-  fuResultOpts: SelectOptions[];
-  fuMethodOpts: SelectOptions[];
-  fuStatusOpts: SelectOptions[];
-  incomeOpts: SelectOptions[];
-  expenseOpts: SelectOptions[];
-  hobbyOpts: SelectOptions[];
-  houseOwnershipOpts: SelectOptions[];
-};
+}
 
 const FollowUpTab = ({ ...props }: Props) => {
   const getFieldOrDefault = (
