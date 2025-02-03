@@ -32,7 +32,7 @@ const TextInput = ({
         <span>{label}</span>
         {error && (
           <span className="text-red-500">
-            {error.map((errMsg) => `* ${errMsg}`).join(', ') || '*'}
+            {error.map((errMsg) => `${errMsg}`).join(', ') || '*'}
           </span>
         )}
       </Label>

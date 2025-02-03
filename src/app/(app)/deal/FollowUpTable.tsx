@@ -1,20 +1,15 @@
 import React from 'react';
-import { fetchCustomer } from '@/app/lib/data/customers';
-import { SearchParamsProps } from '@/types';
+import { fetchDeals } from '@/app/lib/data/deals';
 import { columns } from './columns';
 import FollowUpTableData from './FollowUpTableData';
 
-const FollowUpTable = async ({ search, page, perPage }: SearchParamsProps) => {
-  const {
-    customers,
-    last_page: totalPages,
-    total,
-  } = await fetchCustomer(search, page, perPage);
+const FollowUpTable = async ({ ...params }: any) => {
+  const { deals, lastPage: totalPages, total, page } = await fetchDeals(params);
 
   return (
     <FollowUpTableData
       columns={columns}
-      data={customers}
+      data={deals}
       rows={total}
       totalPages={totalPages}
       currentPage={Number(page)}

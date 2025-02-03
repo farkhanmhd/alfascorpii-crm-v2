@@ -10,11 +10,21 @@ import { cn } from '@/lib/utils';
 
 type Props = {
   label?: string;
-  image: string | null;
-  setImage: (image: string | null) => void;
+  image: File | null;
+  setImage: (image: File | null) => void;
+  id?: string;
+  hideLabel?: boolean;
+  error?: string[];
 };
 
-const ImageUploadDropzone: React.FC<Props> = ({ label, image, setImage }) => {
+const ImageUploadDropzone: React.FC<Props> = ({
+  label,
+  image,
+  setImage,
+  id,
+  hideLabel,
+  error,
+}) => {
   const [fileName, setFileName] = useState<string | null>(null);
 
   const onDrop = useCallback(
@@ -22,11 +32,7 @@ const ImageUploadDropzone: React.FC<Props> = ({ label, image, setImage }) => {
       const file = acceptedFiles[0];
       if (file) {
         setFileName(file.name);
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setImage(e.target?.result as string);
-        };
-        reader.readAsDataURL(file);
+        setImage(file);
       }
     },
     [setImage]
@@ -49,10 +55,17 @@ const ImageUploadDropzone: React.FC<Props> = ({ label, image, setImage }) => {
     <div className="mx-auto w-full px-4">
       {label && (
         <Label
-          htmlFor="image-upload"
-          className="mb-2 block text-sm font-semibold text-gray-700"
+          htmlFor={id}
+          className={cn('flex gap-x-2 font-semibold', {
+            'sr-only': hideLabel,
+          })}
         >
-          {label}
+          <span>{label}</span>
+          {error && (
+            <span className="text-red-500">
+              {error.map((errMsg) => `* ${errMsg}`).join(', ') || '*'}
+            </span>
+          )}
         </Label>
       )}
       <div
@@ -74,7 +87,7 @@ const ImageUploadDropzone: React.FC<Props> = ({ label, image, setImage }) => {
         ) : (
           <div className="group relative w-full">
             <Image
-              src={image}
+              src={URL.createObjectURL(image)}
               alt="Uploaded"
               className="h-auto w-full rounded-lg"
               width={300}

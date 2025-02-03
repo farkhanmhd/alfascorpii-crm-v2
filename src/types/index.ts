@@ -456,4 +456,65 @@ export type OptionsProps = {
   expenseOpts: SelectOptions[];
   hobbyOpts: SelectOptions[];
   houseOwnershipOpts: SelectOptions[];
+  dealerOpts: SelectOptions[];
+  leasingOpts: SelectOptions[];
+  colorOpts: SelectOptions[];
+  serviceTypeOpts: SelectOptions[];
 };
+
+export type DealType = {
+  id?: string | undefined;
+  deal_type: string;
+  call_date: string;
+  purchase_date?: string;
+  service_date?: string;
+  relation_id: number;
+  deal_customer_name: string;
+  deal_customer_nik: string;
+  deal_customer_phone: string;
+  deal_customer_born_date: string;
+  dealer_id: number;
+  motorcycle_id: number;
+  color_id?: number;
+  payment_method?: string;
+  leasing_id?: number;
+  frame_number: string;
+  service_type_id?: number;
+  service_price?: string;
+  sparepart_price?: string;
+  deal_status: string;
+  additional_info: string;
+  file?: File;
+};
+
+export interface IDealDetail {
+  id: number;
+  user: string | null;
+  deal_type: string | null;
+  customer_name: string | null;
+  call_date: string | null;
+  purchase_date: string | null;
+  service_date: string | null;
+  relation: string | null;
+  deal_customer_name: string | null;
+  deal_customer_nik: string | null;
+  deal_customer_phone: string | null;
+  deal_customer_born_date: string | null;
+  dealer: string | null;
+  motorcycle: string | null;
+  color: string | null;
+  payment_method: string | null;
+  leasing: string | null;
+  frame_number: string | null;
+  deal_status: string | null;
+  additional_info: string | null;
+  service_type: string | null;
+  service_price: string | null;
+  sparepart_price: string | null;
+  photos: Photo[];
+}
+
+export interface Photo {
+  id: number;
+  photo_path: string;
+}

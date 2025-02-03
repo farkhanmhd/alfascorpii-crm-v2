@@ -24,12 +24,12 @@ const TextField = ({
     <div className="flex h-full flex-col gap-y-4">
       <Label
         htmlFor={id}
-        className={cn('flex gap-x-2', {
+        className={cn('flex gap-x-2 font-semibold', {
           'sr-only': hideLabel,
         })}
       >
         <span>{label}</span>
-        {error && error.length > 0 && (
+        {error && (
           <span className="text-red-500">
             {error.map((errMsg) => `* ${errMsg}`).join(', ') || '*'}
           </span>

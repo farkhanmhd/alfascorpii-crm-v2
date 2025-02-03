@@ -73,7 +73,7 @@ export const EditFuResultDialog = ({
   status,
   furesult,
 }: {
-  id: number;
+  id: string;
   status: 'SHOW' | 'HIDE';
   furesult: string;
 }) => {

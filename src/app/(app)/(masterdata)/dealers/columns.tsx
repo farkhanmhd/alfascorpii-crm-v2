@@ -2,9 +2,7 @@
 
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import { Pencil, Trash } from 'lucide-react';
 import { IDealer } from '@/types';
-import { Button } from '@/components/ui/button';
 import { usePermissions } from '@/hooks';
 import { EditDealerDialog, DeleteDealerDialog } from './actions';
 

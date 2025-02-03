@@ -118,7 +118,7 @@ export const manualAssignFollowUp = async (payload: {
   }
 };
 
-type FollowUpData = {
+export type FollowUpData = {
   customer_id: number;
   recipient_name: string;
   relation_id: number;
@@ -132,23 +132,24 @@ type FollowUpData = {
   follow_up_note: string;
   product_preferences_id: number;
   update_data?: {
-    recipient_address: string;
-    sub_district: string;
-    house_ownership_id: number;
-    job_id: number;
-    recipient_job_detail: string;
-    recipient_born_date: string;
-    recipient_religion: string;
-    hobby_id: number;
-    recipient_hobby_detail: string;
-    amount_of_family: number;
-    amount_of_motorcycle: number;
-    facebook: string;
-    instagram: string;
-    email: string;
-    income_id: number;
-    expense_id: number;
-    holiday_id: number;
+    recipient_address?: string;
+    sub_district?: string;
+    house_ownership_id?: number;
+    job_id?: number;
+    recipient_job_detail?: string;
+    recipient_born_date?: string;
+    recipient_religion?: string;
+    hobby_id?: number;
+    recipient_hobby_detail?: string;
+    amount_of_family?: number;
+    amount_of_motorcycle?: number;
+    facebook?: string;
+    instagram?: string;
+    email?: string;
+    income_id?: number;
+    expense_id?: number;
+    holiday_id?: number;
+    religion_id?: number;
   };
 };
 

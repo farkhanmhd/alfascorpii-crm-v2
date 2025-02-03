@@ -29,6 +29,8 @@ interface DatePickerProps {
   className?: string;
   date?: Date;
   setDate?: (date: Date) => void;
+  hideLabel?: boolean;
+  error?: string[];
 }
 const DatePicker = ({
   id,
@@ -38,6 +40,8 @@ const DatePicker = ({
   className,
   date = new Date(),
   setDate = () => {},
+  hideLabel,
+  error,
 }: DatePickerProps) => {
   const months = [
     'January',
@@ -78,8 +82,18 @@ const DatePicker = ({
   return (
     <div className="flex flex-col gap-y-4">
       {label && (
-        <Label htmlFor={id} className="font-semibold">
-          {label}
+        <Label
+          htmlFor={id}
+          className={cn('flex gap-x-2 font-semibold', {
+            'sr-only': hideLabel,
+          })}
+        >
+          <span>{label}</span>
+          {error && (
+            <span className="text-red-500">
+              {error.map((errMsg) => `* ${errMsg}`).join(', ') || '*'}
+            </span>
+          )}
         </Label>
       )}
       <Popover>

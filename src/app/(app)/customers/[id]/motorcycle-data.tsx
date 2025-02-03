@@ -9,7 +9,7 @@ const MotorcycleData = ({ motorcycle }: { motorcycle: IMotorcycle }) => {
       <TextInput
         label="Type"
         id="motorcycle-type"
-        defaultValue={motorcycle.name}
+        defaultValue={motorcycle.motorcycle_type}
         placeholder="Type"
         disabled
       />

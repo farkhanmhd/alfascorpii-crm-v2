@@ -32,7 +32,7 @@ const columns: ColumnDef<IResultFU>[] = [
       return (
         <div className="flex justify-end gap-x-4">
           <EditFuResultDialog
-            id={Number(row.original.id)}
+            id={String(row.original.id)}
             status={row.original.status}
             furesult={row.original.fu_result_name}
           />

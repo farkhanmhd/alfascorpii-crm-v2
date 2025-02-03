@@ -250,9 +250,7 @@ const FollowUpTab = ({ ...props }: Props) => {
       <div className="flex flex-col gap-4 md:flex-row">
         <FollowUpDialog {...(props as Omit<Props, 'followUps'>)} />
         <FollowUpHistory followUps={props.followUps} />
-        <div className="w-max">
-          <DealDialog />
-        </div>
+        <DealDialog {...props} />
       </div>
     </div>
   );

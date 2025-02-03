@@ -40,9 +40,9 @@ export const SelectBox = ({
       {label && (
         <Label htmlFor={id} className="flex gap-x-2 font-semibold">
           <span>{label}</span>
-          {error && error.length > 0 && (
+          {error && (
             <span className="text-red-500">
-              {error.map((errMsg) => `* ${errMsg}`).join(', ')}
+              {error.map((errMsg) => `* ${errMsg}`).join(', ') || '*'}
             </span>
           )}
         </Label>

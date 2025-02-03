@@ -1,10 +1,8 @@
 'use server';
 
 import { z } from 'zod';
-import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import actionClient from '@/lib/safe-action';
-import { getAccessToken } from '../../data/auth';
 import {
   addNewLeasing,
   updateLeasing,
@@ -70,43 +68,5 @@ export const removeLeasingAction = actionClient
         status: 'error',
         message: 'Server Error: Failed to delete Leasing',
       };
-    }
-  });
-
-const leasingSearchSchema = z.object({
-  search: z.string(),
-});
-
-export const getLeasingList = actionClient
-  .schema(leasingSearchSchema)
-  .action(async ({ parsedInput: { search } }) => {
-    try {
-      const accessToken = await getAccessToken();
-
-      if (!accessToken) {
-        redirect('/login');
-      }
-
-      const response = await fetch(
-        `${process.env.BACKEND_URL}/leasing?search=${search}`,
-        {
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      const { data } = await response.json();
-      const { leasings } = data;
-      const leasingList = leasings.map((leasing: any) => ({
-        label: leasing.leasing_name,
-        value: leasing.leasing_name,
-      }));
-      return leasingList;
-    } catch (error) {
-      return [];
     }
   });

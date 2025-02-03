@@ -9,7 +9,7 @@ export const fetchFuResult = (
 ) => fetchWithParams('furesult', search, page, per_page);
 
 export const postFuResult = (
-  status_fu_id: number,
+  status_fu_id: string,
   fu_result_name: string,
   status: 'SHOW' | 'HIDE'
 ) => {
@@ -21,8 +21,8 @@ export const postFuResult = (
 };
 
 export const putFuResult = (
-  id: number,
-  status_fu_id: number,
+  id: string,
+  status_fu_id: string,
   fu_result_name: string,
   status: 'SHOW' | 'HIDE'
 ) => {

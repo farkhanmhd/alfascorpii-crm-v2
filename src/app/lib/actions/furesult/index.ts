@@ -6,7 +6,7 @@ import actionClient from '@/lib/safe-action';
 import { postFuResult, putFuResult, deleteFuResult } from '../../data/furesult';
 
 const furesultSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   status_fu_id: z.string(),
   fu_result_name: z.string().min(1, { message: 'Fu result name is required' }),
   status: z.enum(['SHOW', 'HIDE']),
