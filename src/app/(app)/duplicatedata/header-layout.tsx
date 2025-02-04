@@ -9,7 +9,7 @@ interface Props {
 
 const HeaderLayout = ({ children }: Props) => {
   return (
-    <div className="grid h-full grid-rows-[auto_1fr_auto]">
+    <div className="grid grid-rows-[auto_1fr]">
       <header className="flex items-center justify-between gap-x-4 py-4">
         <Tablesearch placeholder="Cari Customer" />
       </header>

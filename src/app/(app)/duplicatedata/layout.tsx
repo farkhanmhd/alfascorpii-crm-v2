@@ -1,18 +1,9 @@
 'use client';
 
 import React from 'react';
-import { useActionDialog } from '@/hooks';
-import ExcelDropzoneDialog from '@/components/ExcelDropzoneDialog';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const { actionDialog } = useActionDialog();
-
-  return (
-    <div className="flex h-[calc(100dvh-48px)] flex-col">
-      {children}
-      {actionDialog?.create && <ExcelDropzoneDialog />}
-    </div>
-  );
+  return <div className="flex flex-col">{children}</div>;
 };
 
 export default Layout;

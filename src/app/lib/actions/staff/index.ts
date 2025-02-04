@@ -34,11 +34,6 @@ export const getAllUsers = async () => {
         value: cro.uuid,
       }));
 
-    users.unshift({
-      label: 'Semua',
-      value: 'all',
-    });
-
     return users;
   } catch (error) {
     return [];

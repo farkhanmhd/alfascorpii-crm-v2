@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
 import { paramsGenerator } from '@/lib/utils';
-import { fetchWithParams } from '../fetchUtils';
 import { getAccessToken } from '../auth';
 
 export interface IFUFilters {
@@ -20,12 +19,6 @@ export interface IFUFilters {
   user_id?: string;
   motorcycle_id?: string;
 }
-
-// export const getFollowUps = async (
-//   search?: string,
-//   page?: string,
-//   per_page?: string
-// ) => fetchWithParams('followups', search, page, per_page);
 
 export const getFollowUps = async (payload: IFUFilters) => {
   try {
@@ -56,11 +49,52 @@ export const getFollowUps = async (payload: IFUFilters) => {
   }
 };
 
-export const getDuplicatedData = async (
-  search?: string,
-  page?: string,
-  per_page?: string
-) => fetchWithParams('duplicatedata', search, page, per_page);
+export interface IDuplicateFilters {
+  page?: string;
+  per_page?: string;
+  search?: string;
+  dealer_id?: string;
+  date_field?:
+    | 'purchase_date'
+    | 'follow_up_date'
+    | 'assigned_date'
+    | 'date_of_birth';
+  date_from?: string;
+  date_to?: string;
+  user_id?: string;
+  motorcycle_id?: string;
+}
+
+export const getDuplicatedData = async (payload: IDuplicateFilters) => {
+  try {
+    const accessToken = await getAccessToken();
+
+    if (!accessToken) {
+      redirect('/login');
+    }
+
+    const params = paramsGenerator(payload);
+
+    const url = `${process.env.API_URL}/duplicatedata?${params}`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      cache: 'force-cache',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const { data } = await response.json();
+    const { duplicatedatas, last_page: lastPage, total } = data;
+    return { duplicatedatas, lastPage, total };
+  } catch (error) {
+    console.error(error);
+    return { duplicatedatas: [], lastPage: 0, total: 0 };
+  }
+};
 
 export const randomAssignFollowUp = async (payload: {
   amount: number;

@@ -20,6 +20,9 @@ export const importFollowUpAction = actionClient
   .action(async ({ parsedInput }) => {
     try {
       const { message, errors } = await importFollowUp(parsedInput.file);
+      revalidatePath('/follow-up');
+      revalidatePath('/customers');
+      revalidatePath('/duplicatedata');
       return { status: 'success', message, errors };
     } catch (error) {
       return {

@@ -133,6 +133,7 @@ const ExcelDropzoneDialog = () => {
               size="sm"
               onClick={handleDelete}
               className="text-destructive hover:text-destructive/90"
+              disabled={isPending}
             >
               <Trash className="h-4 w-4" />
             </Button>
@@ -189,13 +190,19 @@ const ExcelDropzoneDialog = () => {
         )}
         <AlertDialogFooter className="mt-4 flex gap-y-4 sm:flex-col sm:space-x-0">
           <div className="flex w-full flex-col gap-2 sm:flex-row sm:justify-between">
-            <Button variant="outline" onClick={() => push('/template.xlsx')}>
+            <Button
+              variant="outline"
+              onClick={() => push('/template.xlsx')}
+              disabled={isPending}
+            >
               <Download className="mr-2 h-4 w-4" />
               Download Template
             </Button>
             <div className="flex flex-col gap-x-4 gap-y-2 sm:flex-row">
               <AlertDialogCancel asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline" disabled={isPending}>
+                  Cancel
+                </Button>
               </AlertDialogCancel>
               <Button
                 onClick={handleSubmit}

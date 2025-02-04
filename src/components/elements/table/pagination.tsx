@@ -198,48 +198,50 @@ const DataTablePagination = ({
   };
 
   return (
-    <div className="flex items-center justify-between pt-6">
+    <div>
       {total > 0 && (
-        <p className="hidden w-full text-sm md:block">
-          {selectedRows > 0 ? (
-            <span>Selected {selectedRows} </span>
-          ) : (
-            <span>
-              Showing {currentPage * perPage - perPage + 1} to{' '}
-              {perPage * currentPage > total ? total : perPage * currentPage}{' '}
-            </span>
+        <div className="flex items-center justify-between gap-x-6">
+          <p className="hidden w-full text-sm md:block">
+            {selectedRows > 0 ? (
+              <span>Selected {selectedRows} </span>
+            ) : (
+              <span>
+                Showing {currentPage * perPage - perPage + 1} to{' '}
+                {perPage * currentPage > total ? total : perPage * currentPage}{' '}
+              </span>
+            )}
+            <span>of {total} entries</span>
+          </p>
+          {totalPages > 1 && (
+            <Pagination className="mx-0 sm:justify-end">
+              <PaginationContent className="w-full justify-end">
+                <PaginationItem key="prev">
+                  <Button
+                    variant="outline"
+                    onClick={handlePrevPage}
+                    disabled={currentPage === 1}
+                    size="icon"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                    <span className="sr-only">Previous page</span>
+                  </Button>
+                </PaginationItem>
+                {renderPageButtons()}
+                <PaginationItem key="next">
+                  <Button
+                    variant="outline"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    size="icon"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                    <span className="sr-only">Next page</span>
+                  </Button>
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           )}
-          <span>of {total} entries</span>
-        </p>
-      )}
-      {totalPages > 1 && (
-        <Pagination className="mx-0 sm:justify-end">
-          <PaginationContent className="w-full justify-end">
-            <PaginationItem key="prev">
-              <Button
-                variant="outline"
-                onClick={handlePrevPage}
-                disabled={currentPage === 1}
-                size="icon"
-              >
-                <ChevronLeft className="h-4 w-4" />
-                <span className="sr-only">Previous page</span>
-              </Button>
-            </PaginationItem>
-            {renderPageButtons()}
-            <PaginationItem key="next">
-              <Button
-                variant="outline"
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
-                size="icon"
-              >
-                <ChevronRight className="h-4 w-4" />
-                <span className="sr-only">Next page</span>
-              </Button>
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        </div>
       )}
     </div>
   );

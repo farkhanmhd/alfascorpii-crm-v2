@@ -59,7 +59,7 @@ export const data = {
         },
         {
           title: 'Duplicate Data',
-          url: '#',
+          url: '/duplicatedata',
         },
         {
           title: 'Customers',

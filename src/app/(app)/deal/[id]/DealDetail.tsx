@@ -123,6 +123,12 @@ const DealDetail = (props: IDealDetail) => {
               </div>
               <div>
                 <dt className="text-sm font-medium text-muted-foreground">
+                  Relasi
+                </dt>
+                <dd className="font-semibold">{props.relation}</dd>
+              </div>
+              <div>
+                <dt className="text-sm font-medium text-muted-foreground">
                   Additional Information
                 </dt>
                 <dd className="font-semibold">{props.additional_info}</dd>
@@ -150,16 +156,11 @@ const DealDetail = (props: IDealDetail) => {
               </div>
               <div>
                 <dt className="text-sm font-medium text-muted-foreground">
-                  Sales Unit
+                  Tipe Deal
                 </dt>
                 <dd className="font-semibold">{props.deal_type}</dd>
               </div>
-              <div>
-                <dt className="text-sm font-medium text-muted-foreground">
-                  Relasi
-                </dt>
-                <dd className="font-semibold">{props.relation}</dd>
-              </div>
+
               <div>
                 <dt className="text-sm font-medium text-muted-foreground">
                   Status
