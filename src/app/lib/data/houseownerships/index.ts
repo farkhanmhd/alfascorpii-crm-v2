@@ -46,7 +46,7 @@ export const getHouseOwnershipOptions = async () => {
     }
 
     const response = await fetch(
-      `${process.env.BACKEND_URL}/houseownerships?per_page=50`,
+      `${process.env.API_URL}/houseownerships?per_page=50`,
       {
         method: 'GET',
         cache: 'force-cache',

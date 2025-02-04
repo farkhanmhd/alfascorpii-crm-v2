@@ -2,7 +2,7 @@ import { getAccessToken } from '../auth';
 
 export const getDataSourceOpts = async () => {
   const accessToken = await getAccessToken();
-  const url = `${process.env.BACKEND_URL}/datasources`;
+  const url = `${process.env.API_URL}/datasources`;
 
   const response = await fetch(url, {
     headers: {

@@ -47,7 +47,7 @@ export const getAllMotorcyclesList = async () => {
     }
 
     const response = await fetch(
-      `${process.env.BACKEND_URL}/motorcycles?per_page=9999`,
+      `${process.env.API_URL}/motorcycles?per_page=9999`,
       {
         method: 'GET',
         cache: 'force-cache',

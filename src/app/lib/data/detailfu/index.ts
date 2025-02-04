@@ -59,7 +59,7 @@ export const getFuDetailOptions = async () => {
       redirect('/login');
     }
 
-    const response = await fetch(`${process.env.BACKEND_URL}/detailfu`, {
+    const response = await fetch(`${process.env.API_URL}/detailfu`, {
       method: 'GET',
       cache: 'force-cache',
       headers: {

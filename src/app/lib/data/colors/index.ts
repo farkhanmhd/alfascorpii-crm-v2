@@ -2,7 +2,7 @@ import { getAccessToken } from '../auth';
 
 export const getColorOpts = async () => {
   const token = await getAccessToken();
-  const res = await fetch(`${process.env.BACKEND_URL}/colors`, {
+  const res = await fetch(`${process.env.API_URL}/colors`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

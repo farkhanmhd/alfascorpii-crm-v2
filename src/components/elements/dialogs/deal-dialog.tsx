@@ -73,15 +73,15 @@ const purchaseTypes: SelectOptions[] = [
 const dealStatus: SelectOptions[] = [
   {
     label: 'Approve',
-    value: 'Approve',
+    value: 'APPROVE',
   },
   {
     label: 'Pending',
-    value: 'Pending',
+    value: 'PENDING',
   },
   {
     label: 'Reject',
-    value: 'Reject',
+    value: 'REJECT',
   },
 ];
 

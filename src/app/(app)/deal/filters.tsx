@@ -25,6 +25,10 @@ interface Props extends OptionsProps {
 
 const dealTypeOptions: ComboBoxOptions[] = [
   {
+    label: 'Semua',
+    value: 'all',
+  },
+  {
     label: 'Unit RO',
     value: 'unit_ro',
   },
@@ -51,7 +55,7 @@ const DealFilters = ({ ...props }: Props) => {
   const pathname = usePathname();
   const { replace } = useRouter();
   const [dateOption, setDateOption] = useState<string>('purchase_date');
-  const [dealType, setDealType] = useState<string>('unit_ro');
+  const [dealType, setDealType] = useState<string>('all');
   const [croName, setCroName] = useState<string>('all');
   const [motorcycle, setMotorcycle] = useState<string>('');
   const [dealer, setDealer] = useState<string>('');
@@ -80,20 +84,20 @@ const DealFilters = ({ ...props }: Props) => {
 
     if (dateOption !== 'all') {
       params.set('date_field', dateOption);
-
-      if (startDate) {
-        params.set('date_from', format(startDate, 'yyyy-MM-dd'));
-      } else {
-        params.delete('date_from');
-      }
-
-      if (endDate) {
-        params.set('date_to', format(endDate, 'yyyy-MM-dd'));
-      } else {
-        params.delete('date_to');
-      }
     } else {
       params.delete('date_field');
+    }
+
+    if (startDate) {
+      params.set('date_from', format(startDate, 'yyyy-MM-dd'));
+    } else {
+      params.delete('date_from');
+    }
+
+    if (endDate) {
+      params.set('date_to', format(endDate, 'yyyy-MM-dd'));
+    } else {
+      params.delete('date_to');
     }
 
     if (dealType !== 'all') {

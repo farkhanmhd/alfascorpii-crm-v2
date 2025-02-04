@@ -11,7 +11,7 @@ export const fetchDeals = async (payload: any) => {
 
   const params = paramsGenerator(payload);
 
-  const url = `${process.env.BACKEND_URL}/deals?${params}`;
+  const url = `${process.env.API_URL}/deals?${params}`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -35,7 +35,7 @@ export const fetchDeals = async (payload: any) => {
 
 export const getDealById = async (id: string | number) => {
   const accessToken = await getAccessToken();
-  const url = `${process.env.BACKEND_URL}/deals/${id}`;
+  const url = `${process.env.API_URL}/deals/${id}`;
   const response = await fetch(url, {
     cache: 'force-cache',
     headers: {

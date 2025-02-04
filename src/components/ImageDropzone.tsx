@@ -71,7 +71,7 @@ const ImageUploadDropzone: React.FC<Props> = ({
       <div
         {...getRootProps()}
         className={cn(
-          'flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 transition-colors',
+          'flex h-full flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 transition-colors',
           image
             ? 'border-gray-200 bg-gray-50'
             : 'cursor-pointer border-gray-300 hover:border-gray-400'

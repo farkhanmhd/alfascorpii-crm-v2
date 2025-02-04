@@ -47,7 +47,7 @@ export const getHolidayOptions = async () => {
 
     if (!accessToken) redirect('/login');
 
-    const response = await fetch(`${process.env.BACKEND_URL}/holidays`, {
+    const response = await fetch(`${process.env.API_URL}/holidays`, {
       cache: 'force-cache',
       method: 'GET',
       headers: {

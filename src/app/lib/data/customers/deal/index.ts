@@ -1,13 +1,16 @@
 import { DealType } from '@/types';
 import { getAccessToken } from '../../auth';
 
-export const importDealImage = async (id: string | number, file: File) => {
+export const importDealImage = async (
+  id: string | number,
+  file: File | undefined
+) => {
   const accessToken = await getAccessToken();
 
-  const url = `${process.env.BACKEND_URL}/deals/${id}/photos`;
+  const url = `${process.env.API_URL}/deals/${id}/photos`;
 
   const formData = new FormData();
-  formData.append('deal_photos[]', file);
+  formData.append('deal_photos[]', file as File);
 
   const response = await fetch(url, {
     method: 'POST',
@@ -31,9 +34,9 @@ export const postNewDeal = async (data: DealType) => {
     let url = '';
 
     if (data.deal_type === 'unit_nc') {
-      url = `${process.env.BACKEND_URL}/deals`;
+      url = `${process.env.API_URL}/deals`;
     } else {
-      url = `${process.env.BACKEND_URL}/customers/${data.id}/adddeal`;
+      url = `${process.env.API_URL}/customers/${data.id}/adddeal`;
     }
 
     const payload = Object.fromEntries(
@@ -66,6 +69,37 @@ export const postNewDeal = async (data: DealType) => {
     return {
       status: 'error',
       message: 'Server Error: Failed to add Deal',
+    };
+  }
+};
+
+export const updateDealStatus = async (
+  id: string,
+  payload: { deal_status: string }
+) => {
+  try {
+    const accessToken = await getAccessToken();
+
+    const url = `${process.env.API_URL}/deals/${id}/updatestatus`;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const { meta } = await response.json();
+    const { status, message } = meta;
+
+    return { status, message };
+  } catch (error) {
+    return {
+      status: 'error',
+      message: 'Server Error: Failed to Update Status',
     };
   }
 };

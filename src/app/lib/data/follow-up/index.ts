@@ -30,7 +30,7 @@ export interface IFUFilters {
 export const getFollowUps = async (payload: IFUFilters) => {
   try {
     const params = paramsGenerator(payload);
-    const url = `${process.env.BACKEND_URL}/followups?${params}`;
+    const url = `${process.env.API_URL}/followups?${params}`;
     const accessToken = await getAccessToken();
 
     if (!accessToken) {
@@ -71,7 +71,7 @@ export const randomAssignFollowUp = async (payload: {
     if (!token) {
       redirect('/login');
     }
-    const requestUrl = `${process.env.BACKEND_URL}/customers/randomassign`;
+    const requestUrl = `${process.env.API_URL}/customers/randomassign`;
     const response = await fetch(requestUrl, {
       method: 'POST',
       headers: {
@@ -99,7 +99,7 @@ export const manualAssignFollowUp = async (payload: {
     if (!token) {
       redirect('/login');
     }
-    const requestUrl = `${process.env.BACKEND_URL}/customers/manualassign`;
+    const requestUrl = `${process.env.API_URL}/customers/manualassign`;
     const response = await fetch(requestUrl, {
       method: 'POST',
       headers: {
@@ -161,7 +161,7 @@ export const addFollowUp = async (payload: FollowUpData) => {
     if (!token) {
       redirect('/login');
     }
-    const requestUrl = `${process.env.BACKEND_URL}/customers/${payload.customer_id}/followup`;
+    const requestUrl = `${process.env.API_URL}/customers/${payload.customer_id}/followup`;
 
     const bodyPayload: FollowUpDataWithoutCustomerId = {
       ...payload,

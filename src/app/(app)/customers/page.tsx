@@ -55,6 +55,16 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
   const holidayOptions = await getHolidayOptions();
   const jobOptions = await getJobOptions();
 
+  fuResults.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
+  fuDetails.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
   return (
     <div className="grid grid-rows-[auto_1fr]">
       <header className="flex flex-col gap-y-6 pb-6">

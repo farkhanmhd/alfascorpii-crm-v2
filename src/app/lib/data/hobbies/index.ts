@@ -39,18 +39,15 @@ export const getHobbyOptions = async () => {
       redirect('/login');
     }
 
-    const response = await fetch(
-      `${process.env.BACKEND_URL}/hobbies?per_page=50`,
-      {
-        method: 'GET',
-        cache: 'force-cache',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const response = await fetch(`${process.env.API_URL}/hobbies?per_page=50`, {
+      method: 'GET',
+      cache: 'force-cache',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     const { data } = await response.json();
     const { hobbies } = data;

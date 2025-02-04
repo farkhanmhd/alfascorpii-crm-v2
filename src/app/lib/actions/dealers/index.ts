@@ -92,7 +92,7 @@ export const getDealerList = actionClient
       }
 
       const response = await fetch(
-        `${process.env.BACKEND_URL}/dealers?search=${search}`,
+        `${process.env.API_URL}/dealers?search=${search}`,
         {
           method: 'GET',
           headers: {

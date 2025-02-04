@@ -16,7 +16,7 @@ export const getStatusFuOptions = async () => {
       redirect('/login');
     }
 
-    const response = await fetch(`${process.env.BACKEND_URL}/statusfus`, {
+    const response = await fetch(`${process.env.API_URL}/statusfus`, {
       cache: 'force-cache',
       method: 'GET',
       headers: {
@@ -72,7 +72,7 @@ export const deleteStatusFu = async (id: number) => {
       redirect('/login');
     }
 
-    const response = await fetch(`${process.env.BACKEND_URL}/statusfus/${id}`, {
+    const response = await fetch(`${process.env.API_URL}/statusfus/${id}`, {
       method: 'DELETE',
       headers: {
         Accept: 'application/json',

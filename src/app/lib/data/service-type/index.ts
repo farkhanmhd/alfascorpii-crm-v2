@@ -2,7 +2,7 @@ import { getAccessToken } from '../auth';
 
 export const getServiceTypes = async () => {
   const token = await getAccessToken();
-  const response = await fetch(`${process.env.BACKEND_URL}/servicetypes`, {
+  const response = await fetch(`${process.env.API_URL}/servicetypes`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

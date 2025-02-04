@@ -20,7 +20,7 @@ export const getFilteredCustomers = async (payload: any) => {
     }
 
     const params = paramsGenerator(payload);
-    const url = `${process.env.BACKEND_URL}/customers?${params}`;
+    const url = `${process.env.API_URL}/customers?${params}`;
 
     const response = await fetch(url, {
       method: 'GET',
@@ -49,7 +49,7 @@ export const importFollowUp = async (file: File) => {
   const formData = new FormData();
   formData.append('file', file);
 
-  const response = await fetch(`${process.env.BACKEND_URL}/importdata`, {
+  const response = await fetch(`${process.env.API_URL}/importdata`, {
     cache: 'no-cache',
     method: 'POST',
     headers: {
@@ -79,7 +79,7 @@ export const addFamilyCardNumber = async (
   if (!accessToken) {
     redirect('/login');
   }
-  const fetchUrl = `${process.env.BACKEND_URL}/updatefcardnumber/${customerId}`;
+  const fetchUrl = `${process.env.API_URL}/updatefcardnumber/${customerId}`;
   const response = await fetch(fetchUrl, {
     method: 'POST',
     headers: {
@@ -103,7 +103,7 @@ export const updateFamilyMembers = async (
   if (!accessToken) {
     redirect('/login');
   }
-  const fetchUrl = `${process.env.BACKEND_URL}/updatefamilymembers/${customerId}`;
+  const fetchUrl = `${process.env.API_URL}/updatefamilymembers/${customerId}`;
   const payload = JSON.stringify({ family_members, related_people });
   const response = await fetch(fetchUrl, {
     method: 'POST',
@@ -165,7 +165,7 @@ export const updateCustomerData = async (payload: CustomerData) => {
       redirect('/login');
     }
 
-    const fetchUrl = `${process.env.BACKEND_URL}/customers/${payload.id}`;
+    const fetchUrl = `${process.env.API_URL}/customers/${payload.id}`;
 
     const bodyPayload: CustomerPayload = {
       ...Object.fromEntries(

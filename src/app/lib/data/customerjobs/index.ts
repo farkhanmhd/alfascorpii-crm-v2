@@ -45,7 +45,7 @@ export const getJobOptions = async () => {
       redirect('/login');
     }
 
-    const response = await fetch(`${process.env.BACKEND_URL}/customerjobs`, {
+    const response = await fetch(`${process.env.API_URL}/customerjobs`, {
       cache: 'force-cache',
       method: 'GET',
       headers: {

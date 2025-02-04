@@ -11,7 +11,7 @@ export const getAccessToken = async () => {
 
 export const getUser = async (username: string, password: string) => {
   try {
-    const response = await fetch(`${process.env.BACKEND_URL}/login`, {
+    const response = await fetch(`${process.env.API_URL}/login`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

@@ -15,7 +15,7 @@ export const getAllUsers = async () => {
       redirect('/login');
     }
 
-    const response = await fetch(`${process.env.BACKEND_URL}/getallusers`, {
+    const response = await fetch(`${process.env.API_URL}/getallusers`, {
       cache: 'force-cache',
       method: 'GET',
       headers: {
@@ -53,7 +53,7 @@ export const getUserPermissions = async () => {
       redirect('/login');
     }
 
-    const response = await fetch(`${process.env.BACKEND_URL}/user`, {
+    const response = await fetch(`${process.env.API_URL}/user`, {
       cache: 'force-cache',
       method: 'GET',
       headers: {

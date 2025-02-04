@@ -31,7 +31,7 @@ export const loginAction = actionClient
 
 export const logout = async () => {
   const token = await getAccessToken();
-  await fetch(`${process.env.BACKEND_URL}/logout`, {
+  await fetch(`${process.env.API_URL}/logout`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,

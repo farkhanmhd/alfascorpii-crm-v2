@@ -66,7 +66,7 @@ export const getAllDealersList = async () => {
     }
 
     const response = await fetch(
-      `${process.env.BACKEND_URL}/dealers?per_page=9999`,
+      `${process.env.API_URL}/dealers?per_page=9999`,
       {
         method: 'GET',
         cache: 'force-cache',

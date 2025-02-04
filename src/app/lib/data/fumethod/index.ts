@@ -45,7 +45,7 @@ export const getFuMethodOptions = async () => {
       redirect('/login');
     }
 
-    const response = await fetch(`${process.env.BACKEND_URL}/fumethod`, {
+    const response = await fetch(`${process.env.API_URL}/fumethod`, {
       method: 'GET',
       cache: 'force-cache',
       headers: {

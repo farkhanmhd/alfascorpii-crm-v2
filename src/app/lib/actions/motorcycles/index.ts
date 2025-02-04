@@ -93,7 +93,7 @@ export const getMotorcycleList = actionClient
       }
 
       const response = await fetch(
-        `${process.env.BACKEND_URL}/motorcycles?search=${search}`,
+        `${process.env.API_URL}/motorcycles?search=${search}`,
         {
           method: 'GET',
           headers: {

@@ -47,7 +47,7 @@ export const getFuResultOptions = async () => {
       redirect('/login');
     }
 
-    const response = await fetch(`${process.env.BACKEND_URL}/furesult`, {
+    const response = await fetch(`${process.env.API_URL}/furesult`, {
       method: 'GET',
       cache: 'force-cache',
       headers: {

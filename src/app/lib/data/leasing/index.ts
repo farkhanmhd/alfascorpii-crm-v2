@@ -31,7 +31,7 @@ export const removeLeasing = (id: number) => {
 
 export const getLeasingOptions = async () => {
   const accessToken = await getAccessToken();
-  const url = `${process.env.BACKEND_URL}/leasing?per_page=9999`;
+  const url = `${process.env.API_URL}/leasing?per_page=9999`;
   const response = await fetch(url, {
     method: 'GET',
     cache: 'force-cache',

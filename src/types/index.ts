@@ -516,5 +516,5 @@ export interface IDealDetail {
 
 export interface Photo {
   id: number;
-  photo_path: string;
+  url: string;
 }

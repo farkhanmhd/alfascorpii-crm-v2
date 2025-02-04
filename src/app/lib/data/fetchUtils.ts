@@ -44,7 +44,7 @@ export const fetchSearch = async ({
   try {
     const validatedParams = validateSearchQuery(searchQuerySchema, params);
     const queryParams = createQueryParams(validatedParams) || '';
-    const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}${queryParams ? `?${queryParams.toString()}` : ''}`;
+    const fetchUrl = `${process.env.API_URL}/${endpoint}${queryParams ? `?${queryParams.toString()}` : ''}`;
     const accessToken = await getAccessToken();
 
     if (!accessToken) {
@@ -101,7 +101,7 @@ export const fetchData = async ({
   cache = 'force-cache',
 }: FetchData) => {
   try {
-    const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
+    const fetchUrl = `${process.env.API_URL}/${endpoint}`;
     const accessToken = await getAccessToken();
 
     if (!accessToken) {
@@ -140,7 +140,7 @@ export const fetchData = async ({
 
 export const deleteData = async ({ endpoint }: FetchData) => {
   try {
-    const fetchUrl = `${process.env.BACKEND_URL}/${endpoint}`;
+    const fetchUrl = `${process.env.API_URL}/${endpoint}`;
     const accessToken = await getAccessToken();
 
     if (!accessToken) {

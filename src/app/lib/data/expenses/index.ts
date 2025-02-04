@@ -64,7 +64,7 @@ export const getExpenseOptions = async () => {
     }
 
     const response = await fetch(
-      `${process.env.BACKEND_URL}/expenses?per_page=50`,
+      `${process.env.API_URL}/expenses?per_page=50`,
       {
         method: 'GET',
         cache: 'force-cache',
