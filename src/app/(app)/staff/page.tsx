@@ -26,10 +26,10 @@ const Page = async (props: {
   const dealers = await getAllDealersList();
   return (
     <div>
-      <header className="flex gap-x-4 pb-6">
+      <header className="flex flex-col gap-4 pb-6 lg:flex-row">
         <Tablesearch placeholder="Cari Staff" />
         <UserFilter dealers={dealers} />
-        <div className="ml-auto">
+        <div className="lg:ml-auto">
           <AddStaffDialog />
         </div>
       </header>

@@ -23,11 +23,9 @@ const Page = ({ children }: { children: React.ReactNode }) => {
             <BreadcrumbNav />
           </div>
         </header>
-        <div>
-          <ScrollArea className="flex h-[calc(100dvh-48px)] flex-1 flex-col gap-4 bg-secondary p-6">
-            {children}
-          </ScrollArea>
-        </div>
+        <ScrollArea className="flex h-[calc(100dvh-48px)] flex-1 flex-col gap-4 bg-secondary p-6">
+          {children}
+        </ScrollArea>
       </SidebarInset>
     </SidebarProvider>
   );

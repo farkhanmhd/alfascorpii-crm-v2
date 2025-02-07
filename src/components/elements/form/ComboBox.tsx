@@ -22,7 +22,7 @@ import {
 
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useElementWidth } from '@/hooks';
+// import { useElementWidth } from '@/hooks';
 import { ComboBoxOptions } from '@/types';
 import MapItems from '@/utils/MapItems';
 
@@ -46,7 +46,7 @@ const ComboBox = ({
   error,
 }: ComboBoxProps) => {
   const [open, setOpen] = useState(false);
-  const { elementRef, elementWidth } = useElementWidth();
+  // const { elementRef, elementWidth } = useElementWidth();
 
   const handleSelect = (currentValue: string) => {
     const newValue = currentValue === value ? '' : currentValue;
@@ -74,14 +74,17 @@ const ComboBox = ({
             aria-expanded={open}
             className="justify-between text-xs font-semibold"
             id={id}
-            ref={elementRef as React.Ref<HTMLButtonElement>}
+            // ref={elementRef as React.Ref<HTMLButtonElement>}
           >
             {options.find((option) => option.value === value)?.label ||
               placeholder}
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0" style={{ width: elementWidth }}>
+        <PopoverContent
+          className="p-0"
+          // style={{ width: elementWidth }}
+        >
           <Command
             filter={(data, search, keywords) => {
               const extendValue = `${data} ${keywords?.join()}`;

@@ -7,7 +7,6 @@ import {
 } from '@/app/lib/actions/follow-up';
 import { useAction } from 'next-safe-action/hooks';
 import { toast } from '@/hooks/use-toast';
-
 import {
   AlertDialog,
   AlertDialogContent,
@@ -21,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import NumericInput from '@/components/NumericInput';
 import SelectCro from '@/components/fragments/SelectCro';
 import { SelectOptions } from '@/types';
+import { useFuSelection } from '../FollowUpTableData';
 
 type RandomProps = {
   users: SelectOptions[];
@@ -104,6 +104,7 @@ export const SendCroDialog = ({ selectedRows, users }: Props) => {
   const [selectedUser, setSelectedUser] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
   const selectedCustomers = Object.keys(selectedRows).map((id) => Number(id));
+  const { setFuSelection } = useFuSelection();
 
   const { execute, isPending } = useAction(manualAssignFollowUpAction, {
     onSuccess: ({ data }) => {
@@ -113,6 +114,7 @@ export const SendCroDialog = ({ selectedRows, users }: Props) => {
           description: data?.message,
         });
         setOpen(false);
+        setFuSelection({});
       } else {
         toast({
           title: 'Error',

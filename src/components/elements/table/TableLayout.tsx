@@ -7,7 +7,9 @@ interface TableLayoutProps {
 }
 
 const TableLayout = ({ children }: TableLayoutProps) => {
-  return <div className="grid grid-rows-[auto_1fr_auto]">{children}</div>;
+  return (
+    <div className="grid grid-rows-[auto_1fr_auto] gap-y-6">{children}</div>
+  );
 };
 
 export default TableLayout;

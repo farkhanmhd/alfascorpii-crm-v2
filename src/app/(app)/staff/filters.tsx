@@ -28,7 +28,7 @@ const UserFilter = ({ dealers }: Props) => {
   const [dealerId, setDealerId] = useState<string>('');
   const [status, setStatus] = useState<string>('');
   return (
-    <div className="flex gap-x-4">
+    <div className="flex flex-col gap-4 lg:flex-row">
       <ComboBox
         id="dealer_area"
         placeholder="Pilih Dealer/Area"

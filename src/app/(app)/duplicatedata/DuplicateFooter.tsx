@@ -8,7 +8,7 @@ import {
   useFuUsers,
   useDuplicateTotal,
 } from './DuplicateTableData';
-import { SendCroDialog } from '../follow-up/dialogs';
+import { ManualAssignDialog } from './manual-assign';
 import { DeleteDuplicateDialog } from './DeleteDuplicateDialog';
 
 const DuplicateFooter = () => {
@@ -22,7 +22,10 @@ const DuplicateFooter = () => {
       <div className="flex max-w-max gap-x-6">
         {Object.keys(duplicateSelection).length > 0 && (
           <>
-            <SendCroDialog selectedRows={duplicateSelection} users={fuUsers} />
+            <ManualAssignDialog
+              selectedRows={duplicateSelection}
+              users={fuUsers}
+            />
             <DeleteDuplicateDialog
               selectedRows={duplicateSelection}
               setSelectedRows={setDuplicateSelection}

@@ -13,6 +13,8 @@ import {
   VisibilityState,
 } from '@tanstack/react-table';
 
+import { cn } from '@/lib/utils';
+
 import {
   Table,
   TableBody,
@@ -23,6 +25,7 @@ import {
 } from '@/components/ui/table';
 import MapItems from '@/utils/MapItems';
 import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
+import { useSidebar } from '@/components/ui/sidebar';
 import DataTablePagination from './pagination';
 
 interface DataTableProps<TData extends { id?: string | number }, TValue> {
@@ -53,6 +56,7 @@ export const DataTable = <TData extends { id?: string | number }, TValue>({
   const searchParams = useSearchParams();
   const perPage = Number(searchParams.get('per_page') || 50);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const { state } = useSidebar();
 
   const table = useReactTable({
     data,
@@ -77,7 +81,15 @@ export const DataTable = <TData extends { id?: string | number }, TValue>({
 
   return (
     <>
-      <ScrollArea className="rounded-md bg-white shadow-sm">
+      <ScrollArea
+        className={cn(
+          'max-w-[calc(100svw-48px)] rounded-md bg-white shadow-sm',
+          {
+            'md:max-w-[calc(100svw-304px)]': state === 'expanded',
+            'md:max-w-[calc(100svw-96px)]': state === 'collapsed',
+          }
+        )}
+      >
         <Table>
           <TableHeader className="sticky top-0 z-50 bg-primary text-sm">
             {table.getHeaderGroups().map((headerGroup) => (

@@ -518,3 +518,16 @@ export interface Photo {
   id: number;
   url: string;
 }
+
+export interface Staff {
+  user: StaffData;
+  permissions: string[];
+  roles: string[];
+}
+
+export interface StaffData {
+  uuid: string;
+  username: string;
+  name: string;
+  status: string;
+}
