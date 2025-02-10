@@ -32,6 +32,7 @@ interface StaffDetailProps {
 }
 
 const StaffDetail: React.FC<StaffDetailProps> = ({ profile }) => {
+  console.log(profile);
   const { back } = useRouter();
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>(
     profile.permissions

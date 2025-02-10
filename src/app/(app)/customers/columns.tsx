@@ -52,6 +52,29 @@ export const columns: ColumnDef<ICustomer>[] = [
   // },
 
   {
+    id: 'actions',
+    header: () => <div className="text-center">Aksi</div>,
+    cell: ({ row }) => {
+      const customer = row.original;
+      return (
+        <div className="flex justify-end gap-x-4">
+          <Link
+            href={`/customers/${customer.id}`}
+            className={cn(
+              buttonVariants({
+                size: 'sm',
+                variant: 'outline',
+              })
+            )}
+          >
+            <Pencil />
+          </Link>
+        </div>
+      );
+    },
+  },
+
+  {
     accessorKey: 'nik',
     header: 'nik',
     cell: ({ row }) => (
@@ -200,26 +223,4 @@ export const columns: ColumnDef<ICustomer>[] = [
   //     return <div className="text-right font-medium">{formatted}</div>;
   //   },
   // },
-  {
-    id: 'actions',
-    header: () => <div className="text-center">Aksi</div>,
-    cell: ({ row }) => {
-      const customer = row.original;
-      return (
-        <div className="flex justify-end gap-x-4">
-          <Link
-            href={`/customers/${customer.id}`}
-            className={cn(
-              buttonVariants({
-                size: 'sm',
-                variant: 'outline',
-              })
-            )}
-          >
-            <Pencil />
-          </Link>
-        </div>
-      );
-    },
-  },
 ];
