@@ -187,8 +187,6 @@ export type FollowUpData = {
   };
 };
 
-type FollowUpDataWithoutCustomerId = Omit<FollowUpData, 'customer_id'>;
-
 export const addFollowUp = async (payload: FollowUpData) => {
   try {
     const token = await getAccessToken();
@@ -197,9 +195,11 @@ export const addFollowUp = async (payload: FollowUpData) => {
     }
     const requestUrl = `${process.env.API_URL}/customers/${payload.customer_id}/followup`;
 
-    const bodyPayload: FollowUpDataWithoutCustomerId = {
-      ...payload,
-    };
+    const bodyPayload = Object.fromEntries(
+      Object.entries(payload).filter(([key]) => key !== 'customer_id')
+    );
+
+    console.log(bodyPayload);
 
     const response = await fetch(requestUrl, {
       method: 'POST',

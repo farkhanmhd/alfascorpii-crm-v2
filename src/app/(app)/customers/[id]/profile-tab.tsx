@@ -23,6 +23,7 @@ import FollowUpTab from './follow-up-tab';
 import PhoneReceiverTab from './phone-receiver-tab';
 import MotorcycleTab from './motorcycle-tab';
 import FamilyTab from './family-tab';
+import LogUpdate from './LogUpdate';
 
 const ProfileTab = async ({ id }: { id: string }) => {
   const { data } = await getCustomer(id);
@@ -78,7 +79,12 @@ const ProfileTab = async ({ id }: { id: string }) => {
     },
   ];
 
-  return <CustomTabs tabData={tabData} />;
+  return (
+    <>
+      <CustomTabs tabData={tabData} />
+      <LogUpdate />
+    </>
+  );
 };
 
 export default ProfileTab;

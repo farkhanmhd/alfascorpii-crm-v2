@@ -105,6 +105,7 @@ const FollowUpDialog = ({ ...props }: Props) => {
           recipient_religion: religion,
           recipient_born_date: format(bornDate, 'yyyy-MM-dd'),
           hobby_id: Number(hobby),
+          recipient_hobby_detail: formData.get('recipient_hobby_detail'),
           amount_of_family: Number(formData.get('amount_of_family')),
           amount_of_motorcycle: Number(formData.get('amount_of_motorcycle')),
           facebook: formData.get('facebook'),
@@ -352,7 +353,7 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     />
                     <TextInput
                       label="Deskripsi Hobi"
-                      id="recipient_hobby_detial"
+                      id="recipient_hobby_detail"
                       placeholder="Deskripsi Hobi"
                       className="h-10"
                       error={getErrorMessages(

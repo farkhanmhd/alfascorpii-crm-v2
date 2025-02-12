@@ -173,6 +173,8 @@ export const updateCustomerData = async (payload: CustomerData) => {
       ),
     };
 
+    console.log(bodyPayload);
+
     const response = await fetch(fetchUrl, {
       method: 'PUT',
       headers: {
