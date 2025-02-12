@@ -30,6 +30,8 @@ const ProfileTab = async ({ id }: { id: string }) => {
   const customer: ICustomer = data.customers;
   const { family_card: familyCard, related_person: relatedFamily } = customer;
 
+  console.log(customer);
+
   const options = {
     motorcyclesOpts: await getAllMotorcyclesList(),
     holidayOpts: await getHolidayOptions(),
@@ -82,7 +84,7 @@ const ProfileTab = async ({ id }: { id: string }) => {
   return (
     <>
       <CustomTabs tabData={tabData} />
-      <LogUpdate />
+      <LogUpdate logs={customer.activity_logs} />
     </>
   );
 };

@@ -39,6 +39,10 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
   };
 
   const users = await getAllUsers();
+  users.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
   const motorcycles = await getAllMotorcyclesList();
   const dealers = await getAllDealersList();
 

@@ -9,83 +9,57 @@ type Props = {
   recipient: IFollowUpRecipient;
 };
 
+const sanitizeValue = (value: any) =>
+  value !== undefined && value !== null && String(value).trim() !== ''
+    ? String(value)
+    : '-';
+
 const PhoneReceiverTab = ({ recipient }: Props) => {
+  const data =
+    Array.isArray(recipient) && recipient.length > 0
+      ? recipient[0]
+      : ({} as IFollowUpRecipient);
+
   const receiverData: SelectOptions[] = [
-    {
-      label: 'Penerima Telepon',
-      value: recipient.recipient_name,
-    },
+    { label: 'Penerima Telepon', value: sanitizeValue(data.recipient_name) },
     {
       label: 'Hubungan dengan Customer',
-      value: recipient.relationship,
+      value: sanitizeValue(data.relationship),
     },
     {
       label: 'Keterangan Lainnya',
-      value: recipient.additional_information!,
+      value: sanitizeValue(data.additional_information),
     },
-    {
-      label: 'Nomor Whatsapp',
-      value: recipient.whatsapp_number,
-    },
+    { label: 'Nomor Whatsapp', value: sanitizeValue(data.whatsapp_number) },
   ];
 
   const receiverDataUpdate: SelectOptions[] = [
-    {
-      label: 'Alamat',
-      value: recipient.recipient_address,
-    },
-    {
-      label: 'Status Rumah',
-      value: recipient.house_ownership,
-    },
-    {
-      label: 'Pekerjaan',
-      value: recipient.job,
-    },
+    { label: 'Alamat', value: sanitizeValue(data.recipient_address) },
+    { label: 'Status Rumah', value: sanitizeValue(data.house_ownership) },
+    { label: 'Pekerjaan', value: sanitizeValue(data.job) },
     {
       label: 'Deskripsi Pekerjaan',
-      value: recipient.recipient_job_detail!,
+      value: sanitizeValue(data.recipient_job_detail),
     },
-    {
-      label: 'Tanggal Lahir',
-      value: recipient.recipient_born_date,
-    },
-    {
-      label: 'Hari besar Keagamaan',
-      value: recipient.holiday,
-    },
-    {
-      label: 'Hobi',
-      value: recipient.hobby,
-    },
+    { label: 'Tanggal Lahir', value: sanitizeValue(data.recipient_born_date) },
+    { label: 'Hari besar Keagamaan', value: sanitizeValue(data.holiday) },
+    { label: 'Hobi', value: sanitizeValue(data.hobby) },
     {
       label: 'Deskripsi Hobi',
-      value: recipient.recipient_hobby_detail,
+      value: sanitizeValue(data.recipient_hobby_detail),
     },
     {
       label: 'Jumlah Orang Serumah',
-      value: String(recipient.amount_of_family),
+      value: sanitizeValue(data.amount_of_family),
     },
     {
       label: 'Jumlah Sepeda Motor di Rumah',
-      value: String(recipient.amount_of_motorcycle),
+      value: sanitizeValue(data.amount_of_motorcycle),
     },
-    {
-      label: 'Facebook',
-      value: recipient.facebook,
-    },
-    {
-      label: 'Instagram',
-      value: recipient.instagram,
-    },
-    {
-      label: 'Penghasilan / Bulan',
-      value: String(recipient.income),
-    },
-    {
-      label: 'Pengeluaran / Bulan',
-      value: String(recipient.expense),
-    },
+    { label: 'Facebook', value: sanitizeValue(data.facebook) },
+    { label: 'Instagram', value: sanitizeValue(data.instagram) },
+    { label: 'Penghasilan / Bulan', value: sanitizeValue(data.income) },
+    { label: 'Pengeluaran / Bulan', value: sanitizeValue(data.expense) },
   ];
 
   const items = [

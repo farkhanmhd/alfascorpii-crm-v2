@@ -127,7 +127,7 @@ const DuplicateFilters = ({
         value={dealerId}
         onSelect={setDealerId}
       />
-      <Button className="w-max self-end" onClick={handleFilter}>
+      <Button className="w-full self-end" onClick={handleFilter}>
         Filter
       </Button>
     </div>

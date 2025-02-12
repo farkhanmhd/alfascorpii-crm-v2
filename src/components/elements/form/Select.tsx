@@ -49,7 +49,7 @@ export const SelectBox = ({
       )}
       <Select onValueChange={setValue} value={value} name={id}>
         <SelectTrigger
-          className={`w-full border-black/30 ${className}`}
+          className={`w-full border-black/30 text-xs font-semibold ${className}`}
           id={id}
         >
           <SelectValue placeholder={placeholder} />

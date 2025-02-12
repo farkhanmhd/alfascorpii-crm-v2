@@ -70,7 +70,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   });
 
   return (
-    <ScrollArea className="rounded-md bg-white shadow-sm">
+    <ScrollArea className="max-h-[800px] rounded-md bg-white shadow-sm">
       <Table>
         <TableHeader className="sticky top-0 z-50 bg-primary text-sm">
           {table.getHeaderGroups().map((headerGroup) => (

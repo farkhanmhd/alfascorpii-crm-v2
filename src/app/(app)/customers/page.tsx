@@ -55,6 +55,16 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
   const holidayOptions = await getHolidayOptions();
   const jobOptions = await getJobOptions();
 
+  users.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
+  holidayOptions.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
   fuResults.unshift({
     label: 'Semua',
     value: 'all',

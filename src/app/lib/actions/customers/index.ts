@@ -91,133 +91,31 @@ export const updateFamilyMembersAction = actionClient
   });
 
 const updateCustomerSchema = z.object({
-  id: z.string().min(1, { message: 'ID must be at least 1 character' }),
-  customer_name: z
-    .string()
-    .min(1, { message: 'Customer name must be at least 1 character' })
-    .optional(),
-  customer_address: z
-    .string()
-    .min(1, { message: 'Customer address must be at least 1 character' })
-    .optional(),
-  province: z
-    .string()
-    .min(1, { message: 'Province must be at least 1 character' })
-    .optional(),
-  district: z
-    .string()
-    .min(1, { message: 'District must be at least 1 character' })
-    .optional(),
-  sub_district: z
-    .string()
-    .min(1, { message: 'Sub district must be at least 1 character' })
-    .optional(),
-  regency_or_city: z
-    .string()
-    .min(1, { message: 'Regency or city must be at least 1 character' })
-    .optional(),
-  postal_code: z
-    .string()
-    .min(1, { message: 'Postal code must be at least 1 character' })
-    .optional(),
-  telephone: z
-    .string()
-    .min(1, { message: 'Telephone must be at least 1 character' })
-    .optional(),
-  mobile_phone: z
-    .string()
-    .min(1, { message: 'Mobile phone must be at least 1 character' })
-    .optional(),
-  nik: z
-    .string()
-    .min(1, { message: 'NIK must be at least 1 character' })
-    .optional(),
-  dealer_id: z
-    .number()
-    .int({ message: 'Dealer ID must be an integer' })
-    .optional(),
-  data_source: z
-    .string()
-    .min(1, { message: 'Data source must be at least 1 character' })
-    .optional(),
-  customer_status: z
-    .string()
-    .min(1, { message: 'Customer status must be at least 1 character' })
-    .optional(),
-  house_ownership_id: z
-    .number()
-    .int({ message: 'House ownership ID must be an integer' })
-    .optional(),
-  job_id: z.number().int({ message: 'Job ID must be an integer' }).optional(),
-  job_description: z
-    .string()
-    .min(1, { message: 'Job description must be at least 1 character' })
-    .optional(),
-  date_of_birth: z
-    .string()
-    .min(1, { message: 'Date of birth must be at least 1 character' })
-    .optional(),
-  religion: z
-    .string()
-    .min(1, { message: 'Religion must be at least 1 character' })
-    .optional(),
-  degree_id: z
-    .number()
-    .int({ message: 'Degree ID must be an integer' })
-    .nullable()
-    .optional(),
-  hobby_id: z
-    .number()
-    .int({ message: 'Hobby ID must be an integer' })
-    .optional(),
-  hobby_description: z
-    .string()
-    .min(1, { message: 'Hobby description must be at least 1 character' })
-    .optional(),
-  amount_of_family: z
-    .number()
-    .int({ message: 'Amount of family must be an integer' })
-    .optional(),
-  family_under_12_yo: z
-    .number()
-    .int({ message: 'Family under 12 years old must be an integer' })
-    .optional(),
-  family_12_until_17_yo: z
-    .number()
-    .int({ message: 'Family 12 until 17 years old must be an integer' })
-    .optional(),
-  amount_of_motorcycle: z
-    .number()
-    .int({ message: 'Amount of motorcycle must be an integer' })
-    .optional(),
-  whatsapp_number: z
-    .string()
-    .min(1, { message: 'Whatsapp number must be at least 1 character' })
-    .optional(),
-  facebook: z
-    .string()
-    .min(1, { message: 'Facebook must be at least 1 character' })
-    .optional(),
-  instagram: z
-    .string()
-    .min(1, { message: 'Instagram must be at least 1 character' })
-    .optional(),
-  email: z
-    .string()
-    .min(1, { message: 'Email must be at least 1 character' })
-    .optional(),
-  income_id: z
-    .number()
-    .int({ message: 'Income ID must be an integer' })
-    .optional(),
-  expense_id: z
-    .number()
-    .int({ message: 'Expense ID must be an integer' })
-    .optional(),
-  holiday_id: z
-    .number()
-    .int({ message: 'Holiday ID must be an integer' })
-    .optional(),
+  id: z.string(),
+  customer_name: z.string().optional(),
+  customer_address: z.string().optional(),
+  province: z.string().optional(),
+  district: z.string().optional(),
+  sub_district: z.string().optional(),
+  regency_or_city: z.string().optional(),
+  postal_code: z.string().optional(),
+  telephone: z.string().optional(),
+  mobile_phone: z.string().optional(),
+  nik: z.string().optional(),
+  date_of_birth: z.string().optional(),
+  hobby_id: z.number().optional(),
+  hobby_description: z.string().optional(),
+  amount_of_family: z.number().optional(),
+  amount_of_motorcycle: z.number().optional(),
+  whatsapp_number: z.string().optional(),
+  facebook: z.string().optional(),
+  instagram: z.string().optional(),
+  email: z.string().optional(),
+  income_id: z.number().optional(),
+  expense_id: z.number().optional(),
+  holiday_id: z.number().optional(),
+  house_ownership_id: z.number().optional(),
+  job_id: z.number().optional(),
 });
 
 export const updateCustomerAction = actionClient

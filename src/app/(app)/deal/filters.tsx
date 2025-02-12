@@ -9,6 +9,7 @@ import { ComboBoxOptions, OptionsProps, SelectOptions } from '@/types';
 import { Button } from '@/components/ui/button';
 import DealDialog from '@/components/elements/dialogs/deal-dialog';
 import { format } from 'date-fns';
+import ClearFilters from '@/components/elements/buttons/ClearFilters';
 
 const dateOptions: SelectOptions[] = [
   { label: 'Semua', value: 'all' },
@@ -163,12 +164,11 @@ const DealFilters = ({ ...props }: Props) => {
         value={dealType}
         setSelectedValue={setDealType}
       />
-      <div className="col-span-1 flex items-end gap-2 lg:col-span-1">
-        <Button className="w-full" onClick={handleFilter}>
-          Filter
-        </Button>
-        <DealDialog {...props} />
-      </div>
+      <Button className="w-full self-end" onClick={handleFilter}>
+        Filter
+      </Button>
+      <ClearFilters />
+      <DealDialog {...props} />
     </div>
   );
 };

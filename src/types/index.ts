@@ -189,6 +189,14 @@ export interface ICustomer extends IIdentifiable {
   related_person: IFamilyMember[];
   follow_up_recipient: IFollowUpRecipient;
   follow_up: ICustomerFollowUp[];
+  activity_logs: ActivityLog[];
+}
+
+export interface ActivityLog {
+  id?: string | number | undefined;
+  detail: string;
+  updated_by: string;
+  updated_at: string;
 }
 
 export interface FamilyMemberPayload {

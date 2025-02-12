@@ -83,7 +83,7 @@ export const DataTable = <TData extends { id?: string | number }, TValue>({
     <>
       <ScrollArea
         className={cn(
-          'max-w-[calc(100svw-48px)] rounded-md bg-white shadow-sm',
+          'max-h-[800px] max-w-[calc(100svw-48px)] rounded-md bg-white shadow-sm',
           {
             'md:max-w-[calc(100svw-304px)]': state === 'expanded',
             'md:max-w-[calc(100svw-96px)]': state === 'collapsed',

@@ -182,7 +182,7 @@ const DealDialog = ({ ...props }: OptionsProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="blue" className="max-w-max">
+        <Button variant="blue" className="max-w-max self-end">
           <Plus />
           <span>Deal</span>
         </Button>

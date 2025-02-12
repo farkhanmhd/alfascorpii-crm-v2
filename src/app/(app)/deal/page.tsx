@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import TableSkeleton from '@/components/elements/table/TableSkeleton';
 import Tablesearch from '@/components/elements/table/tablesearch';
-
+import { randomUUID } from 'crypto';
 import { getColorOpts } from '@/app/lib/data/colors';
 import { getJobOptions } from '@/app/lib/data/customerjobs';
 import { getAllDealersList } from '@/app/lib/data/dealers';
@@ -53,6 +53,12 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
     date_to: dateTo,
   };
 
+  const userOpts = await getAllUsers();
+  userOpts.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
   const options = {
     motorcyclesOpts: await getAllMotorcyclesList(),
     holidayOpts: await getHolidayOptions(),
@@ -70,19 +76,19 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
     leasingOpts: await getLeasingOptions(),
     colorOpts: await getColorOpts(),
     serviceTypeOpts: await getServiceTypes(),
-    userOpts: await getAllUsers(),
+    userOpts,
     dataSourceOpts: await getDataSourceOpts(),
   };
 
   return (
-    <div className="grid h-full grid-rows-[auto_1fr_auto]">
-      <header className="flex flex-col gap-y-6 pb-6">
+    <div className="grid h-full grid-rows-[auto_1fr_auto] gap-y-6">
+      <header className="flex flex-col gap-y-6">
         <DealFilters {...options} />
         <div className="flex flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
           <Tablesearch placeholder="Cari Customer" />
         </div>
       </header>
-      <Suspense fallback={<TableSkeleton />}>
+      <Suspense fallback={<TableSkeleton />} key={randomUUID()}>
         <FollowUpTable {...params} />
       </Suspense>
     </div>

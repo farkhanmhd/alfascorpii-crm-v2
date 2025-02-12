@@ -28,6 +28,8 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Plus, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
 import DataTablePagination from '@/components/elements/table/pagination';
+import { cn } from '@/lib/utils';
+import { useSidebar } from '@/components/ui/sidebar';
 
 export type InputType = 'text' | 'number' | 'date' | 'select' | 'radio';
 
@@ -83,6 +85,7 @@ export const DataTable = <TData, TValue>({
   const searchParams = useSearchParams();
   const perPage = Number(searchParams.get('per_page') || 50);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const { state } = useSidebar();
 
   const table = useReactTable({
     data,
@@ -169,7 +172,15 @@ export const DataTable = <TData, TValue>({
 
   return (
     <>
-      <ScrollArea className="rounded-md shadow-md">
+      <ScrollArea
+        className={cn(
+          'max-h-[800px] max-w-[calc(100svw-48px)] rounded-md bg-white shadow-sm',
+          {
+            'md:max-w-[calc(100svw-354px)]': state === 'expanded',
+            'md:max-w-[calc(100svw-144px)]': state === 'collapsed',
+          }
+        )}
+      >
         <Table>
           <TableHeader className="sticky top-0 z-50 bg-primary text-sm">
             {table.getHeaderGroups().map((headerGroup) => (

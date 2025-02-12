@@ -1,16 +1,16 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SelectOptions } from '@/types';
-import { cn } from '@/lib/utils';
 import MapItems from '@/utils/MapItems';
+import { cn } from '@/lib/utils';
 
 const DataItem = ({ label, value }: SelectOptions) => {
   return (
     <div>
-      <dt className="text-sm font-medium text-muted-foreground">{label}</dt>
+      <dt className="font-semibold">{label}</dt>
       <dd
-        className={cn('font-semibold capitalize', {
-          'text-lg font-bold': label.toLowerCase() === 'nama',
+        className={cn('capitalize', {
+          lowercase: label === 'Email',
         })}
       >
         {String(value).toLowerCase()}
@@ -40,7 +40,15 @@ const InformationCard = ({ title, data }: InformationCardProps) => {
           <MapItems
             of={data}
             render={(item, index) => (
-              <DataItem key={index} label={item.label} value={item.value} />
+              <DataItem
+                key={index}
+                label={item.label}
+                value={
+                  item.value !== undefined && item.value !== null
+                    ? item.value
+                    : '-'
+                }
+              />
             )}
           />
         </dl>

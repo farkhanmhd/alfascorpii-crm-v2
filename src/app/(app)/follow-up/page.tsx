@@ -57,6 +57,11 @@ const Page = async (props: Props) => {
   const fuDetails = await getFuDetailOptions();
   const fuResults = await getFuResultOptions();
 
+  users.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
   fuResults.unshift({
     label: 'Semua',
     value: 'all',

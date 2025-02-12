@@ -9,6 +9,7 @@ import { ComboBoxOptions, SelectOptions } from '@/types';
 import { Button } from '@/components/ui/button';
 import SelectCro from '@/components/fragments/SelectCro';
 import ComboBox from '@/components/elements/form/ComboBox';
+import ClearFilters from '@/components/elements/buttons/ClearFilters';
 
 const dateOptions: SelectOptions[] = [
   { label: 'Semua', value: 'all' },
@@ -161,9 +162,10 @@ const FollowUpFilters = ({
         value={dealerId}
         onSelect={setDealerId}
       />
-      <Button className="w-max self-end" onClick={handleFilter}>
+      <Button className="w-full self-end" onClick={handleFilter}>
         Filter
       </Button>
+      <ClearFilters />
     </div>
   );
 };

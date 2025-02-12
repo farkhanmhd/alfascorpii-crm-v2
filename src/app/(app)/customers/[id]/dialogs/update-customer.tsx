@@ -21,7 +21,6 @@ import { ICustomer, OptionsProps } from '@/types';
 import { updateCustomerAction } from '@/app/lib/actions/customers';
 import { toast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
-import { getErrorMessages } from '@/lib/utils';
 
 interface Props extends OptionsProps {
   customer: ICustomer;
@@ -41,13 +40,19 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
     new Date(props.customer.date_of_birth)
   );
 
-  const {
-    execute,
-    isPending,
-    result: formResult,
-  } = useAction(
+  const filterEmptyValues = (obj: Record<string, any>) => {
+    return Object.fromEntries(
+      Object.entries(obj).filter(([, value]) => {
+        if (value === null || value === undefined || value === '') return false;
+        if (typeof value === 'string' && value.trim() === '') return false;
+        return true;
+      })
+    );
+  };
+
+  const { execute, isPending } = useAction(
     async (formData) => {
-      const data = {
+      const rawData = {
         id: id as string,
         nik: formData.get('nik'),
         customer_name: formData.get('customer_name'),
@@ -60,14 +65,15 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
         telephone: formData.get('telephone'),
         mobile_phone: formData.get('mobile_phone'),
         date_of_birth: format(bornDate, 'yyyy-MM-dd'),
-        holiday_id: Number(holiday),
-        hobby_id: Number(hobby),
-        income_id: Number(income),
-        expense_id: Number(expense),
-        house_ownership: houseOwnership,
-        job,
-        amount_of_family: Number(formData.get('amount_of_family')),
-        amount_of_motorcycle: Number(formData.get('amount_of_motorcycle')),
+        holiday_id: Number(holiday) || undefined,
+        hobby_id: Number(hobby) || undefined,
+        income_id: Number(income) || undefined,
+        expense_id: Number(expense) || undefined,
+        house_ownership_id: Number(houseOwnership) || undefined,
+        job_id: Number(job) || undefined,
+        amount_of_family: Number(formData.get('amount_of_family')) || undefined,
+        amount_of_motorcycle:
+          Number(formData.get('amount_of_motorcycle')) || undefined,
         instagram: formData.get('instagram'),
         whatsapp_number: formData.get('whatsapp_number'),
         email: formData.get('email'),
@@ -75,7 +81,9 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
         hobby_description: formData.get('hobby_description'),
       };
 
-      return updateCustomerAction(data);
+      const filteredData = { id: rawData.id, ...filterEmptyValues(rawData) };
+      console.log(JSON.stringify(filteredData, null, 2));
+      return updateCustomerAction(filteredData);
     },
     {
       onSuccess: (result) => {
@@ -89,6 +97,8 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
       },
     }
   );
+
+  console.log(props.customer);
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -108,16 +118,12 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="nik"
                 placeholder="Nomor Induk Kependudukan (NIK)"
                 className="h-10"
-                error={getErrorMessages(formResult?.validationErrors?.nik)}
               />
               <DatePicker
                 label="Tanggal Lahir"
                 id="date_of_birth"
                 date={bornDate}
                 setDate={setBornDate}
-                error={getErrorMessages(
-                  formResult?.validationErrors?.date_of_birth
-                )}
               />
               <TextInput
                 label="Nama"
@@ -125,9 +131,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="customer_name"
                 placeholder="Nama Customer"
                 className="h-10"
-                error={getErrorMessages(
-                  formResult?.validationErrors?.customer_name
-                )}
               />
               <TextInput
                 label="Nomor Telepon"
@@ -135,9 +138,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="telephone"
                 placeholder="Nomor Telepon"
                 className="h-10"
-                error={getErrorMessages(
-                  formResult?.validationErrors?.telephone
-                )}
               />
               <TextInput
                 label="Nomor HP"
@@ -145,9 +145,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="mobile_phone"
                 placeholder="Nomor HP"
                 className="h-10"
-                error={getErrorMessages(
-                  formResult?.validationErrors?.mobile_phone
-                )}
               />
               <TextInput
                 label="Alamat"
@@ -155,9 +152,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="customer_address"
                 placeholder="Alamat Customer"
                 className="h-10"
-                error={getErrorMessages(
-                  formResult?.validationErrors?.customer_address
-                )}
               />
               <SelectBox
                 label="Hari Besar Keagamaan"
@@ -166,9 +160,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 placeholder="Hari Besar Keagamaan"
                 value={holiday}
                 setValue={setHoliday}
-                error={getErrorMessages(
-                  formResult?.validationErrors?.holiday_id
-                )}
               />
               <TextInput
                 label="Kelurahan"
@@ -176,9 +167,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="sub_district"
                 placeholder="Kelurahan"
                 className="h-10"
-                error={getErrorMessages(
-                  formResult?.validationErrors?.sub_district
-                )}
               />
               <SelectBox
                 label="Hobi"
@@ -188,7 +176,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 className="h-10"
                 value={hobby}
                 setValue={setHobby}
-                error={getErrorMessages(formResult?.validationErrors?.hobby_id)}
               />
               <TextInput
                 label="Kecamatan"
@@ -196,7 +183,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="district"
                 placeholder="Kecamatan"
                 className="h-10"
-                error={getErrorMessages(formResult?.validationErrors?.district)}
               />
               <TextInput
                 label="Deskripsi Hobi"
@@ -204,9 +190,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="hobby_description"
                 placeholder="Deskripsi Hobi"
                 className="h-10"
-                error={getErrorMessages(
-                  formResult?.validationErrors?.hobby_description
-                )}
               />
               <TextInput
                 label="Kabupaten / Kota"
@@ -214,9 +197,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="regency_or_city"
                 placeholder="Kabupaten / Kota"
                 className="h-10"
-                error={getErrorMessages(
-                  formResult?.validationErrors?.regency_or_city
-                )}
               />
               <TextInput
                 label="Jumlah Orang Dalam 1 Rumah"
@@ -224,9 +204,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="amount_of_family"
                 placeholder="Jumlah Orang Dalam 1 Rumah"
                 className="h-10"
-                error={getErrorMessages(
-                  formResult?.validationErrors?.amount_of_family
-                )}
               />
               <TextInput
                 label="Provinsi"
@@ -234,7 +211,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="province"
                 placeholder="Provinsi"
                 className="h-10"
-                error={getErrorMessages(formResult?.validationErrors?.province)}
               />
               <TextInput
                 label="Jumlah Sepeda Motor di Rumah"
@@ -242,9 +218,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="amount_of_motorcycle"
                 placeholder="Jumlah Sepeda Motor di Rumah"
                 className="h-10"
-                error={getErrorMessages(
-                  formResult?.validationErrors?.amount_of_motorcycle
-                )}
               />
               <TextInput
                 label="Kode Pos"
@@ -252,9 +225,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="postal_code"
                 placeholder="Kode Pos"
                 className="h-10"
-                error={getErrorMessages(
-                  formResult?.validationErrors?.postal_code
-                )}
               />
               <TextInput
                 label="Facebook"
@@ -262,7 +232,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="facebook"
                 placeholder="Facebook"
                 className="h-10"
-                error={getErrorMessages(formResult?.validationErrors?.facebook)}
               />
               <SelectBox
                 label="Status Rumah"
@@ -271,9 +240,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 placeholder="Status Rumah"
                 value={houseOwnership}
                 setValue={setHouseOwnership}
-                error={getErrorMessages(
-                  formResult?.validationErrors?.house_ownership_id
-                )}
               />
               <TextInput
                 label="Instagram"
@@ -281,9 +247,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="instagram"
                 placeholder="Instagram"
                 className="h-10"
-                error={getErrorMessages(
-                  formResult?.validationErrors?.instagram
-                )}
               />
               <TextInput
                 label="Email"
@@ -291,8 +254,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="email"
                 placeholder="email@example.com"
                 className="h-10"
-                type="email"
-                error={getErrorMessages(formResult?.validationErrors?.email)}
               />
               <SelectBox
                 label="Pekerjaan"
@@ -301,7 +262,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 placeholder="Pekerjaan"
                 value={job}
                 setValue={setJob}
-                error={getErrorMessages(formResult?.validationErrors?.job_id)}
               />
               <TextInput
                 label="Whatsapp"
@@ -309,9 +269,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 id="whatsapp_number"
                 placeholder="Whatsapp"
                 className="h-10"
-                error={getErrorMessages(
-                  formResult?.validationErrors?.whatsapp_number
-                )}
               />
               <SelectBox
                 label="Penghasilan / Bulan"
@@ -320,9 +277,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 placeholder="Penghasilan / Bulan"
                 value={income}
                 setValue={setIncome}
-                error={getErrorMessages(
-                  formResult?.validationErrors?.income_id
-                )}
               />
               <SelectBox
                 label="Pengeluaran / Bulan"
@@ -331,9 +285,6 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
                 placeholder="Pengeluaran / Bulan"
                 value={expense}
                 setValue={setExpense}
-                error={getErrorMessages(
-                  formResult?.validationErrors?.expense_id
-                )}
               />
             </div>
           </ScrollArea>

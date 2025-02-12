@@ -26,6 +26,8 @@ export const getFollowUps = async (payload: IFUFilters) => {
     const url = `${process.env.API_URL}/followups?${params}`;
     const accessToken = await getAccessToken();
 
+    console.log(params);
+
     if (!accessToken) {
       redirect('/login');
     }

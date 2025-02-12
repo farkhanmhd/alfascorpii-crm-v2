@@ -75,6 +75,11 @@ const CustomerTab = ({ ...props }: Props) => {
     },
   ];
 
+  const sanitizeValue = (value: any) =>
+    value !== undefined && value !== null && String(value).trim() !== ''
+      ? String(value)
+      : '-';
+
   const otherInfo: SelectOptions[] = [
     {
       label: 'Status Rumah',
@@ -98,11 +103,11 @@ const CustomerTab = ({ ...props }: Props) => {
     },
     {
       label: 'Jumlah Orang dalam 1 Rumah',
-      value: String(props.customer.amount_of_family),
+      value: sanitizeValue(props.customer.amount_of_family),
     },
     {
       label: 'Jumlah Sepeda Motor 1 Rumah',
-      value: String(props.customer.amount_of_motorcycle),
+      value: sanitizeValue(props.customer.amount_of_motorcycle),
     },
 
     {
