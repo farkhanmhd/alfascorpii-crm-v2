@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import TableSkeleton from '@/components/elements/table/TableSkeleton';
 import Tablesearch from '@/components/elements/table/tablesearch';
 import { randomUUID } from 'crypto';
-import { getColorOpts } from '@/app/lib/data/colors';
 import { getJobOptions } from '@/app/lib/data/customerjobs';
 import { getAllDealersList } from '@/app/lib/data/dealers';
 import { getFuDetailOptions } from '@/app/lib/data/detailfu';
@@ -21,6 +20,7 @@ import { getServiceTypes } from '@/app/lib/data/service-type';
 import { getStatusFuOptions } from '@/app/lib/data/statusfus';
 import { getAllUsers } from '@/app/lib/actions/staff';
 import { getDataSourceOpts } from '@/app/lib/data/datasources';
+import { getColorOptions } from '@/app/lib/data/colors';
 import DealFilters from './filters';
 import FollowUpTable from './FollowUpTable';
 
@@ -74,7 +74,7 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
     houseOwnershipOpts: await getHouseOwnershipOptions(),
     dealerOpts: await getAllDealersList(),
     leasingOpts: await getLeasingOptions(),
-    colorOpts: await getColorOpts(),
+    colorOpts: await getColorOptions(),
     serviceTypeOpts: await getServiceTypes(),
     userOpts,
     dataSourceOpts: await getDataSourceOpts(),
