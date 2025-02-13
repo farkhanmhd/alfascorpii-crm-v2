@@ -120,7 +120,7 @@ const DealDialog = ({ ...props }: OptionsProps) => {
   const { execute, isPending, result } = useAction(
     async (formData) => {
       const data: DealType = {
-        id: id || undefined,
+        id,
         deal_type: dealType,
         call_date: format(callDate, 'yyyy-MM-dd'),
         relation_id: Number(relationValue),
@@ -192,8 +192,8 @@ const DealDialog = ({ ...props }: OptionsProps) => {
           <DialogTitle>Form Deal</DialogTitle>
         </DialogHeader>
         <form action={execute}>
-          <ScrollArea>
-            <div className="max-h-[556px] space-y-6">
+          <ScrollArea className="pb-6">
+            <div className="max-h-[800px] space-y-6">
               <div className="space-y-4 px-2">
                 <h2 className="font-semibold">Data Konsumen</h2>
                 <Separator />
@@ -305,13 +305,7 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                   </h2>
                   <Separator />
                   <div className="grid grid-cols-1 gap-6 p-2 md:grid-cols-2">
-                    <DatePicker
-                      id="purchase-date"
-                      label="Tanggal Pembelian"
-                      error={getErrorMessages(
-                        result?.validationErrors?.purchase_date
-                      )}
-                    />
+                    <DatePicker id="purchase-date" label="Tanggal Pembelian" />
                     {dealType !== 'unit_nc' && (
                       <SelectBox
                         options={dealStatus}
@@ -351,9 +345,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       id="frame_number"
                       label="Nomor Rangka"
                       placeholder="Nomor Rangka"
-                      error={getErrorMessages(
-                        result?.validationErrors?.frame_number
-                      )}
                       value={frameNumber}
                       onChange={(e) => setFrameNumber(e.target.value)}
                     />
@@ -389,9 +380,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                         label="Keterangan"
                         placeholder="Tulis Keterangan Disini"
                         className="resize-none text-sm"
-                        error={getErrorMessages(
-                          result?.validationErrors?.additional_info
-                        )}
                       />
                     </div>
                   </div>
@@ -402,24 +390,7 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                   <h2 className="font-semibold">Data Service</h2>
                   <Separator />
                   <div className="grid grid-cols-1 gap-6 p-2 md:grid-cols-2">
-                    <DatePicker
-                      id="service-date"
-                      label="Tanggal Service"
-                      error={getErrorMessages(
-                        result?.validationErrors?.service_date
-                      )}
-                    />
-                    <SelectBox
-                      options={dealStatus}
-                      id="deal-result"
-                      label="Hasil Deal"
-                      placeholder="Hasil Deal"
-                      value={dealResult}
-                      setValue={setDealResult}
-                      error={getErrorMessages(
-                        result?.validationErrors?.deal_status
-                      )}
-                    />
+                    <DatePicker id="service-date" label="Tanggal Service" />
                     <SelectBox
                       options={props.serviceTypeOpts}
                       id="service-type"
@@ -446,9 +417,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       id="frame_number"
                       label="Nomor Rangka"
                       placeholder="Nomor Rangka"
-                      error={getErrorMessages(
-                        result?.validationErrors?.frame_number
-                      )}
                       value={frameNumber}
                       onChange={(e) => setFrameNumber(e.target.value)}
                     />
@@ -456,9 +424,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       id="service_price"
                       label="Nominal Service"
                       placeholder="Nominal Service"
-                      error={getErrorMessages(
-                        result?.validationErrors?.service_price
-                      )}
                     />
                     <div className="md:col-span-2">
                       <TextField
@@ -466,9 +431,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                         label="Keterangan"
                         placeholder="Tulis Keterangan Disini"
                         className="resize-none text-sm"
-                        error={getErrorMessages(
-                          result?.validationErrors?.additional_info
-                        )}
                       />
                     </div>
                   </div>
@@ -493,17 +455,11 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       placeholder="Pilih Tipe Motor"
                       value={motorcycle}
                       onSelect={setMotorcycle}
-                      error={getErrorMessages(
-                        result?.validationErrors?.motorcycle_id
-                      )}
                     />
                     <TextInput
                       id="frame_number"
                       label="Nomor Rangka"
                       placeholder="Nomor Rangka"
-                      error={getErrorMessages(
-                        result?.validationErrors?.frame_number
-                      )}
                       value={frameNumber}
                       onChange={(e) => setFrameNumber(e.target.value)}
                     />
@@ -511,9 +467,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       id="spare_part_price"
                       label="Nominal Spare Part"
                       placeholder="Nominal Spare Part"
-                      error={getErrorMessages(
-                        result?.validationErrors?.sparepart_price
-                      )}
                     />
                     <div className="md:col-span-2">
                       <TextField
@@ -521,9 +474,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                         label="Keterangan"
                         placeholder="Tulis Keterangan Disini"
                         className="resize-none text-sm"
-                        error={getErrorMessages(
-                          result?.validationErrors?.additional_info
-                        )}
                       />
                     </div>
                   </div>
@@ -534,13 +484,7 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                   <h2 className="font-semibold">Data Syariah Dana</h2>
                   <Separator />
                   <div className="grid grid-cols-1 gap-6 p-2 md:grid-cols-2">
-                    <DatePicker
-                      id="purchase-date"
-                      label="Tanggal Pembelian"
-                      error={getErrorMessages(
-                        result?.validationErrors?.purchase_date
-                      )}
-                    />
+                    <DatePicker id="purchase-date" label="Tanggal Pembelian" />
                     <SelectBox
                       options={dealStatus}
                       id="deal-result"
@@ -548,9 +492,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       placeholder="Hasil Deal"
                       value={dealResult}
                       setValue={setDealResult}
-                      error={getErrorMessages(
-                        result?.validationErrors?.deal_status
-                      )}
                     />
                     <SelectBox
                       options={purchaseTypes}
@@ -559,9 +500,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       placeholder="Jenis Transaksi"
                       value={purchaseType}
                       setValue={setPurchaseType}
-                      error={getErrorMessages(
-                        result?.validationErrors?.payment_method
-                      )}
                     />
                     <ComboBox
                       options={props.motorcyclesOpts}
@@ -570,17 +508,11 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       placeholder="Pilih Tipe Motor"
                       value={motorcycle}
                       onSelect={setMotorcycle}
-                      error={getErrorMessages(
-                        result?.validationErrors?.motorcycle_id
-                      )}
                     />
                     <TextInput
                       id="frame_number"
                       label="Nomor Rangka"
                       placeholder="Nomor Rangka"
-                      error={getErrorMessages(
-                        result?.validationErrors?.frame_number
-                      )}
                       value={frameNumber}
                       onChange={(e) => setFrameNumber(e.target.value)}
                     />
@@ -591,9 +523,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       placeholder="Pilih Warna"
                       value={motorcycleColor}
                       setValue={setMotorcycleColor}
-                      error={getErrorMessages(
-                        result?.validationErrors?.color_id
-                      )}
                     />
                     <div className="md:col-span-2">
                       <TextField
@@ -601,9 +530,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                         label="Keterangan"
                         placeholder="Tulis Keterangan Disini"
                         className="resize-none text-sm"
-                        error={getErrorMessages(
-                          result?.validationErrors?.additional_info
-                        )}
                       />
                     </div>
                   </div>
@@ -614,7 +540,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                   label={imageLabel[dealType]}
                   image={image}
                   setImage={setImage}
-                  error={getErrorMessages(result?.validationErrors?.file)}
                 />
               )}
             </div>

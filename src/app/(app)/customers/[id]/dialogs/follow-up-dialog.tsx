@@ -26,7 +26,6 @@ import { Label } from '@/components/ui/label';
 import { SelectOptions } from '@/types';
 import ComboBox from '@/components/elements/form/ComboBox';
 import { toast } from '@/hooks/use-toast';
-import { getErrorMessages } from '@/lib/utils';
 import { FollowUpData } from '@/app/lib/data/follow-up';
 
 type Props = {
@@ -74,49 +73,103 @@ const FollowUpDialog = ({ ...props }: Props) => {
   const [bornDate, setBornDate] = useState<Date>(new Date());
   const [jobDetail, setJobDetail] = useState<string>('');
 
-  const {
-    execute,
-    isPending,
-    result: formResult,
-  } = useAction(
+  const { execute, isPending } = useAction(
     async (formData) => {
       const data: FollowUpData = {
         customer_id: Number(params.id),
         recipient_name: formData.get('recipient_name'),
-        relation_id: Number(relation),
         whatsapp_number: formData.get('whatsapp_number'),
         additional_information: formData.get('additional_information'),
         follow_up_date: format(fuDate, 'yyyy-MM-dd'),
-        follow_up_method_id: Number(followUpMethod),
-        follow_up_status_id: Number(followUpStatus),
-        follow_up_detail_id: Number(followUpDetail),
-        follow_up_result_id: Number(followUpResult),
         follow_up_note: formData.get('follow_up_note'),
-        product_preferences_id: Number(motorcycle),
       };
 
-      if (dataUpdate) {
-        data.update_data = {
-          recipient_address: formData.get('recipient_address'),
-          sub_district: formData.get('sub_district'),
-          house_ownership_id: Number(houseOwnership),
-          job_id: Number(job),
-          recipient_job_detail: jobDetail,
-          recipient_religion: religion,
-          recipient_born_date: format(bornDate, 'yyyy-MM-dd'),
-          hobby_id: Number(hobby),
-          recipient_hobby_detail: formData.get('recipient_hobby_detail'),
-          amount_of_family: Number(formData.get('amount_of_family')),
-          amount_of_motorcycle: Number(formData.get('amount_of_motorcycle')),
-          facebook: formData.get('facebook'),
-          instagram: formData.get('instagram'),
-          email: formData.get('email'),
-          income_id: Number(income),
-          expense_id: Number(expense),
-          holiday_id: Number(holiday),
-          religion_id: Number(religion),
-        };
+      if (relation) {
+        data.relation_id = Number(relation);
       }
+      if (followUpMethod) {
+        data.follow_up_method_id = Number(followUpMethod);
+      }
+      if (followUpStatus) {
+        data.follow_up_status_id = Number(followUpStatus);
+      }
+      if (followUpDetail) {
+        data.follow_up_detail_id = Number(followUpDetail);
+      }
+      if (followUpResult) {
+        data.follow_up_result_id = Number(followUpResult);
+      }
+
+      if (motorcycle) {
+        data.product_preferences_id = Number(motorcycle);
+      }
+
+      if (dataUpdate) {
+        data.update_data = {};
+        if (formData.get('recipient_address')) {
+          data.update_data.recipient_address =
+            formData.get('recipient_address');
+        }
+        if (formData.get('sub_district')) {
+          data.update_data.sub_district = formData.get('sub_district');
+        }
+        if (houseOwnership) {
+          data.update_data.house_ownership_id = Number(houseOwnership);
+        }
+        if (job) {
+          data.update_data.job_id = Number(job);
+        }
+        if (jobDetail) {
+          data.update_data.recipient_job_detail = jobDetail;
+        }
+        if (religion) {
+          data.update_data.recipient_religion = religion;
+        }
+        if (bornDate) {
+          data.update_data.recipient_born_date = format(bornDate, 'yyyy-MM-dd');
+        }
+        if (hobby) {
+          data.update_data.hobby_id = Number(hobby);
+        }
+        if (formData.get('recipient_hobby_detail')) {
+          data.update_data.recipient_hobby_detail = formData.get(
+            'recipient_hobby_detail'
+          );
+        }
+        if (formData.get('amount_of_family')) {
+          data.update_data.amount_of_family = Number(
+            formData.get('amount_of_family')
+          );
+        }
+        if (formData.get('amount_of_motorcycle')) {
+          data.update_data.amount_of_motorcycle = Number(
+            formData.get('amount_of_motorcycle')
+          );
+        }
+        if (formData.get('facebook')) {
+          data.update_data.facebook = formData.get('facebook');
+        }
+        if (formData.get('instagram')) {
+          data.update_data.instagram = formData.get('instagram');
+        }
+        if (formData.get('email')) {
+          data.update_data.email = formData.get('email');
+        }
+        if (income) {
+          data.update_data.income_id = Number(income);
+        }
+        if (expense) {
+          data.update_data.expense_id = Number(expense);
+        }
+        if (holiday) {
+          data.update_data.holiday_id = Number(holiday);
+        }
+        if (religion) {
+          data.update_data.religion_id = Number(religion);
+        }
+      }
+
+      console.log(data);
 
       return addFollowUpAction(data);
     },
@@ -154,18 +207,12 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     id="recipient_name"
                     placeholder="Nama Penerima Telepon"
                     className="h-10"
-                    error={getErrorMessages(
-                      formResult?.validationErrors?.recipient_name
-                    )}
                   />
                   <TextInput
                     label="Keterangan Lainnya"
                     id="additional_information"
                     placeholder="Keterangan Lainnya"
                     className="h-10"
-                    error={getErrorMessages(
-                      formResult?.validationErrors?.additional_information
-                    )}
                   />
                   <SelectBox
                     options={props.relationOpts}
@@ -174,18 +221,12 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     id="relationship"
                     value={relation}
                     setValue={setRelation}
-                    error={getErrorMessages(
-                      formResult?.validationErrors?.relation_id
-                    )}
                   />
                   <TextInput
                     label="Whatsapp"
                     id="whatsapp_number"
                     placeholder="Whatsapp"
                     className="h-10"
-                    error={getErrorMessages(
-                      formResult?.validationErrors?.whatsapp_number
-                    )}
                   />
                 </div>
               </div>
@@ -198,9 +239,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     id="follow_up_date"
                     date={fuDate}
                     setDate={setFuDate}
-                    error={getErrorMessages(
-                      formResult?.validationErrors?.follow_up_date
-                    )}
                   />
                   <ComboBox
                     id="product_preferences_id"
@@ -209,9 +247,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     placeholder="Minat Product"
                     value={motorcycle}
                     onSelect={setMotorcycle}
-                    error={getErrorMessages(
-                      formResult?.validationErrors?.product_preferences_id
-                    )}
                   />
                   <SelectBox
                     id="follow_up_method_id"
@@ -220,9 +255,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     placeholder="Metode Follow Up"
                     value={followUpMethod}
                     setValue={setFollowUpMethod}
-                    error={getErrorMessages(
-                      formResult?.validationErrors?.follow_up_method_id
-                    )}
                   />
                   <SelectBox
                     id="follow_up_result_id"
@@ -231,9 +263,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     placeholder="Hasil Follow Up"
                     value={followUpResult}
                     setValue={setFollowUpResult}
-                    error={getErrorMessages(
-                      formResult?.validationErrors?.follow_up_result_id
-                    )}
                   />
                   <SelectBox
                     id="follow_up_status_id"
@@ -242,9 +271,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     placeholder="Status Follow Up"
                     value={followUpStatus}
                     setValue={setFollowUpStatus}
-                    error={getErrorMessages(
-                      formResult?.validationErrors?.follow_up_status_id
-                    )}
                   />
                   <SelectBox
                     id="follow_up_detail_id"
@@ -253,18 +279,12 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     placeholder="Keterangan Follow Up"
                     value={followUpDetail}
                     setValue={setFollowUpDetail}
-                    error={getErrorMessages(
-                      formResult?.validationErrors?.follow_up_detail_id
-                    )}
                   />
                   <div className="row-span-2 h-full">
                     <TextField
                       label="Deskripsi"
                       id="follow_up_note"
                       className="h-full resize-none"
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.follow_up_note
-                      )}
                     />
                   </div>
                 </div>
@@ -292,29 +312,18 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       id="recipient_address"
                       placeholder="Alamat Customer"
                       className="h-10"
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data
-                          ?.recipient_address
-                      )}
                     />
                     <TextInput
                       label="Kelurahan"
                       id="sub_district"
                       placeholder="Kelurahan"
                       className="h-10"
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data?.sub_district
-                      )}
                     />
                     <DatePicker
                       label="Tanggal Lahir"
                       id="recipient_born_date"
                       date={bornDate}
                       setDate={setBornDate}
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data
-                          ?.recipient_born_date
-                      )}
                     />
                     <SelectBox
                       label="Agama"
@@ -323,10 +332,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       placeholder="Agama"
                       value={religion}
                       setValue={setReligion}
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data
-                          ?.recipient_religion
-                      )}
                     />
                     <SelectBox
                       label="Hari Besar Keagaman"
@@ -335,9 +340,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       placeholder="Hari Besar Keagamaan"
                       value={holiday}
                       setValue={setHoliday}
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data?.holiday_id
-                      )}
                     />
                     <SelectBox
                       label="Hobi"
@@ -347,38 +349,24 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       options={props.hobbyOpts}
                       value={hobby}
                       setValue={setHobby}
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data?.hobby_id
-                      )}
                     />
                     <TextInput
                       label="Deskripsi Hobi"
                       id="recipient_hobby_detail"
                       placeholder="Deskripsi Hobi"
                       className="h-10"
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data
-                          ?.recipient_hobby_detail
-                      )}
                     />
                     <TextInput
                       label="Jumlah Orang Dalam 1 Rumah"
                       id="amount_of_family"
                       placeholder="Jumlah Orang Dalam 1 Rumah"
                       className="h-10"
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data
-                      )}
                     />
                     <TextInput
                       label="Jumlah Sepeda Motor di Rumah"
                       id="amount_of_motorcycle"
                       placeholder="Jumlah Sepeda Motor di Rumah"
                       className="h-10"
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data
-                          ?.amount_of_motorcycle
-                      )}
                     />
                     <SelectBox
                       label="Pekerjaan"
@@ -387,19 +375,12 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       placeholder="Pekerjaan"
                       value={job}
                       setValue={setJob}
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data?.job_id
-                      )}
                     />
                     <TextInput
                       label="Deskripsi Pekerjaan"
                       id="recipent_job_detail"
                       placeholder="Deskripsi Pekerjaan"
                       className="h-10"
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data
-                          ?.recipient_job_detail
-                      )}
                       value={jobDetail}
                       onChange={(e) => setJobDetail(e.target.value)}
                     />
@@ -410,10 +391,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       placeholder="Status Rumah"
                       value={houseOwnership}
                       setValue={setHouseOwnership}
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data
-                          ?.house_ownership_id
-                      )}
                     />
                     <SelectBox
                       label="Penghasilan / Bulan"
@@ -422,9 +399,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       placeholder="Penghasilan / Bulan"
                       value={income}
                       setValue={setIncome}
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data?.income_id
-                      )}
                     />
 
                     <SelectBox
@@ -434,27 +408,18 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       placeholder="Pengeluaran / Bulan"
                       value={expense}
                       setValue={setExpense}
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data?.expense_id
-                      )}
                     />
                     <TextInput
                       label="Facebook"
                       id="facebook"
                       placeholder="Facebook"
                       className="h-10"
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data?.facebook
-                      )}
                     />
                     <TextInput
                       label="Instagram"
                       id="instagram"
                       placeholder="Instagram"
                       className="h-10"
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data?.instagram
-                      )}
                     />
 
                     <TextInput
@@ -463,9 +428,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       placeholder="email@example.com"
                       className="h-10"
                       type="email"
-                      error={getErrorMessages(
-                        formResult?.validationErrors?.update_data?.email
-                      )}
                     />
                   </div>
                 </div>

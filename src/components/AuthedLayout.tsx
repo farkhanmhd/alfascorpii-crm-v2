@@ -24,8 +24,8 @@ const Page = ({ children }: { children: React.ReactNode }) => {
           </div>
         </header>
         <div>
-          <ScrollArea className="flex h-[calc(100dvh-48px)] flex-1 flex-col gap-4 bg-secondary p-6">
-            {children}
+          <ScrollArea className="flex h-[calc(100dvh-48px)] flex-1 flex-col gap-4 bg-secondary">
+            <div className="p-6">{children}</div>
           </ScrollArea>
         </div>
       </SidebarInset>

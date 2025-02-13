@@ -9,6 +9,7 @@ import { ComboBoxOptions, SelectOptions } from '@/types';
 import { Button } from '@/components/ui/button';
 import SelectCro from '@/components/fragments/SelectCro';
 import ComboBox from '@/components/elements/form/ComboBox';
+import ClearFilters from '@/components/elements/buttons/ClearFilters';
 
 const dateOptions: SelectOptions[] = [
   { label: 'Semua', value: 'all' },
@@ -127,9 +128,12 @@ const DuplicateFilters = ({
         value={dealerId}
         onSelect={setDealerId}
       />
-      <Button className="w-full self-end" onClick={handleFilter}>
-        Filter
-      </Button>
+      <div className="flex items-end gap-x-2">
+        <Button className="w-full self-end" onClick={handleFilter}>
+          Filter
+        </Button>
+        <ClearFilters />
+      </div>
     </div>
   );
 };

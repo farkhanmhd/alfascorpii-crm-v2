@@ -56,7 +56,7 @@ const ImageUploadDropzone: React.FC<Props> = ({
       {label && (
         <Label
           htmlFor={id}
-          className={cn('flex gap-x-2 font-semibold', {
+          className={cn('mb-4 flex gap-x-2 font-semibold', {
             'sr-only': hideLabel,
           })}
         >

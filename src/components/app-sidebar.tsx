@@ -192,6 +192,10 @@ export const data = {
           url: '/motorcycles',
         },
         {
+          title: 'Warna',
+          url: '/colors',
+        },
+        {
           title: 'Metode Follow Up',
           url: '/fumethod',
         },

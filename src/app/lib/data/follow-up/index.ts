@@ -26,8 +26,6 @@ export const getFollowUps = async (payload: IFUFilters) => {
     const url = `${process.env.API_URL}/followups?${params}`;
     const accessToken = await getAccessToken();
 
-    console.log(params);
-
     if (!accessToken) {
       redirect('/login');
     }
@@ -155,18 +153,18 @@ export const manualAssignFollowUp = async (payload: {
 };
 
 export type FollowUpData = {
-  customer_id: number;
-  recipient_name: string;
-  relation_id: number;
-  whatsapp_number: string;
-  additional_information: string;
-  follow_up_date: string;
-  follow_up_method_id: number;
-  follow_up_status_id: number;
-  follow_up_detail_id: number;
-  follow_up_result_id: number;
-  follow_up_note: string;
-  product_preferences_id: number;
+  customer_id?: number;
+  recipient_name?: string;
+  relation_id?: number;
+  whatsapp_number?: string;
+  additional_information?: string;
+  follow_up_date?: string;
+  follow_up_method_id?: number;
+  follow_up_status_id?: number;
+  follow_up_detail_id?: number;
+  follow_up_result_id?: number;
+  follow_up_note?: string;
+  product_preferences_id?: number;
   update_data?: {
     recipient_address?: string;
     sub_district?: string;

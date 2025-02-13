@@ -8,7 +8,6 @@ export const deleteDuplicate = async (payload: { ids: number[] }) => {
       redirect('/login');
     }
 
-    console.log(JSON.stringify(payload));
     const requestUrl = `${process.env.API_URL}/duplicatedata/batchDelete`;
     const response = await fetch(requestUrl, {
       method: 'POST',

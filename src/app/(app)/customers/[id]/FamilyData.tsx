@@ -10,8 +10,8 @@ import { toast } from '@/hooks/use-toast';
 import FamilyListTable from './family-list-table';
 
 interface Props {
-  families: IFamilyCard;
-  relatedPersons: IFamilyMember[];
+  families?: IFamilyCard | null;
+  relatedPersons?: IFamilyMember[];
   editable: boolean;
   setEditable: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -40,13 +40,17 @@ const FamilyData = ({
 
   // Initialize the state with the original data
   useEffect(() => {
-    const initialFamilyList = deepCopy(families.family_list);
-    const initialRelatedPersons = deepCopy(relatedPersons);
+    const initialFamilyList = families?.family_list
+      ? deepCopy(families.family_list)
+      : [];
+    const initialRelatedPersons = relatedPersons
+      ? deepCopy(relatedPersons)
+      : [];
     setFamilyList(initialFamilyList);
     setRelatedPersons(initialRelatedPersons);
     setOriginalFamilyList(initialFamilyList);
     setOriginalRelatedPersons(initialRelatedPersons);
-  }, [families.family_list, relatedPersons]);
+  }, [families?.family_list, relatedPersons]);
 
   const resetToOriginalState = useCallback(() => {
     setFamilyList(deepCopy(originalFamilyList));

@@ -190,10 +190,12 @@ const CustomerFilters = ({
         value={jobValue}
         setSelectedValue={setJobValue}
       />
-      <Button className="w-full self-end" onClick={handleFilter}>
-        Filter
-      </Button>
-      <ClearFilters />
+      <div className="flex items-end gap-x-2">
+        <Button className="w-full self-end" onClick={handleFilter}>
+          Filter
+        </Button>
+        <ClearFilters />
+      </div>
     </div>
   );
 };

@@ -185,7 +185,7 @@ export interface ICustomer extends IIdentifiable {
   imported_date: string | null;
   assigned_date: string | null;
   motorcycles: ICustomerMotorcycle[];
-  family_card: IFamilyCard;
+  family_card?: IFamilyCard | null;
   related_person: IFamilyMember[];
   follow_up_recipient: IFollowUpRecipient;
   follow_up: ICustomerFollowUp[];
@@ -471,7 +471,7 @@ export type OptionsProps = {
 };
 
 export type DealType = {
-  id?: string | undefined;
+  id: string;
   deal_type: string;
   call_date: string;
   purchase_date?: string;

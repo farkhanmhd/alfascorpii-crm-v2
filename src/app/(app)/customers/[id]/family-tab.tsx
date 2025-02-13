@@ -12,13 +12,13 @@ import { getErrorMessages } from '@/lib/utils';
 import FamilyData from './FamilyData';
 
 type Props = {
-  families: IFamilyCard;
-  relatedPersons: IFamilyMember[];
+  families?: IFamilyCard | null;
+  relatedPersons?: IFamilyMember[];
 };
 
 const FamilyTab = ({ families, relatedPersons }: Props) => {
   const [familyNumber, setFamilyNumber] = useState<string>(
-    families ? families.family_card_number : ''
+    families?.family_card_number || ''
   );
 
   const [editable, setEditable] = useState<boolean>(false);

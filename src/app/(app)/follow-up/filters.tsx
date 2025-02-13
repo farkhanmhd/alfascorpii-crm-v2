@@ -162,10 +162,12 @@ const FollowUpFilters = ({
         value={dealerId}
         onSelect={setDealerId}
       />
-      <Button className="w-full self-end" onClick={handleFilter}>
-        Filter
-      </Button>
-      <ClearFilters />
+      <div className="flex items-end gap-x-2">
+        <Button className="w-full self-end" onClick={handleFilter}>
+          Filter
+        </Button>
+        <ClearFilters />
+      </div>
     </div>
   );
 };
