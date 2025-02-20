@@ -115,13 +115,6 @@ const StaffDetail: React.FC<StaffDetailProps> = ({ profile }) => {
           {group.label}
         </Label>
       </div>
-      {group.children && (
-        <div className="ml-6 space-y-2">
-          {group.children.map((child) =>
-            renderPermissionGroup(child, level + 1)
-          )}
-        </div>
-      )}
       <div className="ml-6 grid grid-cols-2 gap-2">
         {group.permissions.map((permission) => (
           <div key={permission} className="flex items-center space-x-2">
@@ -140,6 +133,13 @@ const StaffDetail: React.FC<StaffDetailProps> = ({ profile }) => {
           </div>
         ))}
       </div>
+      {group.children && (
+        <div className="ml-6 space-y-2">
+          {group.children.map((child) =>
+            renderPermissionGroup(child, level + 1)
+          )}
+        </div>
+      )}
     </div>
   );
 
