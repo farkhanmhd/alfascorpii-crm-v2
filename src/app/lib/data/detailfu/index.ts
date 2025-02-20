@@ -3,7 +3,7 @@ import {
   fetchData,
   deleteData,
 } from '@/app/lib/data/fetchUtils';
-import { redirect } from 'next/navigation';
+
 import { getAccessToken } from '../auth';
 
 export const fetchDetailFU = (
@@ -54,10 +54,6 @@ export const deleteDetailFu = (id: number) => {
 export const getFuDetailOptions = async () => {
   try {
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(`${process.env.API_URL}/detailfu`, {
       method: 'GET',

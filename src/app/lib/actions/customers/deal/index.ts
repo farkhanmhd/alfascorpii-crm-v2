@@ -11,7 +11,7 @@ import { zfd } from 'zod-form-data';
 import { revalidatePath } from 'next/cache';
 
 const dealSchema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   deal_type: z.string().min(1),
   call_date: z.string().min(1),
   purchase_date: z.string().optional(),

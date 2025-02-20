@@ -27,8 +27,10 @@ const Page = async (props: {
   return (
     <div>
       <header className="flex flex-col gap-4 pb-6 lg:flex-row">
-        <Tablesearch placeholder="Cari Staff" />
-        <UserFilter dealers={dealers} />
+        <div className="flex flex-col-reverse gap-4 md:flex-row">
+          <Tablesearch placeholder="Cari Staff" />
+          <UserFilter dealers={dealers} />
+        </div>
         <div className="lg:ml-auto">
           <AddStaffDialog />
         </div>

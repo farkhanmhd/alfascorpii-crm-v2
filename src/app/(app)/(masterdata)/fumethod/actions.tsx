@@ -4,7 +4,7 @@ import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useDialog } from '@/hooks';
+import { useDialog, usePermissions } from '@/hooks';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import {
@@ -12,11 +12,12 @@ import {
   editFuMethodAction,
   removeFuMethodAction,
 } from '@/app/lib/actions/fumethod';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 import FuMethodForm from './FuMethodForm';
 
 export const CreateFuMethodDialog = () => {
   const { open, setOpen } = useDialog();
+  const { permissions } = usePermissions();
   const { execute, result, isPending } = useAction(
     async (formData) => {
       const data = {
@@ -32,6 +33,15 @@ export const CreateFuMethodDialog = () => {
       },
     }
   );
+
+  const canAddMethod =
+    checkPermission('add_follow_up_methods', permissions) &&
+    checkPermission('view_master_data', permissions);
+
+  if (!canAddMethod) {
+    return null;
+  }
+
   return (
     <ActionDialogContainer
       title="Tambah Metode Follow Up"

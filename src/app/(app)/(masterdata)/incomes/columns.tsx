@@ -3,10 +3,19 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { IIncome } from '@/types';
-import { DeleteIncomeDialog, EditIncomeDialog } from './actions';
+import { usePermissions } from '@/hooks';
+import { checkPermission } from '@/lib/utils';
+import { EditIncomeDialog, DeleteIncomeDialog } from './actions';
 
-const columns: ColumnDef<IIncome>[] = [
+const baseColumns: ColumnDef<any>[] = [
+  {
+    header: 'Kode',
+    accessorKey: 'income_code',
+  },
+  {
+    header: 'Detail',
+    accessorKey: 'income_detail',
+  },
   {
     header: 'Batas Bawah',
     accessorKey: 'income_lower_limit',
@@ -14,14 +23,6 @@ const columns: ColumnDef<IIncome>[] = [
   {
     header: 'Batas Atas',
     accessorKey: 'income_upper_limit',
-  },
-  {
-    header: 'Detail',
-    accessorKey: 'income_detail',
-  },
-  {
-    header: 'Kode',
-    accessorKey: 'income_code',
   },
   {
     header: 'Status',
@@ -37,25 +38,37 @@ const columns: ColumnDef<IIncome>[] = [
       </span>
     ),
   },
+];
+
+export const editableColumns: ColumnDef<any>[] = [
+  ...baseColumns,
   {
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
+      const { permissions } = usePermissions();
+      const canEdit = checkPermission('edit_incomes', permissions);
+      const canDelete = checkPermission('delete_incomes', permissions);
+
       return (
         <div className="flex justify-end gap-x-4">
-          <EditIncomeDialog
-            id={Number(row.original.id)}
-            code={row.original.income_code}
-            status={row.original.status}
-            upper={Number(row.original.income_upper_limit)}
-            lower={Number(row.original.income_lower_limit)}
-            detail={row.original.income_detail}
-          />
-          <DeleteIncomeDialog id={Number(row.original.id)} />
+          {canEdit && (
+            <EditIncomeDialog
+              id={row.original.id}
+              upper={row.original.income_upper_limit}
+              lower={row.original.income_lower_limit}
+              detail={row.original.income_detail}
+              code={row.original.income_code}
+              status={row.original.status}
+            />
+          )}
+          {canDelete && <DeleteIncomeDialog id={row.original.id} />}
         </div>
       );
     },
   },
 ];
+
+export const columns: ColumnDef<any>[] = [...baseColumns];
 
 export default columns;

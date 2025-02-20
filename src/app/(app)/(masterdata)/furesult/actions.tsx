@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useDialog, useStatusFu } from '@/hooks';
+import { useDialog, useStatusFu, usePermissions } from '@/hooks';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import {
@@ -13,7 +13,7 @@ import {
   removeFuResultAction,
 } from '@/app/lib/actions/furesult';
 import { SelectOptions } from '@/types';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 import FuResultForm from './FuResultForm';
 
 export const CreateFuResultDialog = ({
@@ -21,6 +21,7 @@ export const CreateFuResultDialog = ({
 }: {
   statusFuOptions: SelectOptions[];
 }) => {
+  const { permissions } = usePermissions();
   const { open, setOpen } = useDialog();
   const [selectedStatus, setSelectedStatus] = useState<string>(
     statusFuOptions[0].value
@@ -48,6 +49,14 @@ export const CreateFuResultDialog = ({
       setStatusFus(statusFuOptions);
     }
   }, [statusFuOptions]);
+
+  const canAddResult =
+    checkPermission('add_follow_up_results', permissions) &&
+    checkPermission('view_follow_up_results', permissions);
+
+  if (!canAddResult) {
+    return null;
+  }
 
   return (
     <ActionDialogContainer

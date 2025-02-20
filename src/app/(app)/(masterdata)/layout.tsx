@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import TableLayout from '@/components/elements/table/TableLayout';
 

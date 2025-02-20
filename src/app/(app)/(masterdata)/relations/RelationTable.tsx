@@ -1,8 +1,7 @@
 import React from 'react';
-import { fetchRelation } from '@/app/lib/data/relations';
-import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import columns from './columns';
+import { fetchRelation } from '@/app/lib/data/relations';
+import RelationTableWrapper from './RelationTableWrapper';
 
 const RelationTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchRelation(search, page, perPage);
@@ -15,17 +14,7 @@ const RelationTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { relations, last_page: totalPages, total } = data;
-  return (
-    <DataTable
-      columns={columns}
-      data={relations}
-      rows={total}
-      totalPages={totalPages}
-      currentPage={Number(page)}
-      withPagination
-    />
-  );
+  return <RelationTableWrapper data={data} page={page!} />;
 };
 
 export default RelationTable;

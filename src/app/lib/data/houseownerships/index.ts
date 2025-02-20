@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import { getAccessToken } from '../auth';
 import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
@@ -40,10 +39,6 @@ export const deleteHouseOwnership = (id: number) => {
 export const getHouseOwnershipOptions = async () => {
   try {
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(
       `${process.env.API_URL}/houseownerships?per_page=50`,

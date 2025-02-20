@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import { getAccessToken } from '../auth';
 import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
@@ -40,10 +39,6 @@ export const deletePekerjaan = async (id: number) => {
 export const getJobOptions = async () => {
   try {
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(`${process.env.API_URL}/customerjobs`, {
       cache: 'force-cache',

@@ -1,8 +1,7 @@
 import React from 'react';
 import { fetchExpenses } from '@/app/lib/data/expenses';
-import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import columns from './columns';
+import ExpenseTableWrapper from './ExpenseTableWrapper';
 
 const ExpenseTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchExpenses(search, page, perPage);
@@ -15,17 +14,7 @@ const ExpenseTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { expenses, last_page: totalPages, total } = data;
-  return (
-    <DataTable
-      columns={columns}
-      data={expenses}
-      rows={total}
-      totalPages={totalPages}
-      currentPage={Number(page)}
-      withPagination
-    />
-  );
+  return <ExpenseTableWrapper data={data} page={page!} />;
 };
 
 export default ExpenseTable;

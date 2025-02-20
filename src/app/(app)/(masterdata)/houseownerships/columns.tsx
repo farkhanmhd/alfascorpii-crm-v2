@@ -3,15 +3,16 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { IHouseOwnership } from '@/types';
+import { usePermissions } from '@/hooks';
+import { checkPermission } from '@/lib/utils';
 import {
   EditHouseOwnershipDialog,
   RemoveHouseOwnershipDialog,
 } from './actions';
 
-const columns: ColumnDef<IHouseOwnership>[] = [
+const baseColumns: ColumnDef<any>[] = [
   {
-    header: 'Status Rumah',
+    header: 'Status Kepemilikan',
     accessorKey: 'house_ownership_status',
   },
   {
@@ -28,22 +29,32 @@ const columns: ColumnDef<IHouseOwnership>[] = [
       </span>
     ),
   },
+];
+
+export const editableColumns: ColumnDef<any>[] = [
+  ...baseColumns,
   {
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
+      const { permissions } = usePermissions();
+      const canEdit = checkPermission('edit_house_ownerships', permissions);
+      const canDelete = checkPermission('delete_house_ownerships', permissions);
+
       return (
         <div className="flex justify-end gap-x-4">
-          <EditHouseOwnershipDialog
-            id={Number(row.original.id)}
-            ownership={row.original.house_ownership_status}
-            status={row.original.status}
-          />
-          <RemoveHouseOwnershipDialog id={Number(row.original.id)} />
+          {canEdit && (
+            <EditHouseOwnershipDialog
+              id={row.original.id}
+              ownership={row.original.house_ownership_status}
+              status={row.original.status}
+            />
+          )}
+          {canDelete && <RemoveHouseOwnershipDialog id={row.original.id} />}
         </div>
       );
     },
   },
 ];
 
-export default columns;
+export const columns: ColumnDef<any>[] = [...baseColumns];

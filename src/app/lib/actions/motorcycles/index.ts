@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import actionClient from '@/lib/safe-action';
-import { redirect } from 'next/navigation';
+
 import { getAccessToken } from '../../data/auth';
 import {
   postProductPreferences,
@@ -87,10 +87,6 @@ export const getMotorcycleList = actionClient
   .action(async ({ parsedInput: { search } }) => {
     try {
       const accessToken = await getAccessToken();
-
-      if (!accessToken) {
-        redirect('/login');
-      }
 
       const response = await fetch(
         `${process.env.API_URL}/motorcycles?search=${search}`,

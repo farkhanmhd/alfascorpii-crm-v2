@@ -4,16 +4,17 @@ import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useDialog } from '@/hooks';
+import { useDialog, usePermissions } from '@/hooks';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import { addJob, updateJob, removeJob } from '@/app/lib/actions/customerjobs';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 
 import CustomerJobForm from './CustomerJobForm';
 
 export const CreateCustomerJobDialog = () => {
   const { open, setOpen } = useDialog();
+  const { permissions } = usePermissions();
 
   const { execute, result, isPending } = useAction(
     async (formData) => {
@@ -31,6 +32,14 @@ export const CreateCustomerJobDialog = () => {
       },
     }
   );
+
+  const canAddJob =
+    checkPermission('add_jobs', permissions) &&
+    checkPermission('view_master_data', permissions);
+
+  if (!canAddJob) {
+    return null;
+  }
 
   return (
     <ActionDialogContainer

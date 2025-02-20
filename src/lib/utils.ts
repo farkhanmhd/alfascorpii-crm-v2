@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { toast } from '@/hooks/use-toast';
+import { Permission } from './permissions';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -59,3 +60,29 @@ export const paramsGenerator = (params: any) => {
   });
   return queryParams.toString();
 };
+
+export const checkPermission = (
+  permissionName: string,
+  permissions: Permission[]
+): boolean => {
+  if (permissions) {
+    return permissions.some(
+      (permission) => permission.permission_name === permissionName
+    );
+  }
+  return false;
+};
+
+export const hasAllPermissions = (
+  requiredPermissions: string[],
+  permissions: Permission[]
+): boolean => {
+  return requiredPermissions.every((perm) =>
+    checkPermission(perm, permissions)
+  );
+};
+
+export const sanitizeValue = (value: any) =>
+  value !== undefined && value !== null && String(value).trim() !== ''
+    ? String(value)
+    : '-';

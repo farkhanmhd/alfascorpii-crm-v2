@@ -1,8 +1,7 @@
 import React from 'react';
 import { fetchHoliday } from '@/app/lib/data/holidays';
-import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import columns from './columns';
+import HolidayTableWrapper from './HolidayTableWrapper';
 
 const HolidayTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchHoliday(search, page, perPage);
@@ -15,17 +14,7 @@ const HolidayTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { holidays, last_page: totalPages, total } = data;
-  return (
-    <DataTable
-      columns={columns}
-      data={holidays}
-      rows={total}
-      totalPages={totalPages}
-      currentPage={Number(page)}
-      withPagination
-    />
-  );
+  return <HolidayTableWrapper data={data} page={page!} />;
 };
 
 export default HolidayTable;

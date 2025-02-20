@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import { getAccessToken } from '../auth';
 import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
@@ -42,10 +41,6 @@ export const deleteFuResult = (id: number) => {
 export const getFuResultOptions = async () => {
   try {
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(`${process.env.API_URL}/furesult`, {
       method: 'GET',

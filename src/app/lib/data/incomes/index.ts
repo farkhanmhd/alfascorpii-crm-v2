@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import { getAccessToken } from '../auth';
 import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
@@ -58,10 +57,6 @@ export const deleteIncome = (id: number) => {
 export const getIncomeOptions = async () => {
   try {
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(`${process.env.API_URL}/incomes?per_page=50`, {
       method: 'GET',

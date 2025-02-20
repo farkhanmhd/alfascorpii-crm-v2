@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import { getAccessToken } from '../auth';
 import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
@@ -37,10 +36,6 @@ export const deleteRelation = (id: number) => {
 export const getRelationOptions = async () => {
   try {
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(
       `${process.env.API_URL}/relations?per_page=9999`,

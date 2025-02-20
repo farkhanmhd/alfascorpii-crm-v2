@@ -11,12 +11,13 @@ import {
 } from '@/app/lib/actions/motorcycles';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
-import { useDialog } from '@/hooks';
-import { actionResponseToast } from '@/lib/utils';
+import { useDialog, usePermissions } from '@/hooks';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 import ProductPreferencesForm from './ProductPreferencesForm';
 
 export const CreateProductDialog = () => {
   const { open, setOpen } = useDialog();
+  const { permissions } = usePermissions();
   const { execute, result, isPending } = useAction(
     async (formData) => {
       const data = {
@@ -32,6 +33,14 @@ export const CreateProductDialog = () => {
       },
     }
   );
+
+  const canAdd =
+    checkPermission('add_motorcycle', permissions) &&
+    checkPermission('view_motorcycles', permissions);
+
+  if (!canAdd) {
+    return null;
+  }
 
   return (
     <ActionDialogContainer

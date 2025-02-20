@@ -1,13 +1,9 @@
 import { paramsGenerator } from '@/lib/utils';
-import { redirect } from 'next/navigation';
+
 import { getAccessToken } from '../auth';
 
 export const fetchDeals = async (payload: any) => {
   const accessToken = await getAccessToken();
-
-  if (!accessToken) {
-    redirect('/login');
-  }
 
   const params = paramsGenerator(payload);
 

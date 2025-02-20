@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
 import { paramsGenerator } from '@/lib/utils';
+import { redirect } from 'next/navigation';
 import { getAccessToken } from '../auth';
 
 export interface IFUFilters {
@@ -25,10 +25,6 @@ export const getFollowUps = async (payload: IFUFilters) => {
     const params = paramsGenerator(payload);
     const url = `${process.env.API_URL}/followups?${params}`;
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(url, {
       method: 'GET',
@@ -68,10 +64,6 @@ export interface IDuplicateFilters {
 export const getDuplicatedData = async (payload: IDuplicateFilters) => {
   try {
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const params = paramsGenerator(payload);
 
@@ -198,8 +190,6 @@ export const addFollowUp = async (payload: FollowUpData) => {
     const bodyPayload = Object.fromEntries(
       Object.entries(payload).filter(([key]) => key !== 'customer_id')
     );
-
-    console.log(bodyPayload);
 
     const response = await fetch(requestUrl, {
       method: 'POST',

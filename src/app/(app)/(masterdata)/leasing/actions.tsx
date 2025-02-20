@@ -4,7 +4,7 @@ import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useDialog } from '@/hooks';
+import { useDialog, usePermissions } from '@/hooks';
 import {
   addLeasingAction,
   updateLeasingAction,
@@ -12,10 +12,15 @@ import {
 } from '@/app/lib/actions/leasing';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 import LeasingForm from './LeasingForm';
 
 export const CreateLeasingDialog = () => {
+  const { permissions } = usePermissions();
+  const canAddLeasing =
+    checkPermission('add_leasing', permissions) &&
+    checkPermission('view_leasings', permissions);
+
   const { open, setOpen } = useDialog();
   const { execute, result, isPending } = useAction(
     async (formData) => {
@@ -32,6 +37,8 @@ export const CreateLeasingDialog = () => {
       },
     }
   );
+
+  if (!canAddLeasing) return null;
 
   return (
     <ActionDialogContainer

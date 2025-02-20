@@ -3,12 +3,13 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { IResultFU } from '@/types';
+import { usePermissions } from '@/hooks';
+import { checkPermission } from '@/lib/utils';
 import { EditFuResultDialog, DeleteFuResultDialog } from './actions';
 
-const columns: ColumnDef<IResultFU>[] = [
+const baseColumns: ColumnDef<any>[] = [
   {
-    header: 'Hasil Follow Up',
+    header: 'Hasil',
     accessorKey: 'fu_result_name',
   },
   {
@@ -25,22 +26,38 @@ const columns: ColumnDef<IResultFU>[] = [
       </span>
     ),
   },
+];
+
+export const editableColumns: ColumnDef<any>[] = [
+  ...baseColumns,
   {
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
+      const { permissions } = usePermissions();
+      const canEditResult = checkPermission(
+        'edit_follow_up_results',
+        permissions
+      );
+      const canDeleteResult = checkPermission(
+        'delete_follow_up_results',
+        permissions
+      );
+
       return (
         <div className="flex justify-end gap-x-4">
-          <EditFuResultDialog
-            id={String(row.original.id)}
-            status={row.original.status}
-            furesult={row.original.fu_result_name}
-          />
-          <DeleteFuResultDialog id={Number(row.original.id)} />
+          {canEditResult && (
+            <EditFuResultDialog
+              id={row.original.id}
+              status={row.original.status}
+              furesult={row.original.fu_result_name}
+            />
+          )}
+          {canDeleteResult && <DeleteFuResultDialog id={row.original.id} />}
         </div>
       );
     },
   },
 ];
 
-export default columns;
+export const columns: ColumnDef<any>[] = [...baseColumns];

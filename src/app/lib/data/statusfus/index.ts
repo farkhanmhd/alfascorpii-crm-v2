@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import { fetchWithParams, fetchData } from '../fetchUtils';
 import { getAccessToken } from '../auth';
 
@@ -11,10 +10,6 @@ export const fetchStatusFU = (
 export const getStatusFuOptions = async () => {
   try {
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(`${process.env.API_URL}/statusfus`, {
       cache: 'force-cache',
@@ -67,10 +62,6 @@ export const putStatusFu = (
 export const deleteStatusFu = async (id: number) => {
   try {
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(`${process.env.API_URL}/statusfus/${id}`, {
       method: 'DELETE',

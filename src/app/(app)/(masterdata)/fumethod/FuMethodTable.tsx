@@ -1,8 +1,7 @@
 import React from 'react';
 import { fetchFuMethod } from '@/app/lib/data/fumethod';
-import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import columns from './columns';
+import FuMethodTableWrapper from './FuMethodTableWrapper';
 
 const FuMethodTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchFuMethod(search, page, perPage);
@@ -15,17 +14,7 @@ const FuMethodTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { fumethod, last_page: totalPages, total } = data;
-  return (
-    <DataTable
-      columns={columns}
-      data={fumethod}
-      rows={total}
-      totalPages={totalPages}
-      currentPage={Number(page)}
-      withPagination
-    />
-  );
+  return <FuMethodTableWrapper data={data} page={page!} />;
 };
 
 export default FuMethodTable;

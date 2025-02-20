@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppSidebar } from '@/components/app-sidebar';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -9,12 +9,27 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { BreadcrumbNav } from '@/components/Breadcrumb';
+import { Permission } from '@/lib/permissions';
+import { usePermissions } from '@/hooks';
 import { ScrollArea } from './ui/scroll-area';
 
-const Page = ({ children }: { children: React.ReactNode }) => {
+const AuthedLayout = ({
+  children,
+  permissions,
+  user,
+}: {
+  children: React.ReactNode;
+  permissions: Permission[];
+  user: { name: string; username: string; role: string };
+}) => {
+  const { setPermissions } = usePermissions();
+  useEffect(() => {
+    setPermissions(permissions);
+  }, [permissions]);
+
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar user={user} />
       <SidebarInset>
         <header className="flex h-12 shrink-0 items-center gap-2 transition-[width,height] ease-linear">
           <div className="flex items-center gap-2 px-4">
@@ -33,4 +48,4 @@ const Page = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Page;
+export default AuthedLayout;

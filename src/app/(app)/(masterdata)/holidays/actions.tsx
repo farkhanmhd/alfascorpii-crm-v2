@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { useDialog } from '@/hooks';
+import { useDialog, usePermissions } from '@/hooks';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import {
@@ -10,7 +10,7 @@ import {
   editHolidayAction,
   removeHolidayAction,
 } from '@/app/lib/actions/holiday';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { Pencil, Trash } from 'lucide-react';
@@ -18,6 +18,7 @@ import HolidayForm from './HolidayForm';
 
 export const CreateHolidayDialog = () => {
   const { open, setOpen } = useDialog();
+  const { permissions } = usePermissions();
   const [date, setDate] = useState<Date>(new Date());
   const { execute, result, isPending } = useAction(
     async (formData) => {
@@ -37,6 +38,14 @@ export const CreateHolidayDialog = () => {
       },
     }
   );
+
+  const canAddHoliday =
+    checkPermission('add_holidays', permissions) &&
+    checkPermission('view_master_data', permissions);
+
+  if (!canAddHoliday) {
+    return null;
+  }
 
   return (
     <ActionDialogContainer

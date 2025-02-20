@@ -4,7 +4,7 @@ import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useDialog } from '@/hooks';
+import { useDialog, usePermissions } from '@/hooks';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import {
@@ -12,11 +12,12 @@ import {
   editExpenseAction,
   removeExpenseAction,
 } from '@/app/lib/actions/expenses';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 import ExpenseForm from './ExpenseForm';
 
 export const CreateExpenseDialog = () => {
   const { open, setOpen } = useDialog();
+  const { permissions } = usePermissions();
   const { execute, result, isPending } = useAction(
     async (formData) => {
       const data = {
@@ -36,12 +37,21 @@ export const CreateExpenseDialog = () => {
       },
     }
   );
+
+  const canAddExpense =
+    checkPermission('add_expenses', permissions) &&
+    checkPermission('view_master_data', permissions);
+
+  if (!canAddExpense) {
+    return null;
+  }
+
   return (
     <ActionDialogContainer
       title="Tambah Pengeluaran"
       open={open}
       setOpen={setOpen}
-      trigger={<Button>Tambah Pekerjaan</Button>}
+      trigger={<Button>Tambah Pengeluaran</Button>}
     >
       <ExpenseForm
         action={execute}

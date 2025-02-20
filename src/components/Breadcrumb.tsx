@@ -32,7 +32,7 @@ const breadcrumbItems: IBreadcrumbItem[] = [
       },
       {
         label: 'Duplicate Data',
-        url: '#',
+        url: '/duplicatedata',
       },
       {
         label: 'Customer',

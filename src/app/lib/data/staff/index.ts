@@ -14,9 +14,9 @@ export const postNewStaff = (data: { username: string; name: string }) =>
     },
   });
 
-export const getUserData = async () => {
+export const getUserData = async (id: string) => {
   const accesToken = await getAccessToken();
-  const url = `${process.env.API_URL}/user`;
+  const url = `${process.env.API_URL}/userpermission/${id}`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -24,9 +24,74 @@ export const getUserData = async () => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accesToken}`,
     },
-    cache: 'force-cache',
   });
 
-  const data = await response.json();
+  const { data } = await response.json();
   return data;
+};
+
+export const updateUser = async (uuid: string, permissions: string[]) => {
+  try {
+    const accessToken = await getAccessToken();
+    const res = await fetch(`${process.env.API_URL}/updateuserpermission`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ uuid, permissions }),
+    });
+    if (!res.ok) {
+      throw new Error('Failed to update user permissions');
+    }
+    const { meta } = await res.json();
+    return meta;
+  } catch (error) {
+    console.error(error);
+    return { meta: { message: 'Internal Server Error' } };
+  }
+};
+
+export const activateUser = async (uuid: string) => {
+  try {
+    const accessToken = await getAccessToken();
+    const res = await fetch(`${process.env.API_URL}/activateuser`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ uuid }),
+    });
+    if (!res.ok) {
+      throw new Error('Failed to activate user');
+    }
+    const { meta } = await res.json();
+    return meta;
+  } catch (error) {
+    console.error(error);
+    return { status: 'error', message: 'Internal Server Error' };
+  }
+};
+
+export const deactivateUser = async (uuid: string) => {
+  try {
+    const accessToken = await getAccessToken();
+    const res = await fetch(`${process.env.API_URL}/deactivateuser`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ uuid }),
+    });
+    if (!res.ok) {
+      throw new Error('Failed to deactivate user');
+    }
+    const { meta } = await res.json();
+    return meta;
+  } catch (error) {
+    console.error(error);
+    return { status: 'error', message: 'Internal Server Error' };
+  }
 };

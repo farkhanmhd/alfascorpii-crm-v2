@@ -3,7 +3,7 @@ import {
   fetchData,
   deleteData,
 } from '@/app/lib/data/fetchUtils';
-import { redirect } from 'next/navigation';
+
 import { getAccessToken } from '../auth';
 
 export const fetchMotorcycles = (
@@ -41,10 +41,6 @@ export const deleteProductPreferences = async (id: number) => {
 export const getAllMotorcyclesList = async () => {
   try {
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(
       `${process.env.API_URL}/motorcycles?per_page=9999`,

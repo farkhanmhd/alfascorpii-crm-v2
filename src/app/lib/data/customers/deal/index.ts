@@ -56,13 +56,22 @@ export const postNewDeal = async (data: DealType) => {
     const { meta, data: deal } = await response.json();
     const { message } = meta;
 
-    const imageRes = await importDealImage(deal.deal_id, data.file as File);
+    console.log(message);
 
-    const { message: imageMessage } = imageRes;
+    if (data.file) {
+      const imageRes = await importDealImage(deal.deal_id, data.file as File);
+
+      const { message: imageMessage } = imageRes;
+
+      return {
+        status: 'success',
+        message: `Deal: ${message} Image: ${imageMessage}`,
+      };
+    }
 
     return {
       status: 'success',
-      message: `Deal: ${message} Image: ${imageMessage}`,
+      message: 'Deal added successfully',
     };
   } catch (error) {
     console.error(error);

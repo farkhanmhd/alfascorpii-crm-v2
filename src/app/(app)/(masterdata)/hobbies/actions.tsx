@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { useDialog } from '@/hooks';
+import { useDialog, usePermissions } from '@/hooks';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import {
@@ -10,13 +10,14 @@ import {
   updateHobbyAction,
   deleteHobbyAction,
 } from '@/app/lib/actions/hobbies';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash } from 'lucide-react';
 import HobbyForm from './HobbyForm';
 
 export const CreateHobbyDialog = () => {
   const { open, setOpen } = useDialog();
+  const { permissions } = usePermissions();
   const { execute, result, isPending } = useAction(
     async (formData) => {
       const data = {
@@ -32,6 +33,15 @@ export const CreateHobbyDialog = () => {
       },
     }
   );
+
+  const canAddHobby =
+    checkPermission('add_hobbies', permissions) &&
+    checkPermission('view_hobbies', permissions);
+
+  if (!canAddHobby) {
+    return null;
+  }
+
   return (
     <ActionDialogContainer
       title="Tambah Hobi"

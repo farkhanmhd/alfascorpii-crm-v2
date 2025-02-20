@@ -5,11 +5,10 @@ import {
   Bot,
   FileText,
   FileSpreadsheet,
-  Layers,
-  Users,
   Phone,
+  Layers,
   LayoutDashboard,
-  ChevronRight,
+  User,
 } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
@@ -19,206 +18,260 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from '@radix-ui/react-collapsible';
+import { MenuData, MenuItem } from '@/types';
+import { checkPermission } from '@/lib/utils';
+import { usePermissions } from '@/hooks';
 import Logo from './logo';
 import { ScrollArea } from './ui/scroll-area';
 
-export const data = {
+type Props = {
   user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
-  menu: [
+    name: string;
+    username: string;
+  };
+};
+
+export const AppSidebar = ({
+  user,
+  ...props
+}: Props & React.ComponentProps<typeof Sidebar>) => {
+  const { permissions } = usePermissions();
+
+  const data: MenuData = {
+    menu: [],
+    report: [],
+    settings: [],
+  };
+
+  const salesPermissions = [
     {
+      title: 'Follow Up',
+      url: '/follow-up',
+      permission: 'view_sales_follow_up',
+    },
+    {
+      title: 'Duplicate Data',
+      url: '/duplicatedata',
+      permission: 'view_sales_duplicate_data',
+    },
+    {
+      title: 'Customers',
+      url: '/customers',
+      permission: 'view_sales_customer',
+    },
+  ];
+
+  if (checkPermission('view_sales', permissions)) {
+    data.menu?.push({
       title: 'Sales',
       url: '#',
       icon: FileText,
       isActive: true,
       isParent: true,
       label: 'Menu',
-      items: [
-        {
-          title: 'Follow Up',
-          url: '/follow-up',
-        },
-        {
-          title: 'Duplicate Data',
-          url: '/duplicatedata',
-        },
-        {
-          title: 'Customers',
-          url: '/customers',
-        },
-      ],
+      items: salesPermissions.filter((item) =>
+        checkPermission(item.permission, permissions)
+      ),
+    });
+  }
+
+  const servicePermissions = [
+    {
+      title: 'Follow Up',
+      url: '#',
+      permission: 'view_service_follow_up',
     },
     {
+      title: 'Duplicate Data',
+      url: '#',
+      permission: 'view_service_duplicate_data',
+    },
+    {
+      title: 'Customers',
+      url: '#',
+      permission: 'view_service_customer',
+    },
+  ];
+
+  if (checkPermission('view_service', permissions)) {
+    data.menu?.push({
       title: 'Service',
       url: '#',
       icon: Bot,
       isActive: true,
       isParent: true,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#',
-        },
-        {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
-        },
-      ],
+      label: 'Menu',
+      items: servicePermissions.filter((item) =>
+        checkPermission(item.permission, permissions)
+      ),
+    });
+  }
+
+  const prospekPermissions = [
+    {
+      title: 'Follow Up',
+      url: '#',
+      permission: 'view_prospek_follow_up',
     },
     {
+      title: 'Duplicate Data',
+      url: '#',
+      permission: 'view_prospek_duplicate_data',
+    },
+    {
+      title: 'Customers',
+      url: '#',
+      permission: 'view_prospek_customer',
+    },
+  ];
+
+  if (checkPermission('view_prospek', permissions)) {
+    data.menu?.push({
       title: 'Prospek',
       url: '#',
       icon: Phone,
+      isActive: true,
       isParent: true,
-      items: [
-        {
-          title: 'Introduction',
-          url: '#',
-        },
-        {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
-          url: '#',
-        },
-      ],
-    },
-  ],
-  report: [
+      label: 'Menu',
+      items: prospekPermissions.filter((item) =>
+        checkPermission(item.permission, permissions)
+      ),
+    });
+  }
+
+  const reportPermissions = [
     {
+      title: 'Deal',
+      url: '/deal',
+      permission: 'view_report_deal',
+    },
+  ];
+
+  if (checkPermission('view_report', permissions)) {
+    data.report?.push({
       title: 'Report',
       url: '#',
       icon: FileSpreadsheet,
       isActive: true,
       isParent: true,
       label: 'Report',
-      items: [
-        {
-          title: 'Deal',
-          url: '/deal',
-        },
-        {
-          title: 'Staff Activity',
-          url: '#',
-        },
-      ],
-    },
-  ],
-  settings: [
+      items: reportPermissions.filter((item) =>
+        checkPermission(item.permission, permissions)
+      ),
+    });
+  }
+
+  const masterDataPermissions = [
     {
-      title: 'User List',
-      url: '/staff',
-      icon: Users,
+      title: 'Dealer',
+      url: '/dealers',
+      permission: 'view_dealers',
     },
     {
+      title: 'Leasing',
+      url: '/leasing',
+      permission: 'view_leasings',
+    },
+    {
+      title: 'Pekerjaan',
+      url: '/customerjobs',
+      permission: 'view_jobs',
+    },
+    {
+      title: 'Hari Besar',
+      url: '/holidays',
+      permission: 'view_holidays',
+    },
+    {
+      title: 'Relasi',
+      url: '/relations',
+      permission: 'view_relations',
+    },
+    {
+      title: 'Pendidikan',
+      url: '/degrees',
+      permission: 'view_education_degrees',
+    },
+    {
+      title: 'Pengeluaran',
+      url: '/expenses',
+      permission: 'view_expenses',
+    },
+    {
+      title: 'Pendapatan',
+      url: '/incomes',
+      permission: 'view_incomes',
+    },
+    {
+      title: 'Hobi',
+      url: '/hobbies',
+      permission: 'view_hobbies',
+    },
+    {
+      title: 'Status Rumah',
+      url: '/houseownerships',
+      permission: 'view_house_ownerships',
+    },
+    {
+      title: 'Sepeda Motor',
+      url: '/motorcycles',
+      permission: 'view_motorcycles',
+    },
+    {
+      title: 'Warna',
+      url: '/colors',
+      permission: 'view_colors',
+    },
+    {
+      title: 'Metode Follow Up',
+      url: '/fumethod',
+      permission: 'view_follow_up_methods',
+    },
+    {
+      title: 'Status Follow Up',
+      url: '/statusfus',
+      permission: 'view_status_follow_up',
+    },
+    {
+      title: 'Keterangan Follow Up',
+      url: '/detailfu',
+      permission: 'view_follow_up_details',
+    },
+    {
+      title: 'Hasil Follow Up',
+      url: '/furesult',
+      permission: 'view_follow_up_results',
+    },
+    {
+      title: 'Tipe Service',
+      url: '/servicetypes',
+      permission: 'view_service_types',
+    },
+  ];
+
+  const canViewUser = checkPermission('view_user_list', permissions);
+
+  if (checkPermission('view_master_data', permissions)) {
+    data.settings?.push({
       title: 'Master Data',
       url: '#',
-      icon: FileSpreadsheet,
+      icon: Layers,
       isActive: true,
       isParent: true,
       label: 'Settings',
-      items: [
-        {
-          title: 'Dealer',
-          url: '/dealers',
-        },
-        {
-          title: 'Leasing',
-          url: '/leasing',
-        },
-        {
-          title: 'Pekerjaan',
-          url: '/customerjobs',
-        },
-        {
-          title: 'Hari Besar',
-          url: '/holidays',
-        },
-        {
-          title: 'Relasi',
-          url: '/relations',
-        },
-        {
-          title: 'Pendidikan',
-          url: '/degrees',
-        },
-        {
-          title: 'Pengeluaran',
-          url: '/expenses',
-        },
-        {
-          title: 'Pendapatan',
-          url: '/incomes',
-        },
-        {
-          title: 'Hobi',
-          url: '/hobbies',
-        },
-        {
-          title: 'Status Rumah',
-          url: '/houseownerships',
-        },
-        {
-          title: 'Sepeda Motor',
-          url: '/motorcycles',
-        },
-        {
-          title: 'Warna',
-          url: '/colors',
-        },
-        {
-          title: 'Metode Follow Up',
-          url: '/fumethod',
-        },
-        {
-          title: 'Status Follow Up',
-          url: '/statusfus',
-        },
-        {
-          title: 'Keterangan Follow Up',
-          url: '/detailfu',
-        },
-        {
-          title: 'Hasil Follow Up',
-          url: '/furesult',
-        },
-      ],
-    },
-  ],
-};
+      items: masterDataPermissions.filter((item) =>
+        checkPermission(item.permission, permissions)
+      ),
+    });
+  }
 
-export const AppSidebar = ({
-  ...props
-}: React.ComponentProps<typeof Sidebar>) => {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -240,68 +293,47 @@ export const AppSidebar = ({
       </SidebarHeader>
       <SidebarContent>
         <ScrollArea>
-          <SidebarGroup>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <Link href="/">
-                  <SidebarMenuButton>
-                    <LayoutDashboard />
-                    <span>Dashboard</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroup>
-          <NavMain items={data.menu} />
-          <NavMain items={data.report} />
-          <SidebarGroup>
-            <SidebarGroupLabel>Settings</SidebarGroupLabel>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <Link href={data.settings[0].url}>
-                  <SidebarMenuButton>
-                    <Users />
-                    <span>{data.settings[0].title}</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-            </SidebarMenu>
-            <SidebarMenu>
-              <Collapsible
-                key={data.settings[1].title}
-                asChild
-                defaultOpen={data.settings[1].isActive}
-                className="group/collapsible"
-              >
+          {checkPermission('view_dashboard', permissions) && (
+            <SidebarGroup>
+              <SidebarMenu>
                 <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip={data.settings[1].title}>
-                      <Layers />
-                      <span>Master Data</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  <Link href="/">
+                    <SidebarMenuButton>
+                      <LayoutDashboard />
+                      <span>Dashboard</span>
                     </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {data.settings[1].items?.map((subItem) => (
-                        <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild>
-                            <Link href={subItem.url}>
-                              <span>{subItem.title}</span>
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
+                  </Link>
                 </SidebarMenuItem>
-              </Collapsible>
-            </SidebarMenu>
-          </SidebarGroup>
+              </SidebarMenu>
+            </SidebarGroup>
+          )}
+          {(data.menu as MenuItem[]).length > 0 && (
+            <NavMain items={data?.menu as MenuItem[]} />
+          )}
+          {(data.report as MenuItem[]).length > 0 && (
+            <NavMain items={data?.report as MenuItem[]} />
+          )}
+          {canViewUser && (
+            <SidebarGroup>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <Link href="/staff">
+                    <SidebarMenuButton>
+                      <User />
+                      <span>List User</span>
+                    </SidebarMenuButton>
+                  </Link>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroup>
+          )}
+          {(data.settings as MenuItem[]).length > 0 && (
+            <NavMain items={data?.settings as MenuItem[]} />
+          )}
         </ScrollArea>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

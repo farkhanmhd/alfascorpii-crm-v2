@@ -3,17 +3,19 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
+import { usePermissions } from '@/hooks';
+import { checkPermission } from '@/lib/utils';
 import { IFUMethod } from '@/types';
-import { DeleteFuMethodDialog, EditFuMethodDialog } from './actions';
+import { EditFuMethodDialog, DeleteFuMethodDialog } from './actions';
 
-const columns: ColumnDef<IFUMethod>[] = [
+const baseColumns: ColumnDef<IFUMethod>[] = [
   {
     header: 'Metode',
     accessorKey: 'fu_method_name',
   },
   {
-    accessorKey: 'status',
     header: 'Status',
+    accessorKey: 'status',
     cell: ({ row }) => (
       <span
         className={clsx({
@@ -25,22 +27,40 @@ const columns: ColumnDef<IFUMethod>[] = [
       </span>
     ),
   },
+];
+
+export const editableColumns: ColumnDef<IFUMethod>[] = [
+  ...baseColumns,
   {
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
+      const { permissions } = usePermissions();
+      const canEditMethod =
+        checkPermission('edit_follow_up_methods', permissions) &&
+        checkPermission('view_follow_up_methods', permissions);
+      const canDeleteMethod =
+        checkPermission('delete_follow_up_methods', permissions) &&
+        checkPermission('view_follow_up_methods', permissions);
+
       return (
         <div className="flex justify-end gap-x-4">
-          <EditFuMethodDialog
-            id={Number(row.original.id)}
-            method={row.original.fu_method_name}
-            status={row.original.status}
-          />
-          <DeleteFuMethodDialog id={Number(row.original.id)} />
+          {canEditMethod && (
+            <EditFuMethodDialog
+              id={Number(row.original.id)}
+              method={row.original.fu_method_name}
+              status={row.original.status}
+            />
+          )}
+          {canDeleteMethod && (
+            <DeleteFuMethodDialog id={Number(row.original.id)} />
+          )}
         </div>
       );
     },
   },
 ];
+
+export const columns: ColumnDef<IFUMethod>[] = [...baseColumns];
 
 export default columns;

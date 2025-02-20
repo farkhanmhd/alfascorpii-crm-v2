@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { useDialog } from '@/hooks';
+import { useDialog, usePermissions } from '@/hooks';
 import {
   addDegreeAction,
   updateDegreeAction,
@@ -10,13 +10,15 @@ import {
 } from '@/app/lib/actions/degree';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash } from 'lucide-react';
 import DegreeForm from './DegreeForm';
 
 export const CreateDegreeDialog = () => {
   const { open, setOpen } = useDialog();
+  const { permissions } = usePermissions();
+
   const { execute, result, isPending } = useAction(
     async (formData) => {
       const data = {
@@ -33,6 +35,15 @@ export const CreateDegreeDialog = () => {
       },
     }
   );
+
+  const canAddDegree =
+    checkPermission('add_education_degrees', permissions) &&
+    checkPermission('view_master_data', permissions);
+
+  if (!canAddDegree) {
+    return null;
+  }
+
   return (
     <ActionDialogContainer
       title="Tambah Pendidikan"

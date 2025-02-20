@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useDialog, useMethodFu } from '@/hooks';
+import { useDialog, useMethodFu, usePermissions } from '@/hooks';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import {
@@ -12,7 +12,7 @@ import {
   updateStatusFuAction,
   deleteStatusFuAction,
 } from '@/app/lib/actions/statusfus';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 import { SelectOptions } from '@/types';
 import StatusFuForm from './StatusFuForm';
 
@@ -22,6 +22,7 @@ export const CreateStatusFuDialog = ({
   methodOptions: SelectOptions[];
 }) => {
   const { open, setOpen } = useDialog();
+  const { permissions } = usePermissions();
   const [methodId, setMethodId] = useState(methodOptions[0].value);
   const { setMethodFu } = useMethodFu();
   const { execute, result, isPending } = useAction(
@@ -44,6 +45,15 @@ export const CreateStatusFuDialog = ({
   useEffect(() => {
     setMethodFu(methodOptions);
   }, [methodOptions]);
+
+  const canAdd =
+    checkPermission('add_status_follow_up', permissions) &&
+    checkPermission('view_status_follow_up', permissions);
+
+  if (!canAdd) {
+    return null;
+  }
+
   return (
     <ActionDialogContainer
       title="Tambah Status Follow Up"

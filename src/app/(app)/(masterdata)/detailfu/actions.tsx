@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Pencil, Trash } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
-import { useDialog, useStatusFu } from '@/hooks';
+import { useDialog, useStatusFu, usePermissions } from '@/hooks'; // Add usePermissions
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import { SelectOptions } from '@/types';
@@ -13,7 +13,7 @@ import {
   updateDetailFuAction,
   removeDetailFuAction,
 } from '@/app/lib/actions/detailfu';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils'; // Add checkPermission
 import FuDetailForm from './FuDetailForm';
 
 export const CreateDetailFuDialog = ({
@@ -23,6 +23,7 @@ export const CreateDetailFuDialog = ({
 }) => {
   const [selectedStatus, setSelectedStatus] = useState<string>('');
   const { setStatusFus } = useStatusFu();
+  const { permissions } = usePermissions(); // Add permissions hook
 
   useEffect(() => {
     if (statuses) {
@@ -47,10 +48,19 @@ export const CreateDetailFuDialog = ({
       },
     }
   );
+
+  const canAddDetail =
+    checkPermission('add_follow_up_details', permissions) &&
+    checkPermission('view_master_data', permissions);
+
+  if (!canAddDetail) {
+    return null;
+  }
+
   return (
     <ActionDialogContainer
       title="Tambah Detail Follow Up"
-      trigger={<Button> Tambah Detail </Button>}
+      trigger={<Button>Tambah Detail</Button>}
       open={open}
       setOpen={setOpen}
     >

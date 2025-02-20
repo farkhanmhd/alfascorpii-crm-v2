@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { searchQuerySchema } from '@/validation/schemas';
 import { SearchQueryParams } from '@/types';
 import { getAccessToken } from './auth';
@@ -47,10 +47,6 @@ export const fetchSearch = async ({
     const fetchUrl = `${process.env.API_URL}/${endpoint}${queryParams ? `?${queryParams.toString()}` : ''}`;
     const accessToken = await getAccessToken();
 
-    if (!accessToken) {
-      redirect('/login');
-    }
-
     const res = await fetch(fetchUrl, {
       cache: 'force-cache',
       method,
@@ -62,12 +58,6 @@ export const fetchSearch = async ({
       body: body ? JSON.stringify(body) : null,
     });
 
-    if (!res.ok) {
-      throw new Error(
-        `Internal Server Error : ${res.status} - ${res.statusText}`
-      );
-    }
-
     const { data } = await res.json();
 
     if (!data) {
@@ -76,7 +66,6 @@ export const fetchSearch = async ({
 
     return data;
   } catch (error) {
-    console.error(error);
     return [];
   }
 };
@@ -103,10 +92,6 @@ export const fetchData = async ({
   try {
     const fetchUrl = `${process.env.API_URL}/${endpoint}`;
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const res = await fetch(fetchUrl, {
       cache,
@@ -142,10 +127,6 @@ export const deleteData = async ({ endpoint }: FetchData) => {
   try {
     const fetchUrl = `${process.env.API_URL}/${endpoint}`;
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const res = await fetch(fetchUrl, {
       method: 'DELETE',

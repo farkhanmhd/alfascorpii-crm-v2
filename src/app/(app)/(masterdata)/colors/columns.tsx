@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
+import { usePermissions } from '@/hooks';
+import { checkPermission } from '@/lib/utils';
 import { EditColorDialog, DeleteColorDialog } from './actions';
 
 interface IColor {
@@ -9,26 +11,53 @@ interface IColor {
   color_name: string;
 }
 
-const columns: ColumnDef<IColor>[] = [
+export const editableColorColumns: ColumnDef<IColor>[] = [
   {
     accessorKey: 'color_name',
     header: 'Warna',
   },
   {
     id: 'actions',
-    header: () => <div className="text-right">Aksi</div>,
+
+    header: () => {
+      const { permissions } = usePermissions();
+      const canEditColor =
+        checkPermission('edit_colors', permissions) &&
+        checkPermission('view_colors', permissions);
+      const canDeleteColor =
+        checkPermission('delete_colors', permissions) &&
+        checkPermission('view_colors', permissions);
+
+      if (!canEditColor && !canDeleteColor) return null;
+      return <div className="text-right">Aksi</div>;
+    },
     cell: ({ row }) => {
+      const { permissions } = usePermissions();
+      const canEditColor =
+        checkPermission('edit_colors', permissions) &&
+        checkPermission('view_colors', permissions);
+      const canDeleteColor =
+        checkPermission('delete_colors', permissions) &&
+        checkPermission('view_colors', permissions);
+
       return (
         <div className="flex justify-end gap-x-4">
-          <EditColorDialog
-            id={Number(row.original.id)}
-            color_name={row.original.color_name}
-          />
-          <DeleteColorDialog id={Number(row.original.id)} />
+          {canEditColor && (
+            <EditColorDialog
+              id={Number(row.original.id)}
+              color_name={row.original.color_name}
+            />
+          )}
+          {canDeleteColor && <DeleteColorDialog id={Number(row.original.id)} />}
         </div>
       );
     },
   },
 ];
 
-export default columns;
+export const columns: ColumnDef<IColor>[] = [
+  {
+    accessorKey: 'color_name',
+    header: 'Warna',
+  },
+];

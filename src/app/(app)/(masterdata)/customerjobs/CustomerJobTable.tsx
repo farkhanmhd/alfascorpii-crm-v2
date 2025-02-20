@@ -1,8 +1,7 @@
 import React from 'react';
-import { DataTable } from '@/components/elements/table/DataTable';
 import { fetchCustomerJobs } from '@/app/lib/data/customerjobs';
 import { SearchParamsProps } from '@/types';
-import columns from './columns';
+import CustomerJobTableWrapper from './CustomerJobTableWrapper';
 
 const CustomerJobTable = async ({
   search,
@@ -19,17 +18,7 @@ const CustomerJobTable = async ({
     );
   }
 
-  const { jobs, last_page: totalPages, total } = data;
-  return (
-    <DataTable
-      columns={columns}
-      data={jobs}
-      rows={total}
-      withPagination
-      totalPages={totalPages}
-      currentPage={Number(page)}
-    />
-  );
+  return <CustomerJobTableWrapper data={data} page={page!} />;
 };
 
 export default CustomerJobTable;

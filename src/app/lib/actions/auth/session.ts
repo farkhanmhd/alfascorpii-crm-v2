@@ -3,14 +3,12 @@ import 'server-only';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { ncrypt as Ncrypt } from 'ncrypt-js';
 
 export type SessionPayload = {
   userId: string | number;
   name: string;
   username: string;
   status: string;
-  avatar: string;
   expiresAt: Date;
 };
 
@@ -26,19 +24,22 @@ export const encryptSession = async (payload: SessionPayload) => {
 };
 
 export const encryptToken = async (token: string): Promise<string> => {
-  const ncryptObj = new Ncrypt(secretKey as string);
-  return ncryptObj.encrypt(token);
+  return new SignJWT({ token })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('1 day')
+    .sign(key);
 };
 
-export const decryptToken = async (encryptedToken: string): Promise<string> => {
-  if (!encryptToken) {
-    redirect('/login');
+export const decryptToken = async (encryptedToken: string | undefined = '') => {
+  try {
+    const { payload } = await jwtVerify(encryptedToken, key, {
+      algorithms: ['HS256'],
+    });
+    return payload;
+  } catch (error) {
+    return null;
   }
-
-  const ncryptObj = new Ncrypt(secretKey as string);
-  const decryptedToken = ncryptObj.decrypt(encryptedToken as string);
-
-  return decryptedToken as string;
 };
 
 export const storeToken = async (token: string): Promise<void> => {
@@ -67,8 +68,7 @@ export const createSession = async (
   userId: string,
   name: string,
   username: string,
-  status: string,
-  avatar: string
+  status: string
 ) => {
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
   const session = await encryptSession({
@@ -77,7 +77,6 @@ export const createSession = async (
     username,
     status,
     expiresAt,
-    avatar,
   });
 
   const cookieStore = await cookies();

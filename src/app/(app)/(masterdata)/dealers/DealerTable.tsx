@@ -1,24 +1,20 @@
 import React from 'react';
 import { fetchDealer } from '@/app/lib/data/dealers';
-import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import columns from './columns';
+import DealerTableWrapper from './DealerTableWrapper';
 
 const DealerTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchDealer(search, page, perPage);
 
-  const { dealers, last_page: totalPages, total } = data;
+  if (!data) {
+    return (
+      <div className="flex h-full flex-1 flex-col items-center justify-center">
+        Failed to fetch data
+      </div>
+    );
+  }
 
-  return (
-    <DataTable
-      columns={columns}
-      data={dealers}
-      rows={total}
-      totalPages={totalPages}
-      currentPage={Number(page)}
-      withPagination
-    />
-  );
+  return <DealerTableWrapper data={data} page={page!} />;
 };
 
 export default DealerTable;

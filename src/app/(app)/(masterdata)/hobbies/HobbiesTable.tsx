@@ -1,8 +1,7 @@
 import React from 'react';
 import { fetchHobi } from '@/app/lib/data/hobbies';
-import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import columns from './columns';
+import HobbiesTableWrapper from './HobbiesTableWrapper';
 
 const HobbiesTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchHobi(search, page, perPage);
@@ -15,17 +14,7 @@ const HobbiesTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { hobbies, last_page: totalPages, total } = data;
-  return (
-    <DataTable
-      columns={columns}
-      data={hobbies}
-      rows={total}
-      totalPages={totalPages}
-      currentPage={Number(page)}
-      withPagination
-    />
-  );
+  return <HobbiesTableWrapper data={data} page={page!} />;
 };
 
 export default HobbiesTable;

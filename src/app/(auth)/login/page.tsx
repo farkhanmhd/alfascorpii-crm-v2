@@ -63,6 +63,7 @@ const LoginPage = () => {
       });
     }
   }, [result, toast, push, redirectUrl]);
+
   return (
     <UserAuthForm
       action={execute}

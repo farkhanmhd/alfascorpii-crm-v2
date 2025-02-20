@@ -1,8 +1,7 @@
 import React from 'react';
-import { DataTable } from '@/components/elements/table/DataTable';
 import { fetchColors } from '@/app/lib/data/colors';
 import { SearchParamsProps } from '@/types';
-import columns from './columns';
+import ColorTableWrapper from './ColorTableWrapper';
 
 const ColorTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchColors(search, page, perPage);
@@ -15,17 +14,7 @@ const ColorTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { color, last_page: totalPages, total } = data;
-  return (
-    <DataTable
-      columns={columns}
-      data={color}
-      rows={total}
-      withPagination
-      totalPages={totalPages}
-      currentPage={Number(page)}
-    />
-  );
+  return <ColorTableWrapper data={data} page={page!} />;
 };
 
 export default ColorTable;

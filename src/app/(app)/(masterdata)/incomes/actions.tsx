@@ -4,7 +4,7 @@ import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useDialog } from '@/hooks';
+import { useDialog, usePermissions } from '@/hooks';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import {
@@ -12,11 +12,12 @@ import {
   editIncomeAction,
   removeIncomeAction,
 } from '@/app/lib/actions/incomes';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 import IncomeForm from './IncomeForm';
 
 export const CreateIncomeDialog = () => {
   const { open, setOpen } = useDialog();
+  const { permissions } = usePermissions();
   const { execute, result, isPending } = useAction(
     async (formData) => {
       const data = {
@@ -35,6 +36,15 @@ export const CreateIncomeDialog = () => {
       },
     }
   );
+
+  const canAdd =
+    checkPermission('add_incomes', permissions) &&
+    checkPermission('view_incomes', permissions);
+
+  if (!canAdd) {
+    return null;
+  }
+
   return (
     <ActionDialogContainer
       title="Tambah Pendapatan"

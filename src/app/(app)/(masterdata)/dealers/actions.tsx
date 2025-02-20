@@ -3,7 +3,7 @@
 import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { Button } from '@/components/ui/button';
-import { useDialog } from '@/hooks';
+import { useDialog, usePermissions } from '@/hooks';
 import {
   addDealerAction,
   editDealerAction,
@@ -11,12 +11,13 @@ import {
 } from '@/app/lib/actions/dealers';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 import { Pencil, Trash } from 'lucide-react';
 import DealerForm from './DealerForm';
 
 export const CreateDealerDialog = () => {
   const { open, setOpen } = useDialog();
+  const { permissions } = usePermissions();
   const { execute, result, isPending } = useAction(
     async (formData) => {
       const data = {
@@ -34,6 +35,15 @@ export const CreateDealerDialog = () => {
       },
     }
   );
+
+  const canAddDealer =
+    checkPermission('add_dealers', permissions) &&
+    checkPermission('view_master_data', permissions);
+
+  if (!canAddDealer) {
+    return null;
+  }
+
   return (
     <ActionDialogContainer
       title="Tambah Dealer"

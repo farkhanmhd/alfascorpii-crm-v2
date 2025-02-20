@@ -1,8 +1,7 @@
 import React from 'react';
 import { fetchFuResult } from '@/app/lib/data/furesult';
-import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import columns from './columns';
+import FuResultTableWrapper from './FuResultTableWrapper';
 
 const FuResultTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchFuResult(search, page, perPage);
@@ -15,17 +14,7 @@ const FuResultTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { furesult, last_page: totalPages, total } = data;
-  return (
-    <DataTable
-      columns={columns}
-      data={furesult}
-      rows={total}
-      totalPages={totalPages}
-      currentPage={Number(page)}
-      withPagination
-    />
-  );
+  return <FuResultTableWrapper data={data} page={page!} />;
 };
 
 export default FuResultTable;

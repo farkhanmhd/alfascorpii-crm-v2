@@ -3,10 +3,11 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { IHobby } from '@/types';
+import { usePermissions } from '@/hooks';
+import { checkPermission } from '@/lib/utils';
 import { EditHobbyDialog, DeleteHobbyDialog } from './actions';
 
-const columns: ColumnDef<IHobby>[] = [
+const baseColumns: ColumnDef<any>[] = [
   {
     header: 'Hobi',
     accessorKey: 'hobby_name',
@@ -25,22 +26,32 @@ const columns: ColumnDef<IHobby>[] = [
       </span>
     ),
   },
+];
+
+export const editableColumns: ColumnDef<any>[] = [
+  ...baseColumns,
   {
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => {
+      const { permissions } = usePermissions();
+      const canEditHobby = checkPermission('edit_hobbies', permissions);
+      const canDeleteHobby = checkPermission('delete_hobbies', permissions);
+
       return (
         <div className="flex justify-end gap-x-4">
-          <EditHobbyDialog
-            id={Number(row.original.id)}
-            name={row.original.hobby_name}
-            status={row.original.status}
-          />
-          <DeleteHobbyDialog id={Number(row.original.id)} />
+          {canEditHobby && (
+            <EditHobbyDialog
+              id={row.original.id}
+              name={row.original.hobby_name}
+              status={row.original.status}
+            />
+          )}
+          {canDeleteHobby && <DeleteHobbyDialog id={row.original.id} />}
         </div>
       );
     },
   },
 ];
 
-export default columns;
+export const columns: ColumnDef<any>[] = [...baseColumns];

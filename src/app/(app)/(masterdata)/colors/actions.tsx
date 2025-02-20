@@ -4,15 +4,19 @@ import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useDialog } from '@/hooks';
+import { useDialog, usePermissions } from '@/hooks';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import { addColor, updateColor, removeColor } from '@/app/lib/actions/colors';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 
 import ColorForm from './ColorForm';
 
 export const CreateColorDialog = () => {
+  const { permissions } = usePermissions();
+  const canAddColor =
+    checkPermission('add_colors', permissions) &&
+    checkPermission('view_colors', permissions);
   const { open, setOpen } = useDialog();
 
   const { execute, result, isPending } = useAction(
@@ -29,6 +33,8 @@ export const CreateColorDialog = () => {
       },
     }
   );
+
+  if (!canAddColor) return null;
 
   return (
     <ActionDialogContainer

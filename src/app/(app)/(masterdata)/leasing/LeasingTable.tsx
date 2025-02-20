@@ -1,8 +1,7 @@
 import React from 'react';
-import { fetchLeasing } from '@/app/lib/data/leasing';
-import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import columns from './columns';
+import { fetchLeasing } from '@/app/lib/data/leasing';
+import LeasingTableWrapper from './LeasingTableWrapper';
 
 const LeasingTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchLeasing(search, page, perPage);
@@ -15,17 +14,7 @@ const LeasingTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { leasings, last_page: totalPages, total } = data;
-  return (
-    <DataTable
-      columns={columns}
-      data={leasings}
-      rows={total}
-      totalPages={totalPages}
-      currentPage={Number(page)}
-      withPagination
-    />
-  );
+  return <LeasingTableWrapper data={data} page={page!} />;
 };
 
 export default LeasingTable;

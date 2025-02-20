@@ -5,7 +5,7 @@ import {
 } from '@/app/lib/data/fetchUtils';
 
 import type { IDealer } from '@/types';
-import { redirect } from 'next/navigation';
+
 import { getAccessToken } from '../auth';
 
 export const fetchDealer = async (
@@ -60,10 +60,6 @@ export const deleteDealer = (id: number) => {
 export const getAllDealersList = async () => {
   try {
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(
       `${process.env.API_URL}/dealers?per_page=9999`,

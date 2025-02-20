@@ -1,8 +1,7 @@
 import React from 'react';
 import { fetchincome } from '@/app/lib/data/incomes';
-import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import columns from './columns';
+import IncomeTableWrapper from './IncomeTableWrapper';
 
 const IncomeTable = async ({ search, page, perPage }: SearchParamsProps) => {
   const data = await fetchincome(search, page, perPage);
@@ -15,17 +14,7 @@ const IncomeTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  const { incomes, last_page: totalPages, total } = data;
-  return (
-    <DataTable
-      columns={columns}
-      data={incomes}
-      rows={total}
-      totalPages={totalPages}
-      currentPage={Number(page)}
-      withPagination
-    />
-  );
+  return <IncomeTableWrapper data={data} page={page!} />;
 };
 
 export default IncomeTable;

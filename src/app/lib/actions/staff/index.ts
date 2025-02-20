@@ -2,18 +2,20 @@
 
 import { z } from 'zod';
 import type { User } from '@/types';
-import { redirect } from 'next/navigation';
+
 import actionClient from '@/lib/safe-action';
 import { revalidatePath } from 'next/cache';
-import { postNewStaff } from '../../data/staff';
+import {
+  postNewStaff,
+  updateUser,
+  activateUser,
+  deactivateUser,
+} from '../../data/staff';
 import { getAccessToken } from '../../data/auth';
 
 export const getAllUsers = async () => {
   try {
     const accessToken = await getAccessToken();
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(`${process.env.API_URL}/getallusers`, {
       cache: 'force-cache',
@@ -43,10 +45,6 @@ export const getAllUsers = async () => {
 export const getUserPermissions = async () => {
   try {
     const accessToken = await getAccessToken();
-
-    if (!accessToken) {
-      redirect('/login');
-    }
 
     const response = await fetch(`${process.env.API_URL}/user`, {
       cache: 'force-cache',
@@ -86,4 +84,39 @@ export const addUser = actionClient
     } catch (error) {
       return { status: 'error', message: 'Server Error: Failed to add User' };
     }
+  });
+
+const updateUserPermissionSchema = z.object({
+  uuid: z.string(),
+  permissions: z.array(z.string()),
+});
+
+export const updateUserPermissionAction = actionClient
+  .schema(updateUserPermissionSchema)
+  .action(async ({ parsedInput: { uuid, permissions } }) => {
+    const meta = await updateUser(uuid, permissions);
+
+    const { status, message } = meta;
+
+    return { status, message };
+  });
+
+const userUuidSchema = z.object({ uuid: z.string() });
+
+export const activateUserAction = actionClient
+  .schema(userUuidSchema)
+  .action(async ({ parsedInput: { uuid } }) => {
+    const meta = await activateUser(uuid);
+    const { status, message } = meta;
+    revalidatePath('/staff');
+    return { status, message };
+  });
+
+export const deactivateUserAction = actionClient
+  .schema(userUuidSchema)
+  .action(async ({ parsedInput: { uuid } }) => {
+    const meta = await deactivateUser(uuid);
+    const { status, message } = meta;
+    revalidatePath('/staff');
+    return { status, message };
   });

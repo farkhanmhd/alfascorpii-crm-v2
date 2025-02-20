@@ -24,8 +24,9 @@ import TextField from '@/components/elements/form/TextArea';
 import { SelectOptions, OptionsProps, DealType } from '@/types';
 import ImageUploadDropzone from '@/components/ImageDropzone';
 import { createNewDealAction } from '@/app/lib/actions/customers/deal';
-import { getErrorMessages } from '@/lib/utils';
+import { getErrorMessages, checkPermission } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
+import { usePermissions } from '@/hooks';
 import ComboBox from '../form/ComboBox';
 
 const dealTypeOptions: SelectOptions[] = [
@@ -93,8 +94,15 @@ const dealTypePage: SelectOptions[] = [
 ];
 
 const DealDialog = ({ ...props }: OptionsProps) => {
-  const params = useParams();
   const pathname = usePathname();
+  const { permissions } = usePermissions();
+
+  const canAddDeal = pathname.startsWith('/customers')
+    ? checkPermission('sales_fu_add_deal_from_follow_up', permissions)
+    : checkPermission('add_deal', permissions);
+
+  const params = useParams();
+
   const id = params.id as string;
   const [dealType, setDealType] = useState<string>('');
   const [image, setImage] = useState<File | null>(null);
@@ -120,7 +128,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
   const { execute, isPending, result } = useAction(
     async (formData) => {
       const data: DealType = {
-        id,
         deal_type: dealType,
         call_date: format(callDate, 'yyyy-MM-dd'),
         relation_id: Number(relationValue),
@@ -134,6 +141,10 @@ const DealDialog = ({ ...props }: OptionsProps) => {
         deal_status: dealResult,
         additional_info: formData.get('additional_info'),
       };
+
+      if (dealType !== 'unit_nc') {
+        data.id = id;
+      }
 
       if (
         dealType === 'unit_ro' ||
@@ -179,6 +190,9 @@ const DealDialog = ({ ...props }: OptionsProps) => {
     }
   );
 
+  console.log(result);
+
+  if (!canAddDeal) return null;
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>

@@ -4,7 +4,7 @@ import React from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useDialog } from '@/hooks';
+import { useDialog, usePermissions } from '@/hooks';
 import DeleteDialog from '@/components/elements/dialogs/DeleteDialog';
 import ActionDialogContainer from '@/components/elements/dialogs/ActionDialogContainer';
 import {
@@ -12,11 +12,12 @@ import {
   editHouseOwnershipAction,
   removeHouseOwnershipAction,
 } from '@/app/lib/actions/houseownerships';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, checkPermission } from '@/lib/utils';
 import HouseOwnershipForm from './HouseOwnershipForm';
 
 export const CreateHouseOwnershipDialog = () => {
   const { open, setOpen } = useDialog();
+  const { permissions } = usePermissions();
   const { execute, result, isPending } = useAction(
     async (formData) => {
       const data = {
@@ -32,6 +33,15 @@ export const CreateHouseOwnershipDialog = () => {
       },
     }
   );
+
+  const canAdd =
+    checkPermission('add_house_ownerships', permissions) &&
+    checkPermission('view_house_ownerships', permissions);
+
+  if (!canAdd) {
+    return null;
+  }
+
   return (
     <ActionDialogContainer
       title="Tambah Status Rumah"

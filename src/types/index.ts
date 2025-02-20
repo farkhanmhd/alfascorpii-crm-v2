@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { type LucideIcon } from 'lucide-react';
+
+import { Permission } from '@/lib/permissions';
+
 type Status = 'HIDE' | 'SHOW';
 // type ActiveStatus = 'AKTIF' | 'HOLD';
 // type ContactStatus = 'CONTACTED' | 'NOT CONTACTED';
@@ -471,7 +475,7 @@ export type OptionsProps = {
 };
 
 export type DealType = {
-  id: string;
+  id?: string;
   deal_type: string;
   call_date: string;
   purchase_date?: string;
@@ -529,8 +533,8 @@ export interface Photo {
 
 export interface Staff {
   user: StaffData;
-  permissions: string[];
-  roles: string[];
+  permissions: Permission[];
+  roles?: string[];
 }
 
 export interface StaffData {
@@ -538,4 +542,24 @@ export interface StaffData {
   username: string;
   name: string;
   status: string;
+}
+
+export interface MenuItem {
+  title: string;
+  url: string;
+  icon?: LucideIcon;
+  isActive?: boolean;
+  isParent?: boolean;
+  label?: string;
+  items?: MenuItem[];
+}
+
+export interface MenuData {
+  menu?: MenuItem[];
+  report?: MenuItem[];
+  settings?: MenuItem[];
+}
+
+export interface IServiceType extends IIdentifiable {
+  service_name: string;
 }

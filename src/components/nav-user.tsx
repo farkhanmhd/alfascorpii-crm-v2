@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ChevronsUpDown, LogOut } from 'lucide-react';
+import { ChevronsUpDown, LogOut, User } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -21,15 +21,14 @@ import {
 import { useRouter } from 'next/navigation';
 import { logout } from '@/app/lib/actions/auth';
 
-export const NavUser = ({
-  user,
-}: {
+type Props = {
   user: {
     name: string;
-    email: string;
-    avatar: string;
+    username: string;
   };
-}) => {
+};
+
+export const NavUser = ({ user }: Props) => {
   const { isMobile } = useSidebar();
   const { push } = useRouter();
   const handleLogout = async () => {
@@ -37,6 +36,8 @@ export const NavUser = ({
     localStorage.setItem('userLogout', 'true');
     push('/login');
   };
+
+  const userInitials = user.name.slice(0, 2).toUpperCase();
 
   return (
     <SidebarMenu>
@@ -48,12 +49,14 @@ export const NavUser = ({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarImage src="" alt={user.name} />
+                <AvatarFallback className="rounded-lg uppercase">
+                  {userInitials}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate text-xs">{user.username}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -65,17 +68,9 @@ export const NavUser = ({
             sideOffset={4}
           >
             <Link href="/profile">
-              <DropdownMenuItem className="cursor-pointer p-0 font-normal">
-                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                  <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">{user.name}</span>
-                    <span className="truncate text-xs">{user.email}</span>
-                  </div>
-                </div>
+              <DropdownMenuItem className="cursor-pointer">
+                <User />
+                Profile
               </DropdownMenuItem>
             </Link>
             <DropdownMenuSeparator />

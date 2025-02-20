@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ChevronRight, type LucideIcon } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 import {
   Collapsible,
@@ -18,22 +18,10 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
+import Link from 'next/link';
+import { MenuItem } from '@/types';
 
-export const NavMain = ({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: LucideIcon;
-    isActive?: boolean;
-    label?: string;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
-}) => {
+export const NavMain = ({ items }: { items: MenuItem[] }) => {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{items[0].label}</SidebarGroupLabel>
@@ -58,9 +46,9 @@ export const NavMain = ({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
+                        <Link href={subItem.url} className="capitalize">
                           <span>{subItem.title}</span>
-                        </a>
+                        </Link>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}

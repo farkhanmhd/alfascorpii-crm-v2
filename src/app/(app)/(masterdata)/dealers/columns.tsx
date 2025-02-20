@@ -2,61 +2,54 @@
 
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import { IDealer } from '@/types';
 import { usePermissions } from '@/hooks';
+import { checkPermission } from '@/lib/utils';
+import { IDealer } from '@/types';
 import { EditDealerDialog, DeleteDealerDialog } from './actions';
 
-const columns: ColumnDef<IDealer>[] = [
-  {
-    accessorKey: 'dealer_code',
-    header: 'Kode',
-  },
+export const editableDealerColumns: ColumnDef<IDealer>[] = [
   {
     accessorKey: 'dealer_name',
-    header: 'Nama',
+    header: 'Dealer',
   },
   {
-    accessorKey: 'dealer_area',
-    header: 'Area',
-  },
-  {
-    accessorKey: 'dealer_type',
-    header: 'Type',
-  },
-  {
-    id: 'action',
+    id: 'actions',
     header: () => {
-      const { permissions } = usePermissions();
-
-      if (
-        !permissions.includes('edit_dealers') &&
-        !permissions.includes('delete_dealers')
-      ) {
-        return null;
-      }
-
       return <div className="text-right">Aksi</div>;
     },
     cell: ({ row }) => {
       const { permissions } = usePermissions();
+      const canEditDealer =
+        checkPermission('edit_dealers', permissions) &&
+        checkPermission('view_dealers', permissions);
+      const canDeleteDealer =
+        checkPermission('delete_dealers', permissions) &&
+        checkPermission('view_dealers', permissions);
 
       return (
         <div className="flex justify-end gap-x-4">
-          {permissions.includes('edit_dealers') && (
+          {canEditDealer && (
             <EditDealerDialog
               id={Number(row.original.id)}
+              dealerName={row.original.dealer_name}
               dealerArea={row.original.dealer_area}
               dealerCode={row.original.dealer_code}
-              dealerName={row.original.dealer_name}
               dealerType={row.original.dealer_type}
             />
           )}
-          {permissions.includes('delete_dealers') && (
+          {canDeleteDealer && (
             <DeleteDealerDialog id={Number(row.original.id)} />
           )}
         </div>
       );
     },
+  },
+];
+
+export const columns: ColumnDef<IDealer>[] = [
+  {
+    accessorKey: 'dealer_name',
+    header: 'Dealer',
   },
 ];
 
