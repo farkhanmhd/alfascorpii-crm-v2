@@ -47,6 +47,9 @@ export const getRelationOptions = async () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
+        next: {
+          tags: ['relations'],
+        },
       }
     );
 

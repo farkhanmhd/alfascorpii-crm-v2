@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import { postExpense, putExpense, deleteExpense } from '../../data/expenses';
 
@@ -48,6 +48,7 @@ export const addExpenseAction = actionClient
           status
         );
         revalidatePath('/expenses');
+        revalidateTag('expenses');
         return { status: 'success', message: 'Expense added successfully' };
       } catch (error) {
         return {
@@ -87,6 +88,7 @@ export const editExpenseAction = actionClient
           status
         );
         revalidatePath('/expenses');
+        revalidateTag('expenses');
         return { status: 'success', message: 'Expense edited successfully' };
       } catch (error) {
         return {
@@ -107,6 +109,7 @@ export const removeExpenseAction = actionClient
     try {
       await deleteExpense(id);
       revalidatePath('/expenses');
+      revalidateTag('expenses');
       return { status: 'success', message: 'Expense deleted successfully' };
     } catch (error) {
       return {

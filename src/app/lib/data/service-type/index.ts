@@ -6,6 +6,7 @@ export const getServiceTypes = async () => {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+    next: { tags: ['servicetypes'] },
   });
 
   const { data } = await response.json();

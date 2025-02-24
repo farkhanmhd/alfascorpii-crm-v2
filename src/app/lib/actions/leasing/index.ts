@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import {
   addNewLeasing,
@@ -19,6 +19,7 @@ export const addLeasingAction = actionClient
     try {
       await addNewLeasing(leasing);
       revalidatePath('/leasing');
+      revalidateTag('leasing');
       return { status: 'success', message: 'Leasing added successfully' };
     } catch (error) {
       return {
@@ -40,6 +41,7 @@ export const updateLeasingAction = actionClient
       await updateLeasing(id, leasing);
       revalidatePath('/leasing');
       revalidatePath(`/leasing/${id}`);
+      revalidateTag('leasing');
       return {
         status: 'success',
         message: 'Leasing updated successfully',
@@ -62,6 +64,7 @@ export const removeLeasingAction = actionClient
     try {
       await removeLeasing(id);
       revalidatePath('/leasing');
+      revalidateTag('leasing');
       return { status: 'success', message: 'Leasing deleted successfully' };
     } catch (error) {
       return {

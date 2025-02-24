@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-
+import { useSearchParams, useRouter } from 'next/navigation';
 import {
   ColumnDef,
   flexRender,
@@ -23,6 +22,8 @@ import {
 } from '@/components/ui/table';
 import MapItems from '@/utils/MapItems';
 import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
+import { usePermissions } from '@/hooks';
+import { checkPermission, cn } from '@/lib/utils';
 
 interface DataTableProps<TData extends { id: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -44,8 +45,13 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   setRowSelection,
 }: DataTableProps<TData, TValue>) => {
   const searchParams = useSearchParams();
+  const { push } = useRouter();
   const perPage = Number(searchParams.get('per_page') || 50);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const { permissions } = usePermissions();
+  const canView =
+    checkPermission('sales_customer_view_detail_customer_data', permissions) &&
+    checkPermission('sales_customer_view_detail_customer_data', permissions);
 
   const table = useReactTable({
     data,
@@ -100,8 +106,16 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
               of={table.getRowModel().rows}
               render={(row) => (
                 <TableRow
+                  className={cn('hover:bg-black/10', {
+                    'cursor-pointer': canView,
+                  })}
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  onClick={() => {
+                    if (canView) {
+                      push(`/customers/${row.original.id}`);
+                    }
+                  }}
                 >
                   <MapItems
                     of={row.getVisibleCells()}

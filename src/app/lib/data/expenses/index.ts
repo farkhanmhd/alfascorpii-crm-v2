@@ -68,6 +68,9 @@ export const getExpenseOptions = async () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
+        next: {
+          tags: ['expenses'],
+        },
       }
     );
 

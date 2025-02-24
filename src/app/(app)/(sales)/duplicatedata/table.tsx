@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import {
   ColumnDef,
@@ -23,6 +23,8 @@ import {
 } from '@/components/ui/table';
 import MapItems from '@/utils/MapItems';
 import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
+import { usePermissions } from '@/hooks';
+import { checkPermission, cn } from '@/lib/utils';
 
 interface DataTableProps<TData extends { id: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -46,7 +48,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   const searchParams = useSearchParams();
   const perPage = Number(searchParams.get('per_page') || 50);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-
+  const { push } = useRouter();
   const table = useReactTable({
     data,
     columns,
@@ -68,6 +70,12 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
       },
     },
   });
+
+  const { permissions } = usePermissions();
+
+  const canView =
+    checkPermission('sales_fu_view_detail_customer_data', permissions) &&
+    checkPermission('sales_customer_view_detail_customer_data', permissions);
 
   return (
     <ScrollArea className="max-h-[800px] rounded-md bg-white shadow-sm">
@@ -102,6 +110,23 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  className={cn('hover:bg-black/10', {
+                    'cursor-pointer': canView,
+                  })}
+                  onClick={(e) => {
+                    if (
+                      e.target instanceof HTMLElement &&
+                      (e.target.role === 'checkbox' ||
+                        e.target.getAttribute('role') === 'checkbox')
+                    ) {
+                      return;
+                    }
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (canView) {
+                      push(`/customers/${row.original.id}`);
+                    }
+                  }}
                 >
                   <MapItems
                     of={row.getVisibleCells()}

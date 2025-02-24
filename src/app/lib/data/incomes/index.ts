@@ -66,6 +66,9 @@ export const getIncomeOptions = async () => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
+      next: {
+        tags: ['incomes'],
+      },
     });
 
     const { data } = await response.json();

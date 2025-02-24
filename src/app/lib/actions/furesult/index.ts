@@ -1,13 +1,12 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import { postFuResult, putFuResult, deleteFuResult } from '../../data/furesult';
 
 const furesultSchema = z.object({
   id: z.string(),
-  status_fu_id: z.string(),
   fu_result_name: z.string().min(1, { message: 'Fu result name is required' }),
   status: z.enum(['SHOW', 'HIDE']),
 });
@@ -16,10 +15,11 @@ const createFuResultSchema = furesultSchema.omit({ id: true });
 
 export const addFuResultAction = actionClient
   .schema(createFuResultSchema)
-  .action(async ({ parsedInput: { status_fu_id, fu_result_name, status } }) => {
+  .action(async ({ parsedInput: { fu_result_name, status } }) => {
     try {
-      await postFuResult(status_fu_id, fu_result_name, status);
+      await postFuResult(fu_result_name, status);
       revalidatePath('/furesult');
+      revalidateTag('furesult');
       return { status: 'success', message: 'Fu result added successfully' };
     } catch (error) {
       return {
@@ -31,20 +31,19 @@ export const addFuResultAction = actionClient
 
 export const editFuResultAction = actionClient
   .schema(furesultSchema)
-  .action(
-    async ({ parsedInput: { id, status_fu_id, fu_result_name, status } }) => {
-      try {
-        await putFuResult(id, status_fu_id, fu_result_name, status);
-        revalidatePath('/furesult');
-        return { status: 'success', message: 'Fu result updated successfully' };
-      } catch (error) {
-        return {
-          status: 'error',
-          message: 'Server Error: Failed to update Fu result',
-        };
-      }
+  .action(async ({ parsedInput: { id, fu_result_name, status } }) => {
+    try {
+      await putFuResult(id, fu_result_name, status);
+      revalidatePath('/furesult');
+      revalidateTag('furesult');
+      return { status: 'success', message: 'Fu result updated successfully' };
+    } catch (error) {
+      return {
+        status: 'error',
+        message: 'Server Error: Failed to update Fu result',
+      };
     }
-  );
+  });
 
 const deleteFuResultSchema = z.object({
   id: z.number(),
@@ -56,6 +55,7 @@ export const removeFuResultAction = actionClient
     try {
       await deleteFuResult(id);
       revalidatePath('/furesult');
+      revalidateTag('furesult');
       return { status: 'success', message: 'Fu result deleted successfully' };
     } catch (error) {
       return {

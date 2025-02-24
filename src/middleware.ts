@@ -64,6 +64,10 @@ export async function middleware(req: NextRequest) {
   let permissions: Permission[] = [];
   if (session?.userId) {
     permissions = await getUserPermissions(session.userId as string);
+
+    if (!permissions) {
+      return NextResponse.redirect(new URL('/login', origin));
+    }
   }
 
   const customerDetailRegex = /^\/customers\/[^/]+$/;

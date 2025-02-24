@@ -2,10 +2,8 @@
 
 import { z } from 'zod';
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
-import { IDealer } from '@/types';
-import { getAccessToken } from '../../data/auth';
 import { postDealer, putDealer, deleteDealer } from '../../data/dealers';
 
 const dealerSchema = z.object({
@@ -32,6 +30,7 @@ export const addDealerAction = actionClient
       try {
         await postDealer(dealer_code, dealer_name, dealer_area, dealer_type);
         revalidatePath('/dealers');
+        revalidateTag('dealers');
         return { status: 'success', message: 'Dealer added successfully' };
       } catch (error) {
         return {};
@@ -48,6 +47,7 @@ export const editDealerAction = actionClient
       try {
         await putDealer(id, dealer_code, dealer_name, dealer_area, dealer_type);
         revalidatePath('/dealers');
+        revalidateTag('dealers');
         return { status: 'success', message: 'Dealer updated successfully' };
       } catch (error) {
         return {
@@ -68,45 +68,12 @@ export const removeDealerAction = actionClient
     try {
       await deleteDealer(id);
       revalidatePath('/dealers');
+      revalidateTag('dealers');
       return { status: 'success', message: 'Dealer deleted successfully' };
     } catch (error) {
       return {
         status: 'error',
         message: 'Server Error: Failed to delete Dealer',
       };
-    }
-  });
-
-const dealerSearchSchema = z.object({
-  search: z.string(),
-});
-
-export const getDealerList = actionClient
-  .schema(dealerSearchSchema)
-  .action(async ({ parsedInput: { search } }) => {
-    try {
-      const accessToken = await getAccessToken();
-
-      const response = await fetch(
-        `${process.env.API_URL}/dealers?search=${search}`,
-        {
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      const { data } = await response.json();
-      const { dealers } = data;
-      const dealerList = dealers.map((dealer: IDealer) => ({
-        label: dealer.dealer_name,
-        value: String(dealer.id),
-      }));
-      return dealerList;
-    } catch (error) {
-      return [];
     }
   });

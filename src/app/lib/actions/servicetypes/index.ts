@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import {
   putServiceType,
@@ -22,6 +22,7 @@ export const addServiceTypeAction = actionClient
     try {
       await postServiceType(service_name);
       revalidatePath('/servicetypes');
+      revalidateTag('servicetypes');
       return {
         status: 'success',
         message: 'Tipe service berhasil ditambahkan',
@@ -41,6 +42,7 @@ export const editServiceTypeAction = actionClient
       await putServiceType(id, service_name);
       revalidatePath('/servicetypes');
       revalidatePath(`/servicetypes/${id}`);
+      revalidateTag('servicetypes');
       return {
         status: 'success',
         message: 'Tipe service berhasil diperbarui',
@@ -63,6 +65,7 @@ export const removeServiceTypeAction = actionClient
     try {
       await deleteServiceType(id);
       revalidatePath('/servicetypes');
+      revalidateTag('servicetypes');
       return { status: 'success', message: 'Tipe service berhasil dihapus' };
     } catch (error) {
       return {

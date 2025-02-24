@@ -307,6 +307,7 @@ export interface IResultFU extends IIdentifiable {
 
 export interface IDetailFU extends IIdentifiable {
   status_fu_id: number;
+  status_fu_name: string;
   detail_fu_name: string;
   status: Status;
 }

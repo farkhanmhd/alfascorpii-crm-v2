@@ -137,7 +137,7 @@ export const SendCroDialog = ({ selectedRows, users }: Props) => {
         </AlertDialogHeader>
         <form
           action={() =>
-            execute({ customerIds: selectedCustomers, user_id: selectedUser })
+            execute({ customer_ids: selectedCustomers, user_id: selectedUser })
           }
         >
           <div className="mt-2">

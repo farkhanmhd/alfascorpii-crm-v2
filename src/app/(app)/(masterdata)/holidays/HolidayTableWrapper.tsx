@@ -18,8 +18,6 @@ const HolidayTableWrapper = ({ data, page }: Props) => {
     checkPermission('edit_holidays', permissions) ||
     checkPermission('delete_holidays', permissions);
 
-  console.log(canEditOrDelete);
-
   return (
     <DataTable
       columns={canEditOrDelete ? editableHolidayColumns : columns}

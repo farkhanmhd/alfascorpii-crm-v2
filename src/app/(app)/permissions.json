@@ -548,36 +548,3 @@
     "formatted_value": "Update Permission"
   }
 ]
-
-
-/**
-
-Create a server action for Updating user permissions using useAction hook. it will be triggered on update permission button
-
-the payload required is like this
-
-{
-  "uuid": "d1be69d2-5b1d-4d79-92e2-48b9513a4958",
-  "permissions": [
-    "view_dashboard",
-    "view_master_data",
-    "view_leasings",
-    "view_colors",
-    "view_dealers",
-    "edit_dealers",
-    "view_jobs",
-    "delete_jobs",
-    "view_holidays",
-    "edit_holidays",
-    "view_education_degrees",
-    "add_education_degrees",
-    "view_follow_up_details",
-    "edit_follow_up_details",
-    "view_expenses",
-    "delete_expenses",
-  ]
-}
-
-method: POST,
-url: process.env.API_URL/updateuserpermission
-*/

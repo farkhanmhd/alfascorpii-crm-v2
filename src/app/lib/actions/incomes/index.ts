@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import { postIncome, putIncome, deleteIncome } from '../../data/incomes';
 
@@ -48,6 +48,7 @@ export const addIncomeAction = actionClient
           status
         );
         revalidatePath('/incomes');
+        revalidateTag('incomes');
         return { status: 'success', message: 'Income added successfully' };
       } catch (error) {
         return {
@@ -86,6 +87,7 @@ export const editIncomeAction = actionClient
           income_code,
           status
         );
+        revalidateTag('incomes');
         revalidatePath('/incomes');
         return { status: 'success', message: 'Income edited successfully' };
       } catch (error) {
@@ -107,6 +109,7 @@ export const removeIncomeAction = actionClient
     try {
       await deleteIncome(id);
       revalidatePath('/incomes');
+      revalidateTag('incomes');
       return { status: 'success', message: 'Income deleted successfully' };
     } catch (error) {
       return {

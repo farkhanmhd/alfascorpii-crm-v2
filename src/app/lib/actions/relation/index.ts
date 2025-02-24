@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import {
   postRelation,
@@ -23,6 +23,7 @@ export const addRelationAction = actionClient
     try {
       await postRelation(relation, status);
       revalidatePath('/relations');
+      revalidateTag('relations');
       return { status: 'success', message: 'Relation added successfully' };
     } catch (error) {
       return {
@@ -39,6 +40,7 @@ export const editRelationAction = actionClient
       await putRelation(id, relation, status);
       revalidatePath('/relations');
       revalidatePath(`/relations/${id}`);
+      revalidateTag('relations');
       return {
         status: 'success',
         message: 'Relation updated successfully',
@@ -61,6 +63,7 @@ export const removeRelationAction = actionClient
     try {
       await deleteRelation(id);
       revalidatePath('/relations');
+      revalidateTag('relations');
       return { status: 'success', message: 'Relation deleted successfully' };
     } catch (error) {
       return {

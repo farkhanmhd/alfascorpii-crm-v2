@@ -8,27 +8,25 @@ export const fetchFuResult = (
 ) => fetchWithParams('furesult', search, page, per_page);
 
 export const postFuResult = (
-  status_fu_id: string,
   fu_result_name: string,
   status: 'SHOW' | 'HIDE'
 ) => {
   return fetchData({
     endpoint: 'furesult',
     method: 'POST',
-    body: { status_fu_id, fu_result_name, status },
+    body: { fu_result_name, status },
   });
 };
 
 export const putFuResult = (
   id: string,
-  status_fu_id: string,
   fu_result_name: string,
   status: 'SHOW' | 'HIDE'
 ) => {
   return fetchData({
     endpoint: `furesult/${id}`,
     method: 'PUT',
-    body: { status_fu_id, fu_result_name, status },
+    body: { fu_result_name, status },
   });
 };
 
@@ -49,6 +47,9 @@ export const getFuResultOptions = async () => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
+      },
+      next: {
+        tags: ['furesult'],
       },
     });
 

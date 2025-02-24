@@ -190,8 +190,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
     }
   );
 
-  console.log(result);
-
   if (!canAddDeal) return null;
   return (
     <Dialog open={open} onOpenChange={setOpen}>

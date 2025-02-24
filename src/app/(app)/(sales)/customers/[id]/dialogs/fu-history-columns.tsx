@@ -6,6 +6,15 @@ import type { ICustomerFollowUp } from '@/types';
 
 const columns: ColumnDef<ICustomerFollowUp>[] = [
   {
+    id: 'status',
+    header: () => <div className="line-clamp-1 min-w-max">Status</div>,
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max text-center">
+        {row.original.status || <div className="text-center">-</div>}
+      </div>
+    ),
+  },
+  {
     id: 'user',
     header: () => <div className="line-clamp-1 min-w-max">CRO</div>,
     cell: ({ row }) => (
@@ -115,15 +124,6 @@ const columns: ColumnDef<ICustomerFollowUp>[] = [
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max text-center">
         {row.original.follow_up_result || <div className="text-center">-</div>}
-      </div>
-    ),
-  },
-  {
-    id: 'status',
-    header: () => <div className="line-clamp-1 min-w-max">Status</div>,
-    cell: ({ row }) => (
-      <div className="line-clamp-1 min-w-max text-center">
-        {row.original.status || <div className="text-center">-</div>}
       </div>
     ),
   },

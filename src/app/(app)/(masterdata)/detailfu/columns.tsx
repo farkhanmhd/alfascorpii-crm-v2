@@ -14,6 +14,10 @@ export const editableColumns: ColumnDef<IDetailFU>[] = [
     accessorKey: 'detail_fu_name',
   },
   {
+    header: () => <div className="min-w-max">Keterangan Status</div>,
+    accessorKey: 'status_fu_name',
+  },
+  {
     header: 'Status',
     accessorKey: 'status',
     cell: ({ row }) => (

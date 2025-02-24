@@ -5,6 +5,7 @@ import { getAllUsers } from '@/app/lib/actions/staff';
 import { getAllDealersList } from '@/app/lib/data/dealers';
 import { getAllMotorcyclesList } from '@/app/lib/data/motorcycles';
 import Tablesearch from '@/components/elements/table/tablesearch';
+import { SelectOptions } from '@/types';
 import DuplicateTable from './DuplicateTable';
 import DuplicateFilters from './filters';
 import DuplicateFooter from './DuplicateFooter';
@@ -18,7 +19,7 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const perPage = searchParams?.per_page || '50';
+  const perPage = searchParams?.per_page || '10';
   const dealerId = searchParams?.dealer_id;
   const dateField = searchParams?.date_field;
   const dateFrom = searchParams?.date_from;
@@ -39,13 +40,35 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
   };
 
   const users = await getAllUsers();
-  users.unshift({
-    label: 'Semua',
-    value: 'all',
-  });
+  users.unshift(
+    {
+      label: 'Semua',
+      value: 'all',
+    },
+    {
+      label: 'Not Assigned',
+      value: 'not_assigned',
+    }
+  );
   const motorcycles = await getAllMotorcyclesList();
   const dealers = await getAllDealersList();
+  motorcycles.sort((a: SelectOptions, b: SelectOptions) =>
+    a.label.localeCompare(b.label)
+  );
 
+  motorcycles.unshift({
+    label: 'Semua',
+    value: '',
+  });
+
+  dealers.sort((a: SelectOptions, b: SelectOptions) =>
+    a.label.localeCompare(b.label)
+  );
+
+  dealers.unshift({
+    label: 'Semua',
+    value: '',
+  });
   return (
     <div className="grid grid-rows-[auto_1fr]">
       <header className="flex flex-col gap-y-6 pb-6">

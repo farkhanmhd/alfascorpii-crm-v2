@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import { postDetailFu, putDetailFu, deleteDetailFu } from '../../data/detailfu';
 
@@ -20,6 +20,7 @@ export const addDetailFuAction = actionClient
     try {
       await postDetailFu(status_fu_id, detail_fu_name, status);
       revalidatePath('/detailfu');
+      revalidateTag('detailfu');
       return { status: 'success', message: 'Detail fu added successfully' };
     } catch (error) {
       return {
@@ -37,6 +38,7 @@ export const updateDetailFuAction = actionClient
       try {
         await putDetailFu(id, status_fu_id, detail_fu_name, status);
         revalidatePath('/detailfu');
+        revalidateTag('detailfu');
         return { status: 'success', message: 'Detail fu updated successfully' };
       } catch (error) {
         return {
@@ -57,6 +59,7 @@ export const removeDetailFuAction = actionClient
     try {
       await deleteDetailFu(id);
       revalidatePath('/detailfu');
+      revalidateTag('detailfu');
       return { status: 'success', message: 'Detail fu deleted successfully' };
     } catch (error) {
       return {

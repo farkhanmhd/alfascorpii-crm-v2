@@ -56,8 +56,6 @@ export const postNewDeal = async (data: DealType) => {
     const { meta, data: deal } = await response.json();
     const { message } = meta;
 
-    console.log(message);
-
     if (data.file) {
       const imageRes = await importDealImage(deal.deal_id, data.file as File);
 

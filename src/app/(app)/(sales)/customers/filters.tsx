@@ -9,7 +9,6 @@ import { ComboBoxOptions, SelectOptions } from '@/types';
 import { Button } from '@/components/ui/button';
 import SelectCro from '@/components/fragments/SelectCro';
 import ComboBox from '@/components/elements/form/ComboBox';
-import ClearFilters from '@/components/elements/buttons/ClearFilters';
 
 const dateOptions: SelectOptions[] = [
   { label: 'Semua', value: 'all' },
@@ -115,6 +114,20 @@ const CustomerFilters = ({
     replace(`${pathname}?${params.toString()}`);
   };
 
+  const handleClearFilters = () => {
+    replace(pathname);
+    setDateOption('all');
+    setFuOption('all');
+    setFuDetailValue('all');
+    setHolidayValue('all');
+    setJobValue('all');
+    setStartDate(undefined);
+    setEndDate(undefined);
+    setCroName(users[0].value || '');
+    setMotorcycleId('');
+    setDealerId('');
+  };
+
   return (
     <div className="grid grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] gap-6">
       <SelectFilter
@@ -194,7 +207,15 @@ const CustomerFilters = ({
         <Button className="w-full self-end" onClick={handleFilter}>
           Filter
         </Button>
-        <ClearFilters />
+        <div className="flex w-full items-end gap-2">
+          <Button
+            variant="outline"
+            onClick={handleClearFilters}
+            className="w-full"
+          >
+            Clear Filters
+          </Button>
+        </div>
       </div>
     </div>
   );

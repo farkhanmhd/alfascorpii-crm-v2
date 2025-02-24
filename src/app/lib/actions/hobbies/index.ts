@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import { postHobby, putHobby, deleteHobby } from '../../data/hobbies';
 
@@ -19,6 +19,7 @@ export const addHobbyAction = actionClient
     try {
       await postHobby(hobby_name, status);
       revalidatePath('/hobbies');
+      revalidateTag('hobbies');
       return { status: 'success', message: 'Hobby added successfully' };
     } catch (error) {
       return {
@@ -34,6 +35,7 @@ export const updateHobbyAction = actionClient
     try {
       await putHobby(id, hobby_name, status);
       revalidatePath('/hobbies');
+      revalidateTag('hobbies');
       return { status: 'success', message: 'Hobby updated successfully' };
     } catch (error) {
       return {
@@ -53,6 +55,7 @@ export const deleteHobbyAction = actionClient
     try {
       await deleteHobby(id);
       revalidatePath('/hobbies');
+      revalidateTag('hobbies');
       return { status: 'success', message: 'Hobby deleted successfully' };
     } catch (error) {
       return {

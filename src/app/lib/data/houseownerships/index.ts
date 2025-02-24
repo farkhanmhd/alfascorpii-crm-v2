@@ -50,6 +50,9 @@ export const getHouseOwnershipOptions = async () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
+        next: {
+          tags: ['houseownerships'],
+        },
       }
     );
 

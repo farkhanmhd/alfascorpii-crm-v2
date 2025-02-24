@@ -32,24 +32,28 @@ export const getUser = async (username: string, password: string) => {
 export const getUserPermissions = async (
   userId: string
 ): Promise<Permission[]> => {
-  const accessToken = await getAccessToken();
-  const url = `${process.env.API_URL}/userpermission/${userId}`;
-  const response = await fetch(url, {
-    method: 'GET',
-    cache: 'no-cache',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-    // next: {
-    //   tags: ['permissions'],
-    // },
-  });
+  try {
+    const accessToken = await getAccessToken();
+    const url = `${process.env.API_URL}/userpermission/${userId}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      cache: 'no-cache',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      // next: {
+      //   tags: ['permissions'],
+      // },
+    });
 
-  const {
-    data: { permissions },
-  } = await response.json();
+    const {
+      data: { permissions },
+    } = await response.json();
 
-  return permissions;
+    return permissions;
+  } catch (error) {
+    return [];
+  }
 };

@@ -117,7 +117,7 @@ export const randomAssignFollowUp = async (payload: {
 };
 
 export const manualAssignFollowUp = async (payload: {
-  customerIds: number[];
+  customer_ids: number[];
   user_id: string;
 }) => {
   try {
@@ -125,7 +125,9 @@ export const manualAssignFollowUp = async (payload: {
     if (!token) {
       redirect('/login');
     }
+
     const requestUrl = `${process.env.API_URL}/customers/manualassign`;
+
     const response = await fetch(requestUrl, {
       method: 'POST',
       headers: {

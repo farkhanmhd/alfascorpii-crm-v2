@@ -52,6 +52,9 @@ export const getAllMotorcyclesList = async () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
+        next: {
+          tags: ['motorcycles'],
+        },
       }
     );
 

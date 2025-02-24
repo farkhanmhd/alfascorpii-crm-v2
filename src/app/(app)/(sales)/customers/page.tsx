@@ -10,6 +10,7 @@ import { getFuResultOptions } from '@/app/lib/data/furesult';
 import { getAllMotorcyclesList } from '@/app/lib/data/motorcycles';
 import { getHolidayOptions } from '@/app/lib/data/holidays';
 import { getJobOptions } from '@/app/lib/data/customerjobs';
+import { SelectOptions } from '@/types';
 import CustomerTable from './CustomerTable';
 import CustomerFilters from './filters';
 import Footer from './footer';
@@ -23,7 +24,7 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const perPage = searchParams?.per_page || '50';
+  const perPage = searchParams?.per_page || '10';
   const userId = searchParams?.user_id;
   const fuDetailId = searchParams?.follow_up_detail_id;
   const fuResultId = searchParams?.follow_up_result_id;
@@ -55,10 +56,16 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
   const holidayOptions = await getHolidayOptions();
   const jobOptions = await getJobOptions();
 
-  users.unshift({
-    label: 'Semua',
-    value: 'all',
-  });
+  users.unshift(
+    {
+      label: 'Semua',
+      value: 'all',
+    },
+    {
+      label: 'Not Assigned',
+      value: 'not_assigned',
+    }
+  );
 
   holidayOptions.unshift({
     label: 'Semua',
@@ -73,6 +80,24 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
   fuDetails.unshift({
     label: 'Semua',
     value: 'all',
+  });
+
+  motorcycles.sort((a: SelectOptions, b: SelectOptions) =>
+    a.label.localeCompare(b.label)
+  );
+
+  motorcycles.unshift({
+    label: 'Semua',
+    value: '',
+  });
+
+  dealers.sort((a: SelectOptions, b: SelectOptions) =>
+    a.label.localeCompare(b.label)
+  );
+
+  dealers.unshift({
+    label: 'Semua',
+    value: '',
   });
 
   return (

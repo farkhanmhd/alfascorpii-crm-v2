@@ -43,6 +43,7 @@ const DatePicker = ({
   hideLabel,
   error,
 }: DatePickerProps) => {
+  const [open, setOpen] = React.useState(false);
   const months = [
     'January',
     'February',
@@ -76,6 +77,7 @@ const DatePicker = ({
   const handleSelect = (selectedData: Date | undefined) => {
     if (selectedData) {
       setDate(selectedData);
+      setOpen(false); // auto-close the popover on selection
     }
   };
 
@@ -96,7 +98,7 @@ const DatePicker = ({
           )}
         </Label>
       )}
-      <Popover>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild id={id} name={id}>
           <Button
             variant="outline"

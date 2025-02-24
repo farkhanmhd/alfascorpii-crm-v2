@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { SelectOptions } from '@/types';
 import {
   Select,
@@ -10,6 +10,10 @@ import {
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const options: SelectOptions[] = [
+  { value: '10', label: '10' },
+  { value: '20', label: '20' },
+  { value: '30', label: '30' },
+  { value: '40', label: '40' },
   { value: '50', label: '50' },
   { value: '100', label: '100' },
   { value: '150', label: '150' },
@@ -20,13 +24,20 @@ const RowLimit = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { replace } = useRouter();
-  const params = new URLSearchParams(searchParams);
-  const initialPerPage = params.get('per_page') || '50';
-  const [perPage, setperPage] = useState(initialPerPage);
+  // derive initial state from params
+  const initialPerPage = searchParams.get('per_page') || '10';
+  const [perPage, setPerPage] = useState(initialPerPage);
 
-  const handleperPageChange = (value: string) => {
-    setperPage(value);
-    if (value === '50') {
+  // Sync perPage state if searchParams changes externally.
+  useEffect(() => {
+    const newInitial = searchParams.get('per_page') || '10';
+    setPerPage(newInitial);
+  }, [searchParams]);
+
+  const handlePerPageChange = (value: string) => {
+    setPerPage(value);
+    const params = new URLSearchParams(searchParams);
+    if (value === '10') {
       params.delete('per_page');
     } else {
       params.set('per_page', value);
@@ -38,7 +49,7 @@ const RowLimit = () => {
   return (
     <div className="flex items-center gap-x-2">
       <span className="hidden text-sm font-medium sm:block">Show</span>
-      <Select value={perPage} onValueChange={handleperPageChange}>
+      <Select value={perPage} onValueChange={handlePerPageChange}>
         <SelectTrigger className="h-11 w-[70px]">
           <SelectValue placeholder={perPage} />
         </SelectTrigger>

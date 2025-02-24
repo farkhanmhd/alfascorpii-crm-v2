@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 
 import { getAccessToken } from '../../data/auth';
@@ -26,6 +26,7 @@ export const addMotorcycleAction = actionClient
     try {
       await postProductPreferences(product_name);
       revalidatePath('/motorcycles');
+      revalidateTag('motorcycles');
       return {
         status: 'success',
         message: 'Product Preferences added successfully',
@@ -44,6 +45,7 @@ export const updateMotorcycleAction = actionClient
     try {
       await putProductPreferences(id, product_name);
       revalidatePath('/motorcycles');
+      revalidateTag('motorcycles');
       return {
         status: 'success',
         message: 'Product Preferences updated successfully',
@@ -66,6 +68,7 @@ export const deleteMotorcycleAction = actionClient
     try {
       await deleteProductPreferences(id);
       revalidatePath('/motorcycles');
+      revalidateTag('motorcycles');
       return {
         status: 'success',
         message: 'Product Preferences deleted successfully',

@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import {
   postStatusFu,
@@ -24,6 +24,7 @@ export const addStatusFuAction = actionClient
     try {
       await postStatusFu(fu_method_id, status_fu_name, status);
       revalidatePath('/statusfus');
+      revalidateTag('statusfus');
       return { status: 'success', message: 'Status fu added successfully' };
     } catch (error) {
       return {
@@ -40,6 +41,7 @@ export const updateStatusFuAction = actionClient
       try {
         await putStatusFu(id, fu_method_id, status_fu_name, status);
         revalidatePath('/statusfus');
+        revalidateTag('statusfus');
         return { status: 'success', message: 'Status fu updated successfully' };
       } catch (error) {
         return {
@@ -60,6 +62,7 @@ export const deleteStatusFuAction = actionClient
     try {
       await deleteStatusFu(id);
       revalidatePath('/statusfus');
+      revalidateTag('statusfus');
       return { status: 'success', message: 'Status fu deleted successfully' };
     } catch (error) {
       return {

@@ -42,6 +42,9 @@ export const getHobbyOptions = async () => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
+      next: {
+        tags: ['hobbies'],
+      },
     });
 
     const { data } = await response.json();

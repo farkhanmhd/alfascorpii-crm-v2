@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import {
   putPekerjaan,
@@ -24,6 +24,7 @@ export const addJob = actionClient
     try {
       await postJob(job, code, status);
       revalidatePath('/customerjobs');
+      revalidateTag('customerjobs');
       return { status: 'success', message: 'Pekerjaan added successfully' };
     } catch (error) {
       return {
@@ -40,6 +41,7 @@ export const updateJob = actionClient
       await putPekerjaan(id, job, code, status);
       revalidatePath('/customerjobs');
       revalidatePath(`/customerjobs/${id}`);
+      revalidateTag('customerjobs');
       return {
         status: 'success',
         message: 'Pekerjaan updated successfully',
@@ -62,6 +64,7 @@ export const removeJob = actionClient
     try {
       await deletePekerjaan(id);
       revalidatePath('/customerjobs');
+      revalidateTag('customerjobs');
       return { status: 'success', message: 'Pekerjaan deleted successfully' };
     } catch (error) {
       return {

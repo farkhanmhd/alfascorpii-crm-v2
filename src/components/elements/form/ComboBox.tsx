@@ -106,12 +106,17 @@ const ComboBox = ({
                           value={option.value}
                           keywords={[option.label]}
                           onSelect={() => handleSelect(option.value)}
-                          className="cursor-pointer"
+                          className={cn('cursor-pointer hover:bg-accent', {
+                            'bg-accent':
+                              value === option.value ||
+                              (value === '' && option.value === ''),
+                          })}
                         >
                           <Check
                             className={cn(
                               'mr-2 h-4 w-4',
-                              value === option.value
+                              value === option.value ||
+                                (value === '' && option.value === '')
                                 ? 'opacity-100'
                                 : 'opacity-0'
                             )}

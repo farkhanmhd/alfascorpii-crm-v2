@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import { postHoliday, putHoliday, deleteHoliday } from '../../data/holidays';
 
@@ -21,6 +21,7 @@ export const addHolidayAction = actionClient
     try {
       await postHoliday(holiday, message, date, status);
       revalidatePath('/holidays');
+      revalidateTag('holidays');
       return { status: 'success', message: 'Holiday added successfully' };
     } catch (error) {
       return {
@@ -37,6 +38,7 @@ export const editHolidayAction = actionClient
       await putHoliday(id, holiday, message, date, status);
       revalidatePath('/holidays');
       revalidatePath(`/holidays/${id}`);
+      revalidateTag('holidays');
       return {
         status: 'success',
         message: 'Holiday updated successfully',
@@ -59,6 +61,7 @@ export const removeHolidayAction = actionClient
     try {
       await deleteHoliday(id);
       revalidatePath('/holidays');
+      revalidateTag('holidays');
       return { status: 'success', message: 'Holiday deleted successfully' };
     } catch (error) {
       return {

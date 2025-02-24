@@ -17,8 +17,6 @@ const CustomerJobTableWrapper = ({ data, page }: Props) => {
   const canEditOrDelete =
     checkPermission('edit_jobs', permissions) ||
     checkPermission('delete_jobs', permissions);
-
-  console.log(canEditOrDelete);
   return (
     <DataTable
       columns={canEditOrDelete ? editableCustomerJobColumns : columns}

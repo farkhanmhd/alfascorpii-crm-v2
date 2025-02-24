@@ -1,12 +1,8 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
 import { ICustomer } from '@/types';
-import { Pencil } from 'lucide-react';
 
 const indexColumn: ColumnDef<ICustomer>[] = [
   {
@@ -147,35 +143,9 @@ const baseColumn: ColumnDef<ICustomer>[] = [
   },
 ];
 
-const actionColumn: ColumnDef<ICustomer>[] = [
-  {
-    id: 'actions',
-    header: () => <div className="text-center">Aksi</div>,
-    cell: ({ row }) => {
-      const customer = row.original;
-      return (
-        <div className="flex justify-end gap-x-4">
-          <Link
-            href={`/customers/${customer.id}`}
-            className={cn(
-              buttonVariants({
-                size: 'sm',
-                variant: 'outline',
-              })
-            )}
-          >
-            <Pencil />
-          </Link>
-        </div>
-      );
-    },
-  },
-];
-
 export const columns: ColumnDef<ICustomer>[] = [...indexColumn, ...baseColumn];
 
 export const viewColumn: ColumnDef<ICustomer>[] = [
   ...indexColumn,
-  ...actionColumn,
   ...baseColumn,
 ];

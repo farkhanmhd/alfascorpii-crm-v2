@@ -19,6 +19,9 @@ export const getStatusFuOptions = async () => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
+      next: {
+        tags: ['statusfus'],
+      },
     });
 
     const { data } = await response.json();

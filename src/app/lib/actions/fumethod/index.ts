@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import { postFuMethod, putFuMethod, deleteFuMethod } from '../../data/fumethod';
 
@@ -19,6 +19,7 @@ export const addFuMethodAction = actionClient
     try {
       await postFuMethod(fu_method_name, status);
       revalidatePath('/fumethod');
+      revalidateTag('fumethod');
       return { status: 'success', message: 'Fu method added successfully' };
     } catch (error) {
       return {
@@ -34,6 +35,7 @@ export const editFuMethodAction = actionClient
     try {
       await putFuMethod(id, fu_method_name, status);
       revalidatePath('/fumethod');
+      revalidateTag('fumethod');
       return {
         status: 'success',
         message: 'Fu method updated successfully',
@@ -56,6 +58,7 @@ export const removeFuMethodAction = actionClient
     try {
       await deleteFuMethod(id);
       revalidatePath('/fumethod');
+      revalidateTag('fumethod');
       return { status: 'success', message: 'Fu method deleted successfully' };
     } catch (error) {
       return {

@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import {
   postHouseOwnership,
@@ -25,6 +25,7 @@ export const addHouseOwnershipAction = actionClient
     try {
       await postHouseOwnership(house_ownership_status, status);
       revalidatePath('/houseownerships');
+      revalidateTag('houseownerships');
       return {
         status: 'success',
         message: 'House ownership added successfully',
@@ -44,6 +45,7 @@ export const editHouseOwnershipAction = actionClient
       await putHouseOwnership(id, house_ownership_status, status);
       revalidatePath('/houseownerships');
       revalidatePath(`/houseownerships/${id}`);
+      revalidateTag('houseownerships');
       return {
         status: 'success',
         message: 'House ownership updated successfully',
@@ -66,6 +68,7 @@ export const removeHouseOwnershipAction = actionClient
     try {
       await deleteHouseOwnership(id);
       revalidatePath('/houseownerships');
+      revalidateTag('houseownerships');
       return {
         status: 'success',
         message: 'House ownership deleted successfully',

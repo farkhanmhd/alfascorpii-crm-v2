@@ -1,13 +1,10 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
-import { cn, checkPermission } from '@/lib/utils';
+import { checkPermission } from '@/lib/utils';
 import { Checkbox } from '@/components/ui/checkbox';
-import { buttonVariants } from '@/components/ui/button';
 import { ICustomer } from '@/types';
-import { Pencil } from 'lucide-react';
 import { usePermissions } from '@/hooks';
 
 const checkBoxColumn: ColumnDef<ICustomer>[] = [
@@ -118,42 +115,9 @@ const baseColumns: ColumnDef<ICustomer>[] = [
   },
 ];
 
-export const viewableColumn: ColumnDef<ICustomer>[] = [
-  {
-    id: 'actions',
-    header: () => <div className="text-center">Aksi</div>,
-    cell: ({ row }) => {
-      const { permissions } = usePermissions();
-      const canViewDetails =
-        checkPermission('view_sales', permissions) &&
-        checkPermission('view_sales_follow_up', permissions) &&
-        checkPermission('sales_fu_view_detail_customer_data', permissions);
-
-      if (!canViewDetails) return null;
-
-      return (
-        <div className="flex justify-end gap-x-4">
-          <Link
-            href={`/customers/${row.original.id}`}
-            className={cn(
-              buttonVariants({
-                variant: 'outline',
-                size: 'icon',
-              })
-            )}
-          >
-            <Pencil />
-          </Link>
-        </div>
-      );
-    },
-  },
-  ...baseColumns,
-];
-
 export const assignableColumn: ColumnDef<ICustomer>[] = [
   ...checkBoxColumn,
-  ...viewableColumn,
+  ...baseColumns,
 ];
 
 export const columns: ColumnDef<ICustomer>[] = [...baseColumns];

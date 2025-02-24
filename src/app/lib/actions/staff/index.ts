@@ -4,7 +4,7 @@ import { z } from 'zod';
 import type { User } from '@/types';
 
 import actionClient from '@/lib/safe-action';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import {
   postNewStaff,
   updateUser,
@@ -24,6 +24,9 @@ export const getAllUsers = async () => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
+      },
+      next: {
+        tags: ['users'],
       },
     });
 
@@ -80,6 +83,7 @@ export const addUser = actionClient
     try {
       await postNewStaff({ username, name });
       revalidatePath('/staff');
+      revalidateTag('users');
       return { status: 'success', message: 'User added successfully' };
     } catch (error) {
       return { status: 'error', message: 'Server Error: Failed to add User' };

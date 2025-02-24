@@ -48,6 +48,9 @@ export const getFuMethodOptions = async () => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
+      next: {
+        tags: ['fumethod'],
+      },
     });
 
     const {

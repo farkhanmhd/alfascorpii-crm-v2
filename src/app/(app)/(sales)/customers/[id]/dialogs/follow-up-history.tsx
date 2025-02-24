@@ -15,9 +15,9 @@ import { cn, checkPermission } from '@/lib/utils';
 
 import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 
-import { DataTable } from '@/components/elements/table/DataTable';
 import { ICustomerFollowUp } from '@/types';
 import { usePermissions } from '@/hooks';
+import { DataTable } from './DataTable';
 import columns from './fu-history-columns';
 
 type Props = {
@@ -38,7 +38,7 @@ const FollowUpHistory = ({ followUps }: Props) => {
       <DialogTrigger className={cn(buttonVariants({ variant: 'orange' }))}>
         History Follow Up
       </DialogTrigger>
-      <DialogContent className="max-w-4xl">
+      <DialogContent className="max-w-8xl">
         <DialogHeader className="px-2">
           <DialogTitle>History Follow Up</DialogTitle>
         </DialogHeader>

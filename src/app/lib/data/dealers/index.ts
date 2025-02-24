@@ -71,6 +71,9 @@ export const getAllDealersList = async () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
+        next: {
+          tags: ['dealers'],
+        },
       }
     );
 

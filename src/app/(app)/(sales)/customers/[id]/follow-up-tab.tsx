@@ -264,7 +264,7 @@ const FollowUpTab = ({ ...props }: Props) => {
       </ScrollArea>
 
       <div className="flex flex-col gap-4 md:flex-row">
-        <FollowUpDialog {...(props as Omit<Props, 'followUps'>)} />
+        <FollowUpDialog {...(props as Omit<Props, 'followUps'> | any)} />
         <FollowUpHistory followUps={props.followUps} />
         <DealDialog {...props} />
       </div>

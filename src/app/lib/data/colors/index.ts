@@ -43,6 +43,7 @@ export const getColorOptions = async () => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
+      next: { tags: ['colors'] },
     });
 
     const {

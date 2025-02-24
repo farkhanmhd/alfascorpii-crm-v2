@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import { putColor, postColor, deleteColor } from '@/app/lib/data/colors';
 
@@ -18,6 +18,7 @@ export const addColor = actionClient
     try {
       await postColor(color_name);
       revalidatePath('/colors');
+      revalidateTag('colors');
       return { status: 'success', message: 'Color added successfully' };
     } catch (error) {
       return {
@@ -34,6 +35,7 @@ export const updateColor = actionClient
       await putColor(id, color_name);
       revalidatePath('/colors');
       revalidatePath(`/colors/${id}`);
+      revalidateTag('colors');
       return {
         status: 'success',
         message: 'Color updated successfully',
@@ -56,6 +58,7 @@ export const removeColor = actionClient
     try {
       await deleteColor(id);
       revalidatePath('/colors');
+      revalidateTag('colors');
       return { status: 'success', message: 'Color deleted successfully' };
     } catch (error) {
       return {

@@ -5,8 +5,6 @@ import TextInput from '@/components/elements/form/TextInput';
 import StatusRadio from '@/components/elements/form/StatusRadio';
 import SubmitButton from '@/components/elements/buttons/SubmitButton';
 import { getErrorMessages } from '@/lib/utils';
-import SelectStatusFu from '@/components/fragments/SelectStatusFu';
-import { SelectOptions } from '@/types';
 
 interface FuResultFormProps {
   initialResult?: string;
@@ -17,9 +15,6 @@ interface FuResultFormProps {
     status?: { _errors?: string[] };
   };
   isPending: boolean;
-  statuses: SelectOptions[];
-  selectedStatus: string;
-  setSelectedStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const FuResultForm = ({
@@ -28,9 +23,6 @@ const FuResultForm = ({
   action,
   validationErrors = {},
   isPending,
-  statuses = [],
-  selectedStatus,
-  setSelectedStatus,
 }: FuResultFormProps) => {
   const [result, setResult] = useState(initialResult);
   const [status, setStatus] = useState(initialStatus);
@@ -40,11 +32,6 @@ const FuResultForm = ({
 
   return (
     <form className="flex flex-col gap-y-8" action={action}>
-      <SelectStatusFu
-        selectedStatus={selectedStatus}
-        setSelectedStatus={setSelectedStatus}
-        statuses={statuses}
-      />
       <TextInput
         id="fu_result_name"
         label="Hasil follow-up"

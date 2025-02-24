@@ -30,12 +30,16 @@ import { getErrorMessages, checkPermission } from '@/lib/utils';
 import { FollowUpData } from '@/app/lib/data/follow-up';
 import { usePermissions } from '@/hooks';
 
+interface ExtendedFuDetailProp extends SelectOptions {
+  detail: 'CONTACTED' | 'NOT CONTACTED';
+}
+
 type Props = {
   motorcyclesOpts: SelectOptions[];
   holidayOpts: SelectOptions[];
   jobOpts: SelectOptions[];
   relationOpts: SelectOptions[];
-  fuDetailOpts: SelectOptions[];
+  fuDetailOpts: ExtendedFuDetailProp[];
   fuResultOpts: SelectOptions[];
   fuMethodOpts: SelectOptions[];
   fuStatusOpts: SelectOptions[];
@@ -241,7 +245,17 @@ const FollowUpDialog = ({ ...props }: Props) => {
                   <SelectBox
                     id="follow_up_detail_id"
                     label="Keterangan Follow Up"
-                    options={props.fuDetailOpts}
+                    options={
+                      followUpStatus === '1'
+                        ? props.fuDetailOpts.filter(
+                            (opt) => opt.detail === 'CONTACTED'
+                          )
+                        : followUpStatus === '2'
+                          ? props.fuDetailOpts.filter(
+                              (opt) => opt.detail === 'NOT CONTACTED'
+                            )
+                          : []
+                    }
                     placeholder="Keterangan Follow Up"
                     value={followUpDetail}
                     setValue={setFollowUpDetail}

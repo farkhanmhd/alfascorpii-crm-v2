@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -23,14 +23,10 @@ export const CreateFuResultDialog = ({
 }) => {
   const { permissions } = usePermissions();
   const { open, setOpen } = useDialog();
-  const [selectedStatus, setSelectedStatus] = useState<string>(
-    statusFuOptions[0].value
-  );
   const { setStatusFus } = useStatusFu();
   const { execute, result, isPending } = useAction(
     async (formData) => {
       const data = {
-        status_fu_id: selectedStatus,
         fu_result_name: formData.get('fu_result_name'),
         status: formData.get('status'),
       };
@@ -69,9 +65,6 @@ export const CreateFuResultDialog = ({
         action={execute}
         validationErrors={result?.validationErrors}
         isPending={isPending}
-        statuses={statusFuOptions}
-        selectedStatus={selectedStatus}
-        setSelectedStatus={setSelectedStatus}
       />
     </ActionDialogContainer>
   );
@@ -86,14 +79,11 @@ export const EditFuResultDialog = ({
   status: 'SHOW' | 'HIDE';
   furesult: string;
 }) => {
-  const { statusFus } = useStatusFu();
-  const [selectedStatus, setSelectedStatus] = useState<string>('');
   const { open, setOpen } = useDialog();
   const { execute, result, isPending } = useAction(
     async (formData) => {
       const data = {
-        id,
-        status_fu_id: selectedStatus,
+        id: String(id),
         fu_result_name: formData.get('fu_result_name'),
         status: formData.get('status'),
       };
@@ -123,9 +113,6 @@ export const EditFuResultDialog = ({
         initialStatus={status}
         initialResult={furesult}
         isPending={isPending}
-        statuses={statusFus}
-        selectedStatus={selectedStatus}
-        setSelectedStatus={setSelectedStatus}
       />
     </ActionDialogContainer>
   );

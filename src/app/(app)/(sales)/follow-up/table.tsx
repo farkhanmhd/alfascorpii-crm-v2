@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 import {
   ColumnDef,
@@ -22,6 +22,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import MapItems from '@/utils/MapItems';
+import { usePermissions } from '@/hooks';
+import { checkPermission, cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 
 interface DataTableProps<TData extends { id: string | number }, TValue> {
@@ -46,7 +48,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   const searchParams = useSearchParams();
   const perPage = Number(searchParams.get('per_page') || 50);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-
+  const { push } = useRouter();
   const table = useReactTable({
     data,
     columns,
@@ -69,8 +71,13 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
     },
   });
 
+  const { permissions } = usePermissions();
+  const canView =
+    checkPermission('sales_fu_view_detail_customer_data', permissions) ||
+    checkPermission('sales_customer_view_detail_customer_data', permissions);
+
   return (
-    <ScrollArea className="max-h-[800px] rounded-md bg-white shadow-sm">
+    <ScrollArea className="max-h-[700px] rounded-md bg-white shadow-sm">
       <Table>
         <TableHeader className="sticky top-0 z-50 bg-primary text-sm">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -101,7 +108,24 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
               render={(row) => (
                 <TableRow
                   key={row.id}
+                  className={cn('hover:bg-black/10', {
+                    'cursor-pointer': canView,
+                  })}
                   data-state={row.getIsSelected() && 'selected'}
+                  onClick={(e) => {
+                    if (
+                      e.target instanceof HTMLElement &&
+                      (e.target.role === 'checkbox' ||
+                        e.target.getAttribute('role') === 'checkbox')
+                    ) {
+                      return;
+                    }
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (canView) {
+                      push(`/customers/${row.original.id}`);
+                    }
+                  }}
                 >
                   <MapItems
                     of={row.getVisibleCells()}

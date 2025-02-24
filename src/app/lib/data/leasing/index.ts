@@ -40,6 +40,7 @@ export const getLeasingOptions = async () => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
+    next: { tags: ['leasing'] },
   });
   const { data } = await response.json();
   const { leasings } = data;

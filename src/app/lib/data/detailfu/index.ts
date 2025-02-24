@@ -63,6 +63,9 @@ export const getFuDetailOptions = async () => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
+      next: {
+        tags: ['detailfu'],
+      },
     });
 
     const {
@@ -73,6 +76,7 @@ export const getFuDetailOptions = async () => {
       return {
         label: option.detail_fu_name,
         value: String(option.id),
+        detail: option.status_fu_name,
       };
     });
 

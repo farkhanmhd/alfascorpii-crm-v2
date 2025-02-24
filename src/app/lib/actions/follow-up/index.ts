@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import actionClient from '@/lib/safe-action';
 import {
   randomAssignFollowUp,
@@ -35,7 +35,7 @@ export const randomAssignFollowUpAction = actionClient
   });
 
 const manualAssignSchema = z.object({
-  customerIds: z
+  customer_ids: z
     .array(z.number().min(1, { message: 'Customer ID should be a number' }))
     .min(1, { message: 'At least one customer ID is required' }),
   user_id: z.string().min(1, { message: 'User ID is required' }),
@@ -43,12 +43,13 @@ const manualAssignSchema = z.object({
 
 export const manualAssignFollowUpAction = actionClient
   .schema(manualAssignSchema)
-  .action(async ({ parsedInput: { customerIds, user_id } }) => {
+  .action(async ({ parsedInput: { customer_ids, user_id } }) => {
     try {
       const meta: { status: string; message: string } =
-        await manualAssignFollowUp({ customerIds, user_id });
+        await manualAssignFollowUp({ customer_ids, user_id });
       revalidatePath('/follow-up');
       revalidatePath('/customers');
+      revalidateTag('followups');
       return { status: meta.status, message: meta.message };
     } catch (error) {
       return {
