@@ -5,12 +5,27 @@ import { ColumnDef } from '@tanstack/react-table';
 import { usePermissions } from '@/hooks';
 import { checkPermission } from '@/lib/utils';
 import { ICustomerJob } from '@/types';
+import clsx from 'clsx';
 import { EditCustomerJobDialog, DeleteJobDialog } from './actions';
 
 export const editableCustomerJobColumns: ColumnDef<ICustomerJob>[] = [
   {
     accessorKey: 'job_name',
     header: 'Customer Job',
+  },
+  {
+    header: 'Status',
+    accessorKey: 'status',
+    cell: ({ row }) => (
+      <span
+        className={clsx({
+          'font-semibold text-green-500': row.getValue('status') === 'SHOW',
+          'font-semibold text-red-500': row.getValue('status') === 'HIDE',
+        })}
+      >
+        {row.getValue('status')}
+      </span>
+    ),
   },
   {
     id: 'actions',
@@ -47,6 +62,20 @@ export const columns: ColumnDef<ICustomerJob>[] = [
   {
     accessorKey: 'job_name',
     header: 'Customer Job',
+  },
+  {
+    header: 'Status',
+    accessorKey: 'status',
+    cell: ({ row }) => (
+      <span
+        className={clsx({
+          'font-semibold text-green-500': row.getValue('status') === 'SHOW',
+          'font-semibold text-red-500': row.getValue('status') === 'HIDE',
+        })}
+      >
+        {row.getValue('status')}
+      </span>
+    ),
   },
 ];
 

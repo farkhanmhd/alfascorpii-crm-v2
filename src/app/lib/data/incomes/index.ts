@@ -73,10 +73,12 @@ export const getIncomeOptions = async () => {
 
     const { data } = await response.json();
     const { incomes } = data;
-    const incomeOptions = incomes.map((income: any) => ({
-      label: income.income_detail,
-      value: String(income.id),
-    }));
+    const incomeOptions = incomes
+      .filter((income: any) => income.status === 'SHOW')
+      .map((income: any) => ({
+        label: income.income_detail,
+        value: String(income.id),
+      }));
 
     return incomeOptions;
   } catch (error) {

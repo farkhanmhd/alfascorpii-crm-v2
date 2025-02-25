@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 import {
   ColumnDef,
@@ -12,8 +12,8 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-
-import { cn } from '@/lib/utils';
+import { usePermissions } from '@/hooks';
+import { checkPermission, cn } from '@/lib/utils';
 
 import {
   Table,
@@ -26,7 +26,7 @@ import {
 import MapItems from '@/utils/MapItems';
 import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 import { useSidebar } from '@/components/ui/sidebar';
-import DataTablePagination from './pagination';
+import DataTablePagination from '@/components/elements/table/pagination';
 
 interface DataTableProps<TData extends { id?: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -53,6 +53,7 @@ export const DataTable = <TData extends { id?: string | number }, TValue>({
   rowSelection = {},
   setRowSelection,
 }: DataTableProps<TData, TValue>) => {
+  const { push } = useRouter();
   const searchParams = useSearchParams();
   const perPage = Number(searchParams.get('per_page') || 50);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -78,6 +79,10 @@ export const DataTable = <TData extends { id?: string | number }, TValue>({
       },
     },
   });
+
+  const { permissions } = usePermissions();
+
+  const canView = checkPermission('view_detail_deal', permissions);
 
   return (
     <>
@@ -120,8 +125,16 @@ export const DataTable = <TData extends { id?: string | number }, TValue>({
                   of={table.getRowModel().rows}
                   render={(row, key) => (
                     <TableRow
+                      className={cn('hover:bg-black/10', {
+                        'cursor-pointer': canView,
+                      })}
                       key={key}
                       data-state={row.getIsSelected() && 'selected'}
+                      onClick={() => {
+                        if (canView) {
+                          push(`/deal/${row.original.id}`);
+                        }
+                      }}
                     >
                       <MapItems
                         of={row.getVisibleCells()}

@@ -27,9 +27,9 @@ const totalPageAtom = atom<{ totalData: number; total: number }>({
 });
 
 export const useFuTotalPage = () => {
-  const [totalData, setTotalData] = useAtom(totalPageAtom);
+  const [totalData, settotalData] = useAtom(totalPageAtom);
 
-  return { totalData, setTotalData };
+  return { totalData, settotalData };
 };
 
 interface DataTableProps<TData extends { id: string | number }, TValue> {
@@ -51,14 +51,14 @@ const FollowUpTableData = <TData extends { id: string | number }, TValue>({
 }: DataTableProps<TData, TValue>) => {
   const { fuSelection, setFuSelection } = useFuSelection();
   const { setFuUsers } = useFuUsers();
-  const { setTotalData } = useFuTotalPage();
+  const { settotalData } = useFuTotalPage();
 
   useEffect(() => {
     setFuUsers(users);
   }, [users]);
 
   useEffect(() => {
-    setTotalData({ totalData: totalPages, total: rows });
+    settotalData({ totalData: totalPages, total: rows });
   }, [totalPages]);
 
   return (

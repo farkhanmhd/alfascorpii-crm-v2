@@ -80,6 +80,16 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
     dataSourceOpts: await getDataSourceOpts(),
   };
 
+  options.motorcyclesOpts.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
+  options.dealerOpts.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
   return (
     <div className="grid h-full grid-rows-[auto_1fr_auto] gap-y-6">
       <header className="flex flex-col gap-y-6">

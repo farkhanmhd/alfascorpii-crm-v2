@@ -29,9 +29,9 @@ const totalPageAtom = atom<{ totalData: number; total: number }>({
 });
 
 export const useDuplicateTotal = () => {
-  const [totalData, setTotalData] = useAtom(totalPageAtom);
+  const [totalData, settotalData] = useAtom(totalPageAtom);
 
-  return { totalData, setTotalData };
+  return { totalData, settotalData };
 };
 
 interface DataTableProps<TData extends { id: string | number }, TValue> {
@@ -53,14 +53,14 @@ const DuplicateTableData = <TData extends { id: string | number }, TValue>({
 }: DataTableProps<TData, TValue>) => {
   const { duplicateSelection, setDuplicateSelection } = useDuplicateSelection();
   const { setFuUsers } = useFuUsers();
-  const { setTotalData } = useDuplicateTotal();
+  const { settotalData } = useDuplicateTotal();
 
   useEffect(() => {
     setFuUsers(users);
   }, [users]);
 
   useEffect(() => {
-    setTotalData({ totalData: totalPages, total: rows });
+    settotalData({ totalData: totalPages, total: rows });
   }, [totalPages]);
 
   return (

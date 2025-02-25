@@ -49,10 +49,13 @@ export const getHobbyOptions = async () => {
 
     const { data } = await response.json();
     const { hobbies } = data;
-    const hobbyOptions = hobbies.map((hobby: any) => ({
-      label: hobby.hobby_name,
-      value: String(hobby.id),
-    }));
+    const hobbyOptions = hobbies
+      .filter((hobby: any) => hobby.status === 'SHOW')
+      .map((hobby: any) => ({
+        label: hobby.hobby_name,
+        value: String(hobby.id),
+      }))
+      .sort((a: any, b: any) => a.label.localeCompare(b.label));
 
     return hobbyOptions;
   } catch (error) {

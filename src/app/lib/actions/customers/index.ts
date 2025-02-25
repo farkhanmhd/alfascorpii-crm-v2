@@ -9,6 +9,7 @@ import {
   addFamilyCardNumber,
   updateFamilyMembers,
   updateCustomerData,
+  updateFuRecipient,
 } from '../../data/customers';
 
 const schema = zfd.formData({
@@ -116,6 +117,7 @@ const updateCustomerSchema = z.object({
   holiday_id: z.number().optional(),
   house_ownership_id: z.number().optional(),
   job_id: z.number().optional(),
+  job_description: z.string().optional(),
 });
 
 export const updateCustomerAction = actionClient
@@ -129,4 +131,66 @@ export const updateCustomerAction = actionClient
       status,
       message,
     };
+  });
+
+const recipientSchema = z.object({
+  customer_id: z.string().min(1, 'Customer ID tidak boleh kosong'),
+  recipient_name: z
+    .string()
+    .min(1, 'Nama penerima tidak boleh kosong')
+    .optional(),
+  relation_id: z.string().min(1, 'Hubungan harus dipilih').optional(),
+  recipient_address: z.string().min(1, 'Alamat tidak boleh kosong').optional(),
+  sub_district: z.string().min(1, 'Kelurahan tidak boleh kosong').optional(),
+  house_ownership_id: z
+    .number()
+    .min(1, 'Status rumah harus dipilih')
+    .optional(),
+  job_id: z.number().min(1, 'Pekerjaan harus dipilih').optional(),
+  recipient_job_detail: z.string().optional(),
+  recipient_born_date: z
+    .string()
+    .min(1, 'Tanggal lahir tidak boleh kosong')
+    .optional(),
+  recipient_religion: z.string().optional(),
+  hobby_id: z.number().optional(),
+  recipient_hobby_detail: z.string().optional(),
+  amount_of_family: z
+    .number()
+    .min(1, 'Jumlah keluarga tidak boleh kosong')
+    .optional(),
+  amount_of_motorcycle: z
+    .number()
+    .min(0, 'Jumlah motor tidak boleh negatif')
+    .optional(),
+  whatsapp_number: z.string().optional(),
+  facebook: z.string().optional(),
+  instagram: z.string().optional(),
+  email: z.string().email('Format email tidak valid').optional(),
+  income_id: z.number().optional(),
+  expense_id: z.number().optional(),
+  holiday_id: z.number().optional(),
+  additional_information: z.string().optional(),
+});
+
+export const updateRecipientAction = actionClient
+  .schema(recipientSchema)
+  .action(async ({ parsedInput }) => {
+    try {
+      const { meta } = await updateFuRecipient(parsedInput);
+
+      if (meta.status === 'success') {
+        revalidatePath(`/customers/${parsedInput.customer_id}`);
+      }
+
+      return {
+        status: meta.status,
+        message: meta.message,
+      };
+    } catch (error) {
+      return {
+        status: 'error',
+        message: 'Failed to update recipient data',
+      };
+    }
   });

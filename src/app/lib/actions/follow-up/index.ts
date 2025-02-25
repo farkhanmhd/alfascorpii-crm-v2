@@ -61,10 +61,7 @@ export const manualAssignFollowUpAction = actionClient
   });
 
 const followUpSchema = z.object({
-  customer_id: z
-    .number()
-    .int({ message: 'Customer ID must be an integer' })
-    .optional(),
+  customer_id: z.number().int({ message: 'Customer ID must be an integer' }),
   recipient_name: z.string().optional(),
   relation_id: z.number().optional(),
   whatsapp_number: z.string().optional(),
@@ -113,6 +110,7 @@ export const addFollowUpAction = actionClient
         await addFollowUp(parsedInput);
 
       revalidatePath('/follow-up');
+      revalidatePath(`/customers/${parsedInput.customer_id}`);
       return { status: meta.status, message: meta.message };
     } catch (error) {
       return {

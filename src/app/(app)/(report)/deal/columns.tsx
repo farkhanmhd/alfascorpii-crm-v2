@@ -1,13 +1,8 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
-import { checkPermission, cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
 import { IDealDetail } from '@/types';
-import { Pencil } from 'lucide-react';
-import { usePermissions } from '@/hooks';
 
 const baseColumns: ColumnDef<IDealDetail>[] = [
   {
@@ -79,36 +74,6 @@ export const numberColumn: ColumnDef<IDealDetail>[] = [
       );
     },
   },
-];
-
-export const viewableColumn: ColumnDef<IDealDetail>[] = [
-  ...numberColumn,
-  {
-    id: 'actions',
-    header: () => <div className="text-center">Aksi</div>,
-    cell: ({ row }) => {
-      const { permissions } = usePermissions();
-      const canViewDetails = checkPermission('view_detail_deal', permissions);
-
-      if (!canViewDetails) return null;
-      return (
-        <div className="flex justify-center gap-x-4">
-          <Link
-            href={`/deal/${row.original.id}`}
-            className={cn(
-              buttonVariants({
-                variant: 'outline',
-                size: 'icon',
-              })
-            )}
-          >
-            <Pencil />
-          </Link>
-        </div>
-      );
-    },
-  },
-  ...baseColumns,
 ];
 
 export const columns: ColumnDef<IDealDetail>[] = [

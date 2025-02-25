@@ -82,6 +82,11 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
     value: 'all',
   });
 
+  jobOptions.unshift({
+    label: 'Semua',
+    value: 'all',
+  });
+
   motorcycles.sort((a: SelectOptions, b: SelectOptions) =>
     a.label.localeCompare(b.label)
   );

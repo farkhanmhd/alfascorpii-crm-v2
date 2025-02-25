@@ -2,60 +2,80 @@ import React from 'react';
 import MapItems from '@/utils/MapItems';
 import { SelectOptions } from '@/types';
 import CustomerCard from '@/components/elements/cards/InformationCard';
-import type { IFollowUpRecipient } from '@/types';
+import type { ICustomer, IFollowUpRecipient, OptionsProps } from '@/types';
 import { sanitizeValue } from '@/lib/utils';
 import PhoneReceiverDialog from './dialogs/phone-receiver-dialog';
 
-type Props = {
+export type PhoneReceiverProps = {
   recipient: IFollowUpRecipient;
+  customer: ICustomer;
 };
 
-const PhoneReceiverTab = ({ recipient }: Props) => {
-  const data =
-    Array.isArray(recipient) && recipient.length > 0
-      ? recipient[0]
-      : ({} as IFollowUpRecipient);
-
+const PhoneReceiverTab = ({ ...props }: PhoneReceiverProps) => {
   const receiverData: SelectOptions[] = [
-    { label: 'Penerima Telepon', value: sanitizeValue(data.recipient_name) },
+    {
+      label: 'Penerima Telepon',
+      value: sanitizeValue(props.recipient.recipient_name),
+    },
     {
       label: 'Hubungan dengan Customer',
-      value: sanitizeValue(data.relationship),
+      value: sanitizeValue(props.recipient.relationship),
     },
     {
       label: 'Keterangan Lainnya',
-      value: sanitizeValue(data.additional_information),
+      value: sanitizeValue(props.recipient.additional_information),
     },
-    { label: 'Nomor Whatsapp', value: sanitizeValue(data.whatsapp_number) },
+    {
+      label: 'Nomor Whatsapp',
+      value: sanitizeValue(props.recipient.whatsapp_number),
+    },
   ];
 
   const receiverDataUpdate: SelectOptions[] = [
-    { label: 'Alamat', value: sanitizeValue(data.recipient_address) },
-    { label: 'Status Rumah', value: sanitizeValue(data.house_ownership) },
-    { label: 'Pekerjaan', value: sanitizeValue(data.job) },
+    {
+      label: 'Alamat',
+      value: sanitizeValue(props.recipient.recipient_address),
+    },
+    {
+      label: 'Status Rumah',
+      value: sanitizeValue(props.recipient.house_ownership),
+    },
+    { label: 'Pekerjaan', value: sanitizeValue(props.recipient.job) },
     {
       label: 'Deskripsi Pekerjaan',
-      value: sanitizeValue(data.recipient_job_detail),
+      value: sanitizeValue(props.recipient.recipient_job_detail),
     },
-    { label: 'Tanggal Lahir', value: sanitizeValue(data.recipient_born_date) },
-    { label: 'Hari besar Keagamaan', value: sanitizeValue(data.holiday) },
-    { label: 'Hobi', value: sanitizeValue(data.hobby) },
+    {
+      label: 'Tanggal Lahir',
+      value: sanitizeValue(props.recipient.recipient_born_date),
+    },
+    {
+      label: 'Hari besar Keagamaan',
+      value: sanitizeValue(props.recipient.holiday),
+    },
+    { label: 'Hobi', value: sanitizeValue(props.recipient.hobby) },
     {
       label: 'Deskripsi Hobi',
-      value: sanitizeValue(data.recipient_hobby_detail),
+      value: sanitizeValue(props.recipient.recipient_hobby_detail),
     },
     {
       label: 'Jumlah Orang Serumah',
-      value: sanitizeValue(data.amount_of_family),
+      value: sanitizeValue(props.recipient.amount_of_family),
     },
     {
       label: 'Jumlah Sepeda Motor di Rumah',
-      value: sanitizeValue(data.amount_of_motorcycle),
+      value: sanitizeValue(props.recipient.amount_of_motorcycle),
     },
-    { label: 'Facebook', value: sanitizeValue(data.facebook) },
-    { label: 'Instagram', value: sanitizeValue(data.instagram) },
-    { label: 'Penghasilan / Bulan', value: sanitizeValue(data.income) },
-    { label: 'Pengeluaran / Bulan', value: sanitizeValue(data.expense) },
+    { label: 'Facebook', value: sanitizeValue(props.recipient.facebook) },
+    { label: 'Instagram', value: sanitizeValue(props.recipient.instagram) },
+    {
+      label: 'Penghasilan / Bulan',
+      value: sanitizeValue(props.recipient.income),
+    },
+    {
+      label: 'Pengeluaran / Bulan',
+      value: sanitizeValue(props.recipient.expense),
+    },
   ];
 
   const items = [
@@ -74,7 +94,13 @@ const PhoneReceiverTab = ({ recipient }: Props) => {
         />
       </div>
       <div className="mb-8 mt-6">
-        <PhoneReceiverDialog />
+        <PhoneReceiverDialog
+          {...(props as {
+            recipient: IFollowUpRecipient;
+            customer: ICustomer;
+          } & OptionsProps &
+            ICustomer)}
+        />
       </div>
     </div>
   );

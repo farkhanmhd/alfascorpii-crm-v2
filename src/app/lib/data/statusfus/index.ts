@@ -26,10 +26,12 @@ export const getStatusFuOptions = async () => {
 
     const { data } = await response.json();
     const { statusfu } = data;
-    const statuses = statusfu.map((status: any) => ({
-      label: status.status_fu_name,
-      value: String(status.id),
-    }));
+    const statuses = statusfu
+      .filter((status: any) => status.status === 'SHOW')
+      .map((status: any) => ({
+        label: status.status_fu_name,
+        value: String(status.id),
+      }));
     return statuses;
   } catch (error) {
     console.error(error);

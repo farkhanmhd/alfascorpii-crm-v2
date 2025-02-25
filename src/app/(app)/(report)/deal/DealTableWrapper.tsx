@@ -1,10 +1,8 @@
 'use client';
 
 import React from 'react';
-import { DataTable } from '@/components/elements/table/DataTable';
-import { usePermissions } from '@/hooks';
-import { checkPermission } from '@/lib/utils';
-import { columns, viewableColumn } from './columns';
+import { DataTable } from './table';
+import { columns } from './columns';
 
 type Props = {
   data: any;
@@ -14,12 +12,9 @@ type Props = {
 };
 
 const DealTableWrapper = ({ data, page, rows, totalPages }: Props) => {
-  const { permissions } = usePermissions();
-  const canViewDetails = checkPermission('view_detail_deal', permissions);
-
   return (
     <DataTable
-      columns={canViewDetails ? viewableColumn : columns}
+      columns={columns}
       data={data}
       rows={rows}
       totalPages={totalPages}

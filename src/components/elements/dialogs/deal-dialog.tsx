@@ -24,7 +24,7 @@ import TextField from '@/components/elements/form/TextArea';
 import { SelectOptions, OptionsProps, DealType } from '@/types';
 import ImageUploadDropzone from '@/components/ImageDropzone';
 import { createNewDealAction } from '@/app/lib/actions/customers/deal';
-import { getErrorMessages, checkPermission } from '@/lib/utils';
+import { checkPermission, getErrorMessages } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { usePermissions } from '@/hooks';
 import ComboBox from '../form/ComboBox';
@@ -37,10 +37,6 @@ const dealTypeOptions: SelectOptions[] = [
   {
     label: 'Unit Ref',
     value: 'unit_ref',
-  },
-  {
-    label: 'Unit NC',
-    value: 'unit_nc',
   },
   {
     label: 'Service',
@@ -71,21 +67,6 @@ const purchaseTypes: SelectOptions[] = [
   },
 ];
 
-const dealStatus: SelectOptions[] = [
-  {
-    label: 'Approve',
-    value: 'APPROVE',
-  },
-  {
-    label: 'Pending',
-    value: 'PENDING',
-  },
-  {
-    label: 'Reject',
-    value: 'REJECT',
-  },
-];
-
 const dealTypePage: SelectOptions[] = [
   {
     label: 'Unit NC',
@@ -106,72 +87,83 @@ const DealDialog = ({ ...props }: OptionsProps) => {
   const id = params.id as string;
   const [dealType, setDealType] = useState<string>('');
   const [image, setImage] = useState<File | null>(null);
-  const [dealResult, setDealResult] = useState<string>('');
+  const [dealResult, setDealResult] = useState<string>(
+    String(props.fuResultOpts[0].value) || ''
+  );
   const [purchaseType, setPurchaseType] = useState<string>('');
-  const [serviceType, setServiceType] = useState<string>('');
-  const [motorcycleColor, setMotorcycleColor] = useState<string>('');
-  const [relationValue, setRelationValue] = useState<string>('');
+  const [serviceType, setServiceType] = useState<string>(
+    props.serviceTypeOpts[0].value || ''
+  );
+  const [motorcycleColor, setMotorcycleColor] = useState<string>(
+    props.colorOpts[0].value || ''
+  );
+  const [relationValue, setRelationValue] = useState<string>(
+    props.relationOpts[0].value || ''
+  );
   const [customerDealName, setCustomerDealName] = useState<string>('');
   const [customerNik, setCustomerNik] = useState<string>('');
-  const [dealer, setDealer] = useState<string>('');
+  const [dealer, setDealer] = useState<string>(props.dealerOpts[0].value || '');
   const [leasing, setLeasing] = useState<string>('');
-  const [motorcycle, setMotorcycle] = useState<string>('');
+  const [motorcycle, setMotorcycle] = useState<string>(
+    props.motorcyclesOpts[0].value || ''
+  );
   const [callDate, setCallDate] = useState<Date>(new Date());
   const [phone, setPhone] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
   const [frameNumber, setFrameNumber] = useState<string>('');
+  const [sparePartPrice, setSparePartPrice] = useState<string>('');
+  const [servicePrice, setServicePrice] = useState<string>('');
+  const [purchaseDate, setPurchaseDate] = useState(new Date());
 
   const selectedDealType = pathname.startsWith('/deal')
     ? dealTypePage
     : dealTypeOptions;
 
+  // ...existing code in your useAction callback before modifications...
+
   const { execute, isPending, result } = useAction(
     async (formData) => {
+      // Initialize data without setting additional_info directly.
       const data: DealType = {
         deal_type: dealType,
         call_date: format(callDate, 'yyyy-MM-dd'),
-        relation_id: Number(relationValue),
-        deal_customer_name: customerDealName,
+        deal_customer_name: formData.get('deal_customer_name'),
         deal_customer_nik: customerNik,
         deal_customer_phone: phone,
         deal_customer_born_date: format(callDate, 'yyyy-MM-dd'),
-        dealer_id: Number(dealer),
-        motorcycle_id: Number(motorcycle),
-        frame_number: frameNumber,
-        deal_status: dealResult,
-        additional_info: formData.get('additional_info'),
       };
+
+      if (image) {
+        data.file = image;
+      }
+
+      if (dealType === 'unit_ro' || (dealType === 'unit_ref' && dealResult)) {
+        data.deal_status = dealResult;
+        data.purchase_date = format(purchaseDate, 'yyyy-MM-dd');
+      }
+
+      if (purchaseType === 'CREDIT') {
+        data.leasing_id = Number(leasing);
+      }
 
       if (dealType !== 'unit_nc') {
         data.id = id;
       }
 
-      if (
-        dealType === 'unit_ro' ||
-        dealType === 'unit_ref' ||
-        dealType === 'unit_nc'
-      ) {
-        data.purchase_date = format(callDate, 'yyyy-MM-dd');
-        data.color_id = Number(motorcycleColor);
-        data.leasing_id = Number(leasing);
-        if (dealType !== 'unit_nc') {
-          data.payment_method = purchaseType;
+      const addIfNotEmpty = <K extends keyof DealType>(
+        key: K,
+        rawValue: any,
+        transform: (v: any) => DealType[K] = (v) => v
+      ) => {
+        if (rawValue !== '') {
+          data[key] = transform(rawValue);
         }
-        if (dealType === 'unit_ref' || dealType === 'unit_nc') {
-          data.leasing_id = Number(leasing);
-        }
-      } else if (dealType === 'service') {
-        data.service_date = format(callDate, 'yyyy-MM-dd');
-        data.service_type_id = serviceType ? Number(serviceType) : undefined;
-        data.service_price = formData.get('service_price');
-      } else if (dealType === 'spare_part') {
-        data.purchase_date = format(callDate, 'yyyy-MM-dd');
-        data.sparepart_price = String(formData.get('sparepart_price'));
-      }
+      };
 
-      if (image) {
-        data.file = image as File;
-      }
+      addIfNotEmpty('dealer_id', dealer, (v) => Number(v));
+      addIfNotEmpty('motorcycle_id', motorcycle, (v) => Number(v));
+      addIfNotEmpty('sparepart_price', sparePartPrice, (v) => String(v));
+      addIfNotEmpty('service_price', servicePrice, (v) => String(v));
 
       return createNewDealAction(data);
     },
@@ -194,7 +186,7 @@ const DealDialog = ({ ...props }: OptionsProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="blue" className="max-w-max self-end">
+        <Button variant="blue" className="w-full self-end md:max-w-max">
           <Plus />
           <span>Deal</span>
         </Button>
@@ -228,18 +220,12 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                     placeholder="Hubungan Konsumen"
                     value={relationValue}
                     setValue={setRelationValue}
-                    error={getErrorMessages(
-                      result?.validationErrors?.relation_id
-                    )}
                   />
                   <DatePicker
                     id="call-date"
                     label="Tanggal Call"
                     date={callDate}
                     setDate={setCallDate}
-                    error={getErrorMessages(
-                      result?.validationErrors?.call_date
-                    )}
                   />
                   <TextInput
                     id="deal_customer_name"
@@ -285,13 +271,7 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       result?.validationErrors?.deal_customer_phone
                     )}
                   />
-                  <DatePicker
-                    id="birth-date"
-                    label="Tanggal Lahir"
-                    error={getErrorMessages(
-                      result?.validationErrors?.deal_customer_born_date
-                    )}
-                  />
+                  <DatePicker id="birth-date" label="Tanggal Lahir" />
                   <ComboBox
                     label="Dealer / Area"
                     id="dealer_area"
@@ -299,9 +279,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                     options={props.dealerOpts}
                     value={dealer}
                     onSelect={setDealer}
-                    error={getErrorMessages(
-                      result?.validationErrors?.dealer_id
-                    )}
                   />
                 </div>
               </div>
@@ -317,10 +294,15 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                   </h2>
                   <Separator />
                   <div className="grid grid-cols-1 gap-6 p-2 md:grid-cols-2">
-                    <DatePicker id="purchase-date" label="Tanggal Pembelian" />
+                    <DatePicker
+                      id="purchase-date"
+                      label="Tanggal Pembelian"
+                      date={purchaseDate}
+                      setDate={setPurchaseDate}
+                    />
                     {dealType !== 'unit_nc' && (
                       <SelectBox
-                        options={dealStatus}
+                        options={props.fuResultOpts}
                         id="deal-result"
                         label="Hasil Deal"
                         placeholder="Hasil Deal"
@@ -338,9 +320,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       placeholder="Jenis Transaksi"
                       value={purchaseType}
                       setValue={setPurchaseType}
-                      error={getErrorMessages(
-                        result?.validationErrors?.payment_method
-                      )}
                     />
                     <ComboBox
                       options={props.motorcyclesOpts}
@@ -349,9 +328,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       placeholder="Pilih Tipe Motor"
                       value={motorcycle}
                       onSelect={setMotorcycle}
-                      error={getErrorMessages(
-                        result?.validationErrors?.motorcycle_id
-                      )}
                     />
                     <TextInput
                       id="frame_number"
@@ -367,25 +343,23 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       placeholder="Pilih Warna"
                       value={motorcycleColor}
                       setValue={setMotorcycleColor}
-                      error={getErrorMessages(
-                        result?.validationErrors?.color_id
-                      )}
                     />
                     {(dealType === 'unit_ref' ||
                       dealType === 'unit_nc' ||
-                      dealType === 'unit_ro') && (
-                      <ComboBox
-                        options={props.leasingOpts}
-                        label="Leasing"
-                        id="leasing"
-                        placeholder="Pilih Leasing"
-                        value={leasing}
-                        onSelect={setLeasing}
-                        error={getErrorMessages(
-                          result?.validationErrors?.leasing_id
-                        )}
-                      />
-                    )}
+                      dealType === 'unit_ro') &&
+                      purchaseType === 'CREDIT' && (
+                        <ComboBox
+                          options={props.leasingOpts}
+                          label="Leasing"
+                          id="leasing"
+                          placeholder="Pilih Leasing"
+                          value={leasing}
+                          onSelect={setLeasing}
+                          error={getErrorMessages(
+                            result?.validationErrors?.leasing_id
+                          )}
+                        />
+                      )}
                     <div className="md:col-span-2">
                       <TextField
                         id="additional_info"
@@ -410,9 +384,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       placeholder="Jenis Service"
                       value={serviceType}
                       setValue={setServiceType}
-                      error={getErrorMessages(
-                        result?.validationErrors?.service_type_id
-                      )}
                     />
                     <ComboBox
                       options={props.motorcyclesOpts}
@@ -421,9 +392,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       placeholder="Pilih Tipe Motor"
                       value={motorcycle}
                       onSelect={setMotorcycle}
-                      error={getErrorMessages(
-                        result?.validationErrors?.motorcycle_id
-                      )}
                     />
                     <TextInput
                       id="frame_number"
@@ -436,6 +404,15 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       id="service_price"
                       label="Nominal Service"
                       placeholder="Nominal Service"
+                      value={servicePrice}
+                      onChange={(e) => {
+                        const numericValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ''
+                        );
+                        setServicePrice(numericValue);
+                      }}
+                      inputMode="numeric"
                     />
                     <div className="md:col-span-2">
                       <TextField
@@ -453,13 +430,7 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                   <h2 className="font-semibold">Data Spare Part</h2>
                   <Separator />
                   <div className="grid grid-cols-1 gap-6 p-2 md:grid-cols-2">
-                    <DatePicker
-                      id="purchase-date"
-                      label="Tanggal Pembelian"
-                      error={getErrorMessages(
-                        result?.validationErrors?.purchase_date
-                      )}
-                    />
+                    <DatePicker id="purchase-date" label="Tanggal Pembelian" />
                     <ComboBox
                       options={props.motorcyclesOpts}
                       label="Tipe Motor"
@@ -479,6 +450,15 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       id="spare_part_price"
                       label="Nominal Spare Part"
                       placeholder="Nominal Spare Part"
+                      value={sparePartPrice}
+                      onChange={(e) => {
+                        const numericValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ''
+                        );
+                        setSparePartPrice(numericValue);
+                      }}
+                      inputMode="numeric"
                     />
                     <div className="md:col-span-2">
                       <TextField
@@ -498,12 +478,15 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                   <div className="grid grid-cols-1 gap-6 p-2 md:grid-cols-2">
                     <DatePicker id="purchase-date" label="Tanggal Pembelian" />
                     <SelectBox
-                      options={dealStatus}
+                      options={props.fuResultOpts}
                       id="deal-result"
                       label="Hasil Deal"
                       placeholder="Hasil Deal"
                       value={dealResult}
                       setValue={setDealResult}
+                      error={getErrorMessages(
+                        result?.validationErrors?.deal_status
+                      )}
                     />
                     <SelectBox
                       options={purchaseTypes}

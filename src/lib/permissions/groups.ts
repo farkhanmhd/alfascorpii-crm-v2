@@ -131,6 +131,18 @@ export const permissionGroups = [
     ],
   },
   {
+    id: 'report',
+    label: 'Report',
+    permissions: [
+      'view_report',
+      'view_report_deal',
+      'view_detail_deal',
+      'add_deal',
+      'save_imported_deal_photo',
+      'update_deal_status',
+    ],
+  },
+  {
     id: 'master_data',
     label: 'Master Data',
     permissions: ['view_master_data'],
@@ -306,6 +318,7 @@ export const permissionGroups = [
     id: 'ad_user',
     label: 'User Management',
     permissions: [
+      'view_user_list',
       'edit_user',
       'reset_password',
       'deactivate_user',

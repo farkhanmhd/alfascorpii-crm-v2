@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomTabs from '@/components/elements/tabs';
-import { TabData, ICustomer } from '@/types';
+import { TabData, ICustomer, SelectOptions } from '@/types';
 import { getCustomer } from '@/app/lib/data/customers';
 import { getAllDealersList } from '@/app/lib/data/dealers';
 import { getJobOptions } from '@/app/lib/data/customerjobs';
@@ -31,7 +31,9 @@ const ProfileTab = async ({ id }: { id: string }) => {
   const { family_card: familyCard, related_person: relatedFamily } = customer;
 
   const options = {
-    motorcyclesOpts: await getAllMotorcyclesList(),
+    motorcyclesOpts: (await getAllMotorcyclesList()).sort(
+      (a: SelectOptions, b: SelectOptions) => a.label.localeCompare(b.label)
+    ),
     holidayOpts: await getHolidayOptions(),
     jobOpts: await getJobOptions(),
     relationOpts: await getRelationOptions(),
@@ -58,12 +60,24 @@ const ProfileTab = async ({ id }: { id: string }) => {
     {
       value: 'update',
       label: 'Follow Up',
-      content: <FollowUpTab followUps={customer.follow_up} {...options} />,
+      content: (
+        <FollowUpTab
+          customer={customer}
+          followUps={customer.follow_up}
+          {...options}
+        />
+      ),
     },
     {
       value: 'social',
       label: 'Data Penerima Telepon',
-      content: <PhoneReceiverTab recipient={customer.follow_up_recipient} />,
+      content: (
+        <PhoneReceiverTab
+          recipient={customer.follow_up_recipient}
+          customer={customer}
+          {...options}
+        />
+      ),
     },
     {
       value: 'motorcycle',

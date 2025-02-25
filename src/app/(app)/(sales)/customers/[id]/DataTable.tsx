@@ -276,7 +276,7 @@ export const DataTable = <TData, TValue>({
                   colSpan={columns.length + (editable ? 1 : 0)}
                   className="h-12 px-4 py-2 text-center text-xs sm:text-sm"
                 >
-                  No Data.
+                  No data.
                 </TableCell>
               </TableRow>
             )}

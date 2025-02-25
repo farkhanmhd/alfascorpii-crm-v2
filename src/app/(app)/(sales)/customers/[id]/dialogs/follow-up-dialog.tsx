@@ -23,10 +23,10 @@ import TextInput from '@/components/elements/form/TextInput';
 import TextField from '@/components/elements/form/TextArea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { SelectOptions } from '@/types';
+import { ICustomer, SelectOptions } from '@/types';
 import ComboBox from '@/components/elements/form/ComboBox';
 import { toast } from '@/hooks/use-toast';
-import { getErrorMessages, checkPermission } from '@/lib/utils';
+import { checkPermission } from '@/lib/utils';
 import { FollowUpData } from '@/app/lib/data/follow-up';
 import { usePermissions } from '@/hooks';
 
@@ -47,16 +47,8 @@ type Props = {
   expenseOpts: SelectOptions[];
   hobbyOpts: SelectOptions[];
   houseOwnershipOpts: SelectOptions[];
+  customer: ICustomer;
 };
-
-const religions: SelectOptions[] = [
-  { label: 'Islam', value: 'Islam' },
-  { label: 'Kristen', value: 'Kristen' },
-  { label: 'Katolik', value: 'Katolik' },
-  { label: 'Hindu', value: 'Hindu' },
-  { label: 'Budha', value: 'Budha' },
-  { label: 'Konghucu', value: 'Konghucu' },
-];
 
 const FollowUpDialog = ({ ...props }: Props) => {
   const { permissions } = usePermissions();
@@ -68,65 +60,123 @@ const FollowUpDialog = ({ ...props }: Props) => {
   const params = useParams();
   const [open, setOpen] = useState<boolean>(false);
   const [dataUpdate, setDataUpdate] = useState<boolean>(false);
-  const [relation, setRelation] = useState('');
-  const [motorcycle, setMotorcycle] = useState('');
-  const [followUpDetail, setFollowUpDetail] = useState('');
-  const [followUpResult, setFollowUpResult] = useState('');
-  const [followUpMethod, setFollowUpMethod] = useState('');
-  const [followUpStatus, setFollowUpStatus] = useState('');
-  const [religion, setReligion] = useState('');
-  const [income, setIncome] = useState('');
-  const [expense, setExpense] = useState('');
-  const [hobby, setHobby] = useState('');
-  const [houseOwnership, setHouseOwnership] = useState('');
-  const [job, setJob] = useState('');
-  const [holiday, setHoliday] = useState('');
+  const [relation, setRelation] = useState(props.relationOpts[0].value);
+  const [motorcycle, setMotorcycle] = useState(props.motorcyclesOpts[0].value);
+  const [followUpDetail, setFollowUpDetail] = useState(
+    props.fuDetailOpts[0].value
+  );
+  const [followUpResult, setFollowUpResult] = useState(
+    props.fuResultOpts[0].value
+  );
+  const [followUpMethod, setFollowUpMethod] = useState(
+    props.fuMethodOpts[0].value
+  );
+  const [followUpStatus, setFollowUpStatus] = useState(
+    props.fuStatusOpts[0].value
+  );
+  const [income, setIncome] = useState(props.incomeOpts[0].value);
+  const [expense, setExpense] = useState(props.expenseOpts[0].value);
+  const [hobby, setHobby] = useState(props.hobbyOpts[0].value);
+  const [houseOwnership, setHouseOwnership] = useState(
+    props.houseOwnershipOpts[0].value
+  );
+  const [job, setJob] = useState(props.jobOpts[0].value);
+  const [holiday, setHoliday] = useState(props.holidayOpts[0].value);
   const [fuDate, setFuDate] = useState<Date>(new Date());
-  const [bornDate, setBornDate] = useState<Date>(new Date());
+  const [bornDate, setBornDate] = useState<Date>(
+    new Date(props.customer.date_of_birth) || new Date()
+  );
   const [jobDetail, setJobDetail] = useState<string>('');
+  const [whatsapp, setWhatsapp] = useState<string>(
+    props.customer.mobile_phone || ''
+  );
+  const [amountFamily, setAmountFamily] = useState<number>(
+    props.customer.amount_of_family || 0
+  );
+  const [amountMotorcycle, setAmountMotorcycle] = useState<number>(
+    props.customer.amount_of_motorcycle || 0
+  );
 
-  const {
-    execute,
-    isPending,
-    result: formResult,
-  } = useAction(
+  const { execute, isPending } = useAction(
     async (formData) => {
-      const data: FollowUpData = {
+      const data = {
         customer_id: Number(params.id),
-        recipient_name: formData.get('recipient_name'),
-        relation_id: Number(relation),
-        whatsapp_number: formData.get('whatsapp_number'),
-        additional_information: formData.get('additional_information'),
-        follow_up_date: format(fuDate, 'yyyy-MM-dd'),
-        follow_up_method_id: Number(followUpMethod),
-        follow_up_status_id: Number(followUpStatus),
-        follow_up_detail_id: Number(followUpDetail),
-        follow_up_result_id: Number(followUpResult),
-        follow_up_note: formData.get('follow_up_note'),
-        product_preferences_id: Number(motorcycle),
+      } as FollowUpData;
+      const addIfNotEmpty = <K extends keyof FollowUpData>(
+        key: K,
+        rawValue: any,
+        transform: (v: any) => FollowUpData[K] = (v) => v
+      ) => {
+        if (rawValue !== '') {
+          data[key] = transform(rawValue);
+        }
       };
 
+      addIfNotEmpty('recipient_name', formData.get('recipient_name'));
+      addIfNotEmpty('relation_id', relation, (v) => Number(v));
+      addIfNotEmpty('whatsapp_number', formData.get('whatsapp_number'));
+      addIfNotEmpty(
+        'additional_information',
+        formData.get('additional_information')
+      );
+      addIfNotEmpty('follow_up_date', format(fuDate, 'yyyy-MM-dd'));
+      addIfNotEmpty('follow_up_method_id', followUpMethod, (v) => Number(v));
+      addIfNotEmpty('follow_up_status_id', followUpStatus, (v) => Number(v));
+      addIfNotEmpty('follow_up_detail_id', followUpDetail, (v) => Number(v));
+      addIfNotEmpty('follow_up_result_id', followUpResult, (v) => Number(v));
+      addIfNotEmpty('follow_up_note', formData.get('follow_up_note'));
+      addIfNotEmpty('product_preferences_id', motorcycle, (v) => Number(v));
+
+      // For update_data if dataUpdate is true
       if (dataUpdate) {
-        data.update_data = {
-          recipient_address: formData.get('recipient_address'),
-          sub_district: formData.get('sub_district'),
-          house_ownership_id: Number(houseOwnership),
-          job_id: Number(job),
-          recipient_job_detail: jobDetail,
-          recipient_religion: religion,
-          recipient_born_date: format(bornDate, 'yyyy-MM-dd'),
-          hobby_id: Number(hobby),
-          recipient_hobby_detail: formData.get('recipient_hobby_detail'),
-          amount_of_family: Number(formData.get('amount_of_family')),
-          amount_of_motorcycle: Number(formData.get('amount_of_motorcycle')),
-          facebook: formData.get('facebook'),
-          instagram: formData.get('instagram'),
-          email: formData.get('email'),
-          income_id: Number(income),
-          expense_id: Number(expense),
-          holiday_id: Number(holiday),
-          religion_id: Number(religion),
+        data.update_data = {};
+        const update = data.update_data;
+
+        const addIfNotEmptyUpdate = (
+          key: keyof NonNullable<FollowUpData['update_data']>,
+          rawValue: any,
+          transform: (v: any) => any = (v) => v
+        ) => {
+          if (rawValue !== '') {
+            update[key] = transform(rawValue);
+          }
         };
+
+        addIfNotEmptyUpdate(
+          'recipient_address',
+          formData.get('recipient_address')
+        );
+        addIfNotEmptyUpdate('sub_district', formData.get('sub_district'));
+        addIfNotEmptyUpdate('house_ownership_id', houseOwnership, (v) =>
+          Number(v)
+        );
+        addIfNotEmptyUpdate('job_id', job, (v) => Number(v));
+        addIfNotEmptyUpdate('recipient_job_detail', jobDetail);
+        addIfNotEmptyUpdate(
+          'recipient_born_date',
+          format(bornDate, 'yyyy-MM-dd')
+        );
+        addIfNotEmptyUpdate('hobby_id', hobby, (v) => Number(v));
+        addIfNotEmptyUpdate(
+          'recipient_hobby_detail',
+          formData.get('recipient_hobby_detail')
+        );
+        addIfNotEmptyUpdate(
+          'amount_of_family',
+          formData.get('amount_of_family'),
+          (v) => Number(v)
+        );
+        addIfNotEmptyUpdate(
+          'amount_of_motorcycle',
+          formData.get('amount_of_motorcycle'),
+          (v) => Number(v)
+        );
+        addIfNotEmptyUpdate('facebook', formData.get('facebook'));
+        addIfNotEmptyUpdate('instagram', formData.get('instagram'));
+        addIfNotEmptyUpdate('email', formData.get('email'));
+        addIfNotEmptyUpdate('income_id', income, (v) => Number(v));
+        addIfNotEmptyUpdate('expense_id', expense, (v) => Number(v));
+        addIfNotEmptyUpdate('holiday_id', holiday, (v) => Number(v));
       }
 
       return addFollowUpAction(data);
@@ -165,6 +215,7 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     id="recipient_name"
                     placeholder="Nama Penerima Telepon"
                     className="h-10"
+                    defaultValue={props.customer.customer_name}
                   />
                   <TextInput
                     label="Keterangan Lainnya"
@@ -185,6 +236,14 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     id="whatsapp_number"
                     placeholder="Whatsapp"
                     className="h-10"
+                    value={whatsapp}
+                    onChange={(e) => {
+                      const numericValue = e.target.value.replace(
+                        /[^0-9]/g,
+                        ''
+                      );
+                      setWhatsapp(numericValue);
+                    }}
                   />
                 </div>
               </div>
@@ -205,9 +264,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     placeholder="Minat Product"
                     value={motorcycle}
                     onSelect={setMotorcycle}
-                    error={getErrorMessages(
-                      formResult.validationErrors?.product_preferences_id
-                    )}
                   />
                   <SelectBox
                     id="follow_up_method_id"
@@ -216,9 +272,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     placeholder="Metode Follow Up"
                     value={followUpMethod}
                     setValue={setFollowUpMethod}
-                    error={getErrorMessages(
-                      formResult.validationErrors?.follow_up_method_id
-                    )}
                   />
                   <SelectBox
                     id="follow_up_result_id"
@@ -227,9 +280,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     placeholder="Hasil Follow Up"
                     value={followUpResult}
                     setValue={setFollowUpResult}
-                    error={getErrorMessages(
-                      formResult.validationErrors?.follow_up_result_id
-                    )}
                   />
                   <SelectBox
                     id="follow_up_status_id"
@@ -238,9 +288,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                     placeholder="Status Follow Up"
                     value={followUpStatus}
                     setValue={setFollowUpStatus}
-                    error={getErrorMessages(
-                      formResult.validationErrors?.follow_up_status_id
-                    )}
                   />
                   <SelectBox
                     id="follow_up_detail_id"
@@ -292,26 +339,7 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       id="recipient_address"
                       placeholder="Alamat Customer"
                       className="h-10"
-                    />
-                    <TextInput
-                      label="Kelurahan"
-                      id="sub_district"
-                      placeholder="Kelurahan"
-                      className="h-10"
-                    />
-                    <DatePicker
-                      label="Tanggal Lahir"
-                      id="recipient_born_date"
-                      date={bornDate}
-                      setDate={setBornDate}
-                    />
-                    <SelectBox
-                      label="Agama"
-                      id="recipient_religion"
-                      options={religions}
-                      placeholder="Agama"
-                      value={religion}
-                      setValue={setReligion}
+                      defaultValue={props.customer.customer_address}
                     />
                     <SelectBox
                       label="Hari Besar Keagaman"
@@ -321,32 +349,48 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       value={holiday}
                       setValue={setHoliday}
                     />
-                    <SelectBox
-                      label="Hobi"
-                      id="hobby_id"
-                      placeholder="Hobi Customer"
-                      className="h-10"
-                      options={props.hobbyOpts}
-                      value={hobby}
-                      setValue={setHobby}
-                    />
                     <TextInput
-                      label="Deskripsi Hobi"
-                      id="recipient_hobby_detail"
-                      placeholder="Deskripsi Hobi"
+                      label="Kelurahan"
+                      id="sub_district"
+                      placeholder="Kelurahan"
                       className="h-10"
+                      defaultValue={props.customer.sub_district}
                     />
                     <TextInput
                       label="Jumlah Orang Dalam 1 Rumah"
                       id="amount_of_family"
                       placeholder="Jumlah Orang Dalam 1 Rumah"
                       className="h-10"
+                      value={amountFamily}
+                      onChange={(e) => {
+                        const numericValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ''
+                        );
+                        setAmountFamily(Number(numericValue));
+                      }}
+                    />
+                    <SelectBox
+                      label="Status Rumah"
+                      id="house_ownership_id"
+                      options={props.houseOwnershipOpts}
+                      placeholder="Status Rumah"
+                      value={houseOwnership}
+                      setValue={setHouseOwnership}
                     />
                     <TextInput
                       label="Jumlah Sepeda Motor di Rumah"
                       id="amount_of_motorcycle"
                       placeholder="Jumlah Sepeda Motor di Rumah"
                       className="h-10"
+                      value={amountMotorcycle}
+                      onChange={(e) => {
+                        const numericValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ''
+                        );
+                        setAmountMotorcycle(Number(numericValue));
+                      }}
                     />
                     <SelectBox
                       label="Pekerjaan"
@@ -357,6 +401,12 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       setValue={setJob}
                     />
                     <TextInput
+                      label="Facebook"
+                      id="facebook"
+                      placeholder="Facebook"
+                      className="h-10"
+                    />
+                    <TextInput
                       label="Deskripsi Pekerjaan"
                       id="recipent_job_detail"
                       placeholder="Deskripsi Pekerjaan"
@@ -364,13 +414,33 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       value={jobDetail}
                       onChange={(e) => setJobDetail(e.target.value)}
                     />
+                    <TextInput
+                      label="Instagram"
+                      id="instagram"
+                      placeholder="Instagram"
+                      className="h-10"
+                    />
+                    <DatePicker
+                      label="Tanggal Lahir"
+                      id="recipient_born_date"
+                      date={bornDate}
+                      setDate={setBornDate}
+                    />
+                    <TextInput
+                      label="Email"
+                      id="email"
+                      placeholder="email@example.com"
+                      className="h-10"
+                      type="email"
+                    />
                     <SelectBox
-                      label="Status Rumah"
-                      id="house_ownership_id"
-                      options={props.houseOwnershipOpts}
-                      placeholder="Status Rumah"
-                      value={houseOwnership}
-                      setValue={setHouseOwnership}
+                      label="Hobi"
+                      id="hobby_id"
+                      placeholder="Hobi Customer"
+                      className="h-10"
+                      options={props.hobbyOpts}
+                      value={hobby}
+                      setValue={setHobby}
                     />
                     <SelectBox
                       label="Penghasilan / Bulan"
@@ -380,6 +450,12 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       value={income}
                       setValue={setIncome}
                     />
+                    <TextInput
+                      label="Deskripsi Hobi"
+                      id="recipient_hobby_detail"
+                      placeholder="Deskripsi Hobi"
+                      className="h-10"
+                    />
 
                     <SelectBox
                       label="Pengeluaran / Bulan"
@@ -388,26 +464,6 @@ const FollowUpDialog = ({ ...props }: Props) => {
                       placeholder="Pengeluaran / Bulan"
                       value={expense}
                       setValue={setExpense}
-                    />
-                    <TextInput
-                      label="Facebook"
-                      id="facebook"
-                      placeholder="Facebook"
-                      className="h-10"
-                    />
-                    <TextInput
-                      label="Instagram"
-                      id="instagram"
-                      placeholder="Instagram"
-                      className="h-10"
-                    />
-
-                    <TextInput
-                      label="Email"
-                      id="email"
-                      placeholder="email@example.com"
-                      className="h-10"
-                      type="email"
                     />
                   </div>
                 </div>

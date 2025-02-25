@@ -55,12 +55,14 @@ export const getRelationOptions = async () => {
 
     const { data } = await response.json();
     const { relations } = data;
-    const motorcycleList = relations.map((relation: any) => ({
-      label: relation.relation_name,
-      value: String(relation.id),
-    }));
+    const relationsOpts = relations
+      .filter((relation: any) => relation.status === 'SHOW')
+      .map((relation: any) => ({
+        label: relation.relation_name,
+        value: String(relation.id),
+      }));
 
-    return motorcycleList;
+    return relationsOpts;
   } catch (error) {
     return [];
   }

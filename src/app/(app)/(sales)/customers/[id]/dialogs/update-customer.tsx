@@ -39,14 +39,46 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
   const params = useParams();
   const [open, setOpen] = useState<boolean>(false);
   const { id } = params;
-  const [income, setIncome] = useState('');
-  const [expense, setExpense] = useState('');
-  const [hobby, setHobby] = useState('');
-  const [houseOwnership, setHouseOwnership] = useState('');
-  const [job, setJob] = useState('');
-  const [holiday, setHoliday] = useState('');
+  const [income, setIncome] = useState(
+    String(props.customer.income_id) || props.incomeOpts[0].value
+  );
+  const [expense, setExpense] = useState(
+    String(props.customer.expense_id) || props.expenseOpts[0].value
+  );
+  const [hobby, setHobby] = useState(
+    String(props.customer.hobby_id) || props.hobbyOpts[0].value
+  );
+  const [houseOwnership, setHouseOwnership] = useState(
+    String(props.customer.house_ownership_id) ||
+      props.houseOwnershipOpts[0].value
+  );
+  const [job, setJob] = useState(
+    String(props.customer.job_id) || props.jobOpts[0].value
+  );
+  const [holiday, setHoliday] = useState(
+    String(props.customer.holiday_id) || props.holidayOpts[0].value
+  );
   const [bornDate, setBornDate] = useState<Date>(
     new Date(props.customer.date_of_birth)
+  );
+
+  const [whatsapp, setWhatsapp] = useState<string>(
+    props.customer.whatsapp_number || ''
+  );
+  const [amountFamily, setAmountFamily] = useState<number>(
+    props.customer.amount_of_family || 0
+  );
+  const [amountMotorcycle, setAmountMotorcycle] = useState<number>(
+    props.customer.amount_of_motorcycle || 0
+  );
+  const [phone, setPhone] = useState<string>(props.customer.mobile_phone || '');
+
+  const [telephone, setTelephone] = useState<string>(
+    props.customer.telephone || ''
+  );
+
+  const [postalCode, setPostalCode] = useState<string>(
+    props.customer.postal_code || ''
   );
 
   const filterEmptyValues = (obj: Record<string, any>) => {
@@ -80,6 +112,7 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
         expense_id: Number(expense) || undefined,
         house_ownership_id: Number(houseOwnership) || undefined,
         job_id: Number(job) || undefined,
+        job_description: formData.get('job_description') || undefined,
         amount_of_family: Number(formData.get('amount_of_family')) || undefined,
         amount_of_motorcycle:
           Number(formData.get('amount_of_motorcycle')) || undefined,
@@ -90,7 +123,10 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
         hobby_description: formData.get('hobby_description'),
       };
 
-      const filteredData = { id: rawData.id, ...filterEmptyValues(rawData) };
+      const filteredData = {
+        id: rawData.id,
+        ...filterEmptyValues(rawData),
+      };
       return updateCustomerAction(filteredData);
     },
     {
@@ -141,17 +177,25 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
               />
               <TextInput
                 label="Nomor Telepon"
-                defaultValue={props.customer.telephone}
                 id="telephone"
                 placeholder="Nomor Telepon"
                 className="h-10"
+                value={telephone}
+                onChange={(e) => {
+                  const numericValue = e.target.value.replace(/[^0-9]/g, '');
+                  setTelephone(numericValue);
+                }}
               />
               <TextInput
                 label="Nomor HP"
-                defaultValue={props.customer.mobile_phone}
                 id="mobile_phone"
                 placeholder="Nomor HP"
                 className="h-10"
+                value={phone}
+                onChange={(e) => {
+                  const numericValue = e.target.value.replace(/[^0-9]/g, '');
+                  setPhone(numericValue);
+                }}
               />
               <TextInput
                 label="Alamat"
@@ -207,10 +251,14 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
               />
               <TextInput
                 label="Jumlah Orang Dalam 1 Rumah"
-                defaultValue={props.customer.amount_of_family}
                 id="amount_of_family"
                 placeholder="Jumlah Orang Dalam 1 Rumah"
                 className="h-10"
+                value={amountFamily}
+                onChange={(e) => {
+                  const numericValue = e.target.value.replace(/[^0-9]/g, '');
+                  setAmountFamily(Number(numericValue));
+                }}
               />
               <TextInput
                 label="Provinsi"
@@ -221,17 +269,25 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
               />
               <TextInput
                 label="Jumlah Sepeda Motor di Rumah"
-                defaultValue={props.customer.amount_of_motorcycle}
                 id="amount_of_motorcycle"
                 placeholder="Jumlah Sepeda Motor di Rumah"
                 className="h-10"
+                value={amountMotorcycle}
+                onChange={(e) => {
+                  const numericValue = e.target.value.replace(/[^0-9]/g, '');
+                  setAmountMotorcycle(Number(numericValue));
+                }}
               />
               <TextInput
                 label="Kode Pos"
-                defaultValue={props.customer.postal_code!}
                 id="postal_code"
                 placeholder="Kode Pos"
                 className="h-10"
+                value={postalCode}
+                onChange={(e) => {
+                  const numericValue = e.target.value.replace(/[^0-9]/g, '');
+                  setPostalCode(numericValue);
+                }}
               />
               <TextInput
                 label="Facebook"
@@ -272,9 +328,20 @@ const UpdateCustomerDialog = ({ ...props }: Props) => {
               />
               <TextInput
                 label="Whatsapp"
-                defaultValue={props.customer.whatsapp_number}
                 id="whatsapp_number"
                 placeholder="Whatsapp"
+                className="h-10"
+                value={whatsapp}
+                onChange={(e) => {
+                  const numericValue = e.target.value.replace(/[^0-9]/g, '');
+                  setWhatsapp(numericValue);
+                }}
+              />
+              <TextInput
+                label="Deskripsi Pekerjaan"
+                defaultValue={props.customer.job_description || ''}
+                id="job_description"
+                placeholder="Deskripsi Pekerjaan"
                 className="h-10"
               />
               <SelectBox

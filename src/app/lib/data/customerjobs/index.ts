@@ -1,3 +1,4 @@
+import { SelectOptions } from '@/types';
 import { getAccessToken } from '../auth';
 import { fetchWithParams, fetchData, deleteData } from '../fetchUtils';
 
@@ -40,34 +41,38 @@ export const getJobOptions = async () => {
   try {
     const accessToken = await getAccessToken();
 
-    const response = await fetch(`${process.env.API_URL}/customerjobs`, {
-      cache: 'force-cache',
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      next: {
-        tags: ['customerjobs'],
-      },
-    });
+    const response = await fetch(
+      `${process.env.API_URL}/customerjobs?per_page=9999`,
+      {
+        cache: 'force-cache',
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        next: {
+          tags: ['customerjobs'],
+        },
+      }
+    );
 
     const {
       data: { jobs },
     } = await response.json();
 
-    const options = jobs.map((option: any) => {
-      return {
-        label: option.job_name,
-        value: String(option.id),
-      };
-    });
+    const options = jobs
+      .filter((job: any) => job.status === 'SHOW')
+      .map((option: any) => {
+        return {
+          label: option.job_name,
+          value: String(option.id),
+        };
+      });
 
-    options.unshift({
-      label: 'Semua',
-      value: 'all',
-    });
+    options.sort((a: SelectOptions, b: SelectOptions) =>
+      a.label.localeCompare(b.label)
+    );
 
     return options;
   } catch (error) {

@@ -113,7 +113,7 @@ export const DeleteLeasingDialog = ({ id }: { id: number }) => {
 
   return (
     <DeleteDialog
-      title="Hapus Pekerjaan?"
+      title="Hapus Leasing?"
       isPending={isPending}
       deleteAction={() => deleteLeasing({ id })}
       open={open}

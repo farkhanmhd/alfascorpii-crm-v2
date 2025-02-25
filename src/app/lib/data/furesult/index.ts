@@ -57,12 +57,14 @@ export const getFuResultOptions = async () => {
       data: { furesult },
     } = await response.json();
 
-    const options = furesult.map((option: any) => {
-      return {
-        label: option.fu_result_name,
-        value: String(option.id),
-      };
-    });
+    const options = furesult
+      .filter((result: any) => result.status === 'SHOW')
+      .map((option: any) => {
+        return {
+          label: option.fu_result_name,
+          value: String(option.id),
+        };
+      });
 
     return options;
   } catch (error) {

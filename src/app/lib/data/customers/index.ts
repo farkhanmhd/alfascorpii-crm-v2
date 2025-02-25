@@ -176,3 +176,65 @@ export const updateCustomerData = async (payload: CustomerData) => {
     return { meta: { message: 'Internal Server Error' } };
   }
 };
+
+export type RecipientData = {
+  customer_id: string;
+  recipient_name?: string;
+  relation_id?: string | number;
+  recipient_address?: string;
+  sub_district?: string;
+  house_ownership_id?: number;
+  job_id?: number;
+  recipient_job_detail?: string;
+  recipient_born_date?: string;
+  recipient_religion?: string;
+  hobby_id?: number;
+  recipient_hobby_detail?: string;
+  amount_of_family?: number;
+  amount_of_motorcycle?: number;
+  whatsapp_number?: string;
+  facebook?: string;
+  instagram?: string;
+  email?: string;
+  income_id?: number;
+  expense_id?: number;
+  holiday_id?: number;
+  additional_information?: string;
+};
+
+type RecipientPayload = Omit<RecipientData, 'customer_id'>;
+
+export const updateFuRecipient = async (data: RecipientData) => {
+  try {
+    const accessToken = await getAccessToken();
+
+    const bodyPayload: RecipientPayload = {
+      ...Object.fromEntries(
+        Object.entries(data).filter(([key]) => key !== 'customer_id')
+      ),
+    };
+
+    const response = await fetch(
+      `${process.env.API_URL}/updatefurecipient/${data.customer_id}`,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(bodyPayload),
+      }
+    );
+
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    return {
+      meta: {
+        status: 'error',
+        message: 'Failed to update recipient data',
+      },
+    };
+  }
+};

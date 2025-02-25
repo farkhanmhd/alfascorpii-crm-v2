@@ -76,10 +76,12 @@ export const getExpenseOptions = async () => {
 
     const { data } = await response.json();
     const { expenses } = data;
-    const expenseOptions = expenses.map((expense: any) => ({
-      label: expense.expense_detail,
-      value: String(expense.id),
-    }));
+    const expenseOptions = expenses
+      .filter((expense: any) => expense.status === 'SHOW')
+      .map((expense: any) => ({
+        label: expense.expense_detail,
+        value: String(expense.id),
+      }));
 
     return expenseOptions;
   } catch (error) {

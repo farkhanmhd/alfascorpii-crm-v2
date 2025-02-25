@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { SelectFilter } from '@/components/elements/form/Select';
 import DatePicker from '@/components/elements/form/DatePicker';
-import ComboBox from '@/components/elements/form/AsyncComboBox';
+import ComboBox from '@/components/elements/form/ComboBox';
 import { ComboBoxOptions, OptionsProps, SelectOptions } from '@/types';
 import { Button } from '@/components/ui/button';
 import DealDialog from '@/components/elements/dialogs/deal-dialog';
@@ -58,8 +58,8 @@ const DealFilters = ({ ...props }: Props) => {
   const [dateOption, setDateOption] = useState<string>('purchase_date');
   const [dealType, setDealType] = useState<string>('all');
   const [croName, setCroName] = useState<string>('all');
-  const [motorcycle, setMotorcycle] = useState<string>('');
-  const [dealer, setDealer] = useState<string>('');
+  const [motorcycle, setMotorcycle] = useState<string>('all');
+  const [dealer, setDealer] = useState<string>('all');
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 

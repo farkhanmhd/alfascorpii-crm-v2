@@ -57,11 +57,6 @@ export const getColorOptions = async () => {
       };
     });
 
-    options.unshift({
-      label: 'Semua',
-      value: 'all',
-    });
-
     return options;
   } catch (error) {
     console.error(error);

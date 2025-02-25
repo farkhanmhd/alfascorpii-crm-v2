@@ -34,7 +34,7 @@ const ProfileForm = () => {
   const [showChangePasswordDialog, setShowChangePasswordDialog] =
     useState(false);
 
-  const initialFormData: TextInputProps[] = [
+  const initialformData: TextInputProps[] = [
     { value: '', label: 'NIP', id: 'nip' },
     { value: '', label: 'Nama', id: 'name' },
     { value: '', label: 'Jabatan', id: 'jabatan' },
@@ -44,12 +44,12 @@ const ProfileForm = () => {
     { value: '', label: 'Detail Jabatan', id: 'detail_jabatan' },
     { value: '', label: 'Area Dealer', id: 'area_dealer' },
   ];
-  const [form, setForm] = useState<TextInputProps[]>(initialFormData);
+  const [form, setForm] = useState<TextInputProps[]>(initialformData);
 
   const handleEditToggle = () => setIsEditing((prev) => !prev);
   const handleCancel = () => {
     setIsEditing(false);
-    setForm(initialFormData);
+    setForm(initialformData);
   };
 
   const { execute, isPending } = useAction(

@@ -4,6 +4,7 @@ import {
   deleteData,
 } from '@/app/lib/data/fetchUtils';
 
+import { IMotorcycle } from '@/types';
 import { getAccessToken } from '../auth';
 
 export const fetchMotorcycles = (
@@ -60,10 +61,14 @@ export const getAllMotorcyclesList = async () => {
 
     const { data } = await response.json();
     const { motorcycles } = data;
-    const motorcycleList = motorcycles.map((motorcycle: any) => ({
-      label: motorcycle.motorcycle_type,
-      value: String(motorcycle.id),
-    }));
+    const motorcycleList = motorcycles
+      .sort((a: IMotorcycle, b: IMotorcycle) =>
+        a.motorcycle_type.localeCompare(b.motorcycle_type)
+      )
+      .map((motorcycle: any) => ({
+        label: motorcycle.motorcycle_type,
+        value: String(motorcycle.id),
+      }));
     return motorcycleList;
   } catch (error) {
     return [];

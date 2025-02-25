@@ -147,7 +147,7 @@ export const manualAssignFollowUp = async (payload: {
 };
 
 export type FollowUpData = {
-  customer_id?: number;
+  customer_id: number;
   recipient_name?: string;
   relation_id?: number;
   whatsapp_number?: string;

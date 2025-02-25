@@ -58,12 +58,12 @@ export const getHouseOwnershipOptions = async () => {
 
     const { data } = await response.json();
     const { houseownerships } = data;
-    const houseOwnershipOptions = houseownerships.map(
-      (houseownership: any) => ({
+    const houseOwnershipOptions = houseownerships
+      .filter((house: any) => house.status === 'SHOW')
+      .map((houseownership: any) => ({
         label: houseownership.house_ownership_status,
         value: String(houseownership.id),
-      })
-    );
+      }));
 
     return houseOwnershipOptions;
   } catch (error) {

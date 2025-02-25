@@ -57,12 +57,14 @@ export const getFuMethodOptions = async () => {
       data: { fumethod },
     } = await response.json();
 
-    const options = fumethod.map((option: any) => {
-      return {
-        label: option.fu_method_name,
-        value: String(option.id),
-      };
-    });
+    const options = fumethod
+      .filter((method: any) => method.status === 'SHOW')
+      .map((option: any) => {
+        return {
+          label: option.fu_method_name,
+          value: String(option.id),
+        };
+      });
 
     return options;
   } catch (error) {

@@ -61,12 +61,14 @@ export const getHolidayOptions = async () => {
       data: { holidays },
     } = await response.json();
 
-    const options = holidays.map((option: any) => {
-      return {
-        label: option.holiday_name,
-        value: String(option.id),
-      };
-    });
+    const options = holidays
+      .filter((holiday: any) => holiday.status === 'SHOW')
+      .map((option: any) => {
+        return {
+          label: option.holiday_name,
+          value: String(option.id),
+        };
+      });
 
     return options;
   } catch (error) {

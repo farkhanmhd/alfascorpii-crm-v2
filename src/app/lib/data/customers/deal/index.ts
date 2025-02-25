@@ -9,7 +9,7 @@ export const importDealImage = async (
 
   const url = `${process.env.API_URL}/deals/${id}/photos`;
 
-  const formData = new FormData();
+  const formData: FormData = new FormData();
   formData.append('deal_photos[]', file as File);
 
   const response = await fetch(url, {
@@ -53,7 +53,8 @@ export const postNewDeal = async (data: DealType) => {
       body: JSON.stringify(payload),
     });
 
-    const { meta, data: deal } = await response.json();
+    const json = await response.json();
+    const { meta, data: deal } = json;
     const { message } = meta;
 
     if (data.file) {
