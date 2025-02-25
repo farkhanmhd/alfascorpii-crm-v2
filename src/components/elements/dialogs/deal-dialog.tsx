@@ -78,6 +78,13 @@ const DealDialog = ({ ...props }: OptionsProps) => {
   const pathname = usePathname();
   const { permissions } = usePermissions();
 
+  const filteredDealers = props.dealerOpts.filter(
+    (dealer) => dealer.value !== 'all'
+  );
+  const filteredMotorcycles = props.motorcyclesOpts.filter(
+    (motorcycle) => motorcycle.value !== 'all'
+  );
+
   const canAddDeal = pathname.startsWith('/customers')
     ? checkPermission('sales_fu_add_deal_from_follow_up', permissions)
     : checkPermission('add_deal', permissions);
@@ -102,10 +109,10 @@ const DealDialog = ({ ...props }: OptionsProps) => {
   );
   const [customerDealName, setCustomerDealName] = useState<string>('');
   const [customerNik, setCustomerNik] = useState<string>('');
-  const [dealer, setDealer] = useState<string>(props.dealerOpts[0].value || '');
+  const [dealer, setDealer] = useState<string>(filteredDealers[0].value || '');
   const [leasing, setLeasing] = useState<string>('');
   const [motorcycle, setMotorcycle] = useState<string>(
-    props.motorcyclesOpts[0].value || ''
+    filteredMotorcycles[0].value || ''
   );
   const [callDate, setCallDate] = useState<Date>(new Date());
   const [phone, setPhone] = useState<string>('');
@@ -181,6 +188,8 @@ const DealDialog = ({ ...props }: OptionsProps) => {
       },
     }
   );
+
+  console.log(result);
 
   if (!canAddDeal) return null;
   return (
@@ -276,7 +285,7 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                     label="Dealer / Area"
                     id="dealer_area"
                     placeholder="Pilih Dealer/Area"
-                    options={props.dealerOpts}
+                    options={filteredDealers}
                     value={dealer}
                     onSelect={setDealer}
                   />
@@ -322,7 +331,7 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       setValue={setPurchaseType}
                     />
                     <ComboBox
-                      options={props.motorcyclesOpts}
+                      options={filteredMotorcycles}
                       label="Tipe Motor"
                       id="motorcycle"
                       placeholder="Pilih Tipe Motor"
