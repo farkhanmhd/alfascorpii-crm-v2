@@ -150,6 +150,49 @@ export interface IFamilyCard {
   family_list: IFamilyMember[];
 }
 
+interface DealBase {
+  id: number;
+  user: string;
+  deal_type: string;
+  customer_name: string;
+  call_date: string;
+  relation: string | null;
+  deal_customer_name: string;
+  deal_customer_phone: string;
+  deal_status: string | number;
+  additional_info: string | null;
+  frame_number: string | null;
+  dealer: string;
+  motorcycle: string;
+  photos: Photo[];
+}
+
+export interface UnitDeal extends DealBase {
+  purchase_date: string;
+  deal_customer_nik: string;
+  deal_customer_born_date: string;
+  color: string | null;
+  payment_method: string | null;
+  leasing: string | null;
+}
+
+export interface ServiceDeal extends DealBase {
+  service_date: string | null;
+  service_type: string | null;
+  service_price: number | null;
+}
+
+export interface SparepartDeal extends DealBase {
+  service_date: string | null;
+  sparepart_price: number;
+}
+
+export interface CustomerDeals {
+  unit: UnitDeal[];
+  service: ServiceDeal[];
+  sparepart: SparepartDeal[];
+}
+
 export interface ICustomer extends IIdentifiable {
   customer_name: string;
   customer_address: string;
@@ -195,6 +238,7 @@ export interface ICustomer extends IIdentifiable {
   follow_up_status: string;
   imported_date: string | null;
   assigned_date: string | null;
+  deals: CustomerDeals;
   motorcycles: ICustomerMotorcycle[];
   family_card?: IFamilyCard | null;
   related_person: IFamilyMember[];

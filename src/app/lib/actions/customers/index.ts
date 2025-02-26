@@ -127,6 +127,8 @@ export const updateCustomerAction = actionClient
     const { meta } = json;
     const { status, message } = meta;
     revalidatePath(`/customers/${parsedInput.id}`);
+    revalidatePath(`/customers`);
+    revalidatePath(`/follow-up`);
     return {
       status,
       message,

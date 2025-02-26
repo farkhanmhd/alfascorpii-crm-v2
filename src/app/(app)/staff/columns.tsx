@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
 import { IStaff } from '@/types';
 import { cn } from '@/lib/utils';
@@ -62,22 +61,6 @@ const columns: ColumnDef<IStaff>[] = [
       </span>
     ),
   },
-  {
-    id: 'action',
-    header: 'Aksi',
-    cell: ({ row }) => (
-      <Link
-        href={`/staff/${row.original.uuid}`}
-        className="min-w-max text-blue-600 duration-200 hover:underline"
-      >
-        Detail
-      </Link>
-    ),
-  },
 ];
 
 export default columns;
-
-// ponsel
-// dealer/area
-// aksi

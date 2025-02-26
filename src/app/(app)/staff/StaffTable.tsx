@@ -1,8 +1,7 @@
 import React from 'react';
 import { fetchStaff } from '@/app/lib/data/staff';
-import { DataTable } from '@/components/elements/table/DataTable';
 import { SearchParamsProps } from '@/types';
-import DataTablePagination from '@/components/elements/table/pagination';
+import { DataTable } from './table';
 import columns from './columns';
 
 const StaffTable = async ({ search, page, perPage }: SearchParamsProps) => {
@@ -16,17 +15,7 @@ const StaffTable = async ({ search, page, perPage }: SearchParamsProps) => {
     );
   }
 
-  return (
-    <>
-      <DataTable columns={columns} data={data} rows={100} />
-      <DataTablePagination
-        currentPage={Number(page)}
-        totalPages={1}
-        selectedRows={0}
-        total={0}
-      />
-    </>
-  );
+  return <DataTable columns={columns} data={data} rows={100} />;
 };
 
 export default StaffTable;

@@ -17,11 +17,16 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { MenuItem } from '@/types';
 
 export const NavMain = ({ items }: { items: MenuItem[] }) => {
+  const { setOpen } = useSidebar();
+  const handleSidebarMenuClick = () => {
+    setOpen(true);
+  };
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{items[0].label}</SidebarGroupLabel>
@@ -35,7 +40,10 @@ export const NavMain = ({ items }: { items: MenuItem[] }) => {
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  onClick={handleSidebarMenuClick}
+                >
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
                   <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />

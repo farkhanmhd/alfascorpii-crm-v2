@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-
+import { useSearchParams, useRouter } from 'next/navigation';
 import {
   ColumnDef,
   flexRender,
@@ -13,7 +12,7 @@ import {
   VisibilityState,
 } from '@tanstack/react-table';
 
-import { cn } from '@/lib/utils';
+import { cn, checkPermission } from '@/lib/utils';
 
 import {
   Table,
@@ -26,9 +25,13 @@ import {
 import MapItems from '@/utils/MapItems';
 import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 import { useSidebar } from '@/components/ui/sidebar';
-import DataTablePagination from './pagination';
+import DataTablePagination from '@/components/elements/table/pagination';
+import { usePermissions } from '@/hooks';
 
-interface DataTableProps<TData extends { id?: string | number }, TValue> {
+interface DataTableProps<
+  TData extends { id?: string | number; uuid?: string },
+  TValue,
+> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   rows?: number;
@@ -42,7 +45,10 @@ interface DataTableProps<TData extends { id?: string | number }, TValue> {
   >;
 }
 
-export const DataTable = <TData extends { id?: string | number }, TValue>({
+export const DataTable = <
+  TData extends { id?: string | number; uuid?: string },
+  TValue,
+>({
   columns,
   data,
   rows,
@@ -57,7 +63,8 @@ export const DataTable = <TData extends { id?: string | number }, TValue>({
   const perPage = Number(searchParams.get('per_page') || 50);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const { state } = useSidebar();
-
+  const { push } = useRouter();
+  const { permissions } = usePermissions();
   const table = useReactTable({
     data,
     columns,
@@ -79,14 +86,16 @@ export const DataTable = <TData extends { id?: string | number }, TValue>({
     },
   });
 
+  const canView = checkPermission('view_user_list', permissions);
+
   return (
     <>
       <ScrollArea
         className={cn(
           'max-w-[calc(100svw-48px)] rounded-md bg-white shadow-sm',
           {
-            'md:max-w-[calc(100svw-352px)]': state === 'expanded',
-            'md:max-w-[calc(100svw-144px)]': state === 'collapsed',
+            'md:max-w-[calc(100svw-304px)]': state === 'expanded',
+            'md:max-w-[calc(100svw-96px)]': state === 'collapsed',
           }
         )}
       >
@@ -120,8 +129,16 @@ export const DataTable = <TData extends { id?: string | number }, TValue>({
                   of={table.getRowModel().rows}
                   render={(row, key) => (
                     <TableRow
+                      className={cn('hover:bg-black/10', {
+                        'cursor-pointer': canView,
+                      })}
                       key={key}
                       data-state={row.getIsSelected() && 'selected'}
+                      onClick={() => {
+                        if (canView) {
+                          push(`/staff/${row.original.uuid}`);
+                        }
+                      }}
                     >
                       <MapItems
                         of={row.getVisibleCells()}

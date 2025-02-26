@@ -82,12 +82,16 @@ const CustomerTab = ({ ...props }: Props) => {
       value: sanitizeValue(props.customer.house_ownership),
     },
     {
+      label: 'Hari Besar Keagamaan',
+      value: sanitizeValue(props.customer.holiday),
+    },
+    {
       label: 'Pekerjaan',
       value: sanitizeValue(props.customer.job),
     },
     {
-      label: 'Hari Besar Keagamaan',
-      value: sanitizeValue(props.customer.holiday),
+      label: 'Deskripsi Pekerjaan',
+      value: sanitizeValue(props.customer.job_description),
     },
     {
       label: 'Hobi',
@@ -112,6 +116,10 @@ const CustomerTab = ({ ...props }: Props) => {
     {
       label: 'Pengeluaran / Bulan',
       value: sanitizeValue(props.customer.expense),
+    },
+    {
+      label: 'Data Source',
+      value: sanitizeValue(props.customer.data_source),
     },
   ];
 

@@ -298,7 +298,7 @@ export const AppSidebar = ({
               <SidebarMenu>
                 <SidebarMenuItem>
                   <Link href="/">
-                    <SidebarMenuButton>
+                    <SidebarMenuButton tooltip="Dashboard">
                       <LayoutDashboard />
                       <span>Dashboard</span>
                     </SidebarMenuButton>
@@ -318,7 +318,7 @@ export const AppSidebar = ({
               <SidebarMenu>
                 <SidebarMenuItem>
                   <Link href="/staff">
-                    <SidebarMenuButton>
+                    <SidebarMenuButton tooltip="List User">
                       <User />
                       <span>List User</span>
                     </SidebarMenuButton>

@@ -24,6 +24,7 @@ import PhoneReceiverTab from './phone-receiver-tab';
 import MotorcycleTab from './motorcycle-tab';
 import FamilyTab from './family-tab';
 import LogUpdate from './LogUpdate';
+import { CustomerDealsAccordion } from './deals-accordions';
 
 const ProfileTab = async ({ id }: { id: string }) => {
   const { data } = await getCustomer(id);
@@ -90,6 +91,11 @@ const ProfileTab = async ({ id }: { id: string }) => {
       content: (
         <FamilyTab families={familyCard} relatedPersons={relatedFamily} />
       ),
+    },
+    {
+      value: 'deal',
+      label: 'Deal',
+      content: <CustomerDealsAccordion deals={customer.deals} />,
     },
   ];
 
