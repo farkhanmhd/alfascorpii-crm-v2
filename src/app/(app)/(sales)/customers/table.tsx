@@ -46,12 +46,13 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
 }: DataTableProps<TData, TValue>) => {
   const searchParams = useSearchParams();
   const { push } = useRouter();
-  const perPage = Number(searchParams.get('per_page') || 50);
+  const perPage = Number(searchParams.get('per_page') || 10);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const { permissions } = usePermissions();
-  const canView =
-    checkPermission('sales_customer_view_detail_customer_data', permissions) &&
-    checkPermission('sales_customer_view_detail_customer_data', permissions);
+  const canView = checkPermission(
+    'sales_customer_view_detail_customer_data',
+    permissions
+  );
 
   const table = useReactTable({
     data,

@@ -2,8 +2,9 @@ import React from 'react';
 import MapItems from '@/utils/MapItems';
 import { SelectOptions } from '@/types';
 import CustomerCard from '@/components/elements/cards/InformationCard';
-import type { ICustomer, IFollowUpRecipient } from '@/types';
+import type { ICustomer, IFollowUpRecipient, OptionsProps } from '@/types';
 import { sanitizeValue } from '@/lib/utils';
+import PhoneReceiverDialog from './dialogs/phone-receiver-dialog';
 
 export type PhoneReceiverProps = {
   recipient: IFollowUpRecipient;
@@ -90,6 +91,15 @@ const PhoneReceiverTab = ({ ...props }: PhoneReceiverProps) => {
           render={(item, index) => (
             <CustomerCard key={index} title={item.title} data={item.data} />
           )}
+        />
+      </div>
+      <div className="mb-8 mt-6">
+        <PhoneReceiverDialog
+          {...(props as {
+            recipient: IFollowUpRecipient;
+            customer: ICustomer;
+          } & OptionsProps &
+            ICustomer)}
         />
       </div>
     </div>

@@ -207,8 +207,7 @@ const FamilyData = ({
           )}
         </div>
       ) : (
-        canUpdateFamilyMember &&
-        editable && (
+        canUpdateFamilyMember && (
           <Button variant="orange" onClick={() => setEditable(true)}>
             Update Data
           </Button>

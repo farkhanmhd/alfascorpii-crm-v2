@@ -3,6 +3,7 @@ import { ICustomer, OptionsProps, SelectOptions } from '@/types';
 import MapItems from '@/utils/MapItems';
 import CustomerCard from '@/components/elements/cards/InformationCard';
 import { sanitizeValue } from '@/lib/utils';
+import UpdateCustomerDialog from './dialogs/update-customer';
 
 interface Props extends OptionsProps {
   customer: ICustomer;
@@ -139,6 +140,9 @@ const CustomerTab = ({ ...props }: Props) => {
             </div>
           )}
         />
+      </div>
+      <div className="mb-8 mt-6">
+        <UpdateCustomerDialog {...props} />
       </div>
     </div>
   );

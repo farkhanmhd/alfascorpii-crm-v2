@@ -54,7 +54,7 @@ export const DataTable = <TData extends { id?: string | number }, TValue>({
   setRowSelection,
 }: DataTableProps<TData, TValue>) => {
   const searchParams = useSearchParams();
-  const perPage = Number(searchParams.get('per_page') || 50);
+  const perPage = Number(searchParams.get('per_page') || 10);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const { state } = useSidebar();
 

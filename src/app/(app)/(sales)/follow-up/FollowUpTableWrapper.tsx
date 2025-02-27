@@ -16,9 +16,10 @@ type Props = {
 const FollowUpTableWrapper = ({ data, users, page }: Props) => {
   const { permissions } = usePermissions();
   const { customers, lastPage: totalPages, total } = data;
-  const canView =
-    checkPermission('sales_fu_view_detail_customer_data', permissions) ||
-    checkPermission('sales_customer_view_detail_customer_data', permissions);
+  const canView = checkPermission(
+    'sales_fu_view_detail_customer_data',
+    permissions
+  );
 
   const canAssign = checkPermission('sales_fu_assign_to_cro', permissions);
 

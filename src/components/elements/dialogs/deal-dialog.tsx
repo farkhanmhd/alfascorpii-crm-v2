@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { Plus } from 'lucide-react';
 import { format } from 'date-fns';
@@ -94,27 +94,18 @@ const DealDialog = ({ ...props }: OptionsProps) => {
   const id = params.id as string;
   const [dealType, setDealType] = useState<string>('');
   const [image, setImage] = useState<File | null>(null);
-  const [dealResult, setDealResult] = useState<string>(
-    String(props.fuResultOpts[0].value) || ''
-  );
+  const [dealResult, setDealResult] = useState<string>('');
   const [purchaseType, setPurchaseType] = useState<string>('');
-  const [serviceType, setServiceType] = useState<string>(
-    props.serviceTypeOpts[0].value || ''
-  );
-  const [motorcycleColor, setMotorcycleColor] = useState<string>(
-    props.colorOpts[0].value || ''
-  );
-  const [relationValue, setRelationValue] = useState<string>(
-    props.relationOpts[0].value || ''
-  );
+  const [serviceType, setServiceType] = useState<string>('');
+  const [motorcycleColor, setMotorcycleColor] = useState<string>('');
+  const [relationValue, setRelationValue] = useState<string>('');
   const [customerDealName, setCustomerDealName] = useState<string>('');
   const [customerNik, setCustomerNik] = useState<string>('');
-  const [dealer, setDealer] = useState<string>(filteredDealers[0].value || '');
+  const [dealer, setDealer] = useState<string>('');
   const [leasing, setLeasing] = useState<string>('');
-  const [motorcycle, setMotorcycle] = useState<string>(
-    filteredMotorcycles[0].value || ''
-  );
-  const [callDate, setCallDate] = useState<Date>(new Date());
+  const [motorcycle, setMotorcycle] = useState<string>('');
+  const [callDate, setCallDate] = useState<Date | undefined>(new Date());
+  const [bornDate, setBornDate] = useState<Date | undefined>(new Date());
   const [phone, setPhone] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
   const [frameNumber, setFrameNumber] = useState<string>('');
@@ -133,11 +124,11 @@ const DealDialog = ({ ...props }: OptionsProps) => {
       // Initialize data without setting additional_info directly.
       const data: DealType = {
         deal_type: dealType,
-        call_date: format(callDate, 'yyyy-MM-dd'),
+        call_date: format(callDate as Date, 'yyyy-MM-dd'),
         deal_customer_name: formData.get('deal_customer_name'),
         deal_customer_nik: customerNik,
         deal_customer_phone: phone,
-        deal_customer_born_date: format(callDate, 'yyyy-MM-dd'),
+        deal_customer_born_date: format(bornDate as Date, 'yyyy-MM-dd'),
       };
 
       if (image) {
@@ -171,7 +162,14 @@ const DealDialog = ({ ...props }: OptionsProps) => {
       addIfNotEmpty('motorcycle_id', motorcycle, (v) => Number(v));
       addIfNotEmpty('sparepart_price', sparePartPrice, (v) => String(v));
       addIfNotEmpty('service_price', servicePrice, (v) => String(v));
-
+      addIfNotEmpty('frame_number', frameNumber, (v) => String(v));
+      addIfNotEmpty('color_id', motorcycleColor, (v) => Number(v));
+      addIfNotEmpty('payment_method', purchaseType, (v) => String(v));
+      addIfNotEmpty('leasing_id', leasing, (v) => Number(v));
+      addIfNotEmpty('relation_id', relationValue, (v) => Number(v));
+      addIfNotEmpty('additional_info', formData.get('additional_info'), (v) =>
+        String(v)
+      );
       return createNewDealAction(data);
     },
     {
@@ -189,7 +187,23 @@ const DealDialog = ({ ...props }: OptionsProps) => {
     }
   );
 
-  console.log(result);
+  useEffect(() => {
+    if (
+      dealType === 'unit_ro' ||
+      dealType === 'service' ||
+      dealType === 'sparepart'
+    ) {
+      setCustomerDealName(props.customer?.customer_name!);
+      setCustomerNik(props.customer?.nik!);
+      setPhone(props.customer?.mobile_phone!);
+      setBornDate(new Date(props.customer?.date_of_birth!));
+    } else {
+      setCustomerDealName('');
+      setCustomerNik('');
+      setPhone('');
+      setBornDate(undefined);
+    }
+  }, [dealType]);
 
   if (!canAddDeal) return null;
   return (
@@ -280,7 +294,12 @@ const DealDialog = ({ ...props }: OptionsProps) => {
                       result?.validationErrors?.deal_customer_phone
                     )}
                   />
-                  <DatePicker id="birth-date" label="Tanggal Lahir" />
+                  <DatePicker
+                    id="birth-date"
+                    label="Tanggal Lahir"
+                    date={bornDate}
+                    setDate={setBornDate}
+                  />
                   <ComboBox
                     label="Dealer / Area"
                     id="dealer_area"

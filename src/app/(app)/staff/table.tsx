@@ -60,7 +60,7 @@ export const DataTable = <
   setRowSelection,
 }: DataTableProps<TData, TValue>) => {
   const searchParams = useSearchParams();
-  const perPage = Number(searchParams.get('per_page') || 50);
+  const perPage = Number(searchParams.get('per_page') || 10);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const { state } = useSidebar();
   const { push } = useRouter();

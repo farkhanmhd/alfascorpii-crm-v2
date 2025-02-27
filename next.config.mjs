@@ -13,7 +13,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: '110.232.72.163',
+        hostname: process.env.BACKEND_URL,
         port: '8100',
         pathname: '/storage/**',
       },

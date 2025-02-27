@@ -29,7 +29,7 @@ const DataTablePagination = ({
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
   const { push } = useRouter();
-  const perPage: number = Number(params.get('per_page')) || 50;
+  const perPage: number = Number(params.get('per_page')) || 10;
   const isMobile = useIsMobile();
 
   const handleNextPage = () => {

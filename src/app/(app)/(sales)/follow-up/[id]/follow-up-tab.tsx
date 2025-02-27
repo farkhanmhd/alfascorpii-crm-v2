@@ -15,6 +15,8 @@ import { OptionsProps } from '@/types';
 import { cn } from '@/lib/utils';
 import { useSidebar } from '@/components/ui/sidebar';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import DealDialog from '@/components/elements/dialogs/deal-dialog';
+import FollowUpDialog from './dialogs/follow-up-dialog';
 import FollowUpHistory from './dialogs/follow-up-history';
 
 interface Props extends OptionsProps {
@@ -275,7 +277,9 @@ const FollowUpTab = ({ ...props }: Props) => {
       </ScrollArea>
 
       <div className="flex flex-col gap-4 md:flex-row">
+        <FollowUpDialog {...(props as Omit<Props, 'followUps'> | any)} />
         <FollowUpHistory followUps={props.followUps} />
+        <DealDialog {...props} />
       </div>
     </div>
   );

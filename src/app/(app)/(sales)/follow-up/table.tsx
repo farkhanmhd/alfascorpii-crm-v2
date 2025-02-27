@@ -46,7 +46,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   setRowSelection,
 }: DataTableProps<TData, TValue>) => {
   const searchParams = useSearchParams();
-  const perPage = Number(searchParams.get('per_page') || 50);
+  const perPage = Number(searchParams.get('per_page') || 10);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const { push } = useRouter();
   const table = useReactTable({
@@ -72,9 +72,10 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
   });
 
   const { permissions } = usePermissions();
-  const canView =
-    checkPermission('sales_fu_view_detail_customer_data', permissions) ||
-    checkPermission('sales_customer_view_detail_customer_data', permissions);
+  const canView = checkPermission(
+    'sales_fu_view_detail_customer_data',
+    permissions
+  );
 
   return (
     <ScrollArea className="max-h-[700px] rounded-md bg-white shadow-sm">
@@ -123,7 +124,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
                     e.preventDefault();
                     e.stopPropagation();
                     if (canView) {
-                      push(`/customers/${row.original.id}`);
+                      push(`/follow-up/${row.original.id}`);
                     }
                   }}
                 >

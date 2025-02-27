@@ -524,6 +524,7 @@ export type OptionsProps = {
   leasingOpts: SelectOptions[];
   colorOpts: SelectOptions[];
   serviceTypeOpts: SelectOptions[];
+  customer?: ICustomer;
 };
 
 export type DealType = {

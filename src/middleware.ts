@@ -73,9 +73,21 @@ export async function middleware(req: NextRequest) {
 
   const customerDetailRegex = /^\/customers\/[^/]+$/;
   if (customerDetailRegex.test(pathname)) {
-    const hasAllPermissions =
-      checkPermission('sales_fu_view_detail_customer_data', permissions) ||
-      checkPermission('sales_customer_view_detail_customer_data', permissions);
+    const hasAllPermissions = checkPermission(
+      'sales_customer_view_detail_customer_data',
+      permissions
+    );
+
+    if (!hasAllPermissions) {
+      return NextResponse.redirect(new URL('/', origin));
+    }
+  }
+  const fuDetailRegex = /^\/follow-up\/[^/]+$/;
+  if (fuDetailRegex.test(pathname)) {
+    const hasAllPermissions = checkPermission(
+      'sales_fu_view_detail_customer_data',
+      permissions
+    );
 
     if (!hasAllPermissions) {
       return NextResponse.redirect(new URL('/', origin));
