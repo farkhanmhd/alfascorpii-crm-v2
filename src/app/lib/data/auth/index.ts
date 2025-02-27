@@ -37,15 +37,11 @@ export const getUserPermissions = async (
     const url = `${process.env.API_URL}/userpermission/${userId}`;
     const response = await fetch(url, {
       method: 'GET',
-      cache: 'no-cache',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
-      // next: {
-      //   tags: ['permissions'],
-      // },
     });
 
     const {

@@ -69,7 +69,11 @@ const DuplicateFilters = ({
       if (startDate) {
         params.set('date_from', format(startDate, 'yyyy-MM-dd'));
       } else {
+        params.delete('date_field');
         params.delete('date_from');
+        params.delete('date_to');
+        setStartDate(undefined);
+        setEndDate(undefined);
       }
 
       if (endDate) {

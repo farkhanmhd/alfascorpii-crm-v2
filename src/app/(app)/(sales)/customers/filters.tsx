@@ -91,6 +91,10 @@ const CustomerFilters = ({
       }
     } else {
       params.delete('date_field');
+      params.delete('date_from');
+      params.delete('date_to');
+      setStartDate(undefined);
+      setEndDate(undefined);
     }
 
     if (fuOption !== 'all') {

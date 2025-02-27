@@ -33,7 +33,7 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
   const searchParams = await props?.searchParams;
   const search = searchParams?.search || '';
   const page = searchParams?.page || '1';
-  const perPage = searchParams?.per_page || '50';
+  const perPage = searchParams?.per_page || '10';
   const userId = searchParams?.user_id;
   const motorcycleId = searchParams?.motorcycle_id;
   const dealerId = searchParams?.dealer_id;

@@ -157,13 +157,13 @@ export const BreadcrumbNav = () => {
           className="mr-1 text-sm text-muted-foreground"
         >
           {index === matchingItems.length - 1 ? (
-            <BreadcrumbPage className="text-muted-foreground">
-              {item.label}
-            </BreadcrumbPage>
-          ) : (
             <BreadcrumbLink href={item.url} className="text-muted-foreground">
               {item.label}
             </BreadcrumbLink>
+          ) : (
+            <BreadcrumbPage className="text-muted-foreground">
+              {item.label}
+            </BreadcrumbPage>
           )}
           {index < matchingItems.length - 1 && (
             <ChevronRight className="h-4 w-4 text-muted-foreground" />

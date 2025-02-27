@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { checkPermission } from './lib/utils';
-import { decryptSession } from './app/lib/actions/auth/session';
+import { decryptSession, deleteSession } from './app/lib/actions/auth/session';
 import { getUserPermissions } from './app/lib/data/auth';
 import { Permission } from './lib/permissions';
 
@@ -65,7 +65,8 @@ export async function middleware(req: NextRequest) {
   if (session?.userId) {
     permissions = await getUserPermissions(session.userId as string);
 
-    if (!permissions) {
+    if (permissions.length === 0) {
+      await deleteSession();
       return NextResponse.redirect(new URL('/login', origin));
     }
   }
