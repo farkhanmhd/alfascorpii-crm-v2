@@ -54,7 +54,7 @@ const FamilyTab = ({ families, relatedPersons }: Props) => {
   );
 
   const canSaveFamilyCardNumber = checkPermission(
-    'service_fu_save_family_card_number',
+    'sales_fu_save_family_card_number',
     permissions
   );
 
