@@ -18,6 +18,7 @@ export interface IFUFilters {
   date_to?: string;
   user_id?: string;
   motorcycle_id?: string;
+  follow_up_status?: string;
 }
 
 export const getFollowUps = async (payload: IFUFilters) => {

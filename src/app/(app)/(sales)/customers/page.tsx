@@ -33,6 +33,7 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
   const dateFrom = searchParams?.date_from;
   const dateTo = searchParams?.date_to;
   const motorcycleId = searchParams?.motorcycle_id;
+  const statusFu = searchParams?.follow_up_status;
 
   const filters: any = {
     search,
@@ -46,6 +47,7 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
     date_from: dateFrom,
     date_to: dateTo,
     motorcycle_id: motorcycleId,
+    follow_up_status: statusFu,
   };
 
   const users = await getAllUsers();

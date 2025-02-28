@@ -57,14 +57,6 @@ const FamilyTab = ({ families, relatedPersons }: Props) => {
     'service_fu_save_family_card_number',
     permissions
   );
-  // const canUpdateFamilyMember = checkPermission(
-  //   'service_fu_update_family_member_button',
-  //   permissions
-  // );
-  // const canSaveFamilyMember = checkPermission(
-  //   'service_fu_save_updated_family_member_button',
-  //   permissions
-  // );
 
   return (
     <div className="mb-8 space-y-8">

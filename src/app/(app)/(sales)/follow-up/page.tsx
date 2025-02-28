@@ -37,6 +37,7 @@ const Page = async (props: Props) => {
   const dateFrom = searchParams?.date_from;
   const dateTo = searchParams?.date_to;
   const motorcycleId = searchParams?.motorcycle_id;
+  const statusFu = searchParams?.follow_up_status;
 
   const filters: IFUFilters = {
     search,
@@ -50,6 +51,7 @@ const Page = async (props: Props) => {
     date_from: dateFrom,
     date_to: dateTo,
     motorcycle_id: motorcycleId,
+    follow_up_status: statusFu,
   };
 
   const users = await getAllUsers();

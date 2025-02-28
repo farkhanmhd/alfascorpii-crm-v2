@@ -254,14 +254,16 @@ export const DataTable = <TData, TValue>({
                               <ArrowUp className="h-4 w-4" />
                             )}
                           </Button>
-                          <Button
-                            onClick={() => handleRemoveRow(rowIndex)}
-                            variant="outline"
-                            size="icon"
-                            className="h-8 w-8"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
+                          {isTopTable && (
+                            <Button
+                              onClick={() => handleRemoveRow(rowIndex)}
+                              variant="outline"
+                              size="icon"
+                              className="h-8 w-8"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          )}
                         </div>
                       </TableCell>
                     )}
@@ -293,7 +295,7 @@ export const DataTable = <TData, TValue>({
           totalPages={totalPages as number}
         />
       )}
-      {editable && (
+      {editable && isTopTable && (
         <div className="mt-4 flex flex-row-reverse justify-between">
           <div className="flex items-center gap-x-4">
             <Button onClick={handleAddRow} variant="orange" size="icon">

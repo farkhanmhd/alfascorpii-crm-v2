@@ -65,12 +65,16 @@ const DatePicker = ({
   );
 
   const handleMonthChange = (month: string) => {
-    const newDate = setMonth(date as Date, months.indexOf(month));
+    // Initialize with current date if undefined
+    const currentDate = date || new Date();
+    const newDate = setMonth(currentDate, months.indexOf(month));
     setDate(newDate);
   };
 
   const handleYearChange = (year: string) => {
-    const newDate = setYear(date as Date, Number(year));
+    // Initialize with current date if undefined
+    const currentDate = date || new Date();
+    const newDate = setYear(currentDate, Number(year));
     setDate(newDate);
   };
 
@@ -116,7 +120,7 @@ const DatePicker = ({
           <div className="flex justify-between gap-x-2 p-2">
             <Select
               onValueChange={handleMonthChange}
-              value={months[getMonth(date as Date)]}
+              value={months[getMonth(date || new Date())]}
             >
               <SelectTrigger className="pointer-events-auto">
                 <SelectValue placeholder="Month" />
@@ -131,7 +135,7 @@ const DatePicker = ({
             </Select>
             <Select
               onValueChange={handleYearChange}
-              value={getYear(date as Date).toString()}
+              value={getYear(date || new Date()).toString()}
             >
               <SelectTrigger className="pointer-events-auto">
                 <SelectValue placeholder="Year" />

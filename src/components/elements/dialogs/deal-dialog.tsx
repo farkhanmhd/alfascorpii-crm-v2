@@ -113,6 +113,8 @@ const DealDialog = ({ ...props }: OptionsProps) => {
   const [servicePrice, setServicePrice] = useState<string>('');
   const [purchaseDate, setPurchaseDate] = useState(new Date());
 
+  console.log(bornDate);
+
   const selectedDealType = pathname.startsWith('/deal')
     ? dealTypePage
     : dealTypeOptions;
@@ -201,7 +203,6 @@ const DealDialog = ({ ...props }: OptionsProps) => {
       setCustomerDealName('');
       setCustomerNik('');
       setPhone('');
-      setBornDate(undefined);
     }
   }, [dealType]);
 

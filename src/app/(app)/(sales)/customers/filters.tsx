@@ -18,6 +18,15 @@ const dateOptions: SelectOptions[] = [
   { label: 'Tanggal Lahir', value: 'date_of_birth' },
 ];
 
+const fuStatus: SelectOptions[] = [
+  { label: 'Semua', value: 'all' },
+  { label: 'NON FU', value: 'non_fu' },
+  { label: 'FU 1', value: 'fu_1' },
+  { label: 'FU 2', value: 'fu_2' },
+  { label: 'FU 3', value: 'fu_3' },
+  { label: '> FU 3', value: 'fu_more_than_3' },
+];
+
 type Props = {
   users: SelectOptions[];
   motorcycles: ComboBoxOptions[];
@@ -45,6 +54,7 @@ const CustomerFilters = ({
   const [fuDetailValue, setFuDetailValue] = useState<string>('all');
   const [holidayValue, setHolidayValue] = useState<string>('all');
   const [jobValue, setJobValue] = useState<string>('all');
+  const [statusFu, setStatusFu] = useState<string>('all');
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [croName, setCroName] = useState<string>(users[0].value || '');
@@ -73,6 +83,12 @@ const CustomerFilters = ({
       params.set('dealer_id', dealerId);
     } else {
       params.delete('dealer_id');
+    }
+
+    if (statusFu !== 'all') {
+      params.set('follow_up_status', statusFu);
+    } else {
+      params.delete('follow_up_status');
     }
 
     if (dateOption !== 'all') {
@@ -169,6 +185,14 @@ const CustomerFilters = ({
         options={fuDetails}
         value={fuDetailValue}
         setSelectedValue={setFuDetailValue}
+      />
+      <SelectFilter
+        label="Status FU"
+        id="fu_status"
+        placeholder="Pilih Status FU"
+        options={fuStatus}
+        value={statusFu}
+        setSelectedValue={setStatusFu}
       />
       <SelectCro
         users={users}
