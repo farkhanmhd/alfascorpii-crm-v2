@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Key, Shield, UserX, Power } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -14,7 +15,6 @@ import {
 } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -25,11 +25,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Staff } from '@/types';
+import type { Staff } from '@/types';
 import { fullPermissionsList } from '@/lib/permissions';
 import { permissionGroups } from '@/lib/permissions/groups';
 import { usePermissions } from '@/hooks';
-import { checkPermission, actionResponseToast } from '@/lib/utils';
+import { checkPermission, actionResponseToast, cn } from '@/lib/utils';
 import { useAction } from 'next-safe-action/hooks';
 import {
   updateUserPermissionAction,
@@ -178,42 +178,66 @@ const StaffDetail: React.FC<StaffDetailProps> = ({ profile }) => {
 
       <div className="grid gap-6">
         <Card>
-          <CardContent className="mt-6 grid gap-4">
-            {/* ...existing user info content... */}
-            <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-              <Avatar className="h-20 w-20">
-                <AvatarImage src="/placeholder.svg" alt={profile.user.name} />
-                <AvatarFallback>
-                  {profile.user.name
-                    .split(' ')
-                    .map((n) => n[0])
-                    .join('')}
-                </AvatarFallback>
-              </Avatar>
-              <div className="text-center sm:text-left">
-                <h2 className="text-2xl font-bold">{profile.user.name}</h2>
+          <CardHeader className="pb-0 pt-6">
+            <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+              <div className="flex flex-col items-center gap-4 sm:flex-row">
+                <Avatar className="h-20 w-20 border-2 border-border shadow-sm">
+                  <AvatarImage src="/placeholder.svg" alt={profile.user.name} />
+                  <AvatarFallback className="text-xl font-semibold">
+                    {profile.user.name
+                      .split(' ')
+                      .map((n) => n[0])
+                      .join('')}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="text-center sm:text-left">
+                  <h2 className="text-2xl font-bold">{profile.user.name}</h2>
+                  <span
+                    className={cn(
+                      'mt-1 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
+                      {
+                        'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400':
+                          profile.user.status === 'active',
+                        'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400':
+                          profile.user.status !== 'active',
+                      }
+                    )}
+                  >
+                    {profile.user.status.charAt(0).toUpperCase() +
+                      profile.user.status.slice(1)}
+                  </span>
+                </div>
               </div>
             </div>
-            <div className="grid gap-2">
-              <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
-                <Label className="font-medium">Username</Label>
-                <span>{profile.user.username}</span>
+          </CardHeader>
+          <CardContent className="grid gap-4 px-6 py-4">
+            <div className="grid gap-3">
+              <div className="grid grid-cols-1 gap-2 rounded-lg border p-4 sm:grid-cols-2">
+                <div className="space-y-1">
+                  <Label className="text-xs font-medium text-muted-foreground">
+                    Username
+                  </Label>
+                  <p className="font-medium">{profile.user.username}</p>
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs font-medium text-muted-foreground">
+                    Status
+                  </Label>
+                  <p className="font-medium capitalize">
+                    {profile.user.status}
+                  </p>
+                </div>
+                {/* Additional user details could be added here */}
               </div>
-              <Separator className="my-2" />
-              <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
-                <Label className="font-medium">Status</Label>
-                <span>{profile.user.status}</span>
-              </div>
-              <Separator className="my-2" />
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col justify-end gap-2 lg:flex-row">
+          <CardFooter className="flex flex-wrap justify-end gap-3 px-6 py-4">
             {profile.user.status === 'active' ? (
               <>
                 {canResetPassword && (
                   <AlertDialog open={open} onOpenChange={setOpen}>
                     <AlertDialogTrigger asChild>
-                      <Button variant="outline" className="w-full lg:w-auto">
+                      <Button variant="outline" size="sm" className="h-9">
                         <Key className="mr-2 h-4 w-4" /> Reset Password
                       </Button>
                     </AlertDialogTrigger>
@@ -242,10 +266,7 @@ const StaffDetail: React.FC<StaffDetailProps> = ({ profile }) => {
                     onOpenChange={setDeactivateDialogOpen}
                   >
                     <AlertDialogTrigger asChild>
-                      <Button
-                        variant="destructive"
-                        className="w-full lg:w-auto"
-                      >
+                      <Button variant="destructive" size="sm" className="h-9">
                         <UserX className="mr-2 h-4 w-4" /> Deactivate
                       </Button>
                     </AlertDialogTrigger>
@@ -282,7 +303,7 @@ const StaffDetail: React.FC<StaffDetailProps> = ({ profile }) => {
                   onOpenChange={setActivateDialogOpen}
                 >
                   <AlertDialogTrigger asChild>
-                    <Button variant="blue" className="w-full lg:w-auto">
+                    <Button variant="blue" size="sm" className="h-9">
                       <Power className="mr-2 h-4 w-4" /> Activate
                     </Button>
                   </AlertDialogTrigger>

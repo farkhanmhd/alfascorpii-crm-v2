@@ -62,11 +62,11 @@ const FamilyData = ({
   const { permissions } = usePermissions();
 
   const canUpdateFamilyMember = checkPermission(
-    'service_fu_update_family_member_button',
+    'sales_fu_update_family_member_button',
     permissions
   );
   const canSaveFamilyMember = checkPermission(
-    'service_fu_save_updated_family_member_button',
+    'sales_fu_save_updated_family_member_button',
     permissions
   );
 
