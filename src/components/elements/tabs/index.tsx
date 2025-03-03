@@ -1,18 +1,14 @@
 'use client';
 
-import React from 'react';
-import { useAtom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
+import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TabData } from '@/types';
 import MapItems from '@/utils/MapItems';
 
-const tabDataAtom = atomWithStorage<string>('tabData', 'overview');
-
 const CustomTabs: React.FC<{ tabData: TabData<React.ReactNode>[] }> = ({
   tabData,
 }) => {
-  const [selectedTab, setSelectedTab] = useAtom(tabDataAtom);
+  const [selectedTab, setSelectedTab] = useState('overview');
   return (
     <Tabs
       value={selectedTab}
