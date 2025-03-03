@@ -32,10 +32,7 @@ type Props = {
 
 const PhoneReceiverDialog = ({ ...props }: Props) => {
   const { permissions } = usePermissions();
-  const canEdit = checkPermission(
-    'service_fu_edit_recipient_data',
-    permissions
-  );
+  const canEdit = checkPermission('sales_fu_edit_recipient_data', permissions);
 
   const [dateOfBirth, setDateOfBirth] = useState<Date>(
     props.customer.follow_up_recipient.recipient_born_date
