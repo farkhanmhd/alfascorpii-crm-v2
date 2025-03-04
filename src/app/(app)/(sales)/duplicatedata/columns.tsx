@@ -72,6 +72,22 @@ const baseColumns: ColumnDef<ICustomer>[] = [
     },
   },
   {
+    accessorKey: 'user_name',
+    header: () => <div className="line-clamp-1 min-w-max">NAMA CRO</div>,
+
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.user_name}</div>
+    ),
+  },
+  {
+    accessorKey: 'nik',
+    header: () => <div className="line-clamp-1 min-w-max">NIK</div>,
+
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max">{row.original.nik}</div>
+    ),
+  },
+  {
     accessorKey: 'customer_name',
     header: () => <div className="line-clamp-1 min-w-max">Nama</div>,
 

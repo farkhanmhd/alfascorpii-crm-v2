@@ -95,3 +95,25 @@ export const deactivateUser = async (uuid: string) => {
     return { status: 'error', message: 'Internal Server Error' };
   }
 };
+
+export const resetUserPassword = async (uuid: string) => {
+  try {
+    const accessToken = await getAccessToken();
+    const res = await fetch(`${process.env.API_URL}/resetuserpassword`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ uuid }),
+    });
+    if (!res.ok) {
+      throw new Error('Failed to reset password');
+    }
+    const { meta } = await res.json();
+    return meta;
+  } catch (error) {
+    console.error(error);
+    return { status: 'error', message: 'Internal Server Error' };
+  }
+};

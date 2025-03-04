@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'; // Import useRouter for back naviga
 import { useAction } from 'next-safe-action/hooks';
 import { changePasswordAction } from '@/app/lib/actions/profile';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   AlertDialog,
@@ -21,7 +20,7 @@ import Image from 'next/image';
 import TextInput from '@/components/elements/form/TextInput';
 import { SelectOptions } from '@/types';
 import MapItems from '@/utils/MapItems';
-import { actionResponseToast } from '@/lib/utils';
+import { actionResponseToast, getErrorMessages } from '@/lib/utils';
 import { ArrowLeft } from 'lucide-react'; // Icon for the back button
 
 interface TextInputProps extends SelectOptions {
@@ -52,18 +51,23 @@ const ProfileForm = () => {
     setForm(initialformData);
   };
 
-  const { execute, isPending } = useAction(
+  const { execute, isPending, result } = useAction(
     async (formData) => {
       const data = {
         old_password: formData.get('old_password'),
         new_password: formData.get('new_password'),
+        confirm_password: formData.get('confirm_password'),
       };
       return changePasswordAction(data);
     },
     {
       onSettled: (actionResult) => {
-        actionResponseToast(actionResult);
-        setShowChangePasswordDialog(false);
+        if (actionResult?.result?.data?.status === 'success') {
+          actionResponseToast(actionResult);
+          setShowChangePasswordDialog(false);
+        } else {
+          actionResponseToast(actionResult);
+        }
       },
     }
   );
@@ -146,15 +150,32 @@ const ProfileForm = () => {
                           password.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
-                      <Input
+                      <TextInput
+                        label="Old Password"
+                        id="old_password"
                         type="password"
                         placeholder="Old Password"
-                        name="old_password"
+                        error={getErrorMessages(
+                          result?.validationErrors?.old_password
+                        )}
                       />
-                      <Input
+                      <TextInput
+                        label="New Password"
+                        id="new_password"
                         type="password"
-                        placeholder="New Password"
-                        name="new_password"
+                        placeholder="Old Password"
+                        error={getErrorMessages(
+                          result?.validationErrors?.new_password
+                        )}
+                      />
+                      <TextInput
+                        label="Confirm New Password"
+                        id="confirm_password"
+                        type="password"
+                        placeholder="Old Password"
+                        error={getErrorMessages(
+                          result?.validationErrors?.confirm_password
+                        )}
                       />
                       <AlertDialogFooter>
                         <AlertDialogCancel asChild>

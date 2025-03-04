@@ -6,6 +6,7 @@ import { getAllDealersList } from '@/app/lib/data/dealers';
 import { getAllMotorcyclesList } from '@/app/lib/data/motorcycles';
 import Tablesearch from '@/components/elements/table/tablesearch';
 import { SelectOptions } from '@/types';
+import { IDuplicateFilters } from '@/app/lib/data/follow-up';
 import DuplicateTable from './DuplicateTable';
 import DuplicateFilters from './filters';
 import DuplicateFooter from './DuplicateFooter';
@@ -26,8 +27,9 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
   const dateTo = searchParams?.date_to;
   const motorcycleId = searchParams?.motorcycle_id;
   const userId = searchParams?.user_id;
+  const duplicates = searchParams?.duplicate_types || '';
 
-  const filters: any = {
+  const filters: IDuplicateFilters = {
     search,
     page,
     per_page: perPage,
@@ -37,6 +39,7 @@ const Page = async (props: { searchParams?: Promise<any> }) => {
     date_from: dateFrom,
     date_to: dateTo,
     motorcycle_id: motorcycleId,
+    duplicate_types: duplicates,
   };
 
   const users = await getAllUsers();

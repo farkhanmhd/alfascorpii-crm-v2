@@ -95,7 +95,6 @@ export const updateFamilyMembers = async (
 
   const fetchUrl = `${process.env.API_URL}/updatefamilymembers/${customerId}`;
   const payload = JSON.stringify({ family_members, related_people });
-  console.log(fetchUrl, payload);
   const response = await fetch(fetchUrl, {
     method: 'POST',
     cache: 'no-cache',

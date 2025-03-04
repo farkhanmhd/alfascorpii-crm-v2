@@ -127,8 +127,9 @@ export const updateCustomerAction = actionClient
     const { meta } = json;
     const { status, message } = meta;
     revalidatePath(`/customers/${parsedInput.id}`);
-    revalidatePath(`/customers`);
+    revalidatePath(`/follow-up/${parsedInput.id}`);
     revalidatePath(`/follow-up`);
+    revalidatePath(`/customers`);
     return {
       status,
       message,
@@ -183,6 +184,7 @@ export const updateRecipientAction = actionClient
 
       if (meta.status === 'success') {
         revalidatePath(`/customers/${parsedInput.customer_id}`);
+        revalidatePath(`/follow-up/${parsedInput.customer_id}`);
       }
 
       return {

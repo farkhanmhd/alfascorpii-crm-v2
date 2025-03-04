@@ -9,6 +9,8 @@ import { ComboBoxOptions, SelectOptions } from '@/types';
 import { Button } from '@/components/ui/button';
 import SelectCro from '@/components/fragments/SelectCro';
 import ComboBox from '@/components/elements/form/ComboBox';
+import { usePermissions } from '@/hooks';
+import { checkPermission } from '@/lib/utils';
 
 const dateOptions: SelectOptions[] = [
   { label: 'Semua', value: 'all' },
@@ -64,6 +66,10 @@ const CustomerFilters = ({
   const [dealerId, setDealerId] = useState<string>(
     searchParams.get('dealer_id') || ''
   );
+
+  const { permissions } = usePermissions();
+
+  const canViewUsers = checkPermission('view_user_list', permissions);
 
   const handleFilter = () => {
     const params = new URLSearchParams(searchParams);
@@ -194,11 +200,13 @@ const CustomerFilters = ({
         value={statusFu}
         setSelectedValue={setStatusFu}
       />
-      <SelectCro
-        users={users}
-        selectedUser={croName}
-        setSelectedUser={setCroName}
-      />
+      {canViewUsers && (
+        <SelectCro
+          users={users}
+          selectedUser={croName}
+          setSelectedUser={setCroName}
+        />
+      )}
       <ComboBox
         options={motorcycles}
         label="Tipe Motor"

@@ -35,6 +35,7 @@ import {
   updateUserPermissionAction,
   activateUserAction,
   deactivateUserAction,
+  resetPasswordAction,
 } from '@/app/lib/actions/staff';
 
 interface StaffDetailProps {
@@ -53,7 +54,7 @@ const StaffDetail: React.FC<StaffDetailProps> = ({ profile }) => {
 
   const { back } = useRouter();
   const params = useParams();
-  const uuid = params.id; // Assume [id] is the user uuid
+  const uuid = params.id;
 
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>(
     profile.permissions.map((p) => p.permission_name)
@@ -170,6 +171,14 @@ const StaffDetail: React.FC<StaffDetailProps> = ({ profile }) => {
       },
     });
 
+  const { execute: executeResetPassword, isPending: isResetPending } =
+    useAction(resetPasswordAction, {
+      onSettled: (result) => {
+        actionResponseToast(result);
+        setOpen(false);
+      },
+    });
+
   return (
     <div className="rounded-md bg-background p-6">
       <Button variant="ghost" className="mb-4" onClick={() => back()}>
@@ -253,8 +262,14 @@ const StaffDetail: React.FC<StaffDetailProps> = ({ profile }) => {
                         <AlertDialogCancel asChild>
                           <Button variant="ghost">Cancel</Button>
                         </AlertDialogCancel>
-                        <Button variant="default" type="submit">
-                          Change Password
+                        <Button
+                          variant="default"
+                          onClick={() =>
+                            executeResetPassword({ uuid: uuid as string })
+                          }
+                          disabled={isResetPending}
+                        >
+                          Reset Password
                         </Button>
                       </AlertDialogFooter>
                     </AlertDialogContent>

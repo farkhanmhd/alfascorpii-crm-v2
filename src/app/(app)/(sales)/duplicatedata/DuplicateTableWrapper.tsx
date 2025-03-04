@@ -16,7 +16,7 @@ type Props = {
 const DuplicateTableWrapper = ({ data, users, page }: Props) => {
   const { permissions } = usePermissions();
 
-  const { duplicatedatas, lastPage: totalPages, total } = data;
+  const { duplicates, lastPage: totalPages, total } = data;
 
   const canAssign = checkPermission(
     'sales_duplicate_data_assign_to_cro',
@@ -26,7 +26,7 @@ const DuplicateTableWrapper = ({ data, users, page }: Props) => {
   return (
     <DuplicateTableData
       columns={canAssign ? assignableColumn : columns}
-      data={duplicatedatas}
+      data={duplicates}
       rows={total}
       totalPages={totalPages}
       currentPage={Number(page)}

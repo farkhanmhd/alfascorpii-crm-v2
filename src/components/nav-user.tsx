@@ -89,12 +89,12 @@ export const NavUser = ({ user }: Props) => {
               align="end"
               sideOffset={4}
             >
-              <DropdownMenuItem className="cursor-pointer">
-                <Link href="/profile" className="flex gap-x-2">
+              <Link href="/profile" className="flex gap-x-2">
+                <DropdownMenuItem className="cursor-pointer">
                   <User />
                   Profile
-                </Link>
-              </DropdownMenuItem>
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuSeparator />
               {/* Use AlertDialog for logout confirmation */}
               <DropdownMenuItem className="cursor-pointer p-0">

@@ -238,6 +238,8 @@ export interface ICustomer extends IIdentifiable {
   follow_up_status: string;
   imported_date: string | null;
   assigned_date: string | null;
+  user_name: string | null;
+  customer_id?: string | number | null;
   deals: CustomerDeals;
   motorcycles: ICustomerMotorcycle[];
   family_card?: IFamilyCard | null;

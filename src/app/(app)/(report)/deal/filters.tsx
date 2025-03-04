@@ -10,6 +10,8 @@ import { Button } from '@/components/ui/button';
 import DealDialog from '@/components/elements/dialogs/deal-dialog';
 import { format } from 'date-fns';
 import ClearFilters from '@/components/elements/buttons/ClearFilters';
+import { usePermissions } from '@/hooks';
+import { checkPermission } from '@/lib/utils';
 
 const dateOptions: SelectOptions[] = [
   { label: 'Semua', value: 'all' },
@@ -62,6 +64,10 @@ const DealFilters = ({ ...props }: Props) => {
   const [dealer, setDealer] = useState<string>('all');
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+
+  const { permissions } = usePermissions();
+
+  const canViewUsers = checkPermission('view_user_list', permissions);
 
   const handleFilter = () => {
     const params = new URLSearchParams(searchParams);
@@ -132,14 +138,16 @@ const DealFilters = ({ ...props }: Props) => {
         date={endDate}
         setDate={setEndDate}
       />
-      <SelectFilter
-        label="Nama CRO"
-        id="cro_name"
-        placeholder="Pilih Keterangan FU"
-        options={props.userOpts}
-        value={croName}
-        setSelectedValue={setCroName}
-      />
+      {canViewUsers && (
+        <SelectFilter
+          label="Nama CRO"
+          id="cro_name"
+          placeholder="Pilih Keterangan FU"
+          options={props.userOpts}
+          value={croName}
+          setSelectedValue={setCroName}
+        />
+      )}
       <ComboBox
         options={props.motorcyclesOpts}
         label="Tipe Motor"

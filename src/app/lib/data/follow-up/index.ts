@@ -60,6 +60,7 @@ export interface IDuplicateFilters {
   date_to?: string;
   user_id?: string;
   motorcycle_id?: string;
+  duplicate_types?: string;
 }
 
 export const getDuplicatedData = async (payload: IDuplicateFilters) => {
@@ -81,11 +82,11 @@ export const getDuplicatedData = async (payload: IDuplicateFilters) => {
     });
 
     const { data } = await response.json();
-    const { duplicatedatas, last_page: lastPage, total } = data;
-    return { duplicatedatas, lastPage, total };
+    const { duplicates, last_page: lastPage, total } = data;
+    return { duplicates, lastPage, total };
   } catch (error) {
     console.error(error);
-    return { duplicatedatas: [], lastPage: 0, total: 0 };
+    return { duplicates: [], lastPage: 0, total: 0 };
   }
 };
 

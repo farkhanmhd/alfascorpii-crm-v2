@@ -110,6 +110,8 @@ export const addFollowUpAction = actionClient
         await addFollowUp(parsedInput);
 
       revalidatePath('/follow-up');
+      revalidatePath('/customers');
+      revalidatePath(`/follow-up/${parsedInput.customer_id}`);
       revalidatePath(`/customers/${parsedInput.customer_id}`);
       return { status: meta.status, message: meta.message };
     } catch (error) {

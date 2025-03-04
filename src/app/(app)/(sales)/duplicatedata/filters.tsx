@@ -4,11 +4,14 @@ import React, { useState } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { format } from 'date-fns';
 import { SelectFilter } from '@/components/elements/form/Select';
+import { SelectCheckbox } from '@/components/elements/form/SelectCheckbox';
 import DatePicker from '@/components/elements/form/DatePicker';
 import { ComboBoxOptions, SelectOptions } from '@/types';
 import { Button } from '@/components/ui/button';
 import SelectCro from '@/components/fragments/SelectCro';
 import ComboBox from '@/components/elements/form/ComboBox';
+import { usePermissions } from '@/hooks';
+import { checkPermission } from '@/lib/utils';
 
 const dateOptions: SelectOptions[] = [
   { label: 'Semua', value: 'all' },
@@ -16,6 +19,13 @@ const dateOptions: SelectOptions[] = [
   { label: 'Tanggal Follow Up', value: 'follow_up_date' },
   { label: 'Tanggal Assign', value: 'assigned_date' },
   { label: 'Tanggal Lahir', value: 'date_of_birth' },
+];
+
+const duplicateOpts: SelectOptions[] = [
+  { label: 'Semua', value: 'all' },
+  { label: 'NIK', value: 'nik' },
+  { label: 'Nomor HP', value: 'phone' },
+  { label: 'Nomor Rangka', value: 'frame' },
 ];
 
 type Props = {
@@ -42,6 +52,13 @@ const DuplicateFilters = ({
   const [dealerId, setDealerId] = useState<string>(
     searchParams.get('dealer_id') || ''
   );
+  const [selectedDuplicate, setSelectedDuplicate] = useState<string[]>(
+    searchParams.get('duplicate_types')?.split(',') || []
+  );
+
+  const { permissions } = usePermissions();
+
+  const canViewUsers = checkPermission('view_user_list', permissions);
 
   const handleFilter = () => {
     const params = new URLSearchParams(searchParams);
@@ -85,6 +102,19 @@ const DuplicateFilters = ({
       params.delete('date_field');
     }
 
+    if (selectedDuplicate.length > 0) {
+      // Clear existing duplicate_types first
+      params.delete('duplicate_types');
+
+      if (!selectedDuplicate.includes('all')) {
+        const duplicateSet = [...new Set(selectedDuplicate)].join(',');
+
+        params.set('duplicate_types', duplicateSet);
+      }
+    } else {
+      params.delete('duplicate_types');
+    }
+
     replace(`${pathname}?${params.toString()}`);
   };
 
@@ -95,6 +125,7 @@ const DuplicateFilters = ({
     setMotorcycleId('');
     setDealerId('');
     setDateOption('all');
+    setSelectedDuplicate([]);
     replace(pathname);
   };
 
@@ -120,11 +151,13 @@ const DuplicateFilters = ({
         date={endDate}
         setDate={setEndDate}
       />
-      <SelectCro
-        users={users}
-        selectedUser={croName}
-        setSelectedUser={setCroName}
-      />
+      {canViewUsers && (
+        <SelectCro
+          users={users}
+          selectedUser={croName}
+          setSelectedUser={setCroName}
+        />
+      )}
       <ComboBox
         options={motorcycles}
         label="Tipe Motor"
@@ -140,6 +173,14 @@ const DuplicateFilters = ({
         options={dealers}
         value={dealerId}
         onSelect={setDealerId}
+      />
+      <SelectCheckbox
+        options={duplicateOpts}
+        label="Duplicate"
+        id="duplicate"
+        placeholder="Duplicate"
+        selectedValues={selectedDuplicate}
+        setSelectedValues={setSelectedDuplicate}
       />
       <div className="flex items-end gap-x-2">
         <Button className="w-full self-end" onClick={handleFilter}>

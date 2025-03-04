@@ -58,7 +58,7 @@ export const paramsGenerator = (params: any) => {
       queryParams.set(key, params[key]);
     }
   });
-  return queryParams.toString();
+  return queryParams.toString().replace(/%2C/g, ',');
 };
 
 export const checkPermission = (

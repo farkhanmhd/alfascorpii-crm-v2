@@ -82,7 +82,6 @@ type SelectFilterProps = {
   placeholder: string;
   value: string | undefined;
   setSelectedValue: (value: string) => void;
-  // queryParams: string;
 };
 
 export const SelectFilter = ({
@@ -92,7 +91,6 @@ export const SelectFilter = ({
   placeholder,
   value,
   setSelectedValue,
-  // queryParams
 }: SelectFilterProps) => {
   return (
     <div className="flex flex-col gap-y-4">

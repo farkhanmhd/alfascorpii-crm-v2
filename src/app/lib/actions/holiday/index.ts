@@ -35,6 +35,7 @@ export const editHolidayAction = actionClient
   .schema(holidaySchema)
   .action(async ({ parsedInput: { id, holiday, message, date, status } }) => {
     try {
+      console.log(date);
       await putHoliday(id, holiday, message, date, status);
       revalidatePath('/holidays');
       revalidatePath(`/holidays/${id}`);

@@ -10,6 +10,7 @@ import {
   updateUser,
   activateUser,
   deactivateUser,
+  resetUserPassword,
 } from '../../data/staff';
 import { getAccessToken } from '../../data/auth';
 
@@ -123,4 +124,22 @@ export const deactivateUserAction = actionClient
     const { status, message } = meta;
     revalidatePath('/staff');
     return { status, message };
+  });
+
+const resetPasswordSchema = z.object({
+  uuid: z.string().min(1, { message: 'User ID is required' }),
+});
+
+export const resetPasswordAction = actionClient
+  .schema(resetPasswordSchema)
+  .action(async ({ parsedInput: { uuid } }) => {
+    try {
+      const result = await resetUserPassword(uuid);
+      return result;
+    } catch (error) {
+      return {
+        status: 'error',
+        message: 'Failed to reset password',
+      };
+    }
   });

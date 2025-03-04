@@ -26,7 +26,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scrollarea';
 import { usePermissions } from '@/hooks';
 import { checkPermission, cn } from '@/lib/utils';
 
-interface DataTableProps<TData extends { id: string | number }, TValue> {
+interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   rows?: number;
@@ -37,7 +37,7 @@ interface DataTableProps<TData extends { id: string | number }, TValue> {
   >;
 }
 
-export const DataTable = <TData extends { id: string | number }, TValue>({
+export const DataTable = <TData, TValue>({
   columns,
   data,
   rows,
@@ -60,7 +60,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
     rowCount: rows,
     onRowSelectionChange: setRowSelection,
     enableRowSelection: (row: any) => !row.original.user,
-    getRowId: (row) => String(row.id),
+    getRowId: (row: any) => String(row.id),
     state: {
       columnVisibility,
       rowSelection,
@@ -107,7 +107,7 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
           {table.getRowModel().rows?.length ? (
             <MapItems
               of={table.getRowModel().rows}
-              render={(row) => (
+              render={(row: any) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
@@ -125,13 +125,13 @@ export const DataTable = <TData extends { id: string | number }, TValue>({
                     e.preventDefault();
                     e.stopPropagation();
                     if (canView) {
-                      push(`/customers/${row.original.id}`);
+                      push(`/customers/${row.original.customer_id}`);
                     }
                   }}
                 >
                   <MapItems
                     of={row.getVisibleCells()}
-                    render={(cell) => (
+                    render={(cell: any) => (
                       <TableCell
                         key={cell.id}
                         className="h-12 px-4 py-2 text-xs font-medium sm:text-sm"
